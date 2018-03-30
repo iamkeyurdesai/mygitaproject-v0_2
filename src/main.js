@@ -4,7 +4,7 @@ import Vue from 'vue'
 // import Vuetify from 'vuetify'
 import VueTippy from 'vue-tippy'
 import App from './App'
-// import router from './router'
+import router from './router'
 import {store} from './store/store.js'
 
 
@@ -21,7 +21,10 @@ import {
   transitions,
   VCard,
   VSelect,
-  VBottomSheet
+  VBottomSheet,
+  VDialog,
+  VAvatar,
+  VMenu
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -39,7 +42,10 @@ Vue.use(Vuetify, {
     transitions,
     VCard,
     VSelect,
-    VBottomSheet
+    VBottomSheet,
+    VDialog,
+    VAvatar,
+    VMenu
   },
   theme: {
     primary: '#ee44aa',
@@ -60,11 +66,23 @@ Vue.config.productionTip = false
 import firebase from 'firebase'
 import firebaseui from 'firebaseui';
 import {config} from './helpers/firebaseConfig'
-
+// import VueFire from 'vuefire'
+//
+// // // explicit installation required in module environments
+// Vue.use(VueFire)
+//
 /* eslint-disable no-new */
-new Vue({
+var vm = new Vue({
+  router,
   created() {
     firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        this.$router.push('/success')
+      } else {
+        this.$router.push('/')
+      }
+     });
   },
   el: '#app',
   store,

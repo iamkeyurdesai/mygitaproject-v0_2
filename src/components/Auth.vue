@@ -12,15 +12,19 @@ export default {
     var uiConfig = {
       signInSuccessUrl: '/success',
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-        // firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ]
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID
+      ]
       };
     var ui = new firebaseui.auth.AuthUI(firebase.auth());
     ui.start('#firebaseui-auth-container', uiConfig);
-    },
+    }
 }
 </script>
 
 <style lang="css">
+#firebaseui-auth-container {
+   background-color: #fefbd8;
+}
 </style>

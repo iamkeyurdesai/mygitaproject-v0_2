@@ -34,7 +34,7 @@ export default {
          vm.photo = vm.user.photoURL;
          vm.userId = vm.user.uid;
       }
-    });
+    });    
   },
   methods: {
     logOut() {

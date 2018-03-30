@@ -136,23 +136,59 @@ v-on:click.stop="sandhi"
     :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
     data-tippy-theme="light" v-tippy
     v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
     >{{i}}</span>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==2"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span> । <br>
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span> । <br>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==3"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span>
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==4"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span> ॥
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span> ॥
   </div>
   <div class="vers elevation-5" v-else>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==1"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span><br>
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span><br>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==2"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span> । <br>
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span> । <br>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==3"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span><br>
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span><br>
     <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==4"
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">{{i}}</span> ॥
+    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
+    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
+    data-tippy-theme="light" v-tippy
+    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
+    v-on:click="playSound(i)"
+    >{{i}}</span> ॥
   </div>
 
 
@@ -210,6 +246,20 @@ export default {
     }
   },
   methods: {
+    playSound: function (melody) {
+       // var storage = firebase.storage();
+       // var pathReference = storage.ref('sounds/mp3/ॐ.mp3');
+       // pathReference.getDownloadURL().then(function(url){
+         // console.log(url);
+         var snd = new Audio();
+         snd.src = 'https://gitawebapp.firebaseapp.com/sounds/mp3/' + melody + '.mp3';
+         console.log(snd.src);
+         snd.play()
+       // })
+       // var snd = new Audio("https://firebasestorage.googleapis.com/v0/b/gitawebapp.appspot.com/o/sounds%2Fmp3%2F%E0%A5%90.mp3?alt=media&token=7fbad31c-09af-4a90-b723-523c8c464d67");
+       // snd.play();
+       // console.log(melody+'.mp3');
+    },
     decrease: function(){
       if (this.myverse==1 & this.mychap == 1) {
         this.mychap = 18;
