@@ -1,0 +1,81 @@
+<template>
+  <div class="text-xs-center">
+    <v-dialog
+    v-model="sheet"
+    fullscreen
+    hide-overlay
+    scrollable
+    transition="dialog-bottom-transition"
+    >
+
+    <span slot="activator" class="tst1">Vrs {{myverse}} </span>
+
+    <v-card tile>
+
+      <v-toolbar card dark color="primary">
+        <v-btn icon dark @click.native="sheet = false">
+          <v-icon>close</v-icon>
+        </v-btn>
+      </v-toolbar>
+<div v-for="(item, i) in mysummary" :key="i">
+      <v-container grid-list-sm>
+      <v-card color="purple darken-2" class="white--text elevation-10">
+        <div class="subheading"> {{item.summary}}</div>
+
+          <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
+        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse(vid)" v-if="vid==myverse">{{vid}}</v-btn>
+        <v-btn class="caption tst2" fab small @click.native.stop="setVerse(vid)" v-else>{{vid}}</v-btn>
+      </span>
+      </v-card>
+    </v-container>
+</div>
+  </v-card>
+
+</v-dialog>
+</div>
+
+</template>
+
+<script>
+import {mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
+export default {
+  data: () => ({
+    sheet: false
+  }),
+  computed: {
+    myverse(){
+      return this.$store.state.verse
+    },
+    mysummary(){
+      let mytemp1 = this.$store.state.chapter
+      let mytemp =  this.$store.state.summary.filter(function(item) {
+        return item.chapter_id == mytemp1;
+      });
+      return mytemp;
+    }
+  },
+  methods: {
+    setVerse(vid){
+      this.$store.state.verse = vid;
+    },
+    range(start, end) {
+    var foo = [];
+    for (var i = start; i <= end; i++) {
+        foo.push(i);
+    }
+    return foo;
+}
+  }
+}
+</script>
+
+<style scoped>
+.tst1 {
+  font-size: 100%;
+  color: white;
+}
+.tst2 {
+  margin: 2px;
+}
+</style>

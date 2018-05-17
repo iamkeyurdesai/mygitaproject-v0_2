@@ -1,14 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import axios from 'axios';
 
 Vue.use(Vuex);
 import {obj} from './gitabyfootandwords_sanskrit';
+
+
 export const store = new Vuex.Store({
   strict: false,
   state: {
-    text: [ ],
-    params: [ ]
+    text: obj,
+    preview: [ ],
+    summary: [ ],
+    params: [ ],
+    chapter: 11,
+    verse: 13
   },
   // getters: {
   //   getParams: (state) => {
@@ -20,13 +26,9 @@ export const store = new Vuex.Store({
   //       }
   // },
   mutations: {
-    // updateParams: (state, payload) => {
-    //   state.params = payload;
-    // },
-    setText: (state, { list }) => {
-      console.log("I am here");
-      state.text = list;
-      console.log(state.text.chhandaH);
+      setText: (state, { list, id }) => {
+      state[id] = list;
+      console.log(state[id]);
     }
   },
   actions: {
@@ -36,19 +38,20 @@ export const store = new Vuex.Store({
     //   };
     // },
     loadText: function ({ commit }) {
-      // axios.get('http://jsonplaceholder.typicode.com/posts').then((response) => {
-  //     const ax = axios.create({
-  // baseURL: 'http://localhost:8080/data'
-  //  })
-      // ax.get('gitabyfootandwords_sanskrit.json', { crossdomain: true }).then((response) => {
-      //   commit('setText', { list: response.data })
-      // }, (err) => {
-      //   console.log(err)
-      // });
-      // obj = JSON.parse(data);
+      const ax = axios.create({
+      baseURL: 'https://gitawebapp.firebaseapp.com/'
+      })
+      ax.get('assets/text/json/mygitapress_preview.json', { crossdomain: true}).then((response) => {
+        commit('setText', { list: response.data,  id: "preview"})
+      }, (err) => {
+        console.log(err)
+      });
+      ax.get('assets/text/json/mygitapress_summary.json', { crossdomain: true}).then((response) => {
+        commit('setText', { list: response.data,  id: "summary"})
+      }, (err) => {
+        console.log(err)
+      });
       console.log('I am here')
-      commit('setText', { list: obj });
-
     }
   }
 });

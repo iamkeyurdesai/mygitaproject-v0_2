@@ -24,7 +24,9 @@ import {
   VBottomSheet,
   VDialog,
   VAvatar,
-  VMenu
+  VMenu,
+  VExpansionPanel,
+  VSpeedDial
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -45,7 +47,9 @@ Vue.use(Vuetify, {
     VBottomSheet,
     VDialog,
     VAvatar,
-    VMenu
+    VMenu,
+    VExpansionPanel,
+    VSpeedDial
   },
   theme: {
     primary: '#ee44aa',

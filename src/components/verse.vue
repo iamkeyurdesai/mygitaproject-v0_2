@@ -1,32 +1,18 @@
 <template>
   <div id="content">
     <div class="ind1">
-      <v-select v-bind:items="chapall" v-model="mychap"
+      <!-- <v-select v-bind:items="chapall" v-model="mychap"
       autocomplete min-width=40
       class="myvselect py-0 px-0 mx-0 title" dense
       dark
-      hint="Chapter" persistent-hint></v-select>
-    </div>
+      hint="Chapter" persistent-hint></v-select> -->
+<chapter-menu></chapter-menu>
 
-
-      <div class="strt elevation-5"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div>
-
-    <div class="ind2">
-      <v-select v-bind:items="verseitems" v-model="myverse"
-      autocomplete @keyup.native.enter="addValue" min-width=40
-      class="myvselect py-0 px-0 mx-0 my-0 title" dense
-      dark
-      color="brown" hint="Verse" persistent-hint></v-select>
-    </div>
-
-    <div class="nv1a text-xs-center">
-      <v-bottom-sheet v-model="sheet">
-        <v-btn class="nv1a"
+      <!-- <v-bottom-sheet v-model="sheet">
+        <v-btn
         slot="activator"
         flat
         icon
-        bottom
-        left
         >
         <v-icon >touch_app</v-icon>
       </v-btn>
@@ -35,36 +21,88 @@
           </v-list>
     </v-bottom-sheet>
     <v-bottom-sheet v-model="sheet">
-      <v-btn class="nv1a"
+      <v-btn
       slot="activator"
       flat
       icon
-      bottom
       >
       <v-icon>free_breakfast</v-icon>
     </v-btn>
         <v-list>
           <span v-for="(i, index) in line1.bdata[mytemp].sanskrit">{{i}} = {{line1.bdata[mytemp].english[index]}}<br></span>
         </v-list>
-  </v-bottom-sheet>
+  </v-bottom-sheet> -->
+</div>
+<!-- <div class="nav1a">
+<v-speed-dial
+     v-model="fab"
+     top
+     left
+     direction="bottom"
+     transition="slide-y-reverse-transition"
+   >
+     <v-btn
+       slot="activator"
+       v-model="fab"
+       color="blue darken-2"
+       dark
+       fab
+       small
+     >
+       <v-icon>account_circle</v-icon>
+       <v-icon>close</v-icon>
+     </v-btn>
+     <v-btn
+       fab
+       dark
+       small
+       color="green"
+     >
+       <v-icon>edit</v-icon>
+     </v-btn>
+     <v-btn
+       fab
+       dark
+       small
+       color="indigo"
+     >
+       <v-icon>add</v-icon>
+     </v-btn>
+     <v-btn
+       fab
+       dark
+       small
+       color="red"
+     >
+       <v-icon>delete</v-icon>
+     </v-btn>
+   </v-speed-dial>
+</div> -->
 
+  <div class="strt elevation-5"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div>
+
+<div class="ind2">
+<verse-menu></verse-menu>
+  <!-- <v-select v-bind:items="verseitems" v-model="myverse"
+  autocomplete @keyup.native.enter="addValue" min-width=40
+  class="myvselect py-0 px-0 mx-0 my-0 title" dense
+  dark
+  color="brown" hint="Verse" persistent-hint></v-select> -->
 </div>
 
+
 <div class="nv1b">
-  <v-btn class="nv1b"
+  <!-- <v-btn
   flat
   icon
-  bottom
   v-bind:style="{color: mycolor}"
   v-on:click.stop="sandhi"
   >
   <v-icon>favorite_border</v-icon>
-</v-btn>
-<v-btn class="nv1b"
+</v-btn> -->
+<v-btn
 flat
 icon
-bottom
-right
 v-bind:style="{color: mycolor}"
 v-on:click.stop="sandhi"
 >
@@ -205,19 +243,20 @@ v-on:click.stop="sandhi"
 </template>
 
 <script>
+import chaptermenu from './chapter-menu.vue'
+import versemenu from './verse-menu.vue'
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 export default {
   data: function () {
     return {
       footcolors: ["red", "aqua", "gold", "ivory", "lawngreen"],
+      fab: false,
       sheet: false,
       color1: "white",
       counter: true,
       mycolor: "grey",
       mytemp: 0,
-      mychap: 1,
-      myverse: 1,
       mychhandah: "Anushtubh",
       verseitems: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
       chapall: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
@@ -226,6 +265,12 @@ export default {
     }
   },
   computed: {
+    mychap(){
+      return this.$store.state.chapter
+    },
+    myverse(){
+      return this.$store.state.verse
+    },
     line1(){
       return this.$store.state.text;
     }
@@ -252,7 +297,7 @@ export default {
        // pathReference.getDownloadURL().then(function(url){
          // console.log(url);
          var snd = new Audio();
-         snd.src = 'https://gitawebapp.firebaseapp.com/sounds/mp3/' + melody + '.mp3';
+         snd.src = 'https://gitawebapp.firebaseapp.com/assets/audio/mp3/' + melody + '.mp3';
          console.log(snd.src);
          snd.play()
        // })
@@ -295,6 +340,10 @@ export default {
   },
   mounted: function () {
     this.$store.dispatch('loadText')
+  },
+  components: {
+    'chapter-menu': chaptermenu,
+    'verse-menu': versemenu
   }
 }
 </script>
@@ -326,6 +375,7 @@ export default {
   "nv3a tran tran tran tran tran tran tran nv3b"
   "nv3a tran tran tran tran tran tran tran nv3b"
   "nv3a tran tran tran tran tran tran tran nv3b"
+  "nv3a tran tran tran tran tran tran tran nv3b"
   "foot foot foot foot foot foot foot foot foot";
 }
 /* desktop grid */
@@ -339,7 +389,7 @@ export default {
     margin: 0 auto;
     grid-template-areas:
     "ind1 ind1 strt strt strt strt strt ind2 ind2"
-    "nv1a hdr1 hdr1 hdr1 hdr1 hdr1 hdr1 hdr1 nv1b"
+    "nv1a nv1a hdr1 hdr1 hdr1 hdr1 hdr1 nv1b nv1b"
     "vers vers vers vers vers vers vers vers vers"
     "vers vers vers vers vers vers vers vers vers"
     "nv2a hdr2 hdr2 hdr2 hdr2 hdr2 hdr2 hdr2 nv2b"
@@ -379,15 +429,13 @@ export default {
 }
 .nv1a{
   grid-area: nv1a;
-  justify-self: start;
-  align-self: start;
-  margin: 0;
+  justify-self: center;
+  align-self: center;
 }
 .nv1b{
   grid-area: nv1b;
-  justify-self: end;
-  align-self: start;
-  margin: 0;
+  justify-self: center;
+  align-self: center;
 }
 .hdr2{
   grid-area: hdr2;
@@ -443,7 +491,7 @@ span {
 }
 
 .tst1 {
-  font-size: 120%;
+  font-size: 100%;
   color: white;
 }
 .myvselect{
