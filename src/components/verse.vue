@@ -1,13 +1,13 @@
 <template>
-  <div id="content">
-    <div class="ind1">
-      <!-- <v-select v-bind:items="chapall" v-model="mychap"
-      autocomplete min-width=40
-      class="myvselect py-0 px-0 mx-0 title" dense
-      dark
-      hint="Chapter" persistent-hint></v-select> -->
-<chapter-menu></chapter-menu>
+<div id="content">
 
+<div class="ind1"><chapter-menu></chapter-menu></div>
+<!-- <div class="strt"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div> -->
+<div class="strt"><span class="tst1">॥ oṃ śrī paramātmane namaḥ ॥</span></div>
+
+<div class="ind2"> <verse-menu></verse-menu>  </div>
+
+<div class="vers"> <shloak-card></shloak-card> </div>
       <!-- <v-bottom-sheet v-model="sheet">
         <v-btn
         slot="activator"
@@ -32,7 +32,7 @@
           <span v-for="(i, index) in line1.bdata[mytemp].sanskrit">{{i}} = {{line1.bdata[mytemp].english[index]}}<br></span>
         </v-list>
   </v-bottom-sheet> -->
-</div>
+
 <!-- <div class="nav1a">
 <v-speed-dial
      v-model="fab"
@@ -79,19 +79,8 @@
    </v-speed-dial>
 </div> -->
 
-  <div class="strt elevation-5"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div>
 
-<div class="ind2">
-<verse-menu></verse-menu>
-  <!-- <v-select v-bind:items="verseitems" v-model="myverse"
-  autocomplete @keyup.native.enter="addValue" min-width=40
-  class="myvselect py-0 px-0 mx-0 my-0 title" dense
-  dark
-  color="brown" hint="Verse" persistent-hint></v-select> -->
-</div>
-
-
-<div class="nv1b">
+<!-- <div class="nv1b"> -->
   <!-- <v-btn
   flat
   icon
@@ -100,7 +89,7 @@
   >
   <v-icon>favorite_border</v-icon>
 </v-btn> -->
-<v-btn
+<!-- <v-btn
 flat
 icon
 v-bind:style="{color: mycolor}"
@@ -234,17 +223,18 @@ v-on:click.stop="sandhi"
 <div class="tran elevation-5">
 
   <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">
-    {{i}} = <span class="span-a">{{line1.bdata[mytemp].english[index]}}</span><br></span>
+    {{i}} = <span class="span-a">{{line1.bdata[mytemp].english[index]}}</span><br></span> -->
   <!-- <span v-for="i in line2" :style="i.color" :title="i.tiptext" data-tippy-trigger="click"
   :data-tippy-placement="i.tipplace" data-tippy-arrow="true" data-tippy-hideOnClick="false"
   data-tippy-theme="light" v-tippy>{{i.foot}}</span> ॥ -->
-</div>
+<!-- </div> -->
 </div>
 </template>
 
 <script>
 import chaptermenu from './chapter-menu.vue'
 import versemenu from './verse-menu.vue'
+import shloakcard from './shloak-card.vue'
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 export default {
@@ -343,7 +333,8 @@ export default {
   },
   components: {
     'chapter-menu': chaptermenu,
-    'verse-menu': versemenu
+    'verse-menu': versemenu,
+    'shloak-card': shloakcard,
   }
 }
 </script>
@@ -365,8 +356,8 @@ export default {
   max-width: 960px;
   margin: 0 auto;
   grid-template-areas:
-  "ind1 ind1 strt strt strt strt strt ind2 ind2"
-  "nv1a nv1a nv1a hdr1 hdr1 hdr1 nv1b nv1b nv1b"
+  "ind1 strt strt strt strt strt strt strt ind2 "
+  "vers vers vers vers vers vers vers vers vers"
   "vers vers vers vers vers vers vers vers vers"
   "vers vers vers vers vers vers vers vers vers"
   "nv2a nv2a hdr2 hdr2 hdr2 hdr2 hdr2 nv2b nv2b"
@@ -409,17 +400,19 @@ export default {
   grid-area: ind1;
   justify-self: start;
   align-self: start;
+  font-weight: 300;
 }
 .ind2{
   grid-area: ind2;
   justify-self: end;
-  align-self: start;
+  font-weight: 300;
 }
 .strt{
   grid-area: strt;
   justify-self: center;
   align-self: start;
   color: #FF9A00;
+  font-weight: 300;
 }
 .hdr1{
   grid-area: hdr1;
@@ -462,6 +455,7 @@ export default {
   justify-self: center;
   align-self: start;
   color: white;
+  font-weight: 300;
 }
 .tran{
   grid-area: tran;
@@ -491,7 +485,7 @@ span {
 }
 
 .tst1 {
-  font-size: 100%;
+  font-size: 80%;
   color: white;
 }
 .myvselect{

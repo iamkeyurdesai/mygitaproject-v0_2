@@ -8,7 +8,7 @@
       transition="dialog-bottom-transition"
     >
 
-<span slot="activator" class="tst1">Chp {{mychapter}} </span>
+<span slot="activator" class="tst1">C-{{mychapter}} </span>
 
 
 <v-card tile>

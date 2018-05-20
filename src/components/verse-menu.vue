@@ -8,7 +8,7 @@
     transition="dialog-bottom-transition"
     >
 
-    <span slot="activator" class="tst1">Vrs {{myverse}} </span>
+    <span slot="activator" class="tst1">V-{{myverse}} </span>
 
     <v-card tile>
 
