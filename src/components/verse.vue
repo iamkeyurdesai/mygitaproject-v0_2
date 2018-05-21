@@ -8,226 +8,11 @@
 <div class="ind2"> <verse-menu></verse-menu>  </div>
 
 <div class="vers"> <shloak-card></shloak-card> </div>
-      <!-- <v-bottom-sheet v-model="sheet">
-        <v-btn
-        slot="activator"
-        flat
-        icon
-        >
-        <v-icon >touch_app</v-icon>
-      </v-btn>
-          <v-list>
-            <span v-for="(i, index) in line1.bdata[mytemp].sanskrit">{{i}} = {{line1.bdata[mytemp].english[index]}}<br></span>
-          </v-list>
-    </v-bottom-sheet>
-    <v-bottom-sheet v-model="sheet">
-      <v-btn
-      slot="activator"
-      flat
-      icon
-      >
-      <v-icon>free_breakfast</v-icon>
-    </v-btn>
-        <v-list>
-          <span v-for="(i, index) in line1.bdata[mytemp].sanskrit">{{i}} = {{line1.bdata[mytemp].english[index]}}<br></span>
-        </v-list>
-  </v-bottom-sheet> -->
-
-<!-- <div class="nav1a">
-<v-speed-dial
-     v-model="fab"
-     top
-     left
-     direction="bottom"
-     transition="slide-y-reverse-transition"
-   >
-     <v-btn
-       slot="activator"
-       v-model="fab"
-       color="blue darken-2"
-       dark
-       fab
-       small
-     >
-       <v-icon>account_circle</v-icon>
-       <v-icon>close</v-icon>
-     </v-btn>
-     <v-btn
-       fab
-       dark
-       small
-       color="green"
-     >
-       <v-icon>edit</v-icon>
-     </v-btn>
-     <v-btn
-       fab
-       dark
-       small
-       color="indigo"
-     >
-       <v-icon>add</v-icon>
-     </v-btn>
-     <v-btn
-       fab
-       dark
-       small
-       color="red"
-     >
-       <v-icon>delete</v-icon>
-     </v-btn>
-   </v-speed-dial>
-</div> -->
 
 
-<!-- <div class="nv1b"> -->
-  <!-- <v-btn
-  flat
-  icon
-  v-bind:style="{color: mycolor}"
-  v-on:click.stop="sandhi"
-  >
-  <v-icon>favorite_border</v-icon>
-</v-btn> -->
-<!-- <v-btn
-flat
-icon
-v-bind:style="{color: mycolor}"
-v-on:click.stop="sandhi"
->
-<v-icon>gavel</v-icon>
-</v-btn>
-</div>
+<div class="tran elevation-5"> <anvaya-card></anvaya-card> </div>
 
 
-<div class="nv2a">
-
-  <v-btn class="nv2a"
-  dark
-  flat
-  icon
-  bottom
-  left
-  color="white"
-  v-on:click.native="decrease"
-  >
-  <v-icon left medium>navigate_before</v-icon>
-</v-btn>
-
-</div>
-
-<div class="nv2b">
-
-  <v-btn class="nv2b"
-  dark
-  flat
-  icon
-  bottom
-  right
-  color="white"
-  v-on:click.native="increase"
-  >
-  <v-icon right medium>navigate_next</v-icon>
-</v-btn>
-
-</div>
-
-
-<div class="hdr1">
-  <span>{{line1.speaker_dev[mytemp]}}</span>
-</div>
-
-<div class="hdr2">
-  <span>{{line1.chhandaH[mytemp]}}</span>
-</div>
-
-
-
-  <div class="vers elevation-5" v-if="counter && mychhandah=='Anushtubh'">
-
-    <span v-bind:style="{ color: footcolors[1]}">{{line1.vdata[mytemp].foot[0]}}</span>
-    <span v-bind:style="{ color: footcolors[2]}">{{line1.vdata[mytemp].foot[1]}}</span> । <br>
-    <span v-bind:style="{ color: footcolors[3]}">{{line1.vdata[mytemp].foot[2]}}</span>
-    <span v-bind:style="{ color: footcolors[4]}">{{line1.vdata[mytemp].foot[3]}}</span> ॥
-
-  </div>
-  <div class="vers elevation-5" v-else-if="counter && mychhandah=='Trishtubh'">
-    <span v-bind:style="{ color: footcolors[1]}">{{line1.vdata[mytemp].foot[0]}}</span><br>
-    <span v-bind:style="{ color: footcolors[2]}">{{line1.vdata[mytemp].foot[1]}}</span> । <br>
-    <span v-bind:style="{ color: footcolors[3]}">{{line1.vdata[mytemp].foot[2]}}</span><br>
-    <span v-bind:style="{ color: footcolors[4]}">{{line1.vdata[mytemp].foot[3]}}</span> ॥
-  </div>
-  <div class="vers elevation-5" v-else-if="!counter && mychhandah=='Anushtubh'">
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==1"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==2"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span> । <br>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==3"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==4"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span> ॥
-  </div>
-  <div class="vers elevation-5" v-else>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==1"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span><br>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==2"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span> । <br>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==3"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span><br>
-    <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-if="line1.bdata[mytemp].foot[index]==4"
-    :title="line1.bdata[mytemp].sanskrit[index]" data-tippy-trigger="click" data-tippy-maxWidth="60px" data-tippy-size="small"
-    :data-tippy-placement="bottom" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-    data-tippy-theme="light" v-tippy
-    v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}"
-    v-on:click="playSound(i)"
-    >{{i}}</span> ॥
-  </div>
-
-
-
-<div class="tran elevation-5">
-
-  <span v-for="(i, index) in line1.bdata[mytemp].sanskrit" v-bind:style="{ color: footcolors[line1.bdata[mytemp].foot[index]]}">
-    {{i}} = <span class="span-a">{{line1.bdata[mytemp].english[index]}}</span><br></span> -->
-  <!-- <span v-for="i in line2" :style="i.color" :title="i.tiptext" data-tippy-trigger="click"
-  :data-tippy-placement="i.tipplace" data-tippy-arrow="true" data-tippy-hideOnClick="false"
-  data-tippy-theme="light" v-tippy>{{i.foot}}</span> ॥ -->
-<!-- </div> -->
 </div>
 </template>
 
@@ -235,6 +20,7 @@ v-on:click.stop="sandhi"
 import chaptermenu from './chapter-menu.vue'
 import versemenu from './verse-menu.vue'
 import shloakcard from './shloak-card.vue'
+import anvayacard from './anvaya-card.vue'
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 export default {
@@ -335,6 +121,7 @@ export default {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     'shloak-card': shloakcard,
+    'anvaya-card': anvayacard
   }
 }
 </script>
@@ -467,6 +254,7 @@ export default {
   column-count: 2;
   column-rule: 1px solid grey;
   column-width: auto;
+  font-weight: 300;
 }
 /* @font-face {
   font-family: myfont;

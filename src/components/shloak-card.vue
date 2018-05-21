@@ -24,7 +24,7 @@
       <div v-if="mymain.chhandaH=='Trishtubh' && !dosandhi"  align="left" v-for="(item,i) in mymain.foot" v-bind:style="{color:footcolors[i]}"> {{item.foot}} {{footbreaks[i]}}
       </div>
       <div v-if="mymain.chhandaH=='Trishtubh' && dosandhi" align="left">
-        <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}">
+        <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
           <span v-if="mymain.word_info[i+1]=== undefined">  {{item.sanskrit}}{{" ||"}}</span>
           <span v-else> {{item.sanskrit}},</span>
           <span v-if="checkBreak(i,4)"><br/></span>
@@ -37,7 +37,7 @@
       </div>
 
       <div v-if="mymain.chhandaH!='Trishtubh' && dosandhi" align="left">
-        <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}">
+        <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
           <span v-if="mymain.word_info[i+1]=== undefined">  {{item.sanskrit}}{{" ||"}}</span>
           <span v-else> {{item.sanskrit}},</span>
           <span v-if="checkBreak(i,2)"><br/></span>
@@ -104,6 +104,21 @@ export default {
       } else  {
         this.mycolor = "grey";
       }
+    },
+    playSound: function (melody) {
+       // var storage = firebase.storage();
+       // var pathReference = storage.ref('sounds/mp3/ॐ.mp3');
+       // pathReference.getDownloadURL().then(function(url){
+         // console.log(url);
+         console.log(melody);
+         var snd = new Audio();
+         snd.src = 'https://gitawebapp.firebaseapp.com/assets/audio/mp3/' + melody + '.mp3';
+         console.log(snd.src);
+         snd.play()
+       // })
+       // var snd = new Audio("https://firebasestorage.googleapis.com/v0/b/gitawebapp.appspot.com/o/sounds%2Fmp3%2F%E0%A5%90.mp3?alt=media&token=7fbad31c-09af-4a90-b723-523c8c464d67");
+       // snd.play();
+       // console.log(melody+'.mp3');
     }
   }
 }
