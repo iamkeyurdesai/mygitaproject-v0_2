@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
     summary: [ ],
     params: [ ],
     main: [ ],
+    gitapress: [ ],
     chapter: 11,
     verse: 13
   },
@@ -54,6 +55,11 @@ export const store = new Vuex.Store({
       });
       ax.get('assets/text/json/mymain.json', { crossdomain: true}).then((response) => {
         commit('setText', { list: response.data,  id: "main"})
+      }, (err) => {
+        console.log(err)
+      });
+      ax.get('assets/text/json/mygitapress.json', { crossdomain: true}).then((response) => {
+        commit('setText', { list: response.data,  id: "gitapress"})
       }, (err) => {
         console.log(err)
       });

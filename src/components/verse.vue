@@ -7,11 +7,21 @@
 
 <div class="ind2"> <verse-menu></verse-menu>  </div>
 
+<div class="samb"> <sambandh-card></sambandh-card> </div>
+
 <div class="vers"> <shloak-card></shloak-card> </div>
 
+<div class="bhav"> <bhavarth-card></bhavarth-card> </div>
+<div class="nv1a">
+<v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="decrease()"> <v-icon>arrow_back_ios</v-icon></v-btn>
+</div>
+<div class="nv1b">
+<v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="increase()"> <v-icon>arrow_forward_ios</v-icon></v-btn>
+</div>
 
 <div class="tran elevation-5"> <anvaya-card></anvaya-card> </div>
 
+<v-btn color="teal darken-2" dark small absolute bottom right fab> <v-icon>👏</v-icon></v-btn>
 
 </div>
 </template>
@@ -21,6 +31,8 @@ import chaptermenu from './chapter-menu.vue'
 import versemenu from './verse-menu.vue'
 import shloakcard from './shloak-card.vue'
 import anvayacard from './anvaya-card.vue'
+import sambandhcard from './sambandh-card.vue'
+import bhavarthcard from './bhavarth-card.vue'
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 export default {
@@ -40,77 +52,29 @@ export default {
       verseadd: [0, 47, 119, 162, 204, 233, 280, 310, 338, 372, 414, 469, 489, 524, 551, 571, 595, 623]
     }
   },
-  computed: {
-    mychap(){
-      return this.$store.state.chapter
-    },
-    myverse(){
-      return this.$store.state.verse
-    },
-    line1(){
-      return this.$store.state.text;
-    }
-  },
-  watch: {
-    // whenever question changes, this function will run
-    mychap: function (a, b) {
-      // this.verseitems = _.range(1, this.verseall[2]);
-      var N = this.verseall[this.mychap-1];
-      this.verseitems = Array.from({length: N}, (v, k) => k+1); //for(var i,a=[i=0];i<this.verseitems;a[i++]=i);
-      this.myverse = 1;
-      this.mytemp = this.verseadd[this.mychap-1] + this.myverse - 1;
-      this.mychhandah = this.$store.state.text.chhandaH[this.mytemp];
-    },
-    myverse: function (a, b) {
-      this.mytemp = this.verseadd[this.mychap-1] + this.myverse - 1;
-      this.mychhandah = this.$store.state.text.chhandaH[this.mytemp];
-    }
-  },
   methods: {
-    playSound: function (melody) {
-       // var storage = firebase.storage();
-       // var pathReference = storage.ref('sounds/mp3/ॐ.mp3');
-       // pathReference.getDownloadURL().then(function(url){
-         // console.log(url);
-         var snd = new Audio();
-         snd.src = 'https://gitawebapp.firebaseapp.com/assets/audio/mp3/' + melody + '.mp3';
-         console.log(snd.src);
-         snd.play()
-       // })
-       // var snd = new Audio("https://firebasestorage.googleapis.com/v0/b/gitawebapp.appspot.com/o/sounds%2Fmp3%2F%E0%A5%90.mp3?alt=media&token=7fbad31c-09af-4a90-b723-523c8c464d67");
-       // snd.play();
-       // console.log(melody+'.mp3');
+    increase: function(){
+      let mytemp1 = this.$store.state.chapter
+      let mytemp2 = this.$store.state.verse
+      if (mytemp2 < this.verseall[mytemp1-1])
+      {
+        this.$store.state.verse += 1
+      } else {
+        this.$store.state.chapter += 1
+        if (this.$store.state.chapter > 18) this.$store.state.chapter = 1
+        this.$store.state.verse = 1
+      }
     },
     decrease: function(){
-      if (this.myverse==1 & this.mychap == 1) {
-        this.mychap = 18;
-        this.myverse = this.verseall[this.mychap-1];
+      let mytemp1 = this.$store.state.chapter
+      let mytemp2 = this.$store.state.verse
+      if (mytemp2 != 1)
+      {
+        this.$store.state.verse -= 1
       } else {
-        this.myverse = this.myverse - 1;
-        if (this.myverse == 0) {
-          this.mychap = this.mychap -1;
-          this.myverse = this.verseall[this.mychap-1]
-        }
-      }
-    },
-    increase: function(){
-      if (this.myverse==this.verseall[this.mychap-1] & this.mychap == 18) {
-        this.mychap = 1;
-        this.myverse = 1;
-      } else {
-        this.myverse = this.myverse + 1;
-        if (this.myverse > this.verseall[this.mychap-1]) {
-          this.mychap = this.mychap + 1;
-          this.myverse = 1
-        }
-      }
-    },
-    sandhi: function(){
-      this.counter = !this.counter;
-      if (this.counter) {
-        this.mycolor = "grey";
-      } else  {
-        this.mycolor = "white";
+        this.$store.state.chapter -= 1
+        if (this.$store.state.chapter < 1) this.$store.state.chapter = 18
+        this.$store.state.verse = this.verseall[this.$store.state.chapter-1]
       }
     }
   },
@@ -121,7 +85,9 @@ export default {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     'shloak-card': shloakcard,
-    'anvaya-card': anvayacard
+    'anvaya-card': anvayacard,
+    'sambandh-card': sambandhcard,
+    'bhavarth-card': bhavarthcard
   }
 }
 </script>
@@ -139,16 +105,14 @@ export default {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   grid-auto-rows: minmax(30px, auto);
-  grid-gap: 3px;
+  grid-gap: 10px;
   max-width: 960px;
   margin: 0 auto;
   grid-template-areas:
-  "ind1 strt strt strt strt strt strt strt ind2 "
+  "ind1 strt strt strt strt strt strt strt ind2"
+  "samb samb samb samb samb samb samb samb samb"
   "vers vers vers vers vers vers vers vers vers"
-  "vers vers vers vers vers vers vers vers vers"
-  "vers vers vers vers vers vers vers vers vers"
-  "nv2a nv2a hdr2 hdr2 hdr2 hdr2 hdr2 nv2b nv2b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
+  "nv1a bhav bhav bhav bhav bhav bhav bhav nv1b"
   "nv3a tran tran tran tran tran tran tran nv3b"
   "nv3a tran tran tran tran tran tran tran nv3b"
   "nv3a tran tran tran tran tran tran tran nv3b"
@@ -166,11 +130,10 @@ export default {
     max-width: 960px;
     margin: 0 auto;
     grid-template-areas:
-    "ind1 ind1 strt strt strt strt strt ind2 ind2"
-    "nv1a nv1a hdr1 hdr1 hdr1 hdr1 hdr1 nv1b nv1b"
+    "ind1 strt strt strt strt strt strt strt ind2"
+    "samb samb samb samb samb samb samb samb samb"
     "vers vers vers vers vers vers vers vers vers"
-    "vers vers vers vers vers vers vers vers vers"
-    "nv2a hdr2 hdr2 hdr2 hdr2 hdr2 hdr2 hdr2 nv2b"
+    "nv1a bhav bhav bhav bhav bhav bhav bhav nv1b"
     "nv3a tran tran tran tran tran tran tran nv3b"
     "nv3a tran tran tran tran tran tran tran nv3b"
     "nv3a tran tran tran tran tran tran tran nv3b"
@@ -237,8 +200,22 @@ export default {
   align-self: end;
   margin: 0;
 }
+.samb{
+  grid-area: samb;
+  justify-self: center;
+  align-self: start;
+  color: white;
+  font-weight: 300;
+}
 .vers{
   grid-area: vers;
+  justify-self: center;
+  align-self: start;
+  color: white;
+  font-weight: 300;
+}
+.bhav{
+  grid-area: bhav;
   justify-self: center;
   align-self: start;
   color: white;

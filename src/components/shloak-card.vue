@@ -14,8 +14,9 @@
         <span v-bind:style="{ color: footcolors[6]}">&emsp;: {{mymain.speaker}} :&emsp;</span>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="audio">volume_off</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="images">image</v-icon>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="sandhi">mdi-format-size</v-icon>
-        <span v-bind:style="{color: 'transparent', textShadow: '0 0 0 ' + mycolor}" v-on:click.stop="sandhi">&#128296</span>
+        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="sandhi">mdi-format-color-text</v-icon>
+        <v-icon v-bind:style="{color: mycolor}" v-on:click.stop="sandhi">build</v-icon>
+        <!-- <span v-bind:style="{color: 'transparent', textShadow: '0 0 0 ' + mycolor}" v-on:click.stop="sandhi">&#128296</span> -->
       </v-layout>
 
 
