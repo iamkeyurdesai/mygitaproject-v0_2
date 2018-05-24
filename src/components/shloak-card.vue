@@ -2,12 +2,12 @@
   <div class="text-xs-center mydiv1">
     <v-flex xs12>
       <v-layout justify-space-between v-if="opentoolbar">
-        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">mdi-plus</v-icon>
+        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
         <span v-bind:style="{ color: footcolors[6]}">: {{mymain.speaker}} :</span>
-        <v-icon v-if="opentoolbar" v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">mdi-plus</v-icon>
+        <v-icon v-if="opentoolbar" v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
       </v-layout>
         <v-layout justify-space-between v-else>
-        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">mdi-close</v-icon>
+        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">clear</v-icon>
        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="forum">mdi-forum</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="language">language</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="settings">settings</v-icon>
@@ -58,7 +58,7 @@ import {mapGetters} from 'vuex';
 export default {
   data: () => ({
     counter: true,
-    footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "lightgrey"],
+    footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
     footbreaks: ["", "|", "", "||", "", "|"],
     dosandhi: false,
     mycolor: "grey",
@@ -131,8 +131,8 @@ export default {
 }
 .mydiv2 {
   padding: 5px;
+  font-size: 110%;
 }
-
 
 .openicon {
      color: white;

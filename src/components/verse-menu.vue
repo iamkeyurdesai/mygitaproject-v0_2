@@ -8,7 +8,7 @@
     transition="dialog-bottom-transition"
     >
 
-    <span slot="activator" class="tst1">V-{{myverse}} </span>
+    <span slot="activator">V-{{myverse}} </span>
 
     <v-card tile>
 
@@ -71,10 +71,6 @@ export default {
 </script>
 
 <style scoped>
-.tst1 {
-  font-size: 100%;
-  color: white;
-}
 .tst2 {
   margin: 2px;
 }

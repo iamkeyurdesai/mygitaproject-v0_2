@@ -8,7 +8,7 @@
       transition="dialog-bottom-transition"
     >
 
-<span slot="activator" class="tst1">C-{{mychapter}} </span>
+<span slot="activator">C-{{mychapter}} </span>
 
 
 <v-card tile>
@@ -58,8 +58,4 @@ import chaptercard from './chapter-card.vue';
 </script>
 
 <style scoped>
-.tst1 {
-  font-size: 100%;
-  color: white;
-}
 </style>

@@ -26,7 +26,8 @@ import {
   VAvatar,
   VMenu,
   VExpansionPanel,
-  VSpeedDial
+  VSpeedDial,
+  VDivider
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -49,7 +50,8 @@ Vue.use(Vuetify, {
     VAvatar,
     VMenu,
     VExpansionPanel,
-    VSpeedDial
+    VSpeedDial,
+    VDivider
   },
   theme: {
     primary: '#ee44aa',

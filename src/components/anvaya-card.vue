@@ -1,13 +1,11 @@
 
 <template>
 <div class="text-xs-center mydiv1">
-  <v-flex xs12>
     <div align="left">
       <span v-for="i in myindex_extract()" v-bind:style="{color:footcolors[mymain.word_info[i-1].foot - 1]}" class="myspan1">
 {{mymain.word_info[i-1].sanskrit}} = <span class="myspan2">{{mymain.word_info[i-1].english}}</span><br></span>
       </span>
     </div>
-  </v-flex>
 </div>
 </template>
 
@@ -21,7 +19,7 @@ import {
 export default {
   data: () => ({
     counter: true,
-    footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "lightgrey"],
+    footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
     footbreaks: ["", "|", "", "||", "", "|"],
     dosandhi: false,
     mycolor: "grey",
@@ -125,15 +123,15 @@ export default {
 }
 
 .myspan1 {
-  font-size: 105%;
+  font-size: 100%;
   /* word-spacing: -0.05em; */
-  /* font-family: "myfont", 'Roboto Condensed'; */
+  font-family: "myfont", 'Roboto';
 }
 
 .myspan2 {
-  font-size: 95%;
+  font-size: 110%;
   word-spacing: -0.05em;
-  /* font-family: "myfont", 'Roboto Condensed'; */
-  font-weight: 200;
+  font-family: "myfont", 'Roboto';
+  /* font-weight: 300; */
 }
 </style>

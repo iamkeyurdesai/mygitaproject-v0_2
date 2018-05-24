@@ -1,25 +1,67 @@
 <template>
 <div id="content">
 
-<div class="ind1"><chapter-menu></chapter-menu></div>
+<v-flex xs12 class="head">
+  <v-layout align-content-space-between>
+<chapter-menu></chapter-menu>
+<v-spacer></v-spacer>
 <!-- <div class="strt"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div> -->
-<div class="strt"><span class="tst1">॥ oṃ śrī paramātmane namaḥ ॥</span></div>
+॥ oṃ śrī paramātmane namaḥ ॥
+<v-spacer></v-spacer>
+<verse-menu></verse-menu>
+</v-layout>
+</v-flex>
 
-<div class="ind2"> <verse-menu></verse-menu>  </div>
+<v-flex xs12 class="samb">
+<v-layout align-content-space-between>
+&nbsp;
+<v-spacer></v-spacer>
+<sambandh-card></sambandh-card>
+<v-spacer></v-spacer>
+&nbsp;
+</v-layout>
+<v-divider dark></v-divider>
+</v-flex>
 
-<div class="samb"> <sambandh-card></sambandh-card> </div>
+
+<!-- <div class="samb">
+<sambandh-card></sambandh-card>
+<v-divider dark></v-divider>
+</div> -->
+
+
 
 <div class="vers"> <shloak-card></shloak-card> </div>
 
-<div class="bhav"> <bhavarth-card></bhavarth-card> </div>
-<div class="nv1a">
+<v-flex xs12 class="bhav">
+<v-layout align-content-space-between>
 <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="decrease()"> <v-icon>arrow_back_ios</v-icon></v-btn>
-</div>
-<div class="nv1b">
+<v-spacer></v-spacer>
+<bhavarth-card></bhavarth-card>
+<v-spacer></v-spacer>
 <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="increase()"> <v-icon>arrow_forward_ios</v-icon></v-btn>
-</div>
+</v-layout>
+<v-divider dark></v-divider>
+</v-flex>
 
-<div class="tran elevation-5"> <anvaya-card></anvaya-card> </div>
+
+<div class="tran elevation-5">
+<v-flex xs12>
+  <v-layout align-content-space-between>
+    <v-btn dark  flat small v-on:click.stop="decreaseColumn()"> <v-icon> remove </v-icon> </v-btn>
+    <v-spacer></v-spacer>
+  <div class="tranhead text-xs-center">
+        Breakdown
+      </div>
+      <v-spacer></v-spacer>
+      <v-btn dark flat small v-on:click.stop="increaseColumn()"><v-icon> add  </v-icon> </v-btn>
+    </v-layout>
+    <v-divider dark></v-divider>
+    </v-flex>
+<div class="trantext" v-bind:style="styleObject">
+<anvaya-card></anvaya-card>
+</div>
+</div>
 
 <v-btn color="teal darken-2" dark small absolute bottom right fab> <v-icon>👏</v-icon></v-btn>
 
@@ -38,7 +80,7 @@ import {mapGetters} from 'vuex';
 export default {
   data: function () {
     return {
-      footcolors: ["red", "aqua", "gold", "ivory", "lawngreen"],
+      footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
       fab: false,
       sheet: false,
       color1: "white",
@@ -46,10 +88,15 @@ export default {
       mycolor: "grey",
       mytemp: 0,
       mychhandah: "Anushtubh",
-      verseitems: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+     verseitems: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
       chapall: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
       verseall:  [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78] ,
-      verseadd: [0, 47, 119, 162, 204, 233, 280, 310, 338, 372, 414, 469, 489, 524, 551, 571, 595, 623]
+      verseadd: [0, 47, 119, 162, 204, 233, 280, 310, 338, 372, 414, 469, 489, 524, 551, 571, 595, 623],
+      styleObject: {
+        // -webkit-column-count: 2; /* Chrome, Safari, Opera */
+        // -moz-column-count: 2; /* Firefox */
+        columnCount: 1
+  }
     }
   },
   methods: {
@@ -76,6 +123,12 @@ export default {
         if (this.$store.state.chapter < 1) this.$store.state.chapter = 18
         this.$store.state.verse = this.verseall[this.$store.state.chapter-1]
       }
+    },
+    decreaseColumn: function(){
+      this.styleObject.columnCount -= 1
+    },
+    increaseColumn: function(){
+      this.styleObject.columnCount += 1
     }
   },
   mounted: function () {
@@ -92,7 +145,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 #content{
   background: linear-gradient(132deg, #004e92, #004e92);
   background-size: 400% 400%;
@@ -105,19 +159,18 @@ export default {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   grid-auto-rows: minmax(30px, auto);
-  grid-gap: 10px;
+  grid-gap: 3px;
   max-width: 960px;
   margin: 0 auto;
   grid-template-areas:
-  "ind1 strt strt strt strt strt strt strt ind2"
+  "head head head head head head head head head"
   "samb samb samb samb samb samb samb samb samb"
   "vers vers vers vers vers vers vers vers vers"
-  "nv1a bhav bhav bhav bhav bhav bhav bhav nv1b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
-  "nv3a tran tran tran tran tran tran tran nv3b"
+  "vers vers vers vers vers vers vers vers vers"
+  "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
+  "nv1a tran tran tran tran tran tran tran nv1b"
+  "nv1a tran tran tran tran tran tran tran nv1b"
+  "nv1a tran tran tran tran tran tran tran nv1b"
   "foot foot foot foot foot foot foot foot foot";
 }
 /* desktop grid */
@@ -130,15 +183,14 @@ export default {
     max-width: 960px;
     margin: 0 auto;
     grid-template-areas:
-    "ind1 strt strt strt strt strt strt strt ind2"
+    "head head head head head head head head head"
     "samb samb samb samb samb samb samb samb samb"
     "vers vers vers vers vers vers vers vers vers"
-    "nv1a bhav bhav bhav bhav bhav bhav bhav nv1b"
-    "nv3a tran tran tran tran tran tran tran nv3b"
-    "nv3a tran tran tran tran tran tran tran nv3b"
-    "nv3a tran tran tran tran tran tran tran nv3b"
-    "nv3a tran tran tran tran tran tran tran nv3b"
-    "nv3a tran tran tran tran tran tran tran nv3b"
+    "vers vers vers vers vers vers vers vers vers"
+    "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "nv1a tran tran tran tran tran tran tran nv1b"
     "foot foot foot foot foot foot foot foot foot";
   }
 }
@@ -146,64 +198,27 @@ export default {
   /* background: black; */
   /* padding: 30px; */
 }
-.ind1{
-  grid-area: ind1;
-  justify-self: start;
-  align-self: start;
+.head{
+  grid-area: head;
   font-weight: 300;
-}
-.ind2{
-  grid-area: ind2;
-  justify-self: end;
-  font-weight: 300;
-}
-.strt{
-  grid-area: strt;
-  justify-self: center;
-  align-self: start;
-  color: #FF9A00;
-  font-weight: 300;
-}
-.hdr1{
-  grid-area: hdr1;
-  justify-self: center;
-  align-self: center;
-  color: #FF9A00;
+  color: white;
 }
 .nv1a{
   grid-area: nv1a;
-  justify-self: center;
-  align-self: center;
+  /* margin: 0; */
+  /* justify-self: center;
+  align-self: center; */
 }
 .nv1b{
   grid-area: nv1b;
-  justify-self: center;
-  align-self: center;
-}
-.hdr2{
-  grid-area: hdr2;
-  justify-self: center;
-  align-self: end;
-  color: #FF9A00;
-  margin-bottom: 0;
-  margin-top: 0 ;
-}
-.nv2a{
-  grid-area: nv2a;
-  justify-self: start;
-  align-self: end;
-  margin: 0;
-}
-.nv2b{
-  grid-area: nv2b;
-  justify-self: end;
-  align-self: end;
-  margin: 0;
+  /* margin: 0; */
+  /* justify-self: center;
+  align-self: center; */
 }
 .samb{
   grid-area: samb;
-  justify-self: center;
-  align-self: start;
+  /* justify-self: center; */
+  /* align-self: center; */
   color: white;
   font-weight: 300;
 }
@@ -216,42 +231,38 @@ export default {
 }
 .bhav{
   grid-area: bhav;
-  justify-self: center;
-  align-self: start;
+  /* justify-self: center;
+  align-self: start; */
   color: white;
   font-weight: 300;
 }
 .tran{
   grid-area: tran;
-  justify-self: center;
-  align-self: center;
-  color: white;
-  -webkit-column-count: 2; /* Chrome, Safari, Opera */
-  -moz-column-count: 2; /* Firefox */
-  column-count: 2;
+  margin-top: 5px;
+}
+.tranhead{
+  color: yellow;
+}
+.trantext{
   column-rule: 1px solid grey;
   column-width: auto;
   font-weight: 300;
 }
-/* @font-face {
+
+@font-face {
   font-family: myfont;
   src: url(../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
-} */
+}
 span {
   padding-right: 5px;
   font-size: 115%;
   /* word-spacing: -0.05em; */
-  /* font-family: "myfont", 'Roboto Condensed'; */
+  font-family: "myfont", 'Roboto Condensed';
 }
 .span-a {
   font-size: 95%;
   /* word-spacing: -0.05em; */
   /* font-family: "myfont", 'Roboto Condensed'; */
-}
-
-.tst1 {
-  font-size: 80%;
-  color: white;
 }
 .myvselect{
   width: 55px;
