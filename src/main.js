@@ -2,8 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 // import Vuetify from 'vuetify'
-import VueTippy from 'vue-tippy'
-import App from './App'
+// import VueTippy from 'vue-tippy'
+import App from './components/root/App'
 import router from './router'
 import {store} from './store/store.js'
 
@@ -27,7 +27,8 @@ import {
   VMenu,
   VExpansionPanel,
   VSpeedDial,
-  VDivider
+  VDivider,
+  VBottomNav
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -51,7 +52,8 @@ Vue.use(Vuetify, {
     VMenu,
     VExpansionPanel,
     VSpeedDial,
-    VDivider
+    VDivider,
+    VBottomNav
   },
   theme: {
     primary: '#ee44aa',
@@ -63,20 +65,16 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 })
-
-// Vue.use(Vuetify)
-Vue.use(VueTippy)
-
+Vue.use(Vuetify)
+// Vue.use(VueTippy)
 Vue.config.productionTip = false
 
 import firebase from 'firebase'
 import firebaseui from 'firebaseui';
 import {config} from './helpers/firebaseConfig'
 // import VueFire from 'vuefire'
-//
-// // // explicit installation required in module environments
 // Vue.use(VueFire)
-//
+
 /* eslint-disable no-new */
 var vm = new Vue({
   router,
@@ -84,9 +82,13 @@ var vm = new Vue({
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
-        this.$router.push('/success')
+        this.$store.state.authenticated = true
+        // this.$router.push('/')
+        this.$store.state.photoURL = user.photoURL
       } else {
-        this.$router.push('/')
+        // this.$router.push('/')
+        this.$store.state.authenticated = false
+        this.$store.state.photoURL = 'not signed in'
       }
      });
   },

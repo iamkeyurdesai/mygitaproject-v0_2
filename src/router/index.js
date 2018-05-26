@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
-import App1 from '@/App1'
-import App2 from '@/App2'
-import AuthSuccess from '@/components/AuthSuccess'
+import reflect from '@/components/text/reflect/reflect'
+import welcome from '@/components/root/welcome'
+
 
 Vue.use(Router)
 
@@ -12,13 +11,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'App1',
-      component: App1
+      name: 'welcome',
+      component: welcome
     },
     {
-      path: '/success',
-      name: 'App2',
-      component: App2
+      path: '/reflect',
+      name: 'reflect',
+      component: reflect
     }
   ]
 })
