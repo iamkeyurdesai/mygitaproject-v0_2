@@ -107,7 +107,7 @@ export default {
          // console.log(url);
          console.log(melody);
          var snd = new Audio();
-         snd.src = 'https://gitawebapp.firebaseapp.com/assets/audio/mp3/' + melody + '.mp3';
+         snd.src = 'https://gitawebapp.firebaseapp.com/static/assets/audio/mp3/' + melody + '.mp3';
          console.log(snd.src);
          snd.play()
        // })

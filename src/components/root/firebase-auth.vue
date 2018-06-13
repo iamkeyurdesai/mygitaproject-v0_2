@@ -10,15 +10,16 @@ export default {
   name: 'auth',
   mounted() {
     var uiConfig = {
-      signInSuccessUrl: '/',
+      signInSuccessUrl: '/success',
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID
       ]
-      };
+      };      
       let ui = firebaseui.auth.AuthUI.getInstance();
       if (!ui) {
+        firebase.initializeApp(config);
         ui = new firebaseui.auth.AuthUI(window.firebase.auth());
       }
       ui.start('#firebaseui-auth-container', uiConfig);

@@ -11,7 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 const loadMinified = require('./load-minified')
 
 const env = process.env.NODE_ENV === 'testing'
@@ -103,12 +103,43 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     // service worker caching
-    new SWPrecacheWebpackPlugin({
-      cacheId: 'mygitaproject-v0_2',
-      filename: 'service-worker.js',
-      staticFileGlobs: ['dist/**/*.{js,html,css}'],
-      minify: true,
-      stripPrefix: 'dist/'
+    new WorkboxPlugin.GenerateSW({
+      swDest: 'service-worker.js',
+      clientsClaim: true,
+      skipWaiting: true,
+      // Exclude images from the precache
+      exclude: [/\.(?:mp3)$/],
+      // Define runtime caching rules.
+      runtimeCaching: [
+        {
+          // Match any request ends with .png, .jpg, .jpeg or .svg.
+          urlPattern: /\.mp3$/,
+          // Apply a cache-first strategy.
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'my-mp3-cache',
+            // Only cache 10 images.
+            expiration: {
+              maxEntries: 1000,
+              maxAgeSeconds: 5*365*24*60*60
+            },
+          },
+        },
+        {
+          // Match any request ends with .png, .jpg, .jpeg or .svg.
+          urlPattern: /.*(?:googleapis|gstatic|cdn\.firebase)\.com.*$/,
+          // Apply a cache-first strategy.
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'my-lib-cache',
+            // Only cache 10 images.
+            expiration: {
+              maxEntries: 20,
+              maxAgeSeconds: 5*365*24*60*60
+            },
+          },
+        },
+      ],
     })
   ]
 })

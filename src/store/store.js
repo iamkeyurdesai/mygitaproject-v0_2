@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
         state.verse = 1
       }
     },
-      decrement: (state) => {      
+      decrement: (state) => {
       if (state.verse != 1)
       {
         state.verse -= 1
@@ -68,7 +68,7 @@ export const store = new Vuex.Store({
     // },
     loadText: function ({ commit }) {
       const ax = axios.create({
-      baseURL: 'https://gitawebapp.firebaseapp.com/'
+      baseURL: 'https://gitawebapp.firebaseapp.com/static/'
       })
       ax.get('assets/text/json/mygitapress_preview.json', { crossdomain: true}).then((response) => {
         commit('setText', { list: response.data,  id: "preview"})

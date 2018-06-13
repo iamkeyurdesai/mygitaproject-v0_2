@@ -125,11 +125,19 @@ export default {
      console.log(path)
      this.$router.push(path)
    }
- }
-  // methods: {
-  //   addTodo() {
-  //     var usernameRef = firebase.database().ref('username')
-  //     usernameRef.set("vaibhav")
-  //   }
+ },
+ mounted() {
+   firebase.auth().onAuthStateChanged((user) => {
+     if(user) {
+       this.$store.state.authenticated = true
+       // this.$router.push('/')
+       this.$store.state.photoURL = user.photoURL       
+     } else {
+       // this.$router.push('/')
+       this.$store.state.authenticated = false
+       this.$store.state.photoURL = 'not signed in'
+     }
+    });
+}
   }
 </script>

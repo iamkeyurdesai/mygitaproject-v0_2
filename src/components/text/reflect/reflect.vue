@@ -63,9 +63,10 @@
 </div>
 </div>
 <div class="nv1b">
-<!-- <v-btn color="teal darken-2" dark small fab>  -->
+<v-btn color="teal darken-2" dark small fab v-on:click.stop="addTodo">
+  <!-- <v-icon v-on:click.stop="pushRouter(mypath)"></v-icon> -->
   <v-icon>👏</v-icon>
-<!-- </v-btn> -->
+</v-btn>
 </div>
 
 
@@ -82,15 +83,18 @@ import bhavarthcard from './bhavarth-card.vue'
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 import {mapMutations} from 'vuex';
+import firebase from 'firebase';
 export default {
   data: function () {
     return {
+      mypath: "/reflect/10/27",
       footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
       fab: false,
       sheet: false,
       color1: "white",
       counter: true,
       mycolor: "grey",
+
       mytemp: 0,
       mychhandah: "Anushtubh",
      verseitems: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
@@ -114,10 +118,54 @@ export default {
     },
     increaseColumn: function(){
       this.styleObject.columnCount += 1
-    }
+    },
+    pushRouter(path) {
+      console.log(path)
+      this.$router.push(path)
+    },
+    addTodo() {
+        var db = firebase.firestore();
+        db.collection("users").add({first: "Vaibhav", last: "Desai"})
+        .then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+     })
+    .catch(function(error) {
+    console.error("Error adding document: ", error);
+});
+      }
   },
-  mounted: function () {
-    this.$store.dispatch('loadText')
+  // watch: {
+  //   '$route' (to, from) {
+  //     // react to route changes...
+  //       console.log('after', this.$route.path);
+  //       this.$store.state.chapter = parseInt(to.params.chapter);
+  //       this.$store.state.verse = parseInt(to.params.verse);
+  //   }
+  // },
+  // beforeRouteEnter ( to, from, next ) {
+  //   // console.log('Entering Bar')
+  //
+  //   // Pass a callback to next (optional)
+  //   next(vm => {
+  //     // this callback has access to component instance (ie: 'this') via `vm`
+  //     // vm.testFunc('Some Message', true)
+  //     // console.log("Fully Entered Bar")
+  //     vm.$store.state.chapter = parseInt(to.params.chapter);
+  //     vm.$store.state.verse = parseInt(to.params.verse);
+  //   })
+  // },
+  beforeRouteUpdate (to, from, next) {
+    // called when the route that renders this component has changed,
+    // but this component is reused in the new route.
+    // For example, for a route with dynamic params `/foo/:id`, when we
+    // navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
+    // will be reused, and this hook will be called when that happens.
+    // has access to `this` component instance.
+    // console.log(this.footcolors)
+    console.log(to.params)
+    this.$store.state.chapter = parseInt(to.params.chapter);
+    this.$store.state.verse = parseInt(to.params.verse);
+    next()
   },
   components: {
     'chapter-menu': chaptermenu,
