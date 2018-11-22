@@ -122,8 +122,13 @@ export default {
  },
  methods: {
    pushRouter(path) {
-     console.log(path)
-     this.$router.push(path)
+     switch (path) {
+       case 'reflect':
+         this.$router.push('/' + path + '/1' + '/1')
+         break;
+       default:
+         this.$router.push("/" + path)
+     }
    }
  },
  mounted() {
@@ -131,7 +136,7 @@ export default {
      if(user) {
        this.$store.state.authenticated = true
        // this.$router.push('/')
-       this.$store.state.photoURL = user.photoURL       
+       this.$store.state.photoURL = user.photoURL
      } else {
        // this.$router.push('/')
        this.$store.state.authenticated = false

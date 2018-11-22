@@ -12,7 +12,7 @@
 export default {
   data() {
     return {
-      path: 'reflect'
+      path: 'reflect/1/1'
     }
   },
 methods: {

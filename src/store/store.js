@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
     verse: 13,
     verseall:  [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78] ,
     authenticated: false,
-    photoURL: 'not singed in'
+    photoURL: 'not singed in',
+    lang: 'gujarati'
   },
   getters: {
     chapter: (state) => { return state.chapter },

@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-layout justify-space-between v-if="opentoolbar">
         <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
-        <span v-bind:style="{ color: footcolors[6]}">: {{mymain.speaker}} :</span>
+        <span v-bind:style="{ color: footcolors[6]}">: {{convert(mymain.speaker)}} :</span>
         <v-icon v-if="opentoolbar" v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
       </v-layout>
         <v-layout justify-space-between v-else>
@@ -11,7 +11,7 @@
        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="forum">mdi-forum</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="language">language</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="settings">settings</v-icon>
-        <span v-bind:style="{ color: footcolors[6]}">&emsp;: {{mymain.speaker}} :&emsp;</span>
+        <span v-bind:style="{ color: footcolors[6]}">&emsp;: {{convert(mymain.speaker)}} :&emsp;</span>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="audio">volume_off</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="images">image</v-icon>
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="sandhi">mdi-format-color-text</v-icon>
@@ -22,25 +22,25 @@
 
 
 <div class="elevation-5 mydiv2">
-      <div v-if="mymain.chhandaH=='Trishtubh' && !dosandhi"  align="left" v-for="(item,i) in mymain.foot" v-bind:style="{color:footcolors[i]}"> {{item.foot}} {{footbreaks[i]}}
+      <div v-if="mymain.chhandaH=='Trishtubh' && !dosandhi"  align="left" v-for="(item,i) in mymain.foot" v-bind:style="{color:footcolors[i]}"> {{convert(item.foot)}} {{footbreaks[i]}}
       </div>
       <div v-if="mymain.chhandaH=='Trishtubh' && dosandhi" align="left">
         <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-          <span v-if="mymain.word_info[i+1]=== undefined">  {{item.sanskrit}}{{" ||"}}</span>
-          <span v-else> {{item.sanskrit}},</span>
+          <span v-if="mymain.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+          <span v-else> {{convert(item.sanskrit)}},</span>
           <span v-if="checkBreak(i,4)"><br/></span>
         </span>
       </div>
 
       <div v-if="mymain.chhandaH!='Trishtubh' && !dosandhi" align="left" v-for="(item,i) in mymain.stanza" v-bind:style="{color:footcolors[i]}">
-        <span v-bind:style="{color:footcolors[0+(i*2)]}">{{mymain.foot[0+(i*2)].foot}}</span>
-        <span<span v-bind:style="{color:footcolors[1+(i*2)]}"> {{mymain.foot[1+(i*2)].foot}} {{footbreaks[1+(i*2)]}}</span>
+        <span v-bind:style="{color:footcolors[0+(i*2)]}">{{convert(mymain.foot[0+(i*2)].foot)}}</span>
+        <span<span v-bind:style="{color:footcolors[1+(i*2)]}"> {{convert(mymain.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
       </div>
 
       <div v-if="mymain.chhandaH!='Trishtubh' && dosandhi" align="left">
         <span v-for="(item,i) in mymain.word_info" v-bind:style="{color:footcolors[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-          <span v-if="mymain.word_info[i+1]=== undefined">  {{item.sanskrit}}{{" ||"}}</span>
-          <span v-else> {{item.sanskrit}},</span>
+          <span v-if="mymain.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+          <span v-else> {{convert(item.sanskrit)}},</span>
           <span v-if="checkBreak(i,2)"><br/></span>
         </span>
       </div>
@@ -55,6 +55,7 @@
 <script>
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
+import Sanscript from 'Sanscript';
 export default {
   data: () => ({
     counter: true,
@@ -72,6 +73,9 @@ export default {
     ])
   },
   methods: {
+    convert(myinput){
+          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+        },
     range(start, end) {
       var foo = [];
       for (var i = start; i <= end; i++) {

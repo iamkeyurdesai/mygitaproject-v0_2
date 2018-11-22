@@ -105,6 +105,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     // service worker caching
     new WorkboxPlugin.GenerateSW({
       swDest: 'service-worker.js',
+      navigateFallback: '/index.html',
+      navigateFallbackBlacklist: [/auth/],
       clientsClaim: true,
       skipWaiting: true,
       // Exclude images from the precache
@@ -127,7 +129,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         },
         {
           // Match any request ends with .png, .jpg, .jpeg or .svg.
-          urlPattern: /.*(?:googleapis|gstatic|cdn\.firebase)\.com.*$/,
+          // urlPattern: /.*(?:googleapis|gstatic|cdn\.firebase)\.com.*$/,
+          urlPattern: /\.jpeg$/,
           // Apply a cache-first strategy.
           handler: 'cacheFirst',
           options: {

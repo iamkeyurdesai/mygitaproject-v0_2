@@ -6,7 +6,7 @@
 <chapter-menu></chapter-menu>
 <v-spacer></v-spacer>
 <!-- <div class="strt"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div> -->
-॥ oṃ śrī paramātmane namaḥ ॥
+॥ {{convert('oṃ śrī paramātmane namaḥ')}} ॥
 <v-spacer></v-spacer>
 <verse-menu></verse-menu>
 </v-layout>
@@ -35,11 +35,13 @@
 
 <v-flex xs12 class="bhav">
 <v-layout align-content-space-between>
-<v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="decrement()"> <v-icon>arrow_back_ios</v-icon></v-btn>
+<!-- <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="decrement()"> <v-icon>arrow_back_ios</v-icon></v-btn> -->
+<v-icon color="white" v-on:click.stop="decrement()">arrow_back_ios</v-icon>
 <v-spacer></v-spacer>
 <bhavarth-card></bhavarth-card>
 <v-spacer></v-spacer>
-<v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="increment()"> <v-icon>arrow_forward_ios</v-icon></v-btn>
+<!-- <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="increment()"> <v-icon>arrow_forward_ios</v-icon></v-btn> -->
+<v-icon color="white" v-on:click.stop="increment()">arrow_forward_ios</v-icon>
 </v-layout>
 <v-divider dark></v-divider>
 </v-flex>
@@ -63,9 +65,9 @@
 </div>
 </div>
 <div class="nv1b">
-<v-btn color="teal darken-2" dark small fab v-on:click.stop="addTodo">
+<!-- <v-btn color="teal darken-2" dark small fab v-on:click.stop="addTodo"> -->
   <!-- <v-icon v-on:click.stop="pushRouter(mypath)"></v-icon> -->
-  <v-icon>👏</v-icon>
+   <!-- <v-icon>👏</v-icon> -->
 </v-btn>
 </div>
 
@@ -84,6 +86,8 @@ import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 import {mapMutations} from 'vuex';
 import firebase from 'firebase';
+import Sanscript from 'Sanscript';
+
 export default {
   data: function () {
     return {
@@ -113,6 +117,9 @@ export default {
           'increment',
           'decrement',
         ]),
+    convert(myinput){
+          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+        },
     decreaseColumn: function(){
       this.styleObject.columnCount -= 1
     },
@@ -142,18 +149,19 @@ export default {
   //       this.$store.state.verse = parseInt(to.params.verse);
   //   }
   // },
-  // beforeRouteEnter ( to, from, next ) {
-  //   // console.log('Entering Bar')
-  //
-  //   // Pass a callback to next (optional)
-  //   next(vm => {
-  //     // this callback has access to component instance (ie: 'this') via `vm`
-  //     // vm.testFunc('Some Message', true)
-  //     // console.log("Fully Entered Bar")
-  //     vm.$store.state.chapter = parseInt(to.params.chapter);
-  //     vm.$store.state.verse = parseInt(to.params.verse);
-  //   })
-  // },
+  beforeRouteEnter ( to, from, next ) {
+    // console.log('Entering Bar')
+
+    console.log(to.params)
+    // Pass a callback to next (optional)
+    next(vm => {
+      // this callback has access to component instance (ie: 'this') via `vm`
+      // vm.testFunc('Some Message', true)
+      // console.log("Fully Entered Bar")
+      if (to.params.chapter != null) vm.$store.state.chapter = parseInt(to.params.chapter);
+      if (to.params.verse != null) vm.$store.state.verse = parseInt(to.params.verse);
+    })
+  },
   beforeRouteUpdate (to, from, next) {
     // called when the route that renders this component has changed,
     // but this component is reused in the new route.
@@ -163,8 +171,8 @@ export default {
     // has access to `this` component instance.
     // console.log(this.footcolors)
     console.log(to.params)
-    this.$store.state.chapter = parseInt(to.params.chapter);
-    this.$store.state.verse = parseInt(to.params.verse);
+    if (to.params.chapter != null) this.$store.state.chapter = parseInt(to.params.chapter);
+    if (to.params.verse != null) this.$store.state.verse = parseInt(to.params.verse);
     next()
   },
   components: {

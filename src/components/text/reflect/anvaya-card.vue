@@ -3,13 +3,14 @@
 <div class="text-xs-center mydiv1">
     <div align="left">
       <span v-for="i in myindex_extract()" v-bind:style="{color:footcolors[mymain.word_info[i-1].foot - 1]}" class="myspan1">
-{{mymain.word_info[i-1].sanskrit}} = <span class="myspan2">{{mymain.word_info[i-1].english}}</span><br></span>
+{{convert(mymain.word_info[i-1].sanskrit)}} = <span class="myspan2">{{mymain.word_info[i-1].english}}</span><br></span>
       </span>
     </div>
 </div>
 </template>
 
 <script>
+import Sanscript from 'Sanscript';
 import {
   mapActions
 } from 'vuex';
@@ -36,6 +37,9 @@ export default {
     }
   },
   methods: {
+    convert(myinput){
+          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+        },
     setVerse(vid) {
       this.$store.state.verse = vid;
     },
