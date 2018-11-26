@@ -6,11 +6,14 @@ import Vue from 'vue'
 import App from './components/root/App'
 import router from './router'
 import {store} from './store/store.js'
+// import Meta from 'vue-meta'
+
 
 // import VueThreejs from '@/../package/lib/' // testing pack
 // import VueThreejs from '@/../lib/' // testing build
 import VueThreejs from 'vue-threejs'
 Vue.use(VueThreejs)
+// Vue.use(Meta)
 
 import {
   Vuetify,
@@ -32,7 +35,9 @@ import {
   VExpansionPanel,
   VSpeedDial,
   VDivider,
-  VBottomNav
+  VBottomNav,
+  VRadioGroup,
+  VSwitch
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -57,7 +62,9 @@ Vue.use(Vuetify, {
     VExpansionPanel,
     VSpeedDial,
     VDivider,
-    VBottomNav
+    VBottomNav,
+    VRadioGroup,
+    VSwitch
   },
   theme: {
     primary: '#ee44aa',

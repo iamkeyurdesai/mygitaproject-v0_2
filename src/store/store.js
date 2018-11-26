@@ -12,6 +12,8 @@ export const store = new Vuex.Store({
     params: [ ],
     main: [ ],
     gitapress: [ ],
+    settingsOptions: { },
+    settingsCurrent: {theme: 'lakshmi', language: 'devanagari'},
     chapter: 11,
     verse: 13,
     verseall:  [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78] ,
@@ -20,6 +22,8 @@ export const store = new Vuex.Store({
     lang: 'gujarati'
   },
   getters: {
+    settingsOptions: (state) => { return state.settingsOptions },
+    settingsCurrent: (state) => { return state.settingsCurrent },
     chapter: (state) => { return state.chapter },
     verse: (state) => { return state.verse },
     mymain: (state, getters) => {
@@ -71,6 +75,11 @@ export const store = new Vuex.Store({
       const ax = axios.create({
       baseURL: 'https://gitawebapp.firebaseapp.com/static/'
       })
+      ax.get('assets/text/json/settings_options.json', { crossdomain: true}).then((response) => {
+        commit('setText', { list: response.data,  id: "settingsOptions"})
+      }, (err) => {
+        console.log(err)
+      });
       ax.get('assets/text/json/mygitapress_preview.json', { crossdomain: true}).then((response) => {
         commit('setText', { list: response.data,  id: "preview"})
       }, (err) => {
@@ -91,7 +100,7 @@ export const store = new Vuex.Store({
       }, (err) => {
         console.log(err)
       });
-      console.log('I am here')
+      // console.log('I am here')
     }
   }
 });

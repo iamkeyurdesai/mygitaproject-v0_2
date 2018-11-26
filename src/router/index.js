@@ -21,7 +21,7 @@ export default new Router({
       component: success
     },
     {
-      path: '/reflect/:chapter?/:verse?',
+      path: '/reflect/:chapter/:verse',
       name: 'reflect',
       component: reflect
     },

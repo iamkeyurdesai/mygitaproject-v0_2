@@ -1,10 +1,12 @@
 <template>
 <v-app>
 
-  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app dark class="purple darken-3" width="250">
-    <v-flex xs12 class="purple darken-3">
-      <v-card class="purple darken-3">
-        <v-list class="purple darken-3">
+
+  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="settingsOptions[settingsCurrent.theme].type=='dark'"
+  :class="settingsOptions[settingsCurrent.theme].drawer" width="250">    
+    <v-flex xs12>
+      <v-card>
+        <v-list :class="settingsOptions[settingsCurrent.theme].drawer">
           <v-list-group v-model="item.active" v-for="item in items" :key="item.title" :prepend-icon="item.action" no-action>
             <v-list-tile slot="activator">
               <v-list-tile-content>
@@ -25,7 +27,8 @@
     </v-flex>
   </v-navigation-drawer>
 
-  <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" color="deep-purple darken-4" dark scroll-off-screen scroll-target="#content" dense>
+  <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="settingsOptions[settingsCurrent.theme].toolbar"
+  :dark="settingsOptions[settingsCurrent.theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
 
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 <v-toolbar-title class="hidden-sm-and-down">
@@ -39,7 +42,8 @@
       <v-icon>notifications</v-icon>
     </v-btn>
     <div v-if="!this.$store.state.authenticated">
-    <v-btn small color="purple" dark @click.native.stop="dialog = true">Sing In</v-btn>
+    <v-btn small :color="settingsOptions[settingsCurrent.theme].toolbarAccent1"
+    :dark="settingsOptions[settingsCurrent.theme].type=='dark'" @click.native.stop="dialog = true">Sing In</v-btn>
     <v-dialog v-model="dialog">
       <firebase-auth></firebase-auth>
     </v-dialog>
@@ -51,6 +55,7 @@
 
   <v-content>
     <router-view></router-view>
+
   </v-content>
   <v-bottom-nav
        :value="true"
@@ -87,6 +92,7 @@
 import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
 import {items} from '../../helpers/menuItems'
+import {mapGetters} from 'vuex';
 
 export default {
   data() {
@@ -110,6 +116,10 @@ export default {
     'user-profile': userProfile
   },
   computed: {
+    ...mapGetters([
+          'settingsOptions',
+          'settingsCurrent',
+        ]),
      color () {
        switch (this.e2) {
          case 0: return 'deep-purple darken-1'

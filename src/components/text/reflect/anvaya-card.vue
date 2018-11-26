@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+          return Sanscript.t(myinput, 'iast', this.$store.state.settingsCurrent.language);
         },
     setVerse(vid) {
       this.$store.state.verse = vid;

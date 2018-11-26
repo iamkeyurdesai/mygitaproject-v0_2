@@ -1,7 +1,8 @@
 <template>
   <div class="text-xs-center mydiv1">
     <v-flex xs12>
-      <v-layout justify-space-between v-if="opentoolbar">
+
+      <!-- <v-layout justify-space-between v-if="opentoolbar">
         <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
         <span v-bind:style="{ color: footcolors[6]}">: {{convert(mymain.speaker)}} :</span>
         <v-icon v-if="opentoolbar" v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
@@ -17,9 +18,13 @@
         <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="sandhi">mdi-format-color-text</v-icon>
         <v-icon v-bind:style="{color: mycolor}" v-on:click.stop="sandhi">build</v-icon>
         <!-- <span v-bind:style="{color: 'transparent', textShadow: '0 0 0 ' + mycolor}" v-on:click.stop="sandhi">&#128296</span> -->
-      </v-layout>
+      <!-- </v-layout> -->
 
-
+<v-layout justify-space-between>
+  <settings-popup></settings-popup>
+  <span v-bind:style="{ color: footcolors[6]}">: {{convert(mymain.speaker)}} :</span>
+  <v-icon v-bind:style="{color: mycolor}" v-on:click.stop="sandhi">build</v-icon>
+</v-layout>
 
 <div class="elevation-5 mydiv2">
       <div v-if="mymain.chhandaH=='Trishtubh' && !dosandhi"  align="left" v-for="(item,i) in mymain.foot" v-bind:style="{color:footcolors[i]}"> {{convert(item.foot)}} {{footbreaks[i]}}
@@ -56,6 +61,7 @@
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 import Sanscript from 'Sanscript';
+import settingspopup from '../../settings/settings-popup.vue'
 export default {
   data: () => ({
     counter: true,
@@ -74,7 +80,7 @@ export default {
   },
   methods: {
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+          return Sanscript.t(myinput, 'iast', this.$store.state.settingsCurrent.language);
         },
     range(start, end) {
       var foo = [];
@@ -119,6 +125,9 @@ export default {
        // snd.play();
        // console.log(melody+'.mp3');
     }
+  },
+  components: {
+    'settings-popup': settingspopup
   }
 }
 </script>
