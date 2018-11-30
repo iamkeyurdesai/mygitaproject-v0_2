@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
 data () {
@@ -31,6 +32,9 @@ data () {
      { title: 'Profile' },
      { title: 'Signout' }]
   }
+},
+computed: {
+  ...mapState('parameters', ['authenticated']),
 },
   created() {
     var vm = this
@@ -44,7 +48,7 @@ data () {
  methods: {
    logOut() {
      firebase.auth().signOut();
-     this.$store.state.authenticated = false;
+     authenticated = false;
    }
 }
 }

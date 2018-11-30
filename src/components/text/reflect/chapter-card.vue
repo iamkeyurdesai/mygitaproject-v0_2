@@ -6,8 +6,8 @@
         <v-layout row>
           <v-flex xs6>
             <div>
-              <div class="body-2 grey--text"> | Chapter {{mypreviews[index].chapter_id}} </div>
-              <div class="subheading ma-0" v-bind:style="{fontWeight : 300}">{{mypreviews[index].title1}}</div>
+              <div class="body-2 grey--text"> | Chapter {{preview[index].chapter_id}} </div>
+              <div class="subheading ma-0" v-bind:style="{fontWeight : 300}">{{preview[index].title1}}</div>
             </div>
           </v-flex>
           <v-flex xs6>
@@ -21,8 +21,8 @@
         <v-layout row>
           <v-flex xs12>
             <v-card-actions>
-              <v-btn small @click.native="setChapter" color="red" v-if="mypreviews[index].chapter_id==this.$store.state.chapter">Select</v-btn>
-              <v-btn small @click.native="setChapter" v-else>Select</v-btn>
+              <v-btn small @click.native="setChapter_local" color="red" v-if="preview[index].chapter_id==this.chapter">Select</v-btn>
+              <v-btn small @click.native="setChapter_local" v-else>Select</v-btn>
               <v-spacer></v-spacer>
               <v-btn  fab flat small dark><v-icon>ondemand_video</v-icon></v-btn>
               <v-btn  fab flat small dark><v-icon>hearing</v-icon></v-btn>
@@ -34,7 +34,7 @@
             </v-card-actions>
             <v-slide-y-transition>
               <v-card-text v-show="show" class="body-2 pa-0">
-                <div v-html="mypreviews[index].preview" v-bind:style="{fontWeight : 200}"> </div>
+                <div v-html="preview[index].preview" v-bind:style="{fontWeight : 200}"> </div>
               </v-card-text>
             </v-slide-y-transition>
           </v-flex>
@@ -46,21 +46,21 @@
   </template>
 
   <script>
-  import {mapActions} from 'vuex';
-  import {mapGetters} from 'vuex';
+  import {mapState} from 'vuex';
+  import {mapMutations} from 'vuex';
   export default {
     props: ["index"],
     data: () => ({
       show: false
     }),
     computed: {
-      mypreviews(){
-        return this.$store.state.preview;
-      }
+      ...mapState('parameters', ['chapter']),
+      ...mapState('coretext', ['preview']),
     },
     methods: {
-      setChapter(){
-        this.$store.state.chapter = this.$store.state.preview[this.index].chapter_id;
+      ...mapMutations('parameters', ['setChapter']),
+      setChapter_local(){
+        this.setChapter(this.preview[this.index].chapter_id);
       }
   }
 }

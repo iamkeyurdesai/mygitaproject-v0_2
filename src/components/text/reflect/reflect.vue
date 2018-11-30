@@ -82,6 +82,7 @@ import shloakcard from './shloak-card.vue'
 import anvayacard from './anvaya-card.vue'
 import sambandhcard from './sambandh-card.vue'
 import bhavarthcard from './bhavarth-card.vue'
+import {mapState} from 'vuex';
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 import {mapMutations} from 'vuex';
@@ -112,13 +113,14 @@ export default {
   }
     }
   },
+  computed: {
+        ...mapState('settings', ['options', 'theme', 'language']),
+        ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL']),
+  },
   methods: {
-    ...mapMutations([
-          'increment',
-          'decrement',
-        ]),
+    ...mapMutations('parameters', ['increment','decrement']),
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.$store.state.lang);
+          return Sanscript.t(myinput, 'iast', this.language);
         },
     decreaseColumn: function(){
       this.styleObject.columnCount -= 1

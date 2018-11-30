@@ -1,12 +1,9 @@
 <template>
 <v-app>
-
-
-  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="settingsOptions[settingsCurrent.theme].type=='dark'"
-  :class="settingsOptions[settingsCurrent.theme].drawer" width="250">    
+  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="options[theme].type=='dark'" :class="options[theme].drawer" width="250">
     <v-flex xs12>
       <v-card>
-        <v-list :class="settingsOptions[settingsCurrent.theme].drawer">
+        <v-list :class="options[theme].drawer">
           <v-list-group v-model="item.active" v-for="item in items" :key="item.title" :prepend-icon="item.action" no-action>
             <v-list-tile slot="activator">
               <v-list-tile-content>
@@ -27,12 +24,11 @@
     </v-flex>
   </v-navigation-drawer>
 
-  <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="settingsOptions[settingsCurrent.theme].toolbar"
-  :dark="settingsOptions[settingsCurrent.theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
+  <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
 
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-<v-toolbar-title class="hidden-sm-and-down">
-        Power Gita
+    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar-title class="hidden-sm-and-down">
+      Power Gita
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>
@@ -42,48 +38,42 @@
       <v-icon>notifications</v-icon>
     </v-btn>
     <div v-if="!this.$store.state.authenticated">
-    <v-btn small :color="settingsOptions[settingsCurrent.theme].toolbarAccent1"
-    :dark="settingsOptions[settingsCurrent.theme].type=='dark'" @click.native.stop="dialog = true">Sing In</v-btn>
-    <v-dialog v-model="dialog">
-      <firebase-auth></firebase-auth>
-    </v-dialog>
-  </div>
-  <div v-else>
-          <user-profile></user-profile>
-        </div>
+      <v-btn small :color="options[theme].toolbarAccent1" :dark="options[theme].type=='dark'" @click.native.stop="dialog = true">Sing In</v-btn>
+      <v-dialog v-model="dialog">
+        <firebase-auth></firebase-auth>
+      </v-dialog>
+    </div>
+    <div v-else>
+      <user-profile></user-profile>
+    </div>
   </v-toolbar>
 
   <v-content>
     <router-view></router-view>
-
+    <!-- {{options[theme].drawer}} -->
   </v-content>
-  <v-bottom-nav
-       :value="true"
-       :active.sync="e2"
-       :color="color"
-       shift
-     >
-       <v-btn dark>
-         <span>Read</span>
-         <v-icon>mdi-book-open-page-variant</v-icon>
-       </v-btn>
-       <v-btn dark>
-         <span>Recite</span>
-         <v-icon>mdi-speaker-wireless</v-icon>
-       </v-btn>
-       <v-btn dark>
-         <span>Reflect</span>
-         <v-icon>mdi-thought-bubble</v-icon>
-       </v-btn>
-       <v-btn dark>
-         <span>Media</span>
-         <v-icon >mdi-youtube-tv</v-icon>
-       </v-btn>
-       <v-btn dark>
-         <span>Meditation</span>
-         <v-icon >mdi-yin-yang</v-icon>
-       </v-btn>
-     </v-bottom-nav>
+  <v-bottom-nav :value="true" :active.sync="e2" :color="color" shift>
+    <v-btn dark>
+      <span>Read</span>
+      <v-icon>mdi-book-open-page-variant</v-icon>
+    </v-btn>
+    <v-btn dark>
+      <span>Recite</span>
+      <v-icon>mdi-speaker-wireless</v-icon>
+    </v-btn>
+    <v-btn dark>
+      <span>Reflect</span>
+      <v-icon>mdi-thought-bubble</v-icon>
+    </v-btn>
+    <v-btn dark>
+      <span>Media</span>
+      <v-icon>mdi-youtube-tv</v-icon>
+    </v-btn>
+    <v-btn dark>
+      <span>Meditation</span>
+      <v-icon>mdi-yin-yang</v-icon>
+    </v-btn>
+  </v-bottom-nav>
 
 </v-app>
 </template>
@@ -91,8 +81,8 @@
 <script>
 import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
-import {items} from '../../helpers/menuItems'
-import {mapGetters} from 'vuex';
+import { items } from '../../helpers/menuItems'
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -116,43 +106,47 @@ export default {
     'user-profile': userProfile
   },
   computed: {
-    ...mapGetters([
-          'settingsOptions',
-          'settingsCurrent',
-        ]),
-     color () {
-       switch (this.e2) {
-         case 0: return 'deep-purple darken-1'
-         case 1: return 'deep-purple darken-2'
-         case 2: return 'deep-purple darken-3'
-         case 3: return 'deep-purple darken-4'
-         case 4: return 'deep-purple darken-5'
-       }
-     }
- },
- methods: {
-   pushRouter(path) {
-     switch (path) {
-       case 'reflect':
-         this.$router.push('/' + path + '/1' + '/1')
-         break;
-       default:
-         this.$router.push("/" + path)
-     }
-   }
- },
- mounted() {
-   firebase.auth().onAuthStateChanged((user) => {
-     if(user) {
-       this.$store.state.authenticated = true
-       // this.$router.push('/')
-       this.$store.state.photoURL = user.photoURL
-     } else {
-       // this.$router.push('/')
-       this.$store.state.authenticated = false
-       this.$store.state.photoURL = 'not signed in'
-     }
+    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapState('parameters', ['authenticated', 'photoURL']),
+    color() {
+      switch (this.e2) {
+        case 0:
+          return 'deep-purple darken-1'
+        case 1:
+          return 'deep-purple darken-2'
+        case 2:
+          return 'deep-purple darken-3'
+        case 3:
+          return 'deep-purple darken-4'
+        case 4:
+          return 'deep-purple darken-5'
+      }
+    }
+  },
+  methods: {
+    pushRouter(path) {
+      switch (path) {
+        case 'reflect':
+          this.$router.push('/' + path + '/1' + '/1')
+          break;
+        default:
+          this.$router.push("/" + path)
+      }
+    }
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        authenticated = true
+        // this.$router.push('/')
+        photoURL = user.photoURL
+      } else {
+        // this.$router.push('/')
+        authenticated = false
+        photoURL = 'not signed in'
+      }
     });
-}
+    // this.$store.dispatch('settings/loadText')
   }
+}
 </script>

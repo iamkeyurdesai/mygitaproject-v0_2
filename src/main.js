@@ -5,7 +5,7 @@ import Vue from 'vue'
 // import VueTippy from 'vue-tippy'
 import App from './components/root/App'
 import router from './router'
-import {store} from './store/store.js'
+import {store} from './store/index.js'
 // import Meta from 'vue-meta'
 
 
@@ -107,7 +107,8 @@ var vm = new Vue({
   el: '#app',
   store,
   created: function () {
-    this.$store.dispatch('loadText')
+    this.$store.dispatch('settings/loadText')
+    this.$store.dispatch('coretext/loadText')
   },
   components: { App },
   template: '<App/>'

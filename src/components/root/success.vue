@@ -9,17 +9,21 @@
 import welcome from '@/components/root/welcome'
 import firebase from 'firebase';
 import firebaseui from 'firebaseui'
+import { mapState } from 'vuex';
 export default {
+  computed: {
+    ...mapState('parameters', ['authenticated', 'photoURL']),
+  },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
-        this.$store.state.authenticated = true
+        authenticated = true
         // this.$router.push('/')
-        this.$store.state.photoURL = user.photoURL        
+        photoURL = user.photoURL
       } else {
         // this.$router.push('/')
-        this.$store.state.authenticated = false
-        this.$store.state.photoURL = 'not signed in'
+        authenticated = false
+        photoURL = 'not signed in'
       }
      });
      this.$router.push('/')

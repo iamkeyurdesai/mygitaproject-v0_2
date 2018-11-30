@@ -15,11 +15,11 @@
     <div align="left" v-show="show">
       <span class="myspan2"> {{ mygitapress.sambandh }}
       <!-- <v-btn small flat icon dark @click.native="show = !show" class="vbtn"> -->
-        <v-icon dark @click="show = !show" class="vbtn">
+<v-icon dark @click="show = !show" class="vbtn">
           {{ show ? 'arrow_drop_up' : 'arrow_drop_down' }}
         </v-icon>
       <!-- </v-btn> -->
-      </span>
+ </span>
     </div>
   </v-slide-y-transition>
 <!-- </v-layout>
@@ -30,12 +30,7 @@
 </template>
 
 <script>
-import {
-  mapActions
-} from 'vuex';
-import {
-  mapGetters
-} from 'vuex';
+import { mapState } from 'vuex';
 export default {
   data: () => ({
     counter: true,
@@ -47,10 +42,12 @@ export default {
     show: false
   }),
   computed: {
+    ...mapState('parameters', ['chapter', 'verse']),
+    ...mapState('coretext', ['gitapress']),
     mygitapress() {
-      let mytemp1 = this.$store.state.chapter
-      let mytemp2 = this.$store.state.verse
-      let mytemp = this.$store.state.gitapress.filter(function(item) {
+      let mytemp1 = this.chapter
+      let mytemp2 = this.verse
+      let mytemp = this.gitapress.filter(function(item) {
         return (item.chapter_id == mytemp1 && item.verse_id == mytemp2);
       });
       return mytemp[0];

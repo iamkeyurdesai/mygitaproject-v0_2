@@ -8,7 +8,7 @@
     transition="dialog-bottom-transition"
     >
 
-    <span slot="activator">V-{{myverse}} </span>
+    <span slot="activator">V-{{verse}} </span>
 
     <v-card tile>
 
@@ -17,13 +17,13 @@
           <v-icon>close</v-icon>
         </v-btn>
       </v-toolbar>
-<div v-for="(item, i) in mysummary" :key="i">
+<div v-for="(item, i) in summary" :key="i">
       <v-container grid-list-sm>
       <v-card color="purple darken-2" class="white--text elevation-10">
         <div class="subheading"> {{item.summary}}</div>
 
           <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
-        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse(vid)" v-if="vid==myverse">{{vid}}</v-btn>
+        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse(vid)" v-if="vid==verse">{{vid}}</v-btn>
         <v-btn class="caption tst2" fab small @click.native.stop="setVerse(vid)" v-else>{{vid}}</v-btn>
       </span>
       </v-card>
@@ -39,25 +39,25 @@
 <script>
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
+import {mapMutations} from 'vuex';
+import {mapState} from 'vuex';
 export default {
   data: () => ({
     sheet: false
   }),
   computed: {
-    myverse(){
-      return this.$store.state.verse
-    },
+    ...mapState('parameters', ['chapter', 'verse']),
+    ...mapState('coretext', ['summary']),
     mysummary(){
-      let mytemp1 = this.$store.state.chapter
-      let mytemp =  this.$store.state.summary.filter(function(item) {
-        return item.chapter_id == mytemp1;
+      return this.summary.filter(function(item) {
+        return item.chapter_id == this.chapter;
       });
-      return mytemp;
     }
   },
   methods: {
-    setVerse(vid){
-      this.$store.state.verse = vid;
+    ...mapMutations('parameters', ['setVerse']),
+    setVerse_local(vid){
+      this.setVerse(vid);
     },
     range(start, end) {
     var foo = [];

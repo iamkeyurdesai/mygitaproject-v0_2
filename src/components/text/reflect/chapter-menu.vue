@@ -8,7 +8,7 @@
       transition="dialog-bottom-transition"
     >
 
-<span slot="activator">C-{{mychapter}} </span>
+<span slot="activator">C-{{chapter}} </span>
 
 
 <v-card tile>
@@ -21,7 +21,7 @@ Select Chapter
 </v-toolbar>
 <v-card>
   <v-container fluid grid-list-xs>
-<chapter-card v-for="(mypreview,i) in mypreviews" :key="i" :index="i"></chapter-card>
+<chapter-card v-for="(mypreview,i) in preview" :key="i" :index="i"></chapter-card>
 </v-container>
 </v-card>
 <!-- <v-btn dark bottom right fab absolute small color="pink" @click.native="sheet = false">
@@ -35,21 +35,15 @@ Select Chapter
 </template>
 
 <script>
-import {mapActions} from 'vuex';
-import {mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 import chaptercard from './chapter-card.vue';
   export default {
     data: () => ({
       sheet: false
     }),
     computed: {
-      mychapter(){
-        return this.$store.state.chapter
-      },
-      mypreviews(){
-        return this.$store.state.preview;
-      }
-
+      ...mapState('parameters', ['chapter']),
+      ...mapState('coretext', ['preview']),
     },
     components: {
       'chapter-card': chaptercard
