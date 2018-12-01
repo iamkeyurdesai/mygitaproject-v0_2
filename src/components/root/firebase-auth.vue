@@ -6,9 +6,14 @@
 import firebase from 'firebase';
 import firebaseui from 'firebaseui'
 import {config} from '../../helpers/firebaseConfig';
+import { mapMutations } from 'vuex';
 export default {
   name: 'auth',
+  methods: {
+    ...mapMutations('parameters', ['SET_path'])
+  },
   mounted() {
+    this.SET_path(this.$router.currentRoute.path);
     var uiConfig = {
       signInSuccessUrl: '/success',
       signInOptions: [
@@ -16,10 +21,10 @@ export default {
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID
       ]
-      };      
+      };
       let ui = firebaseui.auth.AuthUI.getInstance();
       if (!ui) {
-        firebase.initializeApp(config);
+        // firebase.initializeApp(config);
         ui = new firebaseui.auth.AuthUI(window.firebase.auth());
       }
       ui.start('#firebaseui-auth-container', uiConfig);

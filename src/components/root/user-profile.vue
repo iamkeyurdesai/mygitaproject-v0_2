@@ -5,7 +5,7 @@
           <v-btn icon slot="activator" dark>
             <v-avatar size="32px">
               <img
-                :src="photo"
+                :src="photoURL"
                 alt="Error Loading"
               >
             </v-avatar>
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
 data () {
@@ -34,21 +35,23 @@ data () {
   }
 },
 computed: {
-  ...mapState('parameters', ['authenticated']),
+  ...mapState('parameters', ['authenticated', 'photoURL']),
 },
   created() {
-    var vm = this
+    // var vm = this
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        vm.user = user;
-        vm.photo = vm.user.photoURL;
+        // vm.user = user;
+        // vm.photo = vm.user.photoURL;
+        this.setValue({key: 'photoURL', value: user.photoURL})
      }
    });
  },
  methods: {
+   ...mapMutations('parameters', ['setValue']),
    logOut() {
      firebase.auth().signOut();
-     authenticated = false;
+     this.setValue({key: 'authenticated', value: false})
    }
 }
 }

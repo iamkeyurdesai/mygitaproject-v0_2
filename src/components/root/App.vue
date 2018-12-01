@@ -1,5 +1,11 @@
 <template>
 <v-app>
+  <!--
+  fetch menu items from menuItems.js
+  fetch theme from store/settings
+  render items as list of list-groups
+  when clicked push router to the component the subitem refers
+  use var drawer to open / close the navigation drawer   -->
   <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="options[theme].type=='dark'" :class="options[theme].drawer" width="250">
     <v-flex xs12>
       <v-card>
@@ -24,8 +30,9 @@
     </v-flex>
   </v-navigation-drawer>
 
+  <!-- fetch theme from store/settings
+  hide or show burger icon using var drawer    -->
   <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
-
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down">
       Power Gita
@@ -37,7 +44,9 @@
     <v-btn icon>
       <v-icon>notifications</v-icon>
     </v-btn>
-    <div v-if="!this.$store.state.authenticated">
+    <!-- if not authenticated then show the Sing In button
+    if authenticated then render user-profile component -->
+    <div v-if="!this.authenticated">
       <v-btn small :color="options[theme].toolbarAccent1" :dark="options[theme].type=='dark'" @click.native.stop="dialog = true">Sing In</v-btn>
       <v-dialog v-model="dialog">
         <firebase-auth></firebase-auth>
@@ -48,10 +57,12 @@
     </div>
   </v-toolbar>
 
+
   <v-content>
-    <router-view></router-view>
-    <!-- {{options[theme].drawer}} -->
+    <router-view></router-view>    
   </v-content>
+
+  <!-- dynamic bottom navigation
   <v-bottom-nav :value="true" :active.sync="e2" :color="color" shift>
     <v-btn dark>
       <span>Read</span>
@@ -73,7 +84,7 @@
       <span>Meditation</span>
       <v-icon>mdi-yin-yang</v-icon>
     </v-btn>
-  </v-bottom-nav>
+  </v-bottom-nav> -->
 
 </v-app>
 </template>
@@ -82,22 +93,17 @@
 import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
 import { items } from '../../helpers/menuItems'
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
     return {
-      dialog: false,
-      clipped: true,
-      drawer: false,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Power Gita',
+      drawer: false,  // open the navigation drawer
+      clipped: true, // keep the drawer below the toolbar
+      dialog: false, // open authentication dialog
       items: items,
-      e2: 1,
-      photo: ''
+      e2: 1
     }
   },
   name: 'App',
@@ -106,7 +112,7 @@ export default {
     'user-profile': userProfile
   },
   computed: {
-    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapState('settings', ['options', 'theme']),
     ...mapState('parameters', ['authenticated', 'photoURL']),
     color() {
       switch (this.e2) {
@@ -124,6 +130,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL']),
     pushRouter(path) {
       switch (path) {
         case 'reflect':
@@ -137,16 +144,13 @@ export default {
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        authenticated = true
-        // this.$router.push('/')
-        photoURL = user.photoURL
+        this.SET_authenticated(true)
+        this.SET_photoURL(user.photoURL)
       } else {
-        // this.$router.push('/')
-        authenticated = false
-        photoURL = 'not signed in'
+        this.SET_authenticated(false)
+        this.SET_photoURL('not signed in')
       }
     });
-    // this.$store.dispatch('settings/loadText')
   }
 }
 </script>

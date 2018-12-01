@@ -7,6 +7,7 @@ const state = {
   summary: [ ],
   main: [ ],
   gitapress: [ ],
+  salutation: 'oṃ śrī paramātmane namaḥ'
 };
 
 export default {

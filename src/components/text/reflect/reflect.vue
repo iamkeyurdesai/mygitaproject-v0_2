@@ -1,76 +1,74 @@
 <template>
-<div id="content">
+<div id="content" :style="{color:options[theme].textMain}">
 
-<v-flex xs12 class="head">
-  <v-layout align-content-space-between>
-<chapter-menu></chapter-menu>
-<v-spacer></v-spacer>
-<!-- <div class="strt"><span class="tst1">॥ ॐ श्री परमात्मने नमः ॥</span></div> -->
-॥ {{convert('oṃ śrī paramātmane namaḥ')}} ॥
-<v-spacer></v-spacer>
-<verse-menu></verse-menu>
-</v-layout>
-</v-flex>
-
-<v-flex xs12 class="samb">
-<v-layout align-content-space-between>
-&nbsp;
-<v-spacer></v-spacer>
-<sambandh-card></sambandh-card>
-<v-spacer></v-spacer>
-&nbsp;
-</v-layout>
-<v-divider dark></v-divider>
-</v-flex>
-
-
-<!-- <div class="samb">
-<sambandh-card></sambandh-card>
-<v-divider dark></v-divider>
-</div> -->
-
-
-
-<div class="vers"> <shloak-card></shloak-card> </div>
-
-<v-flex xs12 class="bhav">
-<v-layout align-content-space-between>
-<!-- <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="decrement()"> <v-icon>arrow_back_ios</v-icon></v-btn> -->
-<v-icon color="white" v-on:click.stop="decrement()">arrow_back_ios</v-icon>
-<v-spacer></v-spacer>
-<bhavarth-card></bhavarth-card>
-<v-spacer></v-spacer>
-<!-- <v-btn color="deep-orange darken-4" dark small fab v-on:click.stop="increment()"> <v-icon>arrow_forward_ios</v-icon></v-btn> -->
-<v-icon color="white" v-on:click.stop="increment()">arrow_forward_ios</v-icon>
-</v-layout>
-<v-divider dark></v-divider>
-</v-flex>
-
-
-<div class="tran elevation-5">
-<v-flex xs12>
-  <v-layout align-content-space-between>
-    <v-btn dark  flat small v-on:click.stop="decreaseColumn()"> <v-icon> remove </v-icon> </v-btn>
-    <v-spacer></v-spacer>
-  <div class="tranhead text-xs-center">
-        Breakdown
-      </div>
+  <!-- header containing chapter, verse and salutation -->
+  <v-flex xs12 class="head">
+    <v-layout align-content-space-between>
+      <chapter-menu></chapter-menu>
       <v-spacer></v-spacer>
-      <v-btn dark flat small v-on:click.stop="increaseColumn()"><v-icon> add  </v-icon> </v-btn>
+      <!-- ॥ {{convert('oṃ śrī paramātmane namaḥ')}} ॥ -->
+      {{GET_salutation}}
+      <v-spacer></v-spacer>
+      <verse-menu></verse-menu>
     </v-layout>
-    <v-divider dark></v-divider>
-    </v-flex>
-<div class="trantext" v-bind:style="styleObject">
-<anvaya-card></anvaya-card>
-</div>
-</div>
-<div class="nv1b">
-<!-- <v-btn color="teal darken-2" dark small fab v-on:click.stop="addTodo"> -->
-  <!-- <v-icon v-on:click.stop="pushRouter(mypath)"></v-icon> -->
-   <!-- <v-icon>👏</v-icon> -->
-</v-btn>
-</div>
+    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+  </v-flex>
 
+  <!-- sambandh component-->
+  <v-flex xs12 class="samb">
+    <v-layout align-content-space-between>
+      &nbsp;
+      <v-spacer></v-spacer>
+      <sambandh-card></sambandh-card>
+      <v-spacer></v-spacer>
+      &nbsp;
+    </v-layout>
+    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+  </v-flex>
+
+  <!-- verse component; fairly complex rendering and styling inside -->
+  <div class="vers">
+    <shloak-card></shloak-card>
+    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+  </div>
+
+  <!-- bhavarth (meaning) component -->
+  <v-flex xs12 class="bhav">
+    <v-layout align-content-space-between>
+      <v-icon color="white" v-on:click.stop="decrement()">arrow_back_ios</v-icon>
+      <v-spacer></v-spacer>
+      <bhavarth-card></bhavarth-card>
+      <v-spacer></v-spacer>
+      <v-icon color="white" v-on:click.stop="increment()">arrow_forward_ios</v-icon>
+    </v-layout>
+    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+  </v-flex>
+
+  <!-- anvaya (breakdown) component, farily complex rednering and styling inside -->
+  <div class="tran elevation-5">
+    <v-flex xs12>
+      <v-layout align-content-space-between>
+        <v-btn dark flat small v-on:click.stop="decreaseColumn()">
+          <v-icon> remove </v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <div class="tranhead text-xs-center">
+          Breakdown
+        </div>
+        <v-spacer></v-spacer>
+        <v-btn dark flat small v-on:click.stop="increaseColumn()">
+          <v-icon> add </v-icon>
+        </v-btn>
+      </v-layout>
+      <v-divider dark></v-divider>
+    </v-flex>
+    <div class="trantext" v-bind:style="styleObject">
+      <anvaya-card></anvaya-card>
+    </div>
+  </div>
+
+  <div class="nv1b">
+  </div>
 
 </div>
 </template>
@@ -78,19 +76,21 @@
 <script>
 import chaptermenu from './chapter-menu.vue'
 import versemenu from './verse-menu.vue'
-import shloakcard from './shloak-card.vue'
-import anvayacard from './anvaya-card.vue'
 import sambandhcard from './sambandh-card.vue'
+import shloakcard from './shloak-card.vue'
 import bhavarthcard from './bhavarth-card.vue'
-import {mapState} from 'vuex';
-import {mapActions} from 'vuex';
-import {mapGetters} from 'vuex';
-import {mapMutations} from 'vuex';
-import firebase from 'firebase';
-import Sanscript from 'Sanscript';
+import anvayacard from './anvaya-card.vue'
+
+
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
+
+
 
 export default {
-  data: function () {
+  data: function() {
     return {
       mypath: "/reflect/10/27",
       footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
@@ -102,30 +102,28 @@ export default {
 
       mytemp: 0,
       mychhandah: "Anushtubh",
-     verseitems: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
-      chapall: [1, 2, 3, 4, 5, 6, 7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
-      verseall:  [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78] ,
+      verseitems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      chapall: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      verseall: [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78],
       verseadd: [0, 47, 119, 162, 204, 233, 280, 310, 338, 372, 414, 469, 489, 524, 551, 571, 595, 623],
       styleObject: {
         // -webkit-column-count: 2; /* Chrome, Safari, Opera */
         // -moz-column-count: 2; /* Firefox */
         columnCount: 1
-  }
+      }
     }
   },
   computed: {
-        ...mapState('settings', ['options', 'theme', 'language']),
-        ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL']),
+    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL']),
+    ...mapGetters('coretext', ['GET_salutation']),
   },
   methods: {
-    ...mapMutations('parameters', ['increment','decrement']),
-    convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.language);
-        },
-    decreaseColumn: function(){
+    ...mapMutations('parameters', ['increment', 'decrement']),
+    decreaseColumn: function() {
       this.styleObject.columnCount -= 1
     },
-    increaseColumn: function(){
+    increaseColumn: function() {
       this.styleObject.columnCount += 1
     },
     pushRouter(path) {
@@ -133,15 +131,18 @@ export default {
       this.$router.push(path)
     },
     addTodo() {
-        var db = firebase.firestore();
-        db.collection("users").add({first: "Vaibhav", last: "Desai"})
+      var db = firebase.firestore();
+      db.collection("users").add({
+          first: "Vaibhav",
+          last: "Desai"
+        })
         .then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
-     })
-    .catch(function(error) {
-    console.error("Error adding document: ", error);
-});
-      }
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+    }
   },
   // watch: {
   //   '$route' (to, from) {
@@ -151,7 +152,7 @@ export default {
   //       this.$store.state.verse = parseInt(to.params.verse);
   //   }
   // },
-  beforeRouteEnter ( to, from, next ) {
+  beforeRouteEnter(to, from, next) {
     // console.log('Entering Bar')
 
     console.log(to.params)
@@ -164,7 +165,7 @@ export default {
       if (to.params.verse != null) vm.$store.state.verse = parseInt(to.params.verse);
     })
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // called when the route that renders this component has changed,
     // but this component is reused in the new route.
     // For example, for a route with dynamic params `/foo/:id`, when we
@@ -189,139 +190,121 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#content {
+    background: linear-gradient(132deg, #004e92, #004e92);
+    background-size: 400% 400%;
+    animation: BackgroundGradient 10s ease infinite;
 
-#content{
-  background: linear-gradient(132deg, #004e92, #004e92);
-  background-size: 400% 400%;
-  animation: BackgroundGradient 10s ease infinite;
+    background: "#5E35B1";
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, "deep-purple darken-1", #00c6ff);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #7E57C2, #5E35B1);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  background: "#5E35B1";  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, "deep-purple darken-1", #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #7E57C2, #5E35B1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-auto-rows: minmax(30px, auto);
-  grid-gap: 3px;
-  max-width: 960px;
-  margin: 0 auto;
-  grid-template-areas:
-  "head head head head head head head head head"
-  "samb samb samb samb samb samb samb samb samb"
-  "vers vers vers vers vers vers vers vers vers"
-  "vers vers vers vers vers vers vers vers vers"
-  "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
-  "nv1a tran tran tran tran tran tran tran nv1b"
-  "nv1a tran tran tran tran tran tran tran nv1b"
-  "nv1a tran tran tran tran tran tran tran nv1b"
-  "nv1a tran tran tran tran tran tran tran nv1b"
-  "foot foot foot foot foot foot foot foot foot"
-  "foot foot foot foot foot foot foot foot foot"
-  "foot foot foot foot foot foot foot foot foot"
-  "foot foot foot foot foot foot foot foot foot";
-}
-/* desktop grid */
-@media screen and (min-width: 760px){
-  #content{
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-auto-rows: minmax(30px, auto);
     grid-gap: 3px;
     max-width: 960px;
     margin: 0 auto;
-    grid-template-areas:
-    "head head head head head head head head head"
-    "samb samb samb samb samb samb samb samb samb"
-    "vers vers vers vers vers vers vers vers vers"
-    "vers vers vers vers vers vers vers vers vers"
-    "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
-    "nv1a tran tran tran tran tran tran tran nv1b"
-    "nv1a tran tran tran tran tran tran tran nv1b"
-    "nv1a tran tran tran tran tran tran tran nv1b"
-    "nv1a tran tran tran tran tran tran tran nv1b"
-    "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot";
-  }
+    grid-template-areas: "head head head head head head head head head" "samb samb samb samb samb samb samb samb samb" "vers vers vers vers vers vers vers vers vers" "vers vers vers vers vers vers vers vers vers" "bhav bhav bhav bhav bhav bhav bhav bhav bhav" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot";
 }
-#content > *{
-  /* background: black; */
-  /* padding: 30px; */
+/* desktop grid */
+@media screen and (min-width: 760px) {
+    #content {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        grid-auto-rows: minmax(30px, auto);
+        grid-gap: 3px;
+        max-width: 960px;
+        margin: 0 auto;
+        grid-template-areas: "head head head head head head head head head" "samb samb samb samb samb samb samb samb samb" "vers vers vers vers vers vers vers vers vers" "vers vers vers vers vers vers vers vers vers" "bhav bhav bhav bhav bhav bhav bhav bhav bhav" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot";
+    }
 }
-.head{
-  grid-area: head;
-  font-weight: 300;
-  color: white;
+#content > * {
+    /* background: black; */
+    /* padding: 30px; */
 }
-.nv1a{
-  grid-area: nv1a;
-  /* margin: 0; */
-  /* justify-self: center;
+.head {
+    grid-area: head;
+    font-weight: 300;
+    // color: red;
+}
+.nv1a {
+    grid-area: nv1a;
+    /* margin: 0; */
+    /* justify-self: center;
   align-self: center; */
 }
-.nv1b{
-  grid-area: nv1b;
-  /* margin: 0; */
-  /* justify-self: center;
+.nv1b {
+    grid-area: nv1b;
+    /* margin: 0; */
+    /* justify-self: center;
   align-self: center; */
 }
-.samb{
-  grid-area: samb;
-  /* justify-self: center; */
-  /* align-self: center; */
-  color: white;
-  font-weight: 300;
+.samb {
+    grid-area: samb;
+    /* justify-self: center; */
+    /* align-self: center; */
+    // color: white;
+    font-weight: 300;
 }
-.vers{
-  grid-area: vers;
-  justify-self: center;
-  align-self: start;
-  color: white;
-  font-weight: 300;
+.vers {
+    grid-area: vers;
+    justify-self: center;
+    align-self: start;
+    // color: white;
+    font-weight: 300;
 }
-.bhav{
-  grid-area: bhav;
-  /* justify-self: center;
+.bhav {
+    grid-area: bhav;
+    /* justify-self: center;
   align-self: start; */
-  color: white;
-  font-weight: 300;
+    // color: white;
+    font-weight: 300;
 }
-.tran{
-  grid-area: tran;
-  margin-top: 5px;
+.tran {
+    grid-area: tran;
+    margin-top: 5px;
 }
-.tranhead{
-  color: yellow;
+.tranhead {
+    // color: yellow;
 }
-.trantext{
-  column-rule: 1px solid grey;
-  column-width: auto;
-  font-weight: 300;
+.trantext {
+    column-rule: 1px solid grey;
+    column-width: auto;
+    font-weight: 300;
 }
 
 @font-face {
-  font-family: myfont;
-  src: url(../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
+    font-family: myfont;
+    src: url("../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf");
 }
 span {
-  padding-right: 5px;
-  font-size: 115%;
-  /* word-spacing: -0.05em; */
-  font-family: "myfont", 'Roboto Condensed';
+    padding-right: 5px;
+    font-size: 115%;
+    /* word-spacing: -0.05em; */
+    font-family: "myfont", 'Roboto Condensed';
 }
 .span-a {
-  font-size: 95%;
-  /* word-spacing: -0.05em; */
-  /* font-family: "myfont", 'Roboto Condensed'; */
+    font-size: 95%;
+    /* word-spacing: -0.05em; */
+    /* font-family: "myfont", 'Roboto Condensed'; */
 }
-.myvselect{
-  width: 55px;
-  color: rgb(115, 65, 74);
+.myvselect {
+    width: 55px;
+    color: rgb(115, 65, 74);
 }
 @keyframes BackgroundGradient {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
 }
 </style>

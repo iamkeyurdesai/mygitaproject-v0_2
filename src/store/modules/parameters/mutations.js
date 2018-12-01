@@ -18,15 +18,27 @@ if (state.verse != 1)
   state.verse = state.verseall[state.chapter-1]
 }
 };
-const setChapter = (state, input) => {
+const SET_chapter = (state, input) => {
   state.chapter = input
 };
-const setVerse = (state, input) => {
+const SET_verse = (state, input) => {
   state.verse = input
+};
+const SET_authenticated = (state, input) => {
+  state.authenticated = input
+};
+const SET_photoURL = (state, input) => {
+  state.photoURL = input
+};
+const SET_path = (state, input) => {
+  state.photoURL = input
 };
 export default {
   increment,
   decrement,
-  setChapter,
-  setVerse
+  SET_chapter,
+  SET_verse,
+  SET_authenticated,
+  SET_photoURL,
+  SET_path
 };

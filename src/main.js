@@ -1,19 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
 import Vue from 'vue'
-// import Vuetify from 'vuetify'
-// import VueTippy from 'vue-tippy'
 import App from './components/root/App'
 import router from './router'
 import {store} from './store/index.js'
-// import Meta from 'vue-meta'
-
-
-// import VueThreejs from '@/../package/lib/' // testing pack
-// import VueThreejs from '@/../lib/' // testing build
-import VueThreejs from 'vue-threejs'
-Vue.use(VueThreejs)
-// Vue.use(Meta)
+// import Vuetify from 'vuetify'
+// import VueTippy from 'vue-tippy'
 
 import {
   Vuetify,
@@ -77,38 +70,20 @@ Vue.use(Vuetify, {
   }
 })
 Vue.use(Vuetify)
-// Vue.use(VueTippy)
 Vue.config.productionTip = false
 
-// import firebase from 'firebase'
-// import firebaseui from 'firebaseui';
-// import {config} from './helpers/firebaseConfig'
-// import VueFire from 'vuefire'
-// Vue.use(VueFire)
+import firebase from 'firebase'
+import {config} from './helpers/firebaseConfig'
 
 /* eslint-disable no-new */
 var vm = new Vue({
-  router,
-  // created() {
-  //   firebase.initializeApp(config);
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if(user) {
-  //       this.$store.state.authenticated = true
-  //       // this.$router.push('/')
-  //       this.$store.state.photoURL = user.photoURL
-  //       console.log(user)
-  //     } else {
-  //       // this.$router.push('/')
-  //       this.$store.state.authenticated = false
-  //       this.$store.state.photoURL = 'not signed in'
-  //     }
-  //    });
-  // },
   el: '#app',
+  router,
   store,
-  created: function () {
-    this.$store.dispatch('settings/loadText')
-    this.$store.dispatch('coretext/loadText')
+  created() {
+     firebase.initializeApp(config)
+     this.$store.dispatch('settings/loadText')
+     this.$store.dispatch('coretext/loadText')
   },
   components: { App },
   template: '<App/>'

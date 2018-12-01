@@ -43,9 +43,11 @@ import {mapMutations} from 'vuex';
 import {mapState} from 'vuex';
 export default {
   data: () => ({
-    sheet: false
+    sheet: false,
+    tempcolor: 'green'
   }),
   computed: {
+    ...mapState('settings', ['options', 'theme']),
     ...mapState('parameters', ['chapter', 'verse']),
     ...mapState('coretext', ['summary']),
     mysummary(){

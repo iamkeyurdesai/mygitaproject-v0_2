@@ -60,6 +60,7 @@
 <script>
 import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../../settings/settings-popup.vue'
 export default {
@@ -72,11 +73,7 @@ export default {
     opentoolbar: true
   }),
   computed: {
-    ...mapGetters([
-      'chapter',
-      'verse',
-      'mymain'
-    ])
+    ...mapGetters('', [ 'chapter', 'verse', 'mymain' ])
   },
   methods: {
     convert(myinput){

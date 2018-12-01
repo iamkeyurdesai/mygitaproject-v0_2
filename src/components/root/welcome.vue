@@ -1,26 +1,16 @@
 <template>
-
-  <div class="text-xs-center openicon" @click="pushRouter(path)">
-ॐ
+  <div class="text-xs-center openicon" @click="$router.push(path)">
+    ॐ
   </div>
-
-
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       path: 'reflect/1/1'
     }
-  },
-methods: {
-  pushRouter(path) {
-    console.log(path)
-    this.$router.push(path)
   }
-}
 }
 </script>
 

@@ -1,35 +1,31 @@
-
 <template>
 <div>
-  <!-- <welcome></welcome> -->
+  <!-- log in successful -->
 </div>
 </template>
 
 <script>
-import welcome from '@/components/root/welcome'
 import firebase from 'firebase';
-import firebaseui from 'firebaseui'
+import { mapMutations } from 'vuex';
 import { mapState } from 'vuex';
 export default {
   computed: {
-    ...mapState('parameters', ['authenticated', 'photoURL']),
+    ...mapState('parameters', ['path'])
+  },
+  methods: {
+    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        authenticated = true
-        // this.$router.push('/')
-        photoURL = user.photoURL
+      if (user) {
+        this.SET_authenticated(true)
+        this.SET_photoURL(user.photoURL)
       } else {
-        // this.$router.push('/')
-        authenticated = false
-        photoURL = 'not signed in'
+        this.SET_authenticated(false)
+        this.SET_photoURL('not signed in')
       }
      });
-     this.$router.push('/')
- },
- components: {
-   'welcome': welcome
+     this.$router.push(this.path)
  }
 }
 </script>
