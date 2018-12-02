@@ -2,8 +2,8 @@
 <template>
 <div class="text-xs-center mydiv1">
     <div align="left">
-      <span v-for="i in myindex_extract()" v-bind:style="{color:footcolors[mymain.word_info[i-1].foot - 1]}" class="myspan1">
-{{convert(mymain.word_info[i-1].sanskrit)}} = <span class="myspan2">{{mymain.word_info[i-1].english}}</span><br></span>
+      <span v-for="i in myindex_extract()" v-bind:style="{color:options[theme].textAccent1[GET_main.word_info[i-1].foot - 1]}" class="myspan1">
+{{convert(GET_main.word_info[i-1].sanskrit)}} = <span class="myspan2">{{GET_main.word_info[i-1].english}}</span><br></span>
       </span>
     </div>
 </div>
@@ -11,68 +11,29 @@
 
 <script>
 import Sanscript from 'Sanscript';
-import {
-  mapActions
-} from 'vuex';
-import {
-  mapGetters
-} from 'vuex';
+import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   data: () => ({
-    counter: true,
-    footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
-    footbreaks: ["", "|", "", "||", "", "|"],
-    dosandhi: false,
-    mycolor: "grey",
-    opentoolbar: true,
   }),
   computed: {
-    mymain() {
-      let mytemp1 = this.$store.state.chapter
-      let mytemp2 = this.$store.state.verse
-      let mytemp = this.$store.state.main.filter(function(item) {
-        return (item.chapter_id == mytemp1 && item.verse_id == mytemp2);
-      });
-      return mytemp[0];
-    }
+    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapGetters('coretext', [ 'GET_main'])
+    // mymain() {
+    //   let mytemp1 = this.$store.state.chapter
+    //   let mytemp2 = this.$store.state.verse
+    //   let mytemp = this.$store.state.main.filter(function(item) {
+    //     return (item.chapter_id == mytemp1 && item.verse_id == mytemp2);
+    //   });
+    //   return mytemp[0];
+    // }
   },
   methods: {
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.$store.state.settingsCurrent.language);
+          return Sanscript.t(myinput, 'iast', this.language);
         },
-    setVerse(vid) {
-      this.$store.state.verse = vid;
-    },
     myindex_extract() {
-      return this.mymain.word_info.map(x => x.index)
-    },
-    range(start, end) {
-      var foo = [];
-      for (var i = start; i <= end; i++) {
-        foo.push(i);
-      }
-      return foo;
-    },
-    checkBreak(i, j) {
-      let myflag = false
-      let mytemp = this.mymain.word_info[i + 1]
-      if (!(mytemp === undefined)) {
-        if (j == 2) {
-          myflag = (this.mymain.word_info[i].foot < this.mymain.word_info[i + 1].foot) &&
-            (this.mymain.word_info[i].foot % 2 == 0)
-        } else {
-          myflag = (this.mymain.word_info[i].foot < this.mymain.word_info[i + 1].foot)
-        }
-      }
-      return myflag
-    },
-    sandhi: function() {
-      this.dosandhi = !this.dosandhi;
-      if (this.dosandhi) {
-        this.mycolor = "white";
-      } else {
-        this.mycolor = "grey";
-      }
+      return this.GET_main.word_info.map(x => x.index)
     }
   }
 }

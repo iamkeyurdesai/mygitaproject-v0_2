@@ -8,7 +8,10 @@
     "drawer": "purple darken-3",
     "textMain": "white",
     "textAccent1": ["aqua", "gold", "pink", "lawngreen"],
-    "textAccent2": "color"
+    "textAccent2": "yellow",
+    "iconDisabled": "grey",
+    "iconEnabled": "white",
+    "iconActive": "orange"
   },
   "kali": {
     "type": "dark",

@@ -62,7 +62,7 @@
       </v-layout>
       <v-divider dark></v-divider>
     </v-flex>
-    <div class="trantext" v-bind:style="styleObject">
+    <div class="trantext" v-bind:style="styleAnvaya">
       <anvaya-card></anvaya-card>
     </div>
   </div>
@@ -92,24 +92,7 @@ import { mapMutations } from 'vuex';
 export default {
   data: function() {
     return {
-      mypath: "/reflect/10/27",
-      footcolors: ["aqua", "gold", "pink", "lawngreen", "blue", "ivory", "yellow"],
-      fab: false,
-      sheet: false,
-      color1: "white",
-      counter: true,
-      mycolor: "grey",
-
-      mytemp: 0,
-      mychhandah: "Anushtubh",
-      verseitems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
-      chapall: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
-      verseall: [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78],
-      verseadd: [0, 47, 119, 162, 204, 233, 280, 310, 338, 372, 414, 469, 489, 524, 551, 571, 595, 623],
-      styleObject: {
-        // -webkit-column-count: 2; /* Chrome, Safari, Opera */
-        // -moz-column-count: 2; /* Firefox */
-        columnCount: 1
+      styleAnvaya: { columnCount: 2
       }
     }
   },
@@ -119,16 +102,12 @@ export default {
     ...mapGetters('coretext', ['GET_salutation']),
   },
   methods: {
-    ...mapMutations('parameters', ['increment', 'decrement']),
+    ...mapMutations('parameters', ['increment', 'decrement', 'setChapter', 'setVerse']),
     decreaseColumn: function() {
-      this.styleObject.columnCount -= 1
+      this.styleAnvaya.columnCount -= 1
     },
     increaseColumn: function() {
-      this.styleObject.columnCount += 1
-    },
-    pushRouter(path) {
-      console.log(path)
-      this.$router.push(path)
+      this.styleAnvaya.columnCount += 1
     },
     addTodo() {
       var db = firebase.firestore();
@@ -144,26 +123,17 @@ export default {
         });
     }
   },
-  // watch: {
-  //   '$route' (to, from) {
-  //     // react to route changes...
-  //       console.log('after', this.$route.path);
-  //       this.$store.state.chapter = parseInt(to.params.chapter);
-  //       this.$store.state.verse = parseInt(to.params.verse);
-  //   }
-  // },
   beforeRouteEnter(to, from, next) {
-    // console.log('Entering Bar')
-
-    console.log(to.params)
     // Pass a callback to next (optional)
     next(vm => {
       // this callback has access to component instance (ie: 'this') via `vm`
       // vm.testFunc('Some Message', true)
       // console.log("Fully Entered Bar")
-      if (to.params.chapter != null) vm.$store.state.chapter = parseInt(to.params.chapter);
-      if (to.params.verse != null) vm.$store.state.verse = parseInt(to.params.verse);
+      if (to.params.chapter != null) vm.$store.state.parameters.chapter = parseInt(to.params.chapter);
+      if (to.params.verse != null) vm.$store.state.parameters.verse = parseInt(to.params.verse);
+
     })
+
   },
   beforeRouteUpdate(to, from, next) {
     // called when the route that renders this component has changed,
@@ -173,9 +143,10 @@ export default {
     // will be reused, and this hook will be called when that happens.
     // has access to `this` component instance.
     // console.log(this.footcolors)
-    console.log(to.params)
-    if (to.params.chapter != null) this.$store.state.chapter = parseInt(to.params.chapter);
-    if (to.params.verse != null) this.$store.state.verse = parseInt(to.params.verse);
+    // if (to.params.chapter != null) this.setChapter(parseInt(to.params.chapter));
+    // if (to.params.verse != null) this.setVerse(parseInt(to.params.verse));
+    if (to.params.chapter != null) this.$store.state.parameters.chapter = parseInt(to.params.chapter);
+    if (to.params.verse != null) this.$store.state.parameters.verse = parseInt(to.params.verse);
     next()
   },
   components: {

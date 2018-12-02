@@ -31,7 +31,11 @@ const SET_photoURL = (state, input) => {
   state.photoURL = input
 };
 const SET_path = (state, input) => {
-  state.photoURL = input
+  state.path = input
+};
+const SET_breakSandhi = (state, input) => {
+  state.breakSandhi = input
+  console.log('here')
 };
 export default {
   increment,
@@ -40,5 +44,6 @@ export default {
   SET_verse,
   SET_authenticated,
   SET_photoURL,
-  SET_path
+  SET_path,
+  SET_breakSandhi
 };
