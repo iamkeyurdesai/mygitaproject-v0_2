@@ -26,7 +26,6 @@ import { mapMutations } from 'vuex'
 export default {
 data () {
   return {
-    photo: '',
     myLoginMenu: [
      { title: 'History' },
      { title: 'Account' },
@@ -37,23 +36,21 @@ data () {
 computed: {
   ...mapState('parameters', ['authenticated', 'photoURL']),
 },
-  created() {
-    // var vm = this
-    firebase.auth().onAuthStateChanged(function(user) {
+methods: {
+  ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL']),
+  logOut() {
+    firebase.auth().signOut();
+    this.SET_authenticated(false);
+    this.SET_photoURL('not signed in');
+  }
+},
+  mounted() {
+  firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // vm.user = user;
-        // vm.photo = vm.user.photoURL;
-        this.setValue({key: 'photoURL', value: user.photoURL})
+        this.SET_photoURL(user.photoURL);
      }
    });
- },
- methods: {
-   ...mapMutations('parameters', ['setValue']),
-   logOut() {
-     firebase.auth().signOut();
-     this.setValue({key: 'authenticated', value: false})
-   }
-}
+ }
 }
 </script>
 

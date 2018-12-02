@@ -82,7 +82,7 @@ var vm = new Vue({
   store,
   created() {
      firebase.initializeApp(config)
-     this.$store.dispatch('settings/loadText')
+     // this.$store.dispatch('settings/loadText')
      this.$store.dispatch('coretext/loadText')
   },
   components: { App },

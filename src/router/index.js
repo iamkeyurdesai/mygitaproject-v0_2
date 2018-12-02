@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import reflect from '@/components/text/reflect/reflect'
 import welcome from '@/components/root/welcome'
-import success from '@/components/root/success'
 import Editor from '@/components/Editor'
 
 Vue.use(Router)
@@ -14,11 +13,6 @@ export default new Router({
       path: '/',
       name: 'welcome',
       component: welcome
-    },
-    {
-      path: '/success',
-      name: 'success',
-      component: success
     },
     {
       path: '/reflect/:chapter/:verse',

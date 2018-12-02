@@ -1,25 +1,6 @@
 <template>
   <div class="text-xs-center mydiv1">
     <v-flex xs12>
-
-      <!-- <v-layout justify-space-between v-if="opentoolbar">
-        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
-        <span v-bind:style="{ color: footcolors[6]}">: {{convert(mymain.speaker)}} :</span>
-        <v-icon v-if="opentoolbar" v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">add</v-icon>
-      </v-layout>
-        <v-layout justify-space-between v-else>
-        <v-icon  v-on:click.stop="opentoolbar=!opentoolbar" class="openicon">clear</v-icon>
-       <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="forum">mdi-forum</v-icon>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="language">language</v-icon>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="settings">settings</v-icon>
-        <span v-bind:style="{ color: footcolors[6]}">&emsp;: {{convert(mymain.speaker)}} :&emsp;</span>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="audio">volume_off</v-icon>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="images">image</v-icon>
-        <v-icon v-bind:style="{color: mycolor1}" v-on:click.stop="sandhi">mdi-format-color-text</v-icon>
-        <v-icon v-bind:style="{color: mycolor}" v-on:click.stop="sandhi">build</v-icon>
-        <!-- <span v-bind:style="{color: 'transparent', textShadow: '0 0 0 ' + mycolor}" v-on:click.stop="sandhi">&#128296</span> -->
-      <!-- </v-layout> -->
-
 <v-layout justify-space-between>
   <settings-popup></settings-popup>
   <v-icon v-bind:style="{color:forum_color}" v-on:click.stop="forum">mdi-forum</v-icon>

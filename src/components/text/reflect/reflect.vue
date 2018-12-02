@@ -1,6 +1,6 @@
 <template>
-<div id="content" :style="{color:options[theme].textMain}">
-
+<!-- <div id="content" :style="{color:options[theme].textMain}"> -->
+<div id="content" :style="[{color:options[theme].textMain}, divStyle]">
   <!-- header containing chapter, verse and salutation -->
   <v-flex xs12 class="head">
     <v-layout align-content-space-between>
@@ -81,13 +81,10 @@ import shloakcard from './shloak-card.vue'
 import bhavarthcard from './bhavarth-card.vue'
 import anvayacard from './anvaya-card.vue'
 
-
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
 import { mapMutations } from 'vuex';
-
-
 
 export default {
   data: function() {
@@ -100,6 +97,10 @@ export default {
     ...mapState('settings', ['options', 'theme', 'language']),
     ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL']),
     ...mapGetters('coretext', ['GET_salutation']),
+    divStyle() {
+     return {background:'linear-gradient(to left top,'+ this.options[this.theme].background[0] +
+     ',' + this.options[this.theme].background[1]+')'}
+    }
   },
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'setChapter', 'setVerse']),
@@ -128,7 +129,6 @@ export default {
     next(vm => {
       // this callback has access to component instance (ie: 'this') via `vm`
       // vm.testFunc('Some Message', true)
-      // console.log("Fully Entered Bar")
       if (to.params.chapter != null) vm.$store.state.parameters.chapter = parseInt(to.params.chapter);
       if (to.params.verse != null) vm.$store.state.parameters.verse = parseInt(to.params.verse);
 
@@ -162,15 +162,9 @@ export default {
 
 <style lang="scss" scoped>
 #content {
-    background: linear-gradient(132deg, #004e92, #004e92);
     background-size: 400% 400%;
     animation: BackgroundGradient 10s ease infinite;
-
-    background: "#5E35B1";
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, "deep-purple darken-1", #00c6ff);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #7E57C2, #5E35B1);
+    // background: linear-gradient(to left top, #7E57C2, #5E35B1);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     display: grid;
@@ -179,7 +173,20 @@ export default {
     grid-gap: 3px;
     max-width: 960px;
     margin: 0 auto;
-    grid-template-areas: "head head head head head head head head head" "samb samb samb samb samb samb samb samb samb" "vers vers vers vers vers vers vers vers vers" "vers vers vers vers vers vers vers vers vers" "bhav bhav bhav bhav bhav bhav bhav bhav bhav" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot";
+    grid-template-areas:
+    "head head head head head head head head head"
+    "samb samb samb samb samb samb samb samb samb"
+    "vers vers vers vers vers vers vers vers vers"
+    "vers vers vers vers vers vers vers vers vers"
+    "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "nv1a tran tran tran tran tran tran tran nv1b"
+    "foot foot foot foot foot foot foot foot foot"
+    "foot foot foot foot foot foot foot foot foot"
+    "foot foot foot foot foot foot foot foot foot"
+    "foot foot foot foot foot foot foot foot foot";
 }
 /* desktop grid */
 @media screen and (min-width: 760px) {
@@ -190,29 +197,37 @@ export default {
         grid-gap: 3px;
         max-width: 960px;
         margin: 0 auto;
-        grid-template-areas: "head head head head head head head head head" "samb samb samb samb samb samb samb samb samb" "vers vers vers vers vers vers vers vers vers" "vers vers vers vers vers vers vers vers vers" "bhav bhav bhav bhav bhav bhav bhav bhav bhav" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "nv1a tran tran tran tran tran tran tran nv1b" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot" "foot foot foot foot foot foot foot foot foot";
+        grid-template-areas:
+        "head head head head head head head head head"
+        "samb samb samb samb samb samb samb samb samb"
+        "vers vers vers vers vers vers vers vers vers"
+        "vers vers vers vers vers vers vers vers vers"
+        "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
+        "nv1a tran tran tran tran tran tran tran nv1b"
+        "nv1a tran tran tran tran tran tran tran nv1b"
+        "nv1a tran tran tran tran tran tran tran nv1b"
+        "nv1a tran tran tran tran tran tran tran nv1b"
+        "foot foot foot foot foot foot foot foot foot"
+        "foot foot foot foot foot foot foot foot foot"
+        "foot foot foot foot foot foot foot foot foot"
+        "foot foot foot foot foot foot foot foot foot";
     }
-}
-#content > * {
-    /* background: black; */
-    /* padding: 30px; */
 }
 .head {
     grid-area: head;
     font-weight: 300;
-    // color: red;
 }
 .nv1a {
     grid-area: nv1a;
     /* margin: 0; */
     /* justify-self: center;
-  align-self: center; */
+       align-self: center; */
 }
 .nv1b {
     grid-area: nv1b;
     /* margin: 0; */
     /* justify-self: center;
-  align-self: center; */
+       align-self: center; */
 }
 .samb {
     grid-area: samb;
@@ -231,7 +246,7 @@ export default {
 .bhav {
     grid-area: bhav;
     /* justify-self: center;
-  align-self: start; */
+     align-self: start; */
     // color: white;
     font-weight: 300;
 }
@@ -252,21 +267,12 @@ export default {
     font-family: myfont;
     src: url("../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf");
 }
-span {
-    padding-right: 5px;
-    font-size: 115%;
-    /* word-spacing: -0.05em; */
-    font-family: "myfont", 'Roboto Condensed';
-}
-.span-a {
-    font-size: 95%;
-    /* word-spacing: -0.05em; */
-    /* font-family: "myfont", 'Roboto Condensed'; */
-}
-.myvselect {
-    width: 55px;
-    color: rgb(115, 65, 74);
-}
+// span {
+//     padding-right: 5px;
+//     font-size: 115%;
+//     /* word-spacing: -0.05em; */
+//     font-family: "myfont", 'Roboto Condensed';
+// }
 @keyframes BackgroundGradient {
     0% {
         background-position: 0 50%;

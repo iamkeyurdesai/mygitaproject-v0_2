@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const loadText = function ({ commit }) {
   const ax = axios.create({
   baseURL: 'https://gitawebapp.firebaseapp.com/static/'

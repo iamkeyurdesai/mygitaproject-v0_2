@@ -18,15 +18,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options', 'theme', 'language']),
-    ...mapGetters('coretext', [ 'GET_main'])
-    // mymain() {
-    //   let mytemp1 = this.$store.state.chapter
-    //   let mytemp2 = this.$store.state.verse
-    //   let mytemp = this.$store.state.main.filter(function(item) {
-    //     return (item.chapter_id == mytemp1 && item.verse_id == mytemp2);
-    //   });
-    //   return mytemp[0];
-    // }
+    ...mapGetters('coretext', [ 'GET_main'])    
   },
   methods: {
     convert(myinput){

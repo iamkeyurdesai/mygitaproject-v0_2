@@ -7,8 +7,7 @@
     scrollable
     transition="dialog-bottom-transition"
     >
-
-    <span slot="activator"><v-icon>settings</v-icon></span>
+  <span slot="activator"><v-icon v-bind:style="{color:settings_color}">settings</v-icon></span>
 
 
     <v-card tile>
@@ -19,7 +18,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-container fluid>
+      <!-- <v-container fluid>
         <span>My Theme: </span>
           <v-radio-group v-model="theme" row>
             <v-radio v-for="(item, i) in settingsOptions.theme" v-bind:label="settingsOptions.theme[i]" v-bind:value="settingsOptions.theme[i]" :key="{i}"></v-radio>
@@ -34,7 +33,7 @@
             <hr>
             <v-switch label="Audio" v-model="audio"></v-switch>
             {{audio}}
-        </v-container>
+        </v-container> -->
 
 
       <!-- <div v-for="(item, i) in mysummary" :key="i">
@@ -51,12 +50,12 @@
       </div> -->
 
 
-      <v-container grid-list-sm>
+      <!-- <v-container grid-list-sm>
       <v-card color="purple darken-2" class="white--text elevation-10">
         <div class="subheading"> {{settingsCurrent.theme}}</div>
 
       </v-card>
-    </v-container>
+    </v-container> -->
 
   </v-card>
 
@@ -67,22 +66,25 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import {mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 
 
 export default {
   data: () => ({
     sheet: false,
+    settings_color: 'white',
     theme: "lakshmi",
     language: "gujarati",
     audio: true
   }),
+  mounted() {
+    //do something after mounting vue instance
+    this.settings_color = this.options[this.theme].iconEnabled;
+  },
   computed: {
-    ...mapGetters([
-          'settingsOptions',
-          'settingsCurrent',
-        ])
-      },
+    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi']),
+  },
   watch: {
           theme: function(x) {this.$store.state.settingsCurrent.theme = this.theme;},
           langue: function(x) {this.$store.state.settingsCurrent.language = this.language;}

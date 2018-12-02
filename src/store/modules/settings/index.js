@@ -1,10 +1,11 @@
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
+import { options } from '../../../helpers/settingsOptions'
 
 const state = {
-  options: { },
-  theme: 'lakshmi',
+  options: options,
+  theme: 'kali',
   language: 'devanagari'
 };
 
