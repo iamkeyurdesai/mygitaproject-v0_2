@@ -35,7 +35,9 @@ const SET_path = (state, input) => {
 };
 const SET_breakSandhi = (state, input) => {
   state.breakSandhi = input
-  console.log('here')
+};
+const SET_audio = (state, input) => {
+  state.audio = input  
 };
 export default {
   increment,
@@ -45,5 +47,6 @@ export default {
   SET_authenticated,
   SET_photoURL,
   SET_path,
-  SET_breakSandhi
+  SET_breakSandhi,
+  SET_audio
 };

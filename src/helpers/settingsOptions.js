@@ -8,7 +8,7 @@ export const options = {
     type: 'dark',
     background: [ '#7E57C2', '#5E35B1' ],
     toolbar: 'deep-purple darken-4',
-    toolbarAccent1: 'deep-purple darken-1',
+    toolbarAccent1: 'purple darken-1',
     drawer: 'purple darken-3',
     textMain: 'white',
     textAccent1: [ 'aqua', 'gold', 'pink', 'lawngreen' ],
@@ -31,17 +31,17 @@ export const options = {
     iconActive: 'orange'
   },
   saraswati: {
-    type: 'dark',
-    background: [ '#7E57C2', '#5E35B1' ],
-    toolbar: 'deep-purple darken-4',
-    toolbarAccent1: 'deep-purple darken-1',
-    drawer: 'purple darken-3',
-    textMain: 'white',
-    textAccent1: [ 'aqua', 'gold', 'pink', 'lawngreen' ],
-    textAccent2: 'yellow',
+    type: 'light',
+    background: [ '#FFFFFF', '#F7F7F7' ],
+    toolbar: 'blue lighten-3',
+    toolbarAccent1: 'blue lighten-1',
+    drawer: 'indigo lighten-4',
+    textMain: 'black',
+    textAccent1: [ 'brown', 'darkgreen', 'indigo', 'teal' ],
+    textAccent2: 'blue',
     iconDisabled: 'grey',
-    iconEnabled: 'white',
-    iconActive: 'orange'
+    iconEnabled: 'black',
+    iconActive: 'green'
   },
   language: [
     'bengali',

@@ -9,7 +9,8 @@ const state = {
   authenticated: false,
   photoURL: 'not singed in',
   path: '/reflect/1/1',
-  breakSandhi: false
+  breakSandhi: false,
+  audio: true
 };
 
 export default {
