@@ -1,6 +1,9 @@
 <template>
 <!-- <div id="content" :style="{color:options[theme].textMain}"> -->
-<div id="content" :style="[{color:options[theme].textMain}, divStyle]">
+<div id="content" :style="[{color:options[theme].textMain}, divStyle]" v-touch="{
+      left: () => increment(),
+      right: () => decrement()
+    }">
   <!-- header containing chapter, verse and salutation -->
   <v-flex xs12 class="head">
     <v-layout align-content-space-between>

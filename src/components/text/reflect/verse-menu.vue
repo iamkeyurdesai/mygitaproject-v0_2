@@ -10,25 +10,26 @@
 
     <span slot="activator">V-{{verse}} </span>
 
-    <v-card tile>
 
+    <v-card tile>
       <v-toolbar card dark color="primary">
         <v-btn icon dark @click.native="sheet = false">
           <v-icon>close</v-icon>
         </v-btn>
       </v-toolbar>
-<div v-for="(item, i) in summary" :key="i">
+<div v-for="(item, i) in mysummary" :key="i">
       <v-container grid-list-sm>
       <v-card color="purple darken-2" class="white--text elevation-10">
         <div class="subheading"> {{item.summary}}</div>
 
           <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
-        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse(vid)" v-if="vid==verse">{{vid}}</v-btn>
-        <v-btn class="caption tst2" fab small @click.native.stop="setVerse(vid)" v-else>{{vid}}</v-btn>
+        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse_local(vid)" v-if="vid==verse">{{vid}}</v-btn>
+        <v-btn class="caption tst2" fab small @click.native.stop="setVerse_local(vid)" v-else>{{vid}}</v-btn>
       </span>
       </v-card>
     </v-container>
 </div>
+
   </v-card>
 
 </v-dialog>
@@ -51,15 +52,16 @@ export default {
     ...mapState('parameters', ['chapter', 'verse']),
     ...mapState('coretext', ['summary']),
     mysummary(){
+      // console.log(this.summary);
       return this.summary.filter(function(item) {
-        return item.chapter_id == this.chapter;
-      });
+        return item.chapter_id == this;
+      }, this.chapter);
     }
   },
   methods: {
-    ...mapMutations('parameters', ['setVerse']),
+    ...mapMutations('parameters', ['SET_verse']),
     setVerse_local(vid){
-      this.setVerse(vid);
+      this.SET_verse(vid);
     },
     range(start, end) {
     var foo = [];

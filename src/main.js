@@ -34,6 +34,8 @@ import {
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
+// import * as directives from 'vuetify/es5/directives'
+import Touch from 'vuetify/es5/directives/touch'
 
 Vue.use(Vuetify, {
   components: {
@@ -67,6 +69,9 @@ Vue.use(Vuetify, {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107'
+  },
+  directives: {
+    Touch
   }
 })
 Vue.use(Vuetify)

@@ -58,9 +58,9 @@
       ...mapState('coretext', ['preview']),
     },
     methods: {
-      ...mapMutations('parameters', ['setChapter']),
+      ...mapMutations('parameters', ['SET_chapter']),
       setChapter_local(){
-        this.setChapter(this.preview[this.index].chapter_id);
+        this.SET_chapter(this.preview[this.index].chapter_id);
       }
   }
 }

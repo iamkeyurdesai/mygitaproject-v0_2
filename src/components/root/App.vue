@@ -58,33 +58,38 @@
   </v-toolbar>
 
 
-  <v-content>
-    <router-view></router-view>    
+  <v-content v-touch="{
+        up: () => setNav(false),
+        down: () => setNav(true)
+      }">
+    <router-view></router-view>
   </v-content>
 
-  <!-- dynamic bottom navigation
-  <v-bottom-nav :value="true" :active.sync="e2" :color="color" shift>
-    <v-btn dark>
+  <!-- dynamic bottom navigation -->
+  <!-- <v-bottom-nav :value="true" :active.sync="e2" :color="color" shift app> -->
+    <v-bottom-nav :value="showNav" :active.sync="e2" app shift height="48">
+        <!-- <v-bottom-nav :value="showNav" :active.sync="e2" app shift height="48"> -->
+    <v-btn>
       <span>Read</span>
       <v-icon>mdi-book-open-page-variant</v-icon>
     </v-btn>
-    <v-btn dark>
+    <v-btn >
       <span>Recite</span>
       <v-icon>mdi-speaker-wireless</v-icon>
     </v-btn>
-    <v-btn dark>
+    <v-btn >
       <span>Reflect</span>
       <v-icon>mdi-thought-bubble</v-icon>
     </v-btn>
-    <v-btn dark>
+    <v-btn >
       <span>Media</span>
       <v-icon>mdi-youtube-tv</v-icon>
     </v-btn>
-    <v-btn dark>
+    <!-- <v-btn >
       <span>Meditation</span>
       <v-icon>mdi-yin-yang</v-icon>
-    </v-btn>
-  </v-bottom-nav> -->
+    </v-btn> -->
+  </v-bottom-nav>
 
 </v-app>
 </template>
@@ -103,7 +108,8 @@ export default {
       clipped: true, // keep the drawer below the toolbar
       dialog: false, // open authentication dialog
       items: items,
-      e2: 1
+      e2: 1,
+      showNav: true
     }
   },
   name: 'App',
@@ -130,6 +136,9 @@ export default {
     }
   },
   methods: {
+    setNav(myval){
+      this.showNav = myval
+    },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL']),
     pushRouter(path) {
       switch (path) {

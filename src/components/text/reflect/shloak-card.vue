@@ -9,7 +9,7 @@
   <v-icon v-bind:style="{color:build_color}" v-on:click.stop="sandhi">build</v-icon>
 </v-layout>
 
-<div class="elevation-5 mydiv2">
+<div class="elevation-1 mydiv2">
       <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
         {{convert(item.foot)}} {{footbreaks[i]}}
       </div>
