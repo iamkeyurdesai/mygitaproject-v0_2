@@ -10,18 +10,18 @@
     <v-flex xs12>
       <v-card>
         <v-list :class="options[theme].drawer">
-          <v-list-group v-model="item.active" v-for="item in items" :key="item.title" :prepend-icon="item.action" no-action>
+          <v-list-group v-model="menu.mainActive[i]" v-for="(xx, i) in menu.mainItems" :key="xx" :prepend-icon="menu.mainIcons[i]" no-action>
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-title>{{ xx }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="subItem in item.items" :key="subItem.title" @click="pushRouter(subItem.title)">
+            <v-list-tile v-for="(yy, j) in menu[xx].subItems" :key="yy" @click="SET_subItem(yy); SET_mainItem(xx); SET_navItem(menu[mainItem].navItems[subItem][0])">
               <v-list-tile-content>
-                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+                <v-list-tile-title>{{ yy}}</v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-icon>{{ subItem.action }}</v-icon>
+                <v-icon>{{ menu[xx].subIcons[j] }}</v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -66,29 +66,11 @@
   </v-content>
 
   <!-- dynamic bottom navigation -->
-  <!-- <v-bottom-nav :value="true" :active.sync="e2" :color="color" shift app> -->
-    <v-bottom-nav :value="showNav" :active.sync="e2" app shift height="48">
-        <!-- <v-bottom-nav :value="showNav" :active.sync="e2" app shift height="48"> -->
-    <v-btn>
-      <span>Read</span>
-      <v-icon>mdi-book-open-page-variant</v-icon>
-    </v-btn>
-    <v-btn >
-      <span>Recite</span>
-      <v-icon>mdi-speaker-wireless</v-icon>
-    </v-btn>
-    <v-btn >
-      <span>Reflect</span>
-      <v-icon>mdi-thought-bubble</v-icon>
-    </v-btn>
-    <v-btn >
-      <span>Media</span>
-      <v-icon>mdi-youtube-tv</v-icon>
-    </v-btn>
-    <!-- <v-btn >
-      <span>Meditation</span>
-      <v-icon>mdi-yin-yang</v-icon>
-    </v-btn> -->
+    <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48">
+<v-btn v-for="(zz, k) in menu[mainItem].navItems[subItem]" :key="zz" :value='zz'>
+  <span>{{zz}}</span>
+  <v-icon>{{menu[mainItem].navIcons[subItem][k]}}</v-icon>
+</v-btn>
   </v-bottom-nav>
 
 </v-app>
@@ -97,7 +79,6 @@
 <script>
 import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
-import { items } from '../../helpers/menuItems'
 import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
 
@@ -107,8 +88,6 @@ export default {
       drawer: false,  // open the navigation drawer
       clipped: true, // keep the drawer below the toolbar
       dialog: false, // open authentication dialog
-      items: items,
-      e2: 1,
       showNav: true
     }
   },
@@ -119,36 +98,14 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options', 'theme']),
-    ...mapState('parameters', ['authenticated', 'photoURL']),
-    color() {
-      switch (this.e2) {
-        case 0:
-          return 'deep-purple darken-1'
-        case 1:
-          return 'deep-purple darken-2'
-        case 2:
-          return 'deep-purple darken-3'
-        case 3:
-          return 'deep-purple darken-4'
-        case 4:
-          return 'deep-purple darken-5'
-      }
-    }
+    ...mapState('parameters', ['authenticated', 'photoURL', 'menu', 'mainItem', 'subItem', 'chapter', 'verse']),
+    navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}}
   },
   methods: {
     setNav(myval){
       this.showNav = myval
     },
-    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL']),
-    pushRouter(path) {
-      switch (path) {
-        case 'reflect':
-          this.$router.push('/' + path + '/1' + '/1')
-          break;
-        default:
-          this.$router.push("/" + path)
-      }
-    }
+    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem', 'SET_subItem', 'SET_navItem'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -160,6 +117,20 @@ export default {
         this.SET_photoURL('not signed in')
       }
     });
+  },
+  watch: {
+    subItem: function(val) {
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+    },
+    navItem: function(val) {
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+    },
+    chapter: function(val) {
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+    },
+    verse: function(val) {
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+    }
   }
 }
 </script>

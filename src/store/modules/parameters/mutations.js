@@ -37,8 +37,18 @@ const SET_breakSandhi = (state, input) => {
   state.breakSandhi = input
 };
 const SET_audio = (state, input) => {
-  state.audio = input  
+  state.audio = input
 };
+const SET_mainItem = (state, input) => {
+  state.mainItem = input
+};
+const SET_subItem = (state, input) => {
+  state.subItem = input
+};
+const SET_navItem = (state, input) => {
+  state.navItem = input
+};
+
 export default {
   increment,
   decrement,
@@ -48,5 +58,8 @@ export default {
   SET_photoURL,
   SET_path,
   SET_breakSandhi,
-  SET_audio
+  SET_audio,
+  SET_mainItem,
+  SET_subItem,
+  SET_navItem
 };

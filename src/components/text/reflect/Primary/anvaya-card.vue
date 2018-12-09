@@ -18,7 +18,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options', 'theme', 'language']),
-    ...mapGetters('coretext', [ 'GET_main'])    
+    ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {
     convert(myinput){
@@ -76,7 +76,7 @@ export default {
 
 @font-face {
   font-family: myfont;
-  src: url(../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
+  src: url(../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
 }
 
 .myspan1 {
