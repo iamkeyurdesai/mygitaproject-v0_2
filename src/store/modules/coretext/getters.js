@@ -7,7 +7,7 @@ const GET_main = (state, getters, rootState) => {
 };
 
 const GET_salutation = (state, getters, rootState) => {
-  return Sanscript.t(state.salutation, 'iast', rootState.settings.language);
+  return Sanscript.t(state.salutation, 'iast', rootState.parameters.language);
 };
 
 export default {

@@ -1,7 +1,6 @@
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { menu } from '../../../helpers/menuItems'
 
 const state = {
   chapter: 11,
@@ -12,10 +11,11 @@ const state = {
   path: '/reflect/1/1',
   breakSandhi: false,
   audio: true,
-  menu: menu,
   mainItem: 'Text',
   subItem: 'read',
-  navItem: 'Story'
+  navItem: 'Story',
+  theme: 'kali',
+  language: 'devanagari'
 };
 
 export default {

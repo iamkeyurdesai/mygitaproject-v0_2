@@ -97,8 +97,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('settings', ['options', 'theme', 'language']),
-    ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL']),
+    ...mapState('settings', ['options']),
+    ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
     ...mapGetters('coretext', ['GET_salutation']),
     divStyle() {
      return {background:'linear-gradient(to left top,'+ this.options[this.theme].background[0] +
@@ -106,7 +106,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['increment', 'decrement', 'setChapter', 'setVerse']),
+    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
     decreaseColumn: function() {
       this.styleAnvaya.columnCount -= 1
     },
@@ -134,8 +134,22 @@ export default {
       // vm.testFunc('Some Message', true)
       vm.$store.state.parameters.navItem = "primary";
       vm.$store.state.parameters.subItem = "reflect";
-      if (to.params.chapter != null) vm.$store.state.parameters.chapter = parseInt(to.params.chapter);
-      if (to.params.verse != null) vm.$store.state.parameters.verse = parseInt(to.params.verse);
+      // if (to.params.chapter != null) vm.$store.state.parameters.chapter = parseInt(to.params.chapter);
+      // if (to.params.verse != null) vm.$store.state.parameters.verse = parseInt(to.params.verse);
+      if (to.params.query != null) {
+        if(to.params.query.includes("api=1")) {
+          let myquery = to.params.query.split("&");
+          let i;
+          for (i = 1; i < myquery.length; i++) {
+          let temp = myquery[i].split("=")
+          vm.$store.commit('parameters/SET_value', {list: temp[1], id: temp[0]})
+          }
+        } else {
+          console.log("api=1 not found")
+        }
+
+      }
+      console.log(to.params.query)
       console.log(vm.$store.state.parameters)
     })
 

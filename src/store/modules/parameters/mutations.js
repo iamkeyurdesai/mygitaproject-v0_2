@@ -48,7 +48,19 @@ const SET_subItem = (state, input) => {
 const SET_navItem = (state, input) => {
   state.navItem = input
 };
-
+const SET_theme = (state, input) => {
+  state.theme = input
+};
+const SET_language = (state, input) => {
+  state.language = input
+};
+const SET_value = (state, { list, id }) => {
+if(id=='chapter' || id=='verse') {
+  state[id] = parseInt(list);    
+} else {
+state[id] = list;
+}
+}
 export default {
   increment,
   decrement,
@@ -61,5 +73,8 @@ export default {
   SET_audio,
   SET_mainItem,
   SET_subItem,
-  SET_navItem
+  SET_navItem,
+  SET_theme,
+  SET_language,
+  SET_value
 };

@@ -17,7 +17,8 @@ export default {
   data: () => ({
   }),
   computed: {
-    ...mapState('settings', ['options', 'theme', 'language']),
+    ...mapState('settings', ['options']),
+    ...mapState('parameters', ['theme', 'language']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {

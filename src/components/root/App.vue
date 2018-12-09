@@ -97,8 +97,8 @@ export default {
     'user-profile': userProfile
   },
   computed: {
-    ...mapState('settings', ['options', 'theme']),
-    ...mapState('parameters', ['authenticated', 'photoURL', 'menu', 'mainItem', 'subItem', 'chapter', 'verse']),
+    ...mapState('settings', ['options', 'menu']),
+    ...mapState('parameters', ['authenticated', 'photoURL',  'mainItem', 'subItem', 'chapter', 'verse', 'theme', 'language']),
     navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}}
   },
   methods: {
@@ -120,16 +120,20 @@ export default {
   },
   watch: {
     subItem: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
+      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
     },
     navItem: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
+      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
     },
     chapter: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
+      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
     },
     verse: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + this.chapter + '/' + this.verse)
+      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
+      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
     }
   }
 }

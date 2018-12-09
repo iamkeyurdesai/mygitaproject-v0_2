@@ -48,8 +48,8 @@ export default {
     tempcolor: 'green'
   }),
   computed: {
-    ...mapState('settings', ['options', 'theme']),
-    ...mapState('parameters', ['chapter', 'verse']),
+    ...mapState('settings', ['options']),
+    ...mapState('parameters', ['chapter', 'verse', 'theme']),
     ...mapState('coretext', ['summary']),
     mysummary(){
       // console.log(this.summary);

@@ -18,7 +18,8 @@ export default new Router({
     {
       path: '/reflect', name: 'reflect', component: reflect,
       children: [
-        {path: 'primary/:chapter/:verse', component: primary}
+        // {path: 'primary/:chapter/:verse', component: primary}
+        {path: 'primary/:query?', component: primary}
       ]
     },
     {

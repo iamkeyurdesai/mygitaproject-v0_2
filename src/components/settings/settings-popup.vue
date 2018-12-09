@@ -55,13 +55,12 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options']),
-    theme: {get(){return this.$store.state.settings.theme}, set(value){this.SET_theme(value)}},
-    language: {get(){return this.$store.state.settings.language}, set(value){this.SET_language(value)}},
+    theme: {get(){return this.$store.state.parameters.theme}, set(value){this.SET_theme(value)}},
+    language: {get(){return this.$store.state.parameters.language}, set(value){this.SET_language(value)}},
     audio: {get(){return this.$store.state.parameters.audio}, set(value){this.SET_audio(value)}},
 },
   methods: {
-    ...mapMutations('parameters', ['SET_audio']),
-    ...mapMutations('settings', ['SET_theme', 'SET_language']),
+    ...mapMutations('parameters', ['SET_audio', 'SET_theme', 'SET_language'])
 }
 }
 </script>

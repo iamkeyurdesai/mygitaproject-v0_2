@@ -62,8 +62,8 @@ export default {
     this.image_color = this.options[this.theme].iconDisabled;
   },
   computed: {
-    ...mapState('settings', ['options', 'theme', 'language']),
-    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi']),
+    ...mapState('settings', ['options']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'language']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {

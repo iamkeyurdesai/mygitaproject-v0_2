@@ -2,11 +2,11 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import { options } from '../../../helpers/settingsOptions'
+import { menu } from '../../../helpers/menuItems'
 
 const state = {
   options: options,
-  theme: 'kali',
-  language: 'devanagari'
+  menu: menu
 };
 
 export default {
