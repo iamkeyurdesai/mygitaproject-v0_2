@@ -56,7 +56,9 @@ const SET_language = (state, input) => {
 };
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
-  state[id] = parseInt(list);    
+  state[id] = parseInt(list);
+} else if(id=='breakSandhi') {
+state[id] = (list == 'true');
 } else {
 state[id] = list;
 }

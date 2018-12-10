@@ -129,46 +129,11 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // Pass a callback to next (optional)
-    next(vm => {
-      // this callback has access to component instance (ie: 'this') via `vm`
-      // vm.testFunc('Some Message', true)
-      vm.$store.state.parameters.navItem = "primary";
-      vm.$store.state.parameters.subItem = "reflect";
-      // if (to.params.chapter != null) vm.$store.state.parameters.chapter = parseInt(to.params.chapter);
-      // if (to.params.verse != null) vm.$store.state.parameters.verse = parseInt(to.params.verse);
-      if (to.params.query != null) {
-        if(to.params.query.includes("api=1")) {
-          let myquery = to.params.query.split("&");
-          let i;
-          for (i = 1; i < myquery.length; i++) {
-          let temp = myquery[i].split("=")
-          vm.$store.commit('parameters/SET_value', {list: temp[1], id: temp[0]})
-          }
-        } else {
-          console.log("api=1 not found")
-        }
-
-      }
-      console.log(to.params.query)
-      console.log(vm.$store.state.parameters)
-    })
-
+    // next(vm => {})
+    next();
   },
   beforeRouteUpdate(to, from, next) {
-    // called when the route that renders this component has changed,
-    // but this component is reused in the new route.
-    // For example, for a route with dynamic params `/foo/:id`, when we
-    // navigate between `/foo/1` and `/foo/2`, the same `Foo` component instance
-    // will be reused, and this hook will be called when that happens.
-    // has access to `this` component instance.
-    // console.log(this.footcolors)
-    // if (to.params.chapter != null) this.setChapter(parseInt(to.params.chapter));
-    // if (to.params.verse != null) this.setVerse(parseInt(to.params.verse));
-    this.$store.state.parameters.navItem = "primary";
-    this.$store.state.parameters.subItem = "reflect";
-    if (to.params.chapter != null) this.$store.state.parameters.chapter = parseInt(to.params.chapter);
-    if (to.params.verse != null) this.$store.state.parameters.verse = parseInt(to.params.verse);
-    next()
+    next();
   },
   components: {
     'chapter-menu': chaptermenu,

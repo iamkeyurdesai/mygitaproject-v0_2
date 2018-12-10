@@ -98,8 +98,9 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options', 'menu']),
-    ...mapState('parameters', ['authenticated', 'photoURL',  'mainItem', 'subItem', 'chapter', 'verse', 'theme', 'language']),
-    navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}}
+    ...mapState('parameters', ['authenticated', 'photoURL',  'mainItem', 'subItem', 'chapter', 'verse', 'theme', 'language', 'breakSandhi']),
+    navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}},
+    compoundWatch() {return this.subItem, this.navItem, this.chapter, this.verse, this.theme, this.language, Date.now();}
   },
   methods: {
     setNav(myval){
@@ -119,22 +120,11 @@ export default {
     });
   },
   watch: {
-    subItem: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
-      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
-    },
-    navItem: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
-      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
-    },
-    chapter: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
-      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
-    },
-    verse: function(val) {
-      this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
-      '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language)
-    }
+       compoundWatch: function(val) {
+         this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
+         '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
+         '&breakSandhi=' + this.breakSandhi)
+       }
   }
 }
 </script>

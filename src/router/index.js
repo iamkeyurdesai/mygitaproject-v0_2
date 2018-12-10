@@ -4,6 +4,7 @@ import reflect from '@/components/text/reflect/reflect'
 import primary from '@/components/text/reflect/Primary/primary'
 import welcome from '@/components/root/welcome'
 import Editor from '@/components/Editor'
+import {store} from '../store/index.js'
 
 Vue.use(Router)
 
@@ -18,8 +19,7 @@ export default new Router({
     {
       path: '/reflect', name: 'reflect', component: reflect,
       children: [
-        // {path: 'primary/:chapter/:verse', component: primary}
-        {path: 'primary/:query?', component: primary}
+        {path: 'primary/:data?', component: primary}
       ]
     },
     {
