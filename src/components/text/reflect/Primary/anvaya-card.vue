@@ -18,12 +18,12 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['theme', 'language']),
+    ...mapState('parameters', ['theme', 'language', 'script']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.language);
+          return Sanscript.t(myinput, 'iast', this.script);
         },
     myindex_extract() {
       return this.GET_main.word_info.map(x => x.index)
@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .mydiv1 {
-  font-size: 100%;
+  /* font-size: 100%; */
 }
 
 .mydiv2 {
@@ -75,20 +75,20 @@ export default {
   }
 }
 
-@font-face {
+/* @font-face {
   font-family: myfont;
   src: url(../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
-}
+} */
 
 .myspan1 {
-  font-size: 100%;
+  /* font-size: 100%; */
   /* word-spacing: -0.05em; */
-  font-family: "myfont", 'Roboto';
+  /* font-family: "myfont", 'Roboto'; */
 }
 
 .myspan2 {
-  font-size: 110%;
-  word-spacing: -0.05em;
+  /* font-size: 110%; */
+  /* word-spacing: -0.05em; */
   font-family: "myfont", 'Roboto';
   /* font-weight: 300; */
 }

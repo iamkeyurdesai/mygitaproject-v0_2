@@ -54,6 +54,18 @@ const SET_theme = (state, input) => {
 const SET_language = (state, input) => {
   state.language = input
 };
+const SET_script = (state, input) => {
+  state.script = input
+};
+const SET_fsize = (state, input) => {
+  state.fsize = input
+};
+const SET_fweight = (state, input) => {
+  state.fweight = input
+};
+const SET_slines = (state, input) => {
+  state.slines = input
+};
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -78,5 +90,9 @@ export default {
   SET_navItem,
   SET_theme,
   SET_language,
-  SET_value
+  SET_script,
+  SET_value,
+  SET_fsize,
+  SET_fweight,
+  SET_slines
 };

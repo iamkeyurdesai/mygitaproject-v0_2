@@ -21,11 +21,6 @@ export default new Router({
       children: [
         {path: 'primary/:data?', component: primary}
       ]
-    },
-    {
-      path: '/editor',
-      name: 'editor',
-      component: Editor
     }
   ]
 })

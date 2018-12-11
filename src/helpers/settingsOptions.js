@@ -43,7 +43,7 @@ export const options = {
     iconEnabled: 'black',
     iconActive: 'green'
   },
-  language: [
+  script: [
     'bengali',
     'devanagari',
     'gujarati',
@@ -56,8 +56,15 @@ export const options = {
     'iast',
     'itrans'
   ],
-  layout: [
-    'tall',
-    'wide'
-  ]
+  language: [
+    'hindi',
+    'english'
+  ],
+  slines: [
+    '2x',
+    '4x',
+    'auto'
+  ],
+  fweight: ['200', '300', '400', '600'],
+  fsize: ['small', 'medium', 'large', 'x-large']
 }

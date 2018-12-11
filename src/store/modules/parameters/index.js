@@ -15,7 +15,11 @@ const state = {
   subItem: 'read',
   navItem: 'Story',
   theme: 'kali',
-  language: 'devanagari'
+  language: 'hindi',
+  script: 'devanagari',
+  fsize: 'medium',
+  fweight: '300',
+  slines: '2x'
 };
 
 export default {

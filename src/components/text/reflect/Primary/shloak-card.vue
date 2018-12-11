@@ -63,13 +63,13 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'language']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {
     ...mapMutations('parameters', ['SET_breakSandhi']),
     convert(myinput){
-          return Sanscript.t(myinput, 'iast', this.language);
+          return Sanscript.t(myinput, 'iast', this.script);
         },
     range(start, end) {
       var foo = [];

@@ -1,5 +1,6 @@
 <template>
-<div id="content" v-touch="{
+<!-- <div id="content" :style="{color:options[theme].textMain}"> -->
+<div id="content" :style="[{color:options[theme].textMain}, divStyle]" v-touch="{
       left: () => increment(),
       right: () => decrement()
     }">
@@ -98,7 +99,11 @@ export default {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
-    ...mapGetters('coretext', ['GET_salutation'])
+    ...mapGetters('coretext', ['GET_salutation']),
+    divStyle() {
+     return {background:'linear-gradient(to left top,'+ this.options[this.theme].background[0] +
+     ',' + this.options[this.theme].background[1]+')'}
+    }
   },
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
@@ -143,10 +148,16 @@ export default {
 
 <style lang="scss" scoped>
 #content {
+    background-size: 400% 400%;
+    animation: BackgroundGradient 10s ease infinite;
+    // background: linear-gradient(to left top, #7E57C2, #5E35B1);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-auto-rows: minmax(30px, auto);
-    grid-gap: 5px;
+    grid-gap: 3px;
+    max-width: 960px;
     margin: 0 auto;
     grid-template-areas:
     "head head head head head head head head head"
@@ -169,7 +180,7 @@ export default {
         display: grid;
         grid-template-columns: repeat(9, 1fr);
         grid-auto-rows: minmax(30px, auto);
-        grid-gap: 5px;
+        grid-gap: 3px;
         max-width: 960px;
         margin: 0 auto;
         grid-template-areas:
@@ -190,23 +201,40 @@ export default {
 }
 .head {
     grid-area: head;
+    font-weight: 300;
 }
 .nv1a {
     grid-area: nv1a;
+    /* margin: 0; */
+    /* justify-self: center;
+       align-self: center; */
 }
 .nv1b {
     grid-area: nv1b;
+    /* margin: 0; */
+    /* justify-self: center;
+       align-self: center; */
 }
 .samb {
     grid-area: samb;
+    /* justify-self: center; */
+    /* align-self: center; */
+    // color: white;
+    font-weight: 300;
 }
 .vers {
     grid-area: vers;
     justify-self: center;
     align-self: start;
+    // color: white;
+    font-weight: 300;
 }
 .bhav {
     grid-area: bhav;
+    /* justify-self: center;
+     align-self: start; */
+    // color: white;
+    font-weight: 300;
 }
 .tran {
     grid-area: tran;
@@ -218,10 +246,28 @@ export default {
 .trantext {
     column-rule: 1px solid grey;
     column-width: auto;
+    font-weight: 300;
 }
-//
-// @font-face {
-//     font-family: myfont;
-//     src: url("../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf");
+
+@font-face {
+    font-family: myfont;
+    src: url("../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf");
+}
+// span {
+//     padding-right: 5px;
+//     font-size: 115%;
+//     /* word-spacing: -0.05em; */
+//     font-family: "myfont", 'Roboto Condensed';
 // }
+@keyframes BackgroundGradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
 </style>
