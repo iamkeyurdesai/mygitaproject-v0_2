@@ -19,57 +19,68 @@
   <!-- sambandh component-->
   <v-flex xs12 class="samb">
     <v-layout align-content-space-between>
-      &nbsp;
+          &nbsp;
       <v-spacer></v-spacer>
-      <sambandh-card></sambandh-card>
-      <v-spacer></v-spacer>
-      &nbsp;
-    </v-layout>
-    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+          <sambandh-card></sambandh-card>
+          <v-spacer></v-spacer>
+              &nbsp;
+        </v-layout>
+        <v-divider :dark="options[theme].type=='dark'"></v-divider>
   </v-flex>
 
   <!-- verse component; fairly complex rendering and styling inside -->
-  <div class="vers">
+  <v-flex xs12 class="vers">
     <shloak-card></shloak-card>
-    <v-divider :dark="options[theme].type=='dark'"></v-divider>
-  </div>
+  </v-flex>
+
 
   <!-- bhavarth (meaning) component -->
   <v-flex xs12 class="bhav">
+    <v-divider :dark="options[theme].type=='dark'"></v-divider>
     <v-layout align-content-space-between>
-      <v-icon color="white" v-on:click.stop="decrement()">arrow_back_ios</v-icon>
+          &nbsp;
       <v-spacer></v-spacer>
       <bhavarth-card></bhavarth-card>
       <v-spacer></v-spacer>
-      <v-icon color="white" v-on:click.stop="increment()">arrow_forward_ios</v-icon>
+          &nbsp;
     </v-layout>
     <v-divider :dark="options[theme].type=='dark'"></v-divider>
   </v-flex>
 
   <!-- anvaya (breakdown) component, farily complex rednering and styling inside -->
-  <div class="tran elevation-5">
-    <v-flex xs12>
-      <v-layout align-content-space-between>
-        <v-btn dark flat small v-on:click.stop="decreaseColumn()">
-          <v-icon> remove </v-icon>
-        </v-btn>
-        <v-spacer></v-spacer>
-        <div class="tranhead text-xs-center">
-          Breakdown
-        </div>
-        <v-spacer></v-spacer>
-        <v-btn dark flat small v-on:click.stop="increaseColumn()">
-          <v-icon> add </v-icon>
-        </v-btn>
-      </v-layout>
-      <v-divider dark></v-divider>
-    </v-flex>
-    <div class="trantext" v-bind:style="styleAnvaya">
-      <anvaya-card></anvaya-card>
-    </div>
+<div class="tran elevation-5" >
+<div class="tranhead text-xs-center">
+<v-flex>
+<v-layout align-content-space-between>
+<v-spacer></v-spacer>
+<v-btn  :dark="options[theme].type=='dark'" flat small v-on:click.stop="decreaseColumn()">
+<v-icon> remove </v-icon>
+</v-btn>
+<v-spacer></v-spacer>
+Breakdown
+<v-spacer></v-spacer>
+<v-btn  :dark="options[theme].type=='dark'" flat small v-on:click.stop="increaseColumn()">
+<v-icon> add </v-icon>
+</v-btn>
+<v-spacer></v-spacer>
+</v-layout>
+</v-flex>
+</div>
+<v-divider :dark="options[theme].type=='dark'"></v-divider>
+<div class="trantext" v-bind:style="styleAnvaya">
+<anvaya-card></anvaya-card>
+</div>
+  <!-- </v-card> -->
   </div>
 
-  <div class="nv1b">
+<div class="nv1a">
+    <v-icon flat small :dark="options[theme].type=='dark'" v-on:click.stop="decrement()">
+    arrow_back_ios</v-icon>
+</div>
+<div class="nv1b">
+    <v-icon flat small :dark="options[theme].type=='dark'" v-on:click.stop="increment()">
+    arrow_forward_ios
+  </v-icon>
   </div>
 
 </div>
@@ -103,10 +114,10 @@ export default {
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
     decreaseColumn: function() {
-      this.styleAnvaya.columnCount -= 1
+      if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
     },
     increaseColumn: function() {
-      this.styleAnvaya.columnCount += 1
+      if(this.styleAnvaya.columnCount <4 ) this.styleAnvaya.columnCount += 1
     },
     addTodo() {
       var db = firebase.firestore();
@@ -151,17 +162,18 @@ export default {
     grid-template-areas:
     "head head head head head head head head head"
     "samb samb samb samb samb samb samb samb samb"
+    "samb samb samb samb samb samb samb samb samb"
     "vers vers vers vers vers vers vers vers vers"
     "vers vers vers vers vers vers vers vers vers"
+    "vers vers vers vers vers vers vers vers vers"
+    "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
     "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
     "nv1a tran tran tran tran tran tran tran nv1b"
     "nv1a tran tran tran tran tran tran tran nv1b"
     "nv1a tran tran tran tran tran tran tran nv1b"
     "nv1a tran tran tran tran tran tran tran nv1b"
     "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot"
-    "foot foot foot foot foot foot foot foot foot";
+
 }
 /* desktop grid */
 @media screen and (min-width: 760px) {
@@ -175,17 +187,17 @@ export default {
         grid-template-areas:
         "head head head head head head head head head"
         "samb samb samb samb samb samb samb samb samb"
+        "samb samb samb samb samb samb samb samb samb"
         "vers vers vers vers vers vers vers vers vers"
         "vers vers vers vers vers vers vers vers vers"
+        "vers vers vers vers vers vers vers vers vers"
+        "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
         "bhav bhav bhav bhav bhav bhav bhav bhav bhav"
         "nv1a tran tran tran tran tran tran tran nv1b"
         "nv1a tran tran tran tran tran tran tran nv1b"
         "nv1a tran tran tran tran tran tran tran nv1b"
         "nv1a tran tran tran tran tran tran tran nv1b"
         "foot foot foot foot foot foot foot foot foot"
-        "foot foot foot foot foot foot foot foot foot"
-        "foot foot foot foot foot foot foot foot foot"
-        "foot foot foot foot foot foot foot foot foot";
     }
 }
 .head {
@@ -193,9 +205,11 @@ export default {
 }
 .nv1a {
     grid-area: nv1a;
+    justify-self: center;
 }
 .nv1b {
     grid-area: nv1b;
+    justify-self: center;
 }
 .samb {
     grid-area: samb;

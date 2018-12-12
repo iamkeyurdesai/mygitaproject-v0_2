@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      path: 'reflect/1/1'
+      path: 'reflect/primary'
     }
   }
 }

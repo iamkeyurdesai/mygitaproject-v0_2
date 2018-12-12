@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import reflect from '@/components/text/reflect/reflect'
 import primary from '@/components/text/reflect/Primary/primary'
+import commentary from '@/components/text/reflect/Commentary/commentary'
 import welcome from '@/components/root/welcome'
 import Editor from '@/components/Editor'
 import {store} from '../store/index.js'
@@ -19,7 +20,8 @@ export default new Router({
     {
       path: '/reflect', name: 'reflect', component: reflect,
       children: [
-        {path: 'primary/:data?', component: primary}
+        {path: 'primary/:data?', component: primary},
+        {path: 'commentary/:data?', component: commentary}
       ]
     }
   ]

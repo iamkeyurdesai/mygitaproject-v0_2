@@ -19,7 +19,7 @@ const state = {
   script: 'devanagari',
   fsize: 'medium',
   fweight: '300',
-  slines: '2x'
+  slines: 'auto'
 };
 
 export default {

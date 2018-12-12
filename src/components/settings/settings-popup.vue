@@ -13,7 +13,7 @@
 <v-toolbar card :class="options[theme].toolbarAccent1" :dark="options[theme].type=='dark'" dense>
        Settings
 <v-spacer></v-spacer>
-        <v-btn icon dark @click.native="sheet = false">
+        <v-btn icon :dark="options[theme].type=='dark'" @click.native="sheet = false">
           <v-icon>close</v-icon>
         </v-btn>
       <v-spacer></v-spacer>
@@ -76,13 +76,8 @@ import {mapState} from 'vuex';
 
 export default {
   data: () => ({
-    sheet: false,
-    settings_color: 'white'
+    sheet: false
   }),
-  mounted() {
-    //do something after mounting vue instance
-    this.settings_color = this.options[this.theme].iconEnabled;
-  },
   computed: {
     ...mapState('settings', ['options']),
     theme: {get(){return this.$store.state.parameters.theme}, set(value){this.SET_theme(value)}},

@@ -1,10 +1,8 @@
 <template>
   <div class="text-xs-center mydiv1">
-    <span>Translation</span>
     <div align="left" v-show="show">
-      <span class="myspan2"> {{ GET_gitapress.bhavarth }}
- </span>
-    </div>
+  <div v-html="GET_sivananda.commentary" v-bind:style="{fontWeight : this.fontWeight, fontSize:this.fontSize}"> </div>
+     </div>
 </div>
 </template>
 
@@ -16,9 +14,9 @@ export default {
     show: true
   }),
   computed: {
-    ...mapState('parameters', ['chapter', 'verse']),
+    ...mapState('parameters', ['chapter', 'verse', 'fontWeight', 'fontSize']),
     ...mapState('coretext', ['gitapress']),
-    ...mapGetters('coretext', [ 'GET_gitapress'])
+    ...mapGetters('coretext', [ 'GET_sivananda'])
   }
   }
 </script>

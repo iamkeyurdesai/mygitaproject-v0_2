@@ -3,13 +3,14 @@
     <v-flex xs12>
 <v-layout justify-space-between>
   <settings-popup></settings-popup>
-  <v-icon v-bind:style="{color:forum_color}" v-on:click.stop="forum">mdi-forum</v-icon>
+
   <span>: {{convert(GET_main.speaker)}} :</span>
-  <v-icon v-bind:style="{color:image_color}" v-on:click.stop="images">image</v-icon>
+
   <v-icon v-bind:style="{color:build_color}" v-on:click.stop="sandhi">build</v-icon>
 </v-layout>
 
 <div class="elevation-1 mydiv2">
+      <div v-if="slines=='auto'">
       <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
         {{convert(item.foot)}} {{footbreaks[i]}}
       </div>
@@ -33,6 +34,33 @@
           <span v-if="checkBreak(i,2)"><br/></span>
         </span>
       </div>
+    </div>
+      <div v-if="slines=='4x'">
+        <div v-if="!breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
+          {{convert(item.foot)}} {{footbreaks[i]}}
+        </div>
+        <div v-if="breakSandhi" align="left">
+          <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+            <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+            <span v-else> {{convert(item.sanskrit)}},</span>
+            <span v-if="checkBreak(i,4)"><br/></span>
+          </span>
+        </div>
+        </div>
+        <div v-if="slines=='2x'">
+          <div v-if="!breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
+            <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
+            <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
+          </div>
+
+          <div v-if="breakSandhi" align="left">
+            <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+              <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+              <span v-else> {{convert(item.sanskrit)}},</span>
+              <span v-if="checkBreak(i,2)"><br/></span>
+            </span>
+          </div>
+          </div>
 
 </div>
 
@@ -51,19 +79,15 @@ import settingspopup from '../../../settings/settings-popup.vue'
 export default {
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],
-    build_color: 'black',
-    forum_color: 'black',
-    image_color: 'black'
+    build_color: 'grey'    
   }),
   mounted() {
     //do something after mounting vue instance
     this.build_color = this.options[this.theme].iconEnabled;
-    this.forum_color = this.options[this.theme].iconDisabled;
-    this.image_color = this.options[this.theme].iconDisabled;
   },
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {

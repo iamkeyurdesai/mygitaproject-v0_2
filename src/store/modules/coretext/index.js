@@ -7,6 +7,7 @@ const state = {
   summary: [ ],
   main: [ ],
   gitapress: [ ],
+  sivananda: [ ],
   salutation: 'oṃ śrī paramātmane namaḥ'
 };
 

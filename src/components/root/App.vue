@@ -99,9 +99,9 @@ export default {
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'mainItem', 'subItem', 'chapter', 'verse',
-                'theme', 'language', 'breakSandhi', 'fsize', 'fweight']),
+                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight']),
     navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}},
-    compoundWatch() {return this.subItem, this.navItem, this.chapter, this.verse, this.theme, this.language, Date.now();},
+    compoundWatch() {return this.subItem, this.navItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();},
     divStyle() {
      return {background:'linear-gradient(to left top,'+ this.options[this.theme].background[0] +
      ',' + this.options[this.theme].background[1]+')'}
@@ -128,7 +128,7 @@ export default {
        compoundWatch: function(val) {
          this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
-         '&breakSandhi=' + this.breakSandhi)
+         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi)
        }
   }
 }
