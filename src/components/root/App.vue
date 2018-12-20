@@ -32,7 +32,8 @@
 
   <!-- fetch theme from store/settings
   hide or show burger icon using var drawer    -->
-  <v-toolbar app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
+  <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'"
+  scroll-off-screen :scroll-threshold="1" dense>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down">
       Power Gita
@@ -63,7 +64,7 @@
         down: () => setNav(true)
       }">
       <router-view></router-view>
-    </v-content>
+  </v-content>
 
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48">

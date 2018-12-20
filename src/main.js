@@ -30,12 +30,15 @@ import {
   VDivider,
   VBottomNav,
   VRadioGroup,
-  VSwitch
+  VSwitch,
+  VTabs,
+  VSystemBar,
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
 // import * as directives from 'vuetify/es5/directives'
 import Touch from 'vuetify/es5/directives/touch'
+import Scroll from 'vuetify/es5/directives/scroll'
 
 Vue.use(Vuetify, {
   components: {
@@ -59,7 +62,9 @@ Vue.use(Vuetify, {
     VDivider,
     VBottomNav,
     VRadioGroup,
-    VSwitch
+    VSwitch,
+    VTabs,
+    VSystemBar
   },
   theme: {
     primary: '#ee44aa',
@@ -71,7 +76,8 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   },
   directives: {
-    Touch
+    Touch,
+    Scroll
   }
 })
 Vue.use(Vuetify)
@@ -92,7 +98,7 @@ router.beforeEach((to, from, next) => {
       } else {
         console.log("api=1 not found")
       }
-    }    
+    }
   next()
 })
 

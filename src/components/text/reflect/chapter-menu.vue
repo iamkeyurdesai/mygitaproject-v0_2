@@ -8,12 +8,12 @@
       transition="dialog-bottom-transition"
     >
 
-    <v-btn slot="activator" flat>
+    <button slot="activator" class="pa-2">
                   <v-layout column wrap>
                   <div class="title">{{chapter}}</div>
                   <div class="caption">chapter</div>
                   </v-layout>
-                  </v-btn>
+                </button>
 
 <!-- <span slot="activator">C-{{chapter}} </span> -->
 

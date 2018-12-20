@@ -5,10 +5,16 @@
     }">
   <!-- header containing chapter, verse and salutation -->
 
-    <v-layout justify-space-between row>
+    <v-layout justify-space-between row wrap>
+      <v-flex>
       <chapter-menu></chapter-menu>
-      <v-btn  flat>{{GET_salutation}}</v-btn>
+      </v-flex>
+      <v-flex class="pa-2 text-xs-center">
+      <button>{{GET_salutation}}</button>
+      </v-flex>
+      <v-flex>
       <verse-menu></verse-menu>
+    </v-flex>
     </v-layout>
     <v-divider :dark="options[theme].type=='dark'"></v-divider>
 

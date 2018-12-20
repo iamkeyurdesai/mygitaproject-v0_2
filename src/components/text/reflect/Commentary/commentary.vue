@@ -1,9 +1,12 @@
 <template>
-<v-layout column v-touch="{
+<v-layout v-scroll="onScroll" column v-touch="{
       left: () => increment(),
-      right: () => decrement()
+      right: () => decrement(),
+      up: () => {fabShow = true},
+      down: () => {fabShow = false}
     }">
   <!-- header containing chapter, verse and salutation -->
+
     <v-layout justify-space-between row class="mb-1">
       <chapter-menu></chapter-menu>
       <v-btn  flat>{{GET_salutation}}</v-btn>
@@ -11,57 +14,43 @@
     </v-layout>
     <v-divider :dark="options[theme].type=='dark'"></v-divider>
 
-
   <!-- commentary component-->
+  <v-tabs v-model="active" :color="options[theme].toolbar" :dark="options[theme].type=='dark'" slider-color="yellow" >
+        <v-tab v-for="n in 2" :key="n" ripple >
+          {{options[theme].toolbar}}
+        </v-tab>
+        <v-tab-item v-for="n in 2" :key="n" >
+          <v-layout justify-space-between  class="mt-1 pa-4">
+      <sivananda-commentary>
+      </sivananda-commentary>
+                  </v-layout>
+        </v-tab-item>
+      </v-tabs>
 
-    <v-layout justify-space-between  class="mt-1 pa-2">
-<sivananda-commentary></sivananda-commentary>
-            </v-layout>
-
-        <v-speed-dial
-              fab
-              small
-              bottom
-              right
-              fixed
-              class="mb-5"
-            >
-              <v-btn
-                slot="activator"
-                v-model="fab"
-                color="blue darken-2"
-                dark
-                fab
-                small
-              >
+<v-fab-transition>
+        <v-speed-dial v-model="fab" fab small bottom right fixed class="mb-5" >
+              <v-btn v-show="fabShow" slot="activator" v-model="fab" color="blue darken-2" dark fab small >
                 <v-icon>account_circle</v-icon>
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-btn
-                fab
-                dark
-                small
-                color="green"
-              >
+              <v-btn fab dark small color="green" >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn
-                fab
-                dark
-                small
-                color="indigo"
-              >
+              <v-btn fab dark small color="indigo" >
                 <v-icon>add</v-icon>
               </v-btn>
-              <v-btn
-                fab
-                dark
-                small
-                color="red"
-              >
+              <v-btn fab dark small color="red" >
                 <v-icon>delete</v-icon>
               </v-btn>
             </v-speed-dial>
+</v-fab-transition>
+
+<v-fab-transition>
+              <v-btn v-show="!fabShow & offsetTop > 500" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
+                color="blue darken-2" dark fab small bottom left fixed class="my-4 mx-0">
+                <v-icon>arrow_upward</v-icon>
+              </v-btn>
+              </v-fab-transition>
 
   </v-layout>
 
@@ -80,6 +69,10 @@ import { mapMutations } from 'vuex';
 export default {
   data: function() {
     return {
+      active: null,
+      fab: false,
+      fabShow: false,
+      offsetTop: 0,
       styleAnvaya: { columnCount: 2
       }
     }
@@ -109,7 +102,16 @@ export default {
         .catch(function(error) {
           console.error("Error adding document: ", error);
         });
-    }
+    },
+      onScroll (e) {
+        let scrollTemp = window.pageYOffset || document.documentElement.scrollTop
+        if(scrollTemp < this.offsetTop) {
+          this.fabShow = true
+        } else {
+          this.fabShow = false
+        }
+        this.offsetTop = scrollTemp
+      }
   },
   beforeRouteEnter(to, from, next) {
     // Pass a callback to next (optional)

@@ -6,12 +6,12 @@
     scrollable
     transition="dialog-bottom-transition"
     >
-    <v-btn slot="activator" flat>
+    <button slot="activator" class="pa-2">
                   <v-layout column wrap>
                   <div class="title">{{verse}}</div>
                   <div class="caption">verse</div>
                   </v-layout>
-                  </v-btn>
+                </button>
 
 
     <!-- <span slot="activator">V-{{verse}} </span> -->
