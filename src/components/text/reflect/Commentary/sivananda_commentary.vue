@@ -1,9 +1,5 @@
 <template>
-  <div class="text-xs-center mydiv1">
-    <div align="left" v-show="show">
-  <div v-html="GET_sivananda.commentary" v-bind:style="{fontWeight : this.fontWeight, fontSize:this.fontSize}"> </div>
-     </div>
-</div>
+  <div class="comm" v-html="GET_sivananda.commentary" v-bind:style="{fontWeight : this.fontWeight, fontSize:this.fontSize}"> </div>
 </template>
 
 <script>
@@ -22,18 +18,11 @@ export default {
 </script>
 
 <style scoped>
-.mydiv1 {
-  /* font-size: 100%; */
+.comm{
+    column-rule: 1px solid grey;
+    column-width: 300px;
+    column-count: 3;
+    column-fill: auto;    
 }
 
-/* @font-face {
-  font-family: myfont;
-  src: url(../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
-} */
-
-.myspan2 {
-  font-size: 100%;
-  word-spacing: -0.05em;
-  font-family: "myfont";
-}
 </style>

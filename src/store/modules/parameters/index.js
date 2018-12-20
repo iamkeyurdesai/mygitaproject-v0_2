@@ -11,7 +11,7 @@ const state = {
   path: '/reflect/primary',
   breakSandhi: false,
   audio: true,
-  mainItem: 'Text',
+  mainItem: 'Classroom',
   subItem: 'read',
   navItem: 'Story',
   theme: 'kali',

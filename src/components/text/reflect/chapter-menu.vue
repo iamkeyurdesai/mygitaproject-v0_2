@@ -8,7 +8,14 @@
       transition="dialog-bottom-transition"
     >
 
-<span slot="activator">C-{{chapter}} </span>
+    <v-btn slot="activator" flat>
+                  <v-layout column wrap>
+                  <div class="title">{{chapter}}</div>
+                  <div class="caption">chapter</div>
+                  </v-layout>
+                  </v-btn>
+
+<!-- <span slot="activator">C-{{chapter}} </span> -->
 
 
 <v-card tile>

@@ -6,8 +6,15 @@
     scrollable
     transition="dialog-bottom-transition"
     >
+    <v-btn slot="activator" flat>
+                  <v-layout column wrap>
+                  <div class="title">{{verse}}</div>
+                  <div class="caption">verse</div>
+                  </v-layout>
+                  </v-btn>
 
-    <span slot="activator">V-{{verse}} </span>
+
+    <!-- <span slot="activator">V-{{verse}} </span> -->
 
 
 <v-card-text>

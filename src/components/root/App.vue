@@ -1,12 +1,12 @@
 <template>
-<v-app>
+<v-app dark>
   <!--
   fetch menu items from menuItems.js
   fetch theme from store/settings
   render items as list of list-groups
   when clicked push router to the component the subitem refers
   use var drawer to open / close the navigation drawer   -->
-  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="options[theme].type=='dark'" :class="options[theme].drawer" width="250">
+  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="options[theme].type=='dark'" :class="options[theme].drawer" width="300">
     <v-flex xs12>
       <v-card>
         <v-list :class="options[theme].drawer">
@@ -32,7 +32,7 @@
 
   <!-- fetch theme from store/settings
   hide or show burger icon using var drawer    -->
-  <v-toolbar absolute app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
+  <v-toolbar app :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'" scroll-off-screen scroll-target="#content" dense>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down">
       Power Gita
@@ -62,8 +62,8 @@
         up: () => setNav(false),
         down: () => setNav(true)
       }">
-    <router-view></router-view>
-  </v-content>
+      <router-view></router-view>
+    </v-content>
 
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48">

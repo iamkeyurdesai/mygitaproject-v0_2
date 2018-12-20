@@ -65,6 +65,6 @@ export const options = {
     '4x',
     'auto'
   ],
-  fweight: ['200', '300', '400', '600'],
+  fweight: ['100', '300', '400', '500', '700', '900'],
   fsize: ['small', 'medium', 'large', 'x-large']
 }

@@ -1,36 +1,70 @@
 <template>
-<div id="content" v-touch="{
+<v-layout column v-touch="{
       left: () => increment(),
       right: () => decrement()
     }">
   <!-- header containing chapter, verse and salutation -->
-  <v-flex xs12 class="head">
-    <v-layout align-content-space-between>
+    <v-layout justify-space-between row class="mb-1">
       <chapter-menu></chapter-menu>
-      <v-spacer></v-spacer>
-      <!-- ॥ {{convert('oṃ śrī paramātmane namaḥ')}} ॥ -->
-      {{GET_salutation}}
-      <v-spacer></v-spacer>
+      <v-btn  flat>{{GET_salutation}}</v-btn>
       <verse-menu></verse-menu>
     </v-layout>
     <v-divider :dark="options[theme].type=='dark'"></v-divider>
-  </v-flex>
+
 
   <!-- commentary component-->
-  <div xs12 class="comm">
 
-    <v-layout align-content-space-between>
-          &nbsp;
-      <v-spacer></v-spacer>
-          <sivananda-commentary></sivananda-commentary>
-          <v-spacer></v-spacer>
-              &nbsp;
-        </v-layout>
+    <v-layout justify-space-between  class="mt-1 pa-2">
+<sivananda-commentary></sivananda-commentary>
+            </v-layout>
 
-  </div>
+        <v-speed-dial
+              fab
+              small
+              bottom
+              right
+              fixed
+              class="mb-5"
+            >
+              <v-btn
+                slot="activator"
+                v-model="fab"
+                color="blue darken-2"
+                dark
+                fab
+                small
+              >
+                <v-icon>account_circle</v-icon>
+                <v-icon>close</v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                dark
+                small
+                color="green"
+              >
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                dark
+                small
+                color="indigo"
+              >
+                <v-icon>add</v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                dark
+                small
+                color="red"
+              >
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-speed-dial>
 
+  </v-layout>
 
-</div>
 </template>
 
 <script>
@@ -94,48 +128,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// #content {
-//     display: grid;
-//     grid-template-columns: repeat(9, 1fr);
-//     grid-auto-rows: minmax(30px, auto);
-//     grid-gap: 5px;
-//     margin: 0 auto;
-//     grid-template-areas:
-//     "head head head head head head head head head"
-//     "comm comm comm comm comm comm comm comm comm"
-//     "comm comm comm comm comm comm comm comm comm"
-//     "comm comm comm comm comm comm comm comm comm"
-//     "comm comm comm comm comm comm comm comm comm"
-//     "foot foot foot foot foot foot foot foot foot"
-//
-// }
-// /* desktop grid */
-// @media screen and (min-width: 760px) {
-//     #content {
-//         display: grid;
-//         grid-template-columns: repeat(9, 1fr);
-//         grid-auto-rows: minmax(30px, auto);
-//         grid-gap: 5px;
-//         max-width: 960px;
-//         margin: 0 auto;
-//         grid-template-areas:
-//         "head head head head head head head head head"
-//         "comm comm comm comm comm comm comm comm comm"
-//         "comm comm comm comm comm comm comm comm comm"
-//         "comm comm comm comm comm comm comm comm comm"
-//         "comm comm comm comm comm comm comm comm comm"
-//         "foot foot foot foot foot foot foot foot foot"
-//     }
-// }
-.head {
-    grid-area: head;
-}
-.comm {
-    grid-area: samb;
-}
-//
-// @font-face {
-//     font-family: myfont;
-//     src: url("../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf");
-// }
 </style>
