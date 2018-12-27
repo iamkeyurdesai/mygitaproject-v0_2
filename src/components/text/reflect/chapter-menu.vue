@@ -26,7 +26,7 @@
 </v-btn>
 Select Chapter
 </v-toolbar>
-<v-card>
+<v-card class="secondary">
   <v-container fluid grid-list-xs>
 <chapter-card v-for="(mypreview,i) in preview" :key="i" :index="i"></chapter-card>
 </v-container>

@@ -16,48 +16,49 @@
       <verse-menu></verse-menu>
     </v-flex>
     </v-layout>
-    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+    <v-divider :dark="GET_dark"></v-divider>
 
 
   <!-- sambandh component-->
       <v-layout justify-center row class="pa-2">
           <sambandh-card></sambandh-card>
+        <v-divider vertical :dark="GET_dark"></v-divider>
+          <div class="ml-1 pa-2">
+            graphics
+          </div>
         </v-layout>
-        <v-divider :dark="options[theme].type=='dark'"></v-divider>
+        <v-divider :dark="GET_dark"></v-divider>
 
 
   <!-- verse component; fairly complex rendering and styling inside -->
-  <v-layout justify-center>
-
 
 <shloak-card></shloak-card>
-
-      </v-layout>
+  
 
 
   <!-- bhavarth (meaning) component -->
-      <v-divider :dark="options[theme].type=='dark'"></v-divider>
+      <v-divider class="divider"></v-divider>
     <v-layout justify-center row class="pa-2">
       <bhavarth-card></bhavarth-card>
     </v-layout>
-    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+    <v-divider class="divider"></v-divider>
 
 
   <!-- anvaya (breakdown) component, farily complex rednering and styling inside -->
 
 
-<v-layout justify-center row>
+<v-layout justify-center align-center row>
     <!-- <v-btn :dark="options[theme].type=='dark'" fab small bottom left fixed v-on:click.stop="decrement()" class="my-5">
   <v-icon>arrow_back_ios</v-icon>
   </v-icon>
 </v-btn> -->
-  <v-btn  :dark="options[theme].type=='dark'" flat small v-on:click.stop="decreaseColumn()">
+  <v-btn  :dark="GET_dark" flat small v-on:click.stop="decreaseColumn()">
   <v-icon>remove</v-icon>
   </v-btn>
   <div>
   Breakdown
   </div>
-  <v-btn  :dark="options[theme].type=='dark'" flat small v-on:click.stop="increaseColumn()">
+  <v-btn  :dark="GET_dark" flat small v-on:click.stop="increaseColumn()">
   <v-icon>add</v-icon>
   </v-btn>
   <!-- <v-btn :dark="options[theme].type=='dark'" fab small bottom right fixed v-on:click.stop="increment()" class="my-5">
@@ -65,14 +66,19 @@
 </v-icon>
 </v-btn> -->
 </v-layout>
-<v-divider :dark="options[theme].type=='dark'"></v-divider>
+<v-divider class="divider"></v-divider>
 <v-layout justify-center row class="px-5">
 <div class="trantext" v-bind:style="styleAnvaya">
 <anvaya-card></anvaya-card>
 </div>
 </v-layout>
 
-
+<v-btn  class="button" :dark="GET_dark" flat small fab v-on:click.stop="changeTheme()">
+  <v-icon>home</v-icon>
+  </v-btn>
+  <div class="background">
+    <span v-for="i in 4" :class="`accent${i}--text`"> here </span>
+  </div>
 </div>
 </template>
 
@@ -99,7 +105,8 @@ export default {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
-    ...mapGetters('coretext', ['GET_salutation'])
+    ...mapGetters('coretext', ['GET_salutation']),
+    ...mapGetters('settings', ['GET_dark'])
   },
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
@@ -121,6 +128,11 @@ export default {
         .catch(function(error) {
           console.error("Error adding document: ", error);
         });
+    },
+    changeTheme(val){
+      console.log(this.$vuetify)
+      this.$vuetify.theme = Object.assign({}, this.options["lakshmi"].theme)
+      console.log(this.$vuetify)
     }
   },
   beforeRouteEnter(to, from, next) {

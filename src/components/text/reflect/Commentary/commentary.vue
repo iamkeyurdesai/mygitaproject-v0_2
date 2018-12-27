@@ -15,12 +15,12 @@
     <v-divider :dark="options[theme].type=='dark'"></v-divider>
 
   <!-- commentary component-->
-  <v-tabs v-model="active" :color="options[theme].toolbar" :dark="options[theme].type=='dark'" slider-color="yellow" >
-        <v-tab v-for="n in 2" :key="n" ripple >
+  <v-tabs v-model="active" color="primary lighten-1" slider-color="yellow" >
+        <v-tab v-for="n in 2" :key="n" ripple class="secondary--text darken-1">
           {{options[theme].toolbar}}
         </v-tab>
         <v-tab-item v-for="n in 2" :key="n" >
-          <v-layout justify-space-between  class="mt-1 pa-4">
+          <v-layout justify-space-between  class="mt-1 pa-3">
       <sivananda-commentary>
       </sivananda-commentary>
                   </v-layout>

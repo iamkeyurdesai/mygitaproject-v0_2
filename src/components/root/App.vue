@@ -1,22 +1,27 @@
 <template>
-<v-app dark>
+<v-app>
   <!--
   fetch menu items from menuItems.js
   fetch theme from store/settings
   render items as list of list-groups
   when clicked push router to the component the subitem refers
   use var drawer to open / close the navigation drawer   -->
-  <v-navigation-drawer persistent :clipped="clipped" v-model="drawer" app :dark="options[theme].type=='dark'" :class="options[theme].drawer" width="300">
-    <v-flex xs12>
-      <v-card>
-        <v-list :class="options[theme].drawer">
-          <v-list-group v-model="menu.mainActive[i]" v-for="(xx, i) in menu.mainItems" :key="xx" :prepend-icon="menu.mainIcons[i]" no-action>
+    <v-navigation-drawer dark persistent :clipped="clipped" v-model="drawer" app class="primary secondary--text" width="300">
+    <v-flex>
+      <v-card class="primary secondary--text">
+          <div class="pa-5 ma-5">
+            advertise here
+          </div>
+          <v-list class="primary">
+          <v-list-group v-model="menu.mainActive[i]" v-for="(xx, i) in menu.mainItems" :key="xx" :prepend-icon="menu.mainIcons[i]"
+          no-action class="primary secondary--text" active-class="primary active--text">
             <v-list-tile slot="activator">
               <v-list-tile-content>
                 <v-list-tile-title>{{ xx }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="(yy, j) in menu[xx].subItems" :key="yy" @click="SET_subItem(yy); SET_mainItem(xx); SET_navItem(menu[mainItem].navItems[subItem][0])">
+            <v-list-tile class="primary secondary--text" v-for="(yy, j) in menu[xx].subItems" :key="yy"
+            @click="SET_subItem(yy); SET_mainItem(xx); SET_navItem(menu[mainItem].navItems[subItem][0])">
               <v-list-tile-content>
                 <v-list-tile-title>{{ yy}}</v-list-tile-title>
               </v-list-tile-content>
@@ -32,23 +37,24 @@
 
   <!-- fetch theme from store/settings
   hide or show burger icon using var drawer    -->
-  <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" :class="options[theme].toolbar" :dark="options[theme].type=='dark'"
+
+  <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" class="primary secondary--text"
   scroll-off-screen :scroll-threshold="1" dense>
-    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    <v-toolbar-title class="hidden-sm-and-down">
-      Power Gita
+    <v-toolbar-side-icon @click.stop="drawer = !drawer" class="primary secondary--text"></v-toolbar-side-icon>
+    <v-toolbar-title :style="this.options[this.theme].emphasis.high">
+      Gita
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn icon class="primary secondary--text">
       <v-icon>group</v-icon>
     </v-btn>
-    <v-btn icon>
+    <v-btn icon class="primary secondary--text">
       <v-icon>notifications</v-icon>
     </v-btn>
     <!-- if not authenticated then show the Sing In button
     if authenticated then render user-profile component -->
     <div v-if="!this.authenticated">
-      <v-btn small :color="options[theme].toolbarAccent1" :dark="options[theme].type=='dark'" @click.native.stop="dialog = true">Sing In</v-btn>
+      <v-btn small flat class="primary secondary--text" @click.native.stop="dialog = true">Sing In</v-btn>
       <v-dialog v-model="dialog">
         <firebase-auth></firebase-auth>
       </v-dialog>
@@ -59,16 +65,16 @@
   </v-toolbar>
 
 
-  <v-content :style="[{color:options[theme].textMain}, divStyle, {fontWeight: fweight}, {fontSize: fsize}]" v-touch="{
-        up: () => setNav(false),
-        down: () => setNav(true)
-      }">
+      <v-content class="background" :style="this.options[this.theme].emphasis.high" v-touch="{
+            up: () => setNav(false),
+            down: () => setNav(true)
+          }">
       <router-view></router-view>
   </v-content>
 
   <!-- dynamic bottom navigation -->
-    <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48">
-<v-btn v-for="(zz, k) in menu[mainItem].navItems[subItem]" :key="zz" :value='zz'>
+    <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48" class="secondary primary--text">
+<v-btn v-for="(zz, k) in menu[mainItem].navItems[subItem]" :key="zz" :value='zz' class="secondary primary--text">
   <span>{{zz}}</span>
   <v-icon>{{menu[mainItem].navIcons[subItem][k]}}</v-icon>
 </v-btn>
@@ -102,11 +108,7 @@ export default {
     ...mapState('parameters', ['authenticated', 'photoURL',  'mainItem', 'subItem', 'chapter', 'verse',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight']),
     navItem: {get(){return this.$store.state.parameters.navItem}, set(value){this.SET_navItem(value)}},
-    compoundWatch() {return this.subItem, this.navItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();},
-    divStyle() {
-     return {background:'linear-gradient(to left top,'+ this.options[this.theme].background[0] +
-     ',' + this.options[this.theme].background[1]+')'}
-    }
+    compoundWatch() {return this.subItem, this.navItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();}
   },
   methods: {
     setNav(myval){
@@ -129,8 +131,12 @@ export default {
        compoundWatch: function(val) {
          this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
-         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi)
+         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi);
+         this.$vuetify.theme.whitelight = "#FFFFFF22"
        }
   }
 }
 </script>
+
+<style lang="scss">
+</style>

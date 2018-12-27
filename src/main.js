@@ -73,14 +73,23 @@ Vue.use(Vuetify, {
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
-    warning: '#FFC107'
+    warning: '#FFC107',
+    backmain: "#212311",
+    foremain: "#562311",
+    foreextra1: '#FFC107',
+    foreextra2: '#2196F3',
+    foreextra3: '#4CAF50',
+    foreextra4: '#82B1FF',
   },
   directives: {
     Touch,
     Scroll
+  },
+  options: {
+    customProperties: true
   }
 })
-Vue.use(Vuetify)
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
@@ -113,7 +122,7 @@ var vm = new Vue({
   created() {
      firebase.initializeApp(config)
      // this.$store.dispatch('settings/loadText')
-     this.$store.dispatch('coretext/loadText')
+     this.$store.dispatch('coretext/loadText');     
   },
   components: { App },
   template: '<App/>'

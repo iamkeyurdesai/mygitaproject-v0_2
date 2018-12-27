@@ -16,30 +16,32 @@
 
     <!-- <span slot="activator">V-{{verse}} </span> -->
 
-
 <v-card-text>
     <v-card tile>
-      <v-toolbar card :class="options[theme].toolbarAccent1" :dark="options[theme].type=='dark'" dense>
+      <v-toolbar card dark color="primary">
         Select Verse
- <v-spacer></v-spacer>
-        <v-btn icon :dark="options[theme].type=='dark'" @click.native="sheet = false">
-          <v-icon>close</v-icon>
-        </v-btn>
+  <v-spacer></v-spacer>
+      <v-btn icon dark @click.native="sheet = false">
+        <v-icon>close</v-icon>
+      </v-btn>
         <v-spacer></v-spacer>
             Chapter {{chapter}}
       </v-toolbar>
-<div v-for="(item, i) in mysummary" :key="i">
-      <v-container grid-list-sm>
-      <v-card color="purple darken-2" class="white--text elevation-10">
-        <div class="subheading"> {{item.summary}}</div>
-          <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
-        <v-btn  class="title tst2" fab small color="red" @click.native.stop="setVerse_local(vid)" v-if="vid==verse">{{vid}}</v-btn>
-        <v-btn class="caption tst2" fab small @click.native.stop="setVerse_local(vid)" v-else>{{vid}}</v-btn>
-      </span>
       </v-card>
+      <v-card class="secondary">
+        <v-container grid-list-md>
+          <v-layout row wrap>
+<v-flex v-for="(item, i) in mysummary" :key="i">
+  <v-card>
+        <div> {{item.summary}}</div>
+          <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
+        <v-btn  class="subheading pa-0 ma-1" small  fab color="active" @click.native.stop="setVerse_local(vid)" v-if="vid==verse">{{vid}}</v-btn>
+        <v-btn class="caption pa-0 ma-1"  small fab @click.native.stop="setVerse_local(vid)" v-else>{{vid}}</v-btn>
+      </span>
+    </v-card>
+    </v-flex>
+    </v-layout>
     </v-container>
-</div>
-
   </v-card>
 </v-card-text>
 </v-dialog>
@@ -85,8 +87,5 @@ export default {
 </script>
 
 <style scoped>
-.tst2 {
-  margin: 2px;
-  padding: 0px;
-}
+
 </style>

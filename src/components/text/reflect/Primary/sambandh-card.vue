@@ -1,8 +1,8 @@
 <template>
-  <div class="text-xs-center mydiv1">
-    <span>Connection</span>
-    <div align="left" v-show="show">
-      <span class="myspan2"> {{ GET_gitapress.sambandh }}
+  <div class="myspan2">
+    <span class="subheading frontinfo--text">Connection</span>
+    <div v-show="show">
+      <span> {{ GET_gitapress.sambandh }}
  </span>
     </div>
 </div>
@@ -18,7 +18,7 @@ export default {
   computed: {
     ...mapState('parameters', ['chapter', 'verse']),
     ...mapState('coretext', ['gitapress']),
-    ...mapGetters('coretext', [ 'GET_gitapress'])    
+    ...mapGetters('coretext', [ 'GET_gitapress'])
   }
   }
 </script>
@@ -34,8 +34,7 @@ export default {
 } */
 
 .myspan2 {
-  font-size: 100%;
-  word-spacing: -0.05em;
-  font-family: "myfont";
+  line-height: 1.6;
+  /* font-family: "myfont"; */
 }
 </style>

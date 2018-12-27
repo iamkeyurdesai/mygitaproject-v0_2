@@ -1,17 +1,30 @@
 <template>
-  <div class="text-xs-center mydiv1">
-    <v-flex xs12>
-<v-layout justify-space-between>
+
+<div class="text-xs-center">
+<v-layout justify-center>
   <settings-popup></settings-popup>
-
-  <span>: {{convert(GET_main.speaker)}} :</span>
-
-  <v-icon v-bind:style="{color:build_color}" v-on:click.stop="sandhi">build</v-icon>
+  <span class="px-3"> {{convert(GET_main.speaker)}} </span>
+  <v-icon :style="this.options[this.theme].emphasis.medium" v-if="!breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
+  <v-icon :style="this.options[this.theme].emphasis.high" v-if="breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
 </v-layout>
 
-<div class="elevation-1 mydiv2">
-      <div v-if="slines=='auto'">
-      <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
+<v-layout column align-center justify-sapce-between>
+<div v-if="!breakSandhi"  align="left">
+<span v-for="(item,i) in GET_main.foot" :class="`accent${i+1}--text`">
+  <span> {{convert(item.foot)}} {{footbreaks[i]}} <br/> </span>
+</span>
+</div>
+<div v-if="breakSandhi"  align="left">
+  <span v-for="(item,i) in GET_main.word_info" :class="`accent${item.foot}--text`" v-on:click="playSound(item.sanskrit)">
+    <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+    <span v-else> {{convert(item.sanskrit)}},</span>
+    <span v-if="checkBreak(i,4)"><br/></span>
+  </span>
+</div>
+</v-layout>
+</div>
+      <!-- <div v-if="slines=='auto'"> -->
+      <!-- <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
         {{convert(item.foot)}} {{footbreaks[i]}}
       </div>
       <div v-if="GET_main.chhandaH=='Trishtubh' && breakSandhi" align="left">
@@ -20,9 +33,9 @@
           <span v-else> {{convert(item.sanskrit)}},</span>
           <span v-if="checkBreak(i,4)"><br/></span>
         </span>
-      </div>
+      </div> -->
 
-      <div v-if="GET_main.chhandaH!='Trishtubh' && !breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
+      <!-- <div v-if="GET_main.chhandaH!='Trishtubh' && !breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
         <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
         <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
       </div>
@@ -33,9 +46,9 @@
           <span v-else> {{convert(item.sanskrit)}},</span>
           <span v-if="checkBreak(i,2)"><br/></span>
         </span>
-      </div>
-    </div>
-      <div v-if="slines=='4x'">
+      </div> -->
+    <!-- </div> -->
+      <!-- <div v-if="slines=='4x'">
         <div v-if="!breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
           {{convert(item.foot)}} {{footbreaks[i]}}
         </div>
@@ -46,8 +59,8 @@
             <span v-if="checkBreak(i,4)"><br/></span>
           </span>
         </div>
-        </div>
-        <div v-if="slines=='2x'">
+        </div> -->
+        <!-- <div v-if="slines=='2x'">
           <div v-if="!breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
             <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
             <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
@@ -60,13 +73,12 @@
               <span v-if="checkBreak(i,2)"><br/></span>
             </span>
           </div>
-          </div>
-
-</div>
+          </div> -->
 
 
-    </v-flex>
-  </div>
+
+
+    <!-- </div> -->
 </template>
 
 <script>
@@ -78,13 +90,8 @@ import Sanscript from 'Sanscript';
 import settingspopup from '../../../settings/settings-popup.vue'
 export default {
   data: () => ({
-    footbreaks: ["", "|", "", "||", "", "|"],
-    build_color: 'grey'    
+    footbreaks: ["", "|", "", "||", "", "|"]
   }),
-  mounted() {
-    //do something after mounting vue instance
-    this.build_color = this.options[this.theme].iconEnabled;
-  },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines']),
@@ -115,14 +122,14 @@ export default {
       }
       return myflag
     },
-    sandhi: function(){
-      this.SET_breakSandhi(!this.breakSandhi)
-      if (this.breakSandhi) {
-        this.build_color = this.options[this.theme].iconActive;
-      } else  {
-        this.build_color = this.options[this.theme].iconEnabled;
-      }
-    },
+    // sandhi: function(){
+    //   this.SET_breakSandhi(!this.breakSandhi)
+    //   if (this.breakSandhi) {
+    //     this.build_color = this.options[this.theme].iconActive;
+    //   } else  {
+    //     this.build_color = this.options[this.theme].iconEnabled;
+    //   }
+    // },
     playSound: function (melody) {
        // var storage = firebase.storage();
        // var pathReference = storage.ref('sounds/mp3/ॐ.mp3');
@@ -146,30 +153,4 @@ export default {
 </script>
 
 <style scoped>
-.mydiv1 {
-  font-size: 100%;
-}
-.mydiv2 {
-  padding: 5px;
-  font-size: 110%;
-}
-
-.openicon {
-     color: white;
-    -webkit-animation-name: openicon; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 10s; /* Safari 4.0 - 8.0 */
-    animation-name: openicon;
-    animation-duration: 10s;
-    animation-iteration-count:10;
-}
-/* Safari 4.0 - 8.0 */
-@-webkit-keyframes openicon {
-    from {color: red;}
-    to {color: green;}
-}
-/* Standard syntax */
-@keyframes openicon {
-    from {color: red;}
-    to {color: green;}
-}
 </style>

@@ -5,30 +5,18 @@ export const options = {
     'saraswati'
   ],
   lakshmi: {
-    theme: {
-    primary: "#190933",
-    secondary: "#D0E2F7",
-    active: "#FBAA06",
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107',
-    background: "#4527A0",
-    button: "#D81B60",
-    accentmain: "#034f84",
-    accentinfo: '#80a9ee',
-    accent1: "#034f84",
-    accent2: "#feb236",
-    accent3: "#d64161",
-    accent4: "#ff7b25"
+    type: 'dark',
+    background: [ '#7E57C2', '#5E35B1' ],
+    toolbar: 'deep-purple darken-4',
+    toolbarAccent1: 'purple darken-1',
+    drawer: 'purple darken-3',
+    textMain: 'white',
+    textAccent1: [ 'aqua', 'gold', 'pink', 'lawngreen' ],
+    textAccent2: 'yellow',
+    iconDisabled: 'grey',
+    iconEnabled: 'white',
+    iconActive: 'orange'
   },
-  emphasis: {
-    high: 'color: #FFFFFF5F',
-    medium: 'color: #FFFFFF9F',
-    disabled: 'color: #FFFFFF5F'
-  },
-  dark: true
-},
   kali: {
     type: 'dark',
     background: [ '#1A237E', '#000000'],
@@ -40,13 +28,7 @@ export const options = {
     textAccent2: 'yellow',
     iconDisabled: 'grey',
     iconEnabled: 'white',
-    iconActive: 'orange',
-    emphasis: {
-      high: 'color: #FFFFFFDF',
-      medium: 'color: #FFFFFF9F',
-      disabled: 'color: #FFFFFF5F'
-    },
-    dark: true
+    iconActive: 'orange'
   },
   saraswati: {
     type: 'light',
@@ -59,12 +41,7 @@ export const options = {
     textAccent2: 'blue',
     iconDisabled: 'grey',
     iconEnabled: 'black',
-    iconActive: 'green',
-    emphasis: {
-      high: 'rgba(255,255,255,0.87)',
-      medium: 'rgba(255,255,255,0.87)',
-      low: 'rgba(255,255,255,0.87)'
-    }
+    iconActive: 'green'
   },
   script: [
     'bengali',
