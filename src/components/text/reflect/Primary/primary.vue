@@ -33,16 +33,19 @@
   <!-- verse component; fairly complex rendering and styling inside -->
 
 <shloak-card></shloak-card>
-  
+<v-divider :dark="GET_dark"></v-divider>
 
 
   <!-- bhavarth (meaning) component -->
-      <v-divider class="divider"></v-divider>
-    <v-layout justify-center row class="pa-2">
-      <bhavarth-card></bhavarth-card>
-    </v-layout>
-    <v-divider class="divider"></v-divider>
 
+  <v-layout justify-center row class="pa-2">
+      <div class="ml-1 pa-2">
+        graphics
+      </div>
+      <v-divider vertical :dark="GET_dark"></v-divider>
+      <bhavarth-card class="ml-2"></bhavarth-card>
+    </v-layout>
+    <v-divider :dark="GET_dark"></v-divider>
 
   <!-- anvaya (breakdown) component, farily complex rednering and styling inside -->
 
@@ -66,19 +69,16 @@
 </v-icon>
 </v-btn> -->
 </v-layout>
-<v-divider class="divider"></v-divider>
+<v-divider :dark="GET_dark"></v-divider>
 <v-layout justify-center row class="px-5">
-<div class="trantext" v-bind:style="styleAnvaya">
+<div class="trantext" v-bind:style="[styleAnvaya, {columnRule: '1px solid #FFFFFF5F'} ]" v-if="this.GET_dark">
+<anvaya-card></anvaya-card>
+</div>
+<div class="trantext" v-bind:style="[styleAnvaya, {columnRule: '1px solid #0000005F'}]" v-else>
 <anvaya-card></anvaya-card>
 </div>
 </v-layout>
 
-<v-btn  class="button" :dark="GET_dark" flat small fab v-on:click.stop="changeTheme()">
-  <v-icon>home</v-icon>
-  </v-btn>
-  <div class="background">
-    <span v-for="i in 4" :class="`accent${i}--text`"> here </span>
-  </div>
 </div>
 </template>
 
@@ -98,7 +98,8 @@ import { mapMutations } from 'vuex';
 export default {
   data: function() {
     return {
-      styleAnvaya: { columnCount: 2
+      styleAnvaya: {
+        columnCount: 2
       }
     }
   },
@@ -156,7 +157,6 @@ export default {
 
 <style lang="scss" scoped>
 .trantext {
-    column-rule: 1px solid grey;
     column-width: auto;
 }
 </style>

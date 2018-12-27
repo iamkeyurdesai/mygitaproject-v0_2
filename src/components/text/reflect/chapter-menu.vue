@@ -20,12 +20,27 @@
 
 <v-card tile>
 
-<v-toolbar card dark color="primary">
-<v-btn icon dark @click.native="sheet = false">
-  <v-icon>close</v-icon>
-</v-btn>
-Select Chapter
-</v-toolbar>
+  <v-toolbar card dark color="primary">
+  <v-layout justify-space-between row align-center>
+  <v-flex>
+    <v-btn dark icon small @click.native="sheet = false">
+      <v-icon>close</v-icon>
+    </v-btn>
+  </v-flex>
+  <v-flex>
+      <div class="text-xs-center subheading">
+    {{subItem}} | select chapter
+  </div>
+  </v-flex>
+  <v-flex>
+  <v-layout column wrap align-center>
+  <div class="title">{{verse}}</div>
+  <div class="caption">verse</div>
+  </v-layout>
+  </v-flex>
+  </v-layout>
+  </v-toolbar>
+
 <v-card class="secondary">
   <v-container fluid grid-list-xs>
 <chapter-card v-for="(mypreview,i) in preview" :key="i" :index="i"></chapter-card>
@@ -49,7 +64,7 @@ import chaptercard from './chapter-card.vue';
       sheet: false
     }),
     computed: {
-      ...mapState('parameters', ['chapter']),
+      ...mapState('parameters', ['chapter', 'verse', 'subItem']),
       ...mapState('coretext', ['preview']),
     },
     components: {

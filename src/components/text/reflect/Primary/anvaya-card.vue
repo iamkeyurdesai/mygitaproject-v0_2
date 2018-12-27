@@ -1,13 +1,15 @@
 
 <template>
-<div class="text-xs-center mydiv1">
+<div class="text-xs-center mydiv">
     <div align="left">
-      <span v-for="i in myindex_extract()" v-bind:style="{color:options[theme].textAccent1[GET_main.word_info[i-1].foot - 1]}" class="myspan1">
+      <span v-for="i in myindex_extract()" :class="`accent${GET_main.word_info[i-1].foot}--text`">
 {{convert(GET_main.word_info[i-1].sanskrit)}} = <span class="myspan2">{{GET_main.word_info[i-1][language]}}</span><br></span>
       </span>
     </div>
 </div>
 </template>
+
+<!-- <span v-for="(item,i) in GET_main.foot" :class="`accent${GET_main.word_info[i-1].foot}--text`"> -->
 
 <script>
 import Sanscript from 'Sanscript';
@@ -33,8 +35,8 @@ export default {
 </script>
 
 <style scoped>
-.mydiv1 {
-  /* font-size: 100%; */
+.mydiv {
+  line-height: 1.6;
 }
 
 /* @font-face {

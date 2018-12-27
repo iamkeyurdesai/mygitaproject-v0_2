@@ -1,12 +1,13 @@
 <template>
   <div class="text-xs-center mydiv1">
-    <span>Translation</span>
+    <span class="subheading accentinfo--text">Translation</span>
     <div align="left" v-show="show">
       <span class="myspan2"> {{ GET_gitapress.bhavarth }}
  </span>
     </div>
 </div>
 </template>
+
 
 <script>
 import { mapState } from 'vuex';
@@ -26,6 +27,7 @@ export default {
 <style scoped>
 .mydiv1 {
   /* font-size: 100%; */
+  line-height: 1.6rem;
 }
 
 /* @font-face {

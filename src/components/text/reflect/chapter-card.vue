@@ -21,7 +21,7 @@
         <v-layout row>
           <v-flex xs12>
             <v-card-actions>
-              <v-btn small @click.native="setChapter_local" color="red" v-if="preview[index].chapter_id==this.chapter">Select</v-btn>
+              <v-btn small @click.native="setChapter_local" class="activity" v-if="preview[index].chapter_id==this.chapter">Select</v-btn>
               <v-btn small @click.native="setChapter_local" v-else>Select</v-btn>
               <v-spacer></v-spacer>
               <v-btn  fab flat small><v-icon>ondemand_video</v-icon></v-btn>

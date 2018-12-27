@@ -67,20 +67,22 @@ Vue.use(Vuetify, {
     VSystemBar
   },
   theme: {
-    primary: '#ee44aa',
-    secondary: '#424242',
-    accent: '#82B1FF',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107',
-    backmain: "#212311",
-    foremain: "#562311",
-    foreextra1: '#FFC107',
-    foreextra2: '#2196F3',
-    foreextra3: '#4CAF50',
-    foreextra4: '#82B1FF',
-  },
+  primary: "#190933",
+  secondary: "#D0E2F7",
+  activity: "#FBAA06",
+  error: '#FF5252',
+  info: '#2196F3',
+  success: '#4CAF50',
+  warning: '#FFC107',
+  background: "#010429",
+  button: "#D81B60",
+  accentmain: "#EA80FC",
+  accentinfo: '#82B1FF',
+  accent1: "#00E5FF",
+  accent2: "#FFC400",
+  accent3: "#76FF03",
+  accent4: "#F48FB1"
+},
   directives: {
     Touch,
     Scroll
@@ -122,7 +124,7 @@ var vm = new Vue({
   created() {
      firebase.initializeApp(config)
      // this.$store.dispatch('settings/loadText')
-     this.$store.dispatch('coretext/loadText');     
+     this.$store.dispatch('coretext/loadText');
   },
   components: { App },
   template: '<App/>'

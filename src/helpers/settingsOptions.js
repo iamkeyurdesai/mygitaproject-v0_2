@@ -8,64 +8,77 @@ export const options = {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
-    active: "#FBAA06",
+    activity: "#FBAA06",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
     background: "#4527A0",
     button: "#D81B60",
-    accentmain: "#034f84",
-    accentinfo: '#80a9ee',
-    accent1: "#034f84",
-    accent2: "#feb236",
-    accent3: "#d64161",
-    accent4: "#ff7b25"
+    accentmain: "#EA80FC",
+    accentinfo: '#82B1FF',
+    accent1: "#00E5FF",
+    accent2: "#FFC400",
+    accent3: "#76FF03",
+    accent4: "#F48FB1"
   },
   emphasis: {
-    high: 'color: #FFFFFF5F',
+    high: 'color: #FFFFFFDF',
     medium: 'color: #FFFFFF9F',
     disabled: 'color: #FFFFFF5F'
   },
   dark: true
 },
   kali: {
-    type: 'dark',
-    background: [ '#1A237E', '#000000'],
-    toolbar: 'black',
-    toolbarAccent1: 'grey darken-4',
-    drawer: 'indigo darken-4',
-    textMain: 'white',
-    textAccent1: [ 'aqua', 'gold', 'pink', 'lawngreen' ],
-    textAccent2: 'yellow',
-    iconDisabled: 'grey',
-    iconEnabled: 'white',
-    iconActive: 'orange',
-    emphasis: {
-      high: 'color: #FFFFFFDF',
-      medium: 'color: #FFFFFF9F',
-      disabled: 'color: #FFFFFF5F'
-    },
-    dark: true
+    theme: {
+    primary: "#190933",
+    secondary: "#D0E2F7",
+    activity: "#FBAA06",
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107',
+    background: "#010429",
+    button: "#D81B60",
+    accentmain: "#EA80FC",
+    accentinfo: '#82B1FF',
+    accent1: "#00E5FF",
+    accent2: "#FFC400",
+    accent3: "#76FF03",
+    accent4: "#F48FB1"
   },
+  emphasis: {
+    high: 'color: #FFFFFFDF',
+    medium: 'color: #FFFFFF9F',
+    disabled: 'color: #FFFFFF5F'
+  },
+  dark: true
+},
   saraswati: {
-    type: 'light',
-    background: [ '#FFFFFF', '#F7F7F7' ],
-    toolbar: 'blue lighten-3',
-    toolbarAccent1: 'blue lighten-1',
-    drawer: 'indigo lighten-4',
-    textMain: 'black',
-    textAccent1: [ 'brown', 'darkgreen', 'indigo', 'teal' ],
-    textAccent2: 'blue',
-    iconDisabled: 'grey',
-    iconEnabled: 'black',
-    iconActive: 'green',
-    emphasis: {
-      high: 'rgba(255,255,255,0.87)',
-      medium: 'rgba(255,255,255,0.87)',
-      low: 'rgba(255,255,255,0.87)'
-    }
+    theme: {
+    primary: "#190933",
+    secondary: "#D0E2F7",
+    activity: "#FBAA06",
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107',
+    background: "#FFFFFF",
+    button: "#D81B60",
+    accentmain: "#EA80FC",
+    accentinfo: '#82B1FF',
+    accent1: "#00E5FF",
+    accent2: "#FFC400",
+    accent3: "#76FF03",
+    accent4: "#F48FB1"
   },
+  emphasis: {
+    high: 'color: #000000DF',
+    medium: 'color: #0000009F',
+    disabled: 'color: #0000005F'
+  },
+  dark: false
+},
   script: [
     'bengali',
     'devanagari',

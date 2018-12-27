@@ -14,7 +14,7 @@
           </div>
           <v-list class="primary">
           <v-list-group v-model="menu.mainActive[i]" v-for="(xx, i) in menu.mainItems" :key="xx" :prepend-icon="menu.mainIcons[i]"
-          no-action class="primary secondary--text" active-class="primary active--text">
+          no-action class="primary secondary--text" active-class="primary activity--text">
             <v-list-tile slot="activator">
               <v-list-tile-content>
                 <v-list-tile-title>{{ xx }}</v-list-tile-title>
@@ -126,13 +126,16 @@ export default {
         this.SET_photoURL('not signed in')
       }
     });
+    this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
   },
   watch: {
        compoundWatch: function(val) {
          this.$router.push('/' + this.subItem + '/' + this.navItem + '/' + 'api=1' +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
          '&script=' + this.script + '&breakSandhi=' + this.breakSandhi);
-         this.$vuetify.theme.whitelight = "#FFFFFF22"
+       },
+       theme: function(val){
+         this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
        }
   }
 }

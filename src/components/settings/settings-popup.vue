@@ -11,14 +11,25 @@
     <v-icon :style="this.options[this.theme].emphasis.high" v-if="sheet"> format_size</v-icon>
     </span>
     <v-card>
-<v-toolbar card class="primary" :dark="GET_dark" dense>
-       Settings
-<v-spacer></v-spacer>
-        <v-btn icon :dark="GET_dark" @click.native="sheet = false">
+      <v-toolbar card dark color="primary">
+<v-layout justify-space-between row align-center>
+<v-flex>
+        <v-btn dark icon small @click.native="sheet = false">
           <v-icon>close</v-icon>
         </v-btn>
-      <v-spacer></v-spacer>
-          Power Gita
+      </v-flex>
+      <v-flex>
+          <div class="text-xs-center subheading">
+        {{subItem}} | settings
+      </div>
+    </v-flex>
+    <v-flex>
+  <v-layout column wrap align-center>
+  <div class="subheading">{{language}}</div>
+  <div class="caption">{{script}}</div>
+  </v-layout>
+</v-flex>
+  </v-layout>
       </v-toolbar>
 
 
@@ -86,6 +97,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
+    ...mapState('parameters', ['subItem']),
     ...mapGetters('settings', ['GET_dark']),
     theme: {get(){return this.$store.state.parameters.theme}, set(value){this.SET_theme(value)}},
     language: {get(){return this.$store.state.parameters.language}, set(value){this.SET_language(value)}},

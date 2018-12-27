@@ -1,6 +1,6 @@
 <template>
-  <div class="myspan2">
-    <span class="subheading frontinfo--text">Connection</span>
+  <div class="myspan">
+    <span class="subheading accentinfo--text">Connection</span>
     <div v-show="show">
       <span> {{ GET_gitapress.sambandh }}
  </span>
@@ -33,7 +33,7 @@ export default {
   src: url(../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
 } */
 
-.myspan2 {
+.myspan {
   line-height: 1.6;
   /* font-family: "myfont"; */
 }

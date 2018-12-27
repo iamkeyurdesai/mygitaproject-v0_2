@@ -16,34 +16,50 @@
 
     <!-- <span slot="activator">V-{{verse}} </span> -->
 
-<v-card-text>
-    <v-card tile>
+<v-card>
       <v-toolbar card dark color="primary">
-        Select Verse
-  <v-spacer></v-spacer>
-      <v-btn icon dark @click.native="sheet = false">
-        <v-icon>close</v-icon>
-      </v-btn>
-        <v-spacer></v-spacer>
-            Chapter {{chapter}}
-      </v-toolbar>
-      </v-card>
-      <v-card class="secondary">
-        <v-container grid-list-md>
-          <v-layout row wrap>
-<v-flex v-for="(item, i) in mysummary" :key="i">
-  <v-card>
-        <div> {{item.summary}}</div>
-          <span  v-for="(vid, j) in range(item.begin, item.end)" :key="j">
-        <v-btn  class="subheading pa-0 ma-1" small  fab color="active" @click.native.stop="setVerse_local(vid)" v-if="vid==verse">{{vid}}</v-btn>
-        <v-btn class="caption pa-0 ma-1"  small fab @click.native.stop="setVerse_local(vid)" v-else>{{vid}}</v-btn>
-      </span>
-    </v-card>
+<v-layout justify-space-between row align-center>
+<v-flex>
+        <v-btn dark icon small @click.native="sheet = false">
+          <v-icon>close</v-icon>
+        </v-btn>
+      </v-flex>
+      <v-flex>
+          <div class="text-xs-center subheading">
+        {{subItem}} | select verse
+      </div>
     </v-flex>
+    <v-flex>
+  <v-layout column wrap align-center>
+  <div class="title">{{chapter}}</div>
+  <div class="caption">chapter</div>
+  </v-layout>
+</v-flex>
+  </v-layout>
+      </v-toolbar>
+<v-card class="secondary">
+        <v-container grid-list-xs>
+          <v-layout column wrap>
+<v-card class="my-1" v-for="(item, i) in mysummary" :key="i">
+   <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
+            <v-flex>
+            <v-card-text class="pa-1"> {{item.summary}}</v-card-text>
+          </v-flex>
+          <v-flex>
+           <v-card-text class="pa-1">
+          <span  v-for="(vid, j) in range(item.begin, item.end)"  :key="j">
+        <button  class="activity subheading mybutton ma-1 elevation-5" @click="setVerse_local(vid)" v-if="vid==verse"> {{vid}} </button>
+        <button  class="caption mybutton ma-1 elevation-5" @click="setVerse_local(vid)" v-else> {{vid}} </button>
+      </span>
+    </v-card-text>
+    </v-flex>
+    </v-layout>
+    </v-card>
     </v-layout>
     </v-container>
   </v-card>
-</v-card-text>
+  </v-card>
+
 </v-dialog>
 </div>
 
@@ -61,7 +77,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'theme']),
+    ...mapState('parameters', ['chapter', 'verse', 'theme', 'subItem']),
     ...mapState('coretext', ['summary']),
     mysummary(){
       // console.log(this.summary);
@@ -87,5 +103,12 @@ export default {
 </script>
 
 <style scoped>
+
+.mybutton{
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 3px;
+  width: 1.6rem;
+  height: auto;
+}
 
 </style>

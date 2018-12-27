@@ -7,17 +7,24 @@
     }">
   <!-- header containing chapter, verse and salutation -->
 
-    <v-layout justify-space-between row class="mb-1">
-      <chapter-menu></chapter-menu>
-      <v-btn  flat>{{GET_salutation}}</v-btn>
-      <verse-menu></verse-menu>
-    </v-layout>
-    <v-divider :dark="options[theme].type=='dark'"></v-divider>
+  <v-layout justify-space-between row wrap>
+    <v-flex>
+    <chapter-menu></chapter-menu>
+    </v-flex>
+    <v-flex class="pa-2 text-xs-center">
+    <button>{{GET_salutation}}</button>
+    </v-flex>
+    <v-flex>
+    <verse-menu></verse-menu>
+  </v-flex>
+  </v-layout>
+  <v-divider :dark="GET_dark"></v-divider>
+
 
   <!-- commentary component-->
-  <v-tabs v-model="active" color="primary lighten-1" slider-color="yellow" >
+  <v-tabs v-model="active" color="primary lighten-1" slider-color="activity" >
         <v-tab v-for="n in 2" :key="n" ripple class="secondary--text darken-1">
-          {{options[theme].toolbar}}
+          {{options[theme].dark}}
         </v-tab>
         <v-tab-item v-for="n in 2" :key="n" >
           <v-layout justify-space-between  class="mt-1 pa-3">
@@ -80,7 +87,8 @@ export default {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
-    ...mapGetters('coretext', ['GET_salutation'])
+    ...mapGetters('coretext', ['GET_salutation']),
+    ...mapGetters('settings', ['GET_dark'])
   },
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
