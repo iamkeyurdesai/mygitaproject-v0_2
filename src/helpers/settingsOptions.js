@@ -66,14 +66,14 @@ export const options = {
     background: "#FFFFFF",
     button: "#D81B60",
     accentmain: "#EA80FC",
-    accentinfo: '#82B1FF',
-    accent1: "#00E5FF",
-    accent2: "#FFC400",
-    accent3: "#76FF03",
-    accent4: "#F48FB1"
+    accentinfo: '#1867c0',
+    accent1: "#43A047",
+    accent2: "#9C27B0",
+    accent3: "#03A9F4",
+    accent4: "#FF5722"
   },
   emphasis: {
-    high: 'color: #000000DF',
+    high: 'color: #000000BF',
     medium: 'color: #0000009F',
     disabled: 'color: #0000005F'
   },
