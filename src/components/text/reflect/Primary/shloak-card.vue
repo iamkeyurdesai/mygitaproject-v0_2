@@ -7,7 +7,7 @@
   <v-icon :style="this.options[this.theme].emphasis.medium" v-if="!breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
   <v-icon :style="this.options[this.theme].emphasis.high" v-if="breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
 </v-layout>
-
+<v-btn @click="myAdd()">YES</v-btn>
 <v-layout column align-center justify-sapce-between>
 <div v-if="!breakSandhi"  align="left">
 <span v-for="(item,i) in GET_main.foot" :class="`accent${i+1}--text`">
@@ -15,11 +15,19 @@
 </span>
 </div>
 <div v-if="breakSandhi"  align="left">
-  <span v-for="(item,i) in GET_main.word_info" :class="`accent${item.foot}--text`" v-on:click="playSound(item.sanskrit)">
-    <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+  <!-- <span v-for="(item,i) in GET_main.word_info" :class="`accent${item.foot}--text`" v-on:click="playSound(item.sanskrit)"> -->
+    <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" class="pa-1 ma-1" v-on:click="myUpdate(i,footNumber)">
+    <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
     <span v-else> {{convert(item.sanskrit)}},</span>
     <span v-if="checkBreak(i,4)"><br/></span>
   </span>
+  <v-card>
+  <v-radio-group v-model="footNumber" row>
+    foot number:
+    <v-radio v-for="item in 4" v-bind:label="''+item" v-bind:value="item" :key="item + '_key'"></v-radio>
+  </v-radio-group>
+</v-card>
+{{footNumber}}
 </div>
 </v-layout>
 </div>
@@ -90,15 +98,21 @@ import Sanscript from 'Sanscript';
 import settingspopup from '../../../settings/settings-popup.vue'
 export default {
   data: () => ({
-    footbreaks: ["", "|", "", "||", "", "|"]
+    footbreaks: ["", "|", "", "||", "", "|"],
+    footNumber: 4
   }),
   computed: {
     ...mapState('settings', ['options']),
+    ...mapState('coretext', ['main']),
     ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines']),
-    ...mapGetters('coretext', [ 'GET_main'])
+    ...mapGetters('coretext', [ 'GET_main']),
+    GET_main_local() {
+      return Object.assign({}, this.GET_main)
+    }
   },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement']),
+    ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput){
           return Sanscript.t(myinput, 'iast', this.script);
         },
@@ -144,6 +158,30 @@ export default {
        // var snd = new Audio("https://firebasestorage.googleapis.com/v0/b/gitawebapp.appspot.com/o/sounds%2Fmp3%2F%E0%A5%90.mp3?alt=media&token=7fbad31c-09af-4a90-b723-523c8c464d67");
        // snd.play();
        // console.log(melody+'.mp3');
+    },
+    addWordIndex() {
+      var db = firebase.firestore();
+      // db.collection("wordIndex").add({
+      //     chapter: this.chapter,
+      //     verse: this.verse,
+      //     i: val
+      //   })
+      db.collection("mymain").doc("c"+this.chapter+"v"+this.verse).set(this.GET_main)
+      // .then(function(docRef) {
+      //     console.log("Document written with ID: ", docRef.id);
+      //   })
+      //   .catch(function(error) {
+      //     console.error("Error adding document: ", error);
+      //   });
+    },
+    myUpdate(i, j) {
+      // this.$store.state.coretext.mymain.word_info[i].foot = parseInt(j);
+      // this.SET_main_foot({i:i, j:j});
+      this.GET_main_local.word_info[i].foot = parseInt(j);
+    },
+    myAdd(i) {
+      this.addWordIndex();
+      this.increment()
     }
   },
   components: {

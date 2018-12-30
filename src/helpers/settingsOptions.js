@@ -102,5 +102,6 @@ export const options = {
     'auto'
   ],
   fweight: ['100', '300', '400', '500', '700', '900'],
-  fsize: ['small', 'medium', 'large', 'x-large']
+  fsize: ['small', 'medium', 'large', 'xlarge'],
+  fsizeInternal: {small: 'body-1', medium: 'body-2', large: 'subheading', xlarge: 'title'}
 }

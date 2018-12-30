@@ -41,7 +41,7 @@
   <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" class="primary secondary--text"
   scroll-off-screen :scroll-threshold="1" dense>
     <v-toolbar-side-icon @click.stop="drawer = !drawer" class="primary secondary--text"></v-toolbar-side-icon>
-    <v-toolbar-title :style="this.options[this.theme].emphasis.high">
+    <v-toolbar-title dark>
       Gita
     </v-toolbar-title>
     <v-spacer></v-spacer>
@@ -65,7 +65,7 @@
   </v-toolbar>
 
 
-      <v-content class="background" :style="this.options[this.theme].emphasis.high" v-touch="{
+      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high" v-touch="{
             up: () => setNav(false),
             down: () => setNav(true)
           }">

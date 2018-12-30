@@ -117,19 +117,6 @@ export default {
     increaseColumn: function() {
       if(this.styleAnvaya.columnCount <4 ) this.styleAnvaya.columnCount += 1
     },
-    addTodo() {
-      var db = firebase.firestore();
-      db.collection("users").add({
-          first: "Vaibhav",
-          last: "Desai"
-        })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-        });
-    },
     changeTheme(val){
       console.log(this.$vuetify)
       this.$vuetify.theme = Object.assign({}, this.options["lakshmi"].theme)
