@@ -92,6 +92,8 @@ Vue.use(Vuetify, {
   }
 })
 
+Vue.use(require('vue-chartist'))
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {

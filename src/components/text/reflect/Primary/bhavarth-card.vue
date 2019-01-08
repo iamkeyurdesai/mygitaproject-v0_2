@@ -1,6 +1,6 @@
 <template>
-  <div class="text-xs-center mydiv1">
-    <span class="subheading accentinfo--text">Translation</span>
+  <div class="text-xs-right mydiv1">
+    <span class="subheading accentinfo--text mr-4">Translation</span>
     <div align="left" v-show="show">
       <span class="myspan2"> {{ GET_gitapress.bhavarth }}
  </span>
@@ -27,17 +27,11 @@ export default {
 <style scoped>
 .mydiv1 {
   /* font-size: 100%; */
-  line-height: 1.6rem;
+  line-height: 1.6em;
 }
 
 /* @font-face {
   font-family: myfont;
   src: url(../../../../assets/fonts/NotoSansDevanagari-hinted/NotoSansDevanagari-Light.ttf);
 } */
-
-.myspan2 {
-  font-size: 100%;
-  word-spacing: -0.05em;
-  font-family: "myfont";
-}
 </style>

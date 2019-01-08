@@ -34,7 +34,7 @@ export default {
 } */
 
 .myspan {
-  line-height: 1.6;
+  line-height: 1.6em;
   /* font-family: "myfont"; */
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="text-xs-center">
     <v-dialog
     v-model="sheet"
-    hide-overlay
+    hide-overlay    
     scrollable
     transition="dialog-bottom-transition"
     >
@@ -42,36 +42,36 @@
             <v-radio v-for="(item, i) in options.fsize" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
           </v-radio-group>
   </v-card>
-<v-card class="px-1">
+<!-- <v-card class="px-1">
             <v-radio-group v-model="fweight" row>
               <strong> font weight: </strong>
               <v-radio v-for="(item, i) in options.fweight" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
             </v-radio-group>
-            </v-card>
-            <v-card class="px-1">
-              <v-radio-group v-model="script" row>
-                <strong>script: </strong>
-                <v-radio v-for="(item, i) in options.script" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
-              </v-radio-group>
-              </v-card>
+            </v-card> -->
             <v-card class="px-1">
           <v-radio-group v-model="theme" row>
             <strong>theme: </strong>
             <v-radio v-for="(item, i) in options.theme" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
           </v-radio-group>
           </v-card>
+            <v-card class="px-1">
+              <v-radio-group v-model="script" row>
+                <strong>script: </strong>
+                <v-radio v-for="(item, i) in options.script" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
+              </v-radio-group>
+              </v-card>
           <v-card class="px-1">
             <v-radio-group v-model="language" row>
               <strong>language: </strong>
               <v-radio v-for="(item, i) in options.language" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
             </v-radio-group>
           </v-card>
-          <v-card class="px-1">
+          <!-- <v-card class="px-1">
             <v-radio-group v-model="slines" row>
               <strong> shloaka lines: </strong>
               <v-radio v-for="(item, i) in options.slines" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
             </v-radio-group>
-          </v-card>
+          </v-card> -->
           <v-card class="px-1">
             <v-switch label="Audio" v-model="audio"></v-switch>
             </v-card>

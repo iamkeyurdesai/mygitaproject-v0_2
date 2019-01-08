@@ -1,92 +1,37 @@
 <template>
+<v-layout justify-center class="myspan">
 
-<div class="text-xs-center">
+<v-layout justify-center column>
 <v-layout justify-center>
   <settings-popup></settings-popup>
-  <span class="px-3"> {{convert(GET_main.speaker)}} </span>
-  <v-icon :style="this.options[this.theme].emphasis.medium" v-if="!breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
-  <v-icon :style="this.options[this.theme].emphasis.high" v-if="breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
+  <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
+  <span class="px-3" :class="{active: this.classObject==-1}"> {{convert(GET_main.speaker)}} </span>
+  <v-btn v-on:click="saveSoundPos(-1)"> Uvach</v-btn>
 </v-layout>
-<v-btn @click="myAdd()">YES</v-btn>
-<v-layout column align-center justify-sapce-between>
-<div v-if="!breakSandhi"  align="left">
+
+  <v-layout row align-center justify-center>
+<div  align="left">
 <span v-for="(item,i) in GET_main.foot" :class="`accent${i+1}--text`">
-  <span> {{convert(item.foot)}} {{footbreaks[i]}} <br/> </span>
+    <span :class="{active: classObject===i}"> {{convert(item.foot)}} {{footbreaks[i]}}
+    <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption">
+    {{chapter}}|{{verse}}
+    </span>
+    <v-btn v-on:click="saveSoundPos(i)" :class="`accent${i+1}`"> foot{{i}}</v-btn>
+    <br/> </span>
 </span>
 </div>
-<div v-if="breakSandhi"  align="left">
-  <!-- <span v-for="(item,i) in GET_main.word_info" :class="`accent${item.foot}--text`" v-on:click="playSound(item.sanskrit)"> -->
-    <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" class="pa-1 ma-1" v-on:click="myUpdate(i,footNumber)">
-    <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
-    <span v-else> {{convert(item.sanskrit)}},</span>
-    <span v-if="checkBreak(i,4)"><br/></span>
-  </span>
-  <v-card>
-  <v-radio-group v-model="footNumber" row>
-    foot number:
-    <v-radio v-for="item in 4" v-bind:label="''+item" v-bind:value="item" :key="item + '_key'"></v-radio>
-  </v-radio-group>
-</v-card>
-{{footNumber}}
-</div>
 </v-layout>
+<div>
+<v-btn v-on:click="loadSoundFull()"> Load</v-btn>
+<v-btn v-on:click="mysound.play()"> Play</v-btn>
+<v-btn v-on:click="mysound.pause()"> Pause</v-btn>
 </div>
-      <!-- <div v-if="slines=='auto'"> -->
-      <!-- <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
-        {{convert(item.foot)}} {{footbreaks[i]}}
-      </div>
-      <div v-if="GET_main.chhandaH=='Trishtubh' && breakSandhi" align="left">
-        <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-          <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
-          <span v-else> {{convert(item.sanskrit)}},</span>
-          <span v-if="checkBreak(i,4)"><br/></span>
-        </span>
-      </div> -->
-
-      <!-- <div v-if="GET_main.chhandaH!='Trishtubh' && !breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
-        <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
-        <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
-      </div>
-
-      <div v-if="GET_main.chhandaH!='Trishtubh' && breakSandhi" align="left">
-        <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-          <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
-          <span v-else> {{convert(item.sanskrit)}},</span>
-          <span v-if="checkBreak(i,2)"><br/></span>
-        </span>
-      </div> -->
-    <!-- </div> -->
-      <!-- <div v-if="slines=='4x'">
-        <div v-if="!breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
-          {{convert(item.foot)}} {{footbreaks[i]}}
-        </div>
-        <div v-if="breakSandhi" align="left">
-          <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-            <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
-            <span v-else> {{convert(item.sanskrit)}},</span>
-            <span v-if="checkBreak(i,4)"><br/></span>
-          </span>
-        </div>
-        </div> -->
-        <!-- <div v-if="slines=='2x'">
-          <div v-if="!breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
-            <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
-            <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
-          </div>
-
-          <div v-if="breakSandhi" align="left">
-            <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
-              <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
-              <span v-else> {{convert(item.sanskrit)}},</span>
-              <span v-if="checkBreak(i,2)"><br/></span>
-            </span>
-          </div>
-          </div> -->
+{{mytracking1}}
+{{myAnn}}
+</v-layout>
+</v-layout>
 
 
-
-
-    <!-- </div> -->
 </template>
 
 <script>
@@ -96,22 +41,48 @@ import {mapGetters} from 'vuex';
 import {mapState} from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../../../settings/settings-popup.vue'
+import {Howl, Howler} from 'howler';
 export default {
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],
-    footNumber: 4
+    footNumber: 4,
+    mysound: null,
+    mytrackingOn: false,
+    mytracking: null,
+    mytracking1: null,
+    myAnn: {
+    mytime: [0, 10, 20, 30, 40],
+    myverse: [1, 1, 1, 1, 1],
+    myfoot: [-1, 0, 1, 2, 3]
+  }
   }),
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['main']),
-    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines', 'fsize']),
     ...mapGetters('coretext', [ 'GET_main']),
-    GET_main_local() {
-      return Object.assign({}, this.GET_main)
+    classObject:  function () {
+        /**
+* Returns the closest smallest number from a sorted array.
+**/
+function closest(arr, target) {
+    if (!(arr) || arr.length == 0)
+        return null;
+    if (arr.length == 1)
+        // return arr[0];
+        return 0;
+    for (var i=1; i<arr.length; i++) {
+        // As soon as a number bigger than target is found, return the previous index
+        if (arr[i] > target) return i-1
     }
-  },
+    // No number in array is bigger so return the last.
+    return arr.length-1;
+}
+if ( this.myAnn.mytime.length > 0) return this.myAnn.myfoot[closest(this.myAnn.mytime, this.mytracking1)]
+}
+},
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse']),
     ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput){
           return Sanscript.t(myinput, 'iast', this.script);
@@ -123,41 +94,42 @@ export default {
       }
       return foo;
     },
-    checkBreak(i,j){
-      let myflag = false
-      let mytemp = this.GET_main.word_info[i+1]
-      if(!(mytemp === undefined)) {
-        if(j==2){
-          myflag = (this.GET_main.word_info[i].foot < this.GET_main.word_info[i+1].foot) &&
-          (this.GET_main.word_info[i].foot % 2 == 0)
-        } else {
-          myflag = (this.GET_main.word_info[i].foot < this.GET_main.word_info[i+1].foot)
-        }
-      }
-      return myflag
-    },
-    // sandhi: function(){
-    //   this.SET_breakSandhi(!this.breakSandhi)
-    //   if (this.breakSandhi) {
-    //     this.build_color = this.options[this.theme].iconActive;
-    //   } else  {
-    //     this.build_color = this.options[this.theme].iconEnabled;
-    //   }
-    // },
-    playSound: function (melody) {
-       // var storage = firebase.storage();
-       // var pathReference = storage.ref('sounds/mp3/ॐ.mp3');
-       // pathReference.getDownloadURL().then(function(url){
-         // console.log(url);
-         console.log(melody);
-         var snd = new Audio();
-         snd.src = 'https://gitawebapp.firebaseapp.com/static/assets/audio/mp3/' + melody + '.mp3';
-         console.log(snd.src);
-         snd.play()
-       // })
-       // var snd = new Audio("https://firebasestorage.googleapis.com/v0/b/gitawebapp.appspot.com/o/sounds%2Fmp3%2F%E0%A5%90.mp3?alt=media&token=7fbad31c-09af-4a90-b723-523c8c464d67");
-       // snd.play();
-       // console.log(melody+'.mp3');
+    loadSoundFull: function () {
+    console.log(this.mytrackingOn)
+         self = this
+         let mylink = 'https://gitawebapp.firebaseapp.com/static/assets/audio/full/gita' + this.chapter + '.mp3';
+         this.mysound = new Howl({
+  src: [mylink],
+  onload: function() {
+    // this.mytrackingOn = true
+    // if(this.mytrackingOn === true) {
+    this.mytracking = setInterval(myTimer, 1000)
+    function myTimer() {
+      self.mytracking1 = self.mysound.seek()
+      console.log(self.mysound.seek())
+    }
+// }
+//     console.log(this.mytrackingOn)
+  },
+  autoplay: true
+  // ,
+  // sprite: {
+  //   blast: [60000, 100000]
+  // }
+});
+this.SET_verse(1)
+// this.mysound.play()
+// function myFunction(item,index,arr) {
+//   arr[index] = item + 4.421333;
+// }
+// this.myAnn.mytime.forEach(myFunction)
+// this.mytrackingOn = setInterval(myTimer, 1000)
+},
+    saveSoundPos: function (myval) {
+      this.myAnn.mytime.push(this.mysound.seek())
+      this.myAnn.myverse.push(this.verse)
+      this.myAnn.myfoot.push(myval)
+    // console.log(this.myAnn)
     },
     addWordIndex() {
       var db = firebase.firestore();
@@ -191,4 +163,12 @@ export default {
 </script>
 
 <style scoped>
+.myspan {
+  line-height: 3.6em;
+  /* font-family: "myfont"; */
+}
+.active {
+  font-size: 2rem;
+  border-left: 5px solid red;
+}
 </style>
