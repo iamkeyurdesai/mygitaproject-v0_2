@@ -3,7 +3,12 @@ import Router from 'vue-router'
 import reflect from '@/components/text/reflect/reflect'
 import primary from '@/components/text/reflect/Primary/primary'
 import commentary from '@/components/text/reflect/Commentary/commentary'
+
 import welcome from '@/components/root/welcome'
+
+import recite from '@/components/text/recite/recite'
+import learn from '@/components/text/recite/learn/learn'
+
 import Editor from '@/components/Editor'
 import {store} from '../store/index.js'
 
@@ -22,6 +27,12 @@ export default new Router({
       children: [
         {path: 'primary/:data?', component: primary},
         {path: 'commentary/:data?', component: commentary}
+      ]
+    },
+    {
+      path: '/recite', name: 'recite', component: recite,
+      children: [
+        {path: 'learn/:data?', component: learn}
       ]
     }
   ]

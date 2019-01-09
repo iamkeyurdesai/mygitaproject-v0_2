@@ -1,37 +1,101 @@
 <template>
 <v-layout justify-center class="myspan">
+  <!-- <v-layout column justify-end align-start align-content-start>
+    </v-layout> -->
 
 <v-layout justify-center column>
 <v-layout justify-center>
   <settings-popup></settings-popup>
-  <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
-  <span class="px-3" :class="{active: this.classObject==-1}"> {{convert(GET_main.speaker)}} </span>
-  <v-btn v-on:click="saveSoundPos(-1)"> Uvach</v-btn>
+  <span class="px-3"> {{convert(GET_main.speaker)}} </span>
+  <v-icon :style="this.options[this.theme].emphasis.medium" v-if="!breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
+  <v-icon :style="this.options[this.theme].emphasis.high" v-if="breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi)"> gavel</v-icon>
 </v-layout>
 
+
   <v-layout row align-center justify-center>
-<div  align="left">
+<div v-if="!breakSandhi"  align="left">
 <span v-for="(item,i) in GET_main.foot" :class="`accent${i+1}--text`">
-    <span :class="{active: classObject===i}"> {{convert(item.foot)}} {{footbreaks[i]}}
+  <span> {{convert(item.foot)}} {{footbreaks[i]}}
     <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption">
     {{chapter}}|{{verse}}
     </span>
-    <v-btn v-on:click="saveSoundPos(i)" :class="`accent${i+1}`"> foot{{i}}</v-btn>
     <br/> </span>
 </span>
 </div>
-</v-layout>
-<div>
-<v-btn v-on:click="loadSoundFull()"> Load</v-btn>
-<v-btn v-on:click="mysound.play()"> Play</v-btn>
-<v-btn v-on:click="mysound.pause()"> Pause</v-btn>
+<div v-if="breakSandhi"  align="left" :class="options.fsizeInternal1[fsize]">
+  <span v-for="(item,i) in GET_main.word_info" :class="`accent${item.foot}--text`" v-on:click="playSound(item.sanskrit)" class="mx-1">
+    <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+    <span v-else> {{convert(item.sanskrit)}},</span>
+    <span v-if="checkBreak(i,4)"><br/></span>
+  </span>
+  <span :style="options[theme].emphasis.disabled"  class="caption">
+  {{chapter}}|{{verse}}
+  </span>
 </div>
-{{mytracking1}}
-{{myAnn}}
-</v-layout>
 </v-layout>
 
+</v-layout>
 
+<!-- <v-layout column caption justify-end align-start align-content-start> -->
+<!-- <div class="ml-1" :style="options[theme].emphasis.disabled"> -->
+<!-- {{chapter}}|{{verse}} -->
+<!-- </div> -->
+<!-- </v-layout> -->
+
+</v-layout>
+
+<!-- </div> -->
+      <!-- <div v-if="slines=='auto'"> -->
+      <!-- <div v-if="GET_main.chhandaH=='Trishtubh' && !breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
+        {{convert(item.foot)}} {{footbreaks[i]}}
+      </div>
+      <div v-if="GET_main.chhandaH=='Trishtubh' && breakSandhi" align="left">
+        <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+          <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+          <span v-else> {{convert(item.sanskrit)}},</span>
+          <span v-if="checkBreak(i,4)"><br/></span>
+        </span>
+      </div> -->
+
+      <!-- <div v-if="GET_main.chhandaH!='Trishtubh' && !breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
+        <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
+        <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
+      </div>
+
+      <div v-if="GET_main.chhandaH!='Trishtubh' && breakSandhi" align="left">
+        <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+          <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+          <span v-else> {{convert(item.sanskrit)}},</span>
+          <span v-if="checkBreak(i,2)"><br/></span>
+        </span>
+      </div> -->
+    <!-- </div> -->
+      <!-- <div v-if="slines=='4x'">
+        <div v-if="!breakSandhi"  align="left" v-for="(item,i) in GET_main.foot" v-bind:style="{color:options[theme].textAccent1[i]}">
+          {{convert(item.foot)}} {{footbreaks[i]}}
+        </div>
+        <div v-if="breakSandhi" align="left">
+          <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+            <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+            <span v-else> {{convert(item.sanskrit)}},</span>
+            <span v-if="checkBreak(i,4)"><br/></span>
+          </span>
+        </div>
+        </div> -->
+        <!-- <div v-if="slines=='2x'">
+          <div v-if="!breakSandhi" align="left" v-for="(item,i) in GET_main.stanza" v-bind:style="{color:options[theme].textAccent1[i]}">
+            <span v-bind:style="{color:options[theme].textAccent1[0+(i*2)]}">{{convert(GET_main.foot[0+(i*2)].foot)}}</span>
+            <span<span v-bind:style="{color:options[theme].textAccent1[1+(i*2)]}"> {{convert(GET_main.foot[1+(i*2)].foot)}} {{footbreaks[1+(i*2)]}}</span>
+          </div>
+
+          <div v-if="breakSandhi" align="left">
+            <span v-for="(item,i) in GET_main.word_info" v-bind:style="{color:options[theme].textAccent1[item.foot-1]}" v-on:click="playSound(item.sanskrit)">
+              <span v-if="GET_main.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
+              <span v-else> {{convert(item.sanskrit)}},</span>
+              <span v-if="checkBreak(i,2)"><br/></span>
+            </span>
+          </div>
+          </div> -->
 </template>
 
 <script>
@@ -45,44 +109,16 @@ import {Howl, Howler} from 'howler';
 export default {
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],
-    footNumber: 4,
-    mysound: null,
-    mytrackingOn: false,
-    mytracking: null,
-    mytracking1: null,
-    myAnn: {
-    mytime: [0, 10, 20, 30, 40],
-    myverse: [1, 1, 1, 1, 1],
-    myfoot: [-1, 0, 1, 2, 3]
-  }
+    footNumber: 4
   }),
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['main']),
     ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines', 'fsize']),
-    ...mapGetters('coretext', [ 'GET_main']),
-    classObject:  function () {
-        /**
-* Returns the closest smallest number from a sorted array.
-**/
-function closest(arr, target) {
-    if (!(arr) || arr.length == 0)
-        return null;
-    if (arr.length == 1)
-        // return arr[0];
-        return 0;
-    for (var i=1; i<arr.length; i++) {
-        // As soon as a number bigger than target is found, return the previous index
-        if (arr[i] > target) return i-1
-    }
-    // No number in array is bigger so return the last.
-    return arr.length-1;
-}
-if ( this.myAnn.mytime.length > 0) return this.myAnn.myfoot[closest(this.myAnn.mytime, this.mytracking1)]
-}
-},
+    ...mapGetters('coretext', [ 'GET_main'])
+  },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement']),
     ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput){
           return Sanscript.t(myinput, 'iast', this.script);
@@ -94,66 +130,23 @@ if ( this.myAnn.mytime.length > 0) return this.myAnn.myfoot[closest(this.myAnn.m
       }
       return foo;
     },
-    loadSoundFull: function () {
-    console.log(this.mytrackingOn)
-         self = this
-         let mylink = 'https://gitawebapp.firebaseapp.com/static/assets/audio/full/gita' + this.chapter + '.mp3';
-         this.mysound = new Howl({
-  src: [mylink],
-  onload: function() {
-    // this.mytrackingOn = true
-    // if(this.mytrackingOn === true) {
-    this.mytracking = setInterval(myTimer, 1000)
-    function myTimer() {
-      self.mytracking1 = self.mysound.seek()
-      console.log(self.mysound.seek())
-    }
-// }
-//     console.log(this.mytrackingOn)
-  },
-  autoplay: true
-  // ,
-  // sprite: {
-  //   blast: [60000, 100000]
-  // }
-});
-this.SET_verse(1)
-// this.mysound.play()
-// function myFunction(item,index,arr) {
-//   arr[index] = item + 4.421333;
-// }
-// this.myAnn.mytime.forEach(myFunction)
-// this.mytrackingOn = setInterval(myTimer, 1000)
-},
-    saveSoundPos: function (myval) {
-      this.myAnn.mytime.push(this.mysound.seek())
-      this.myAnn.myverse.push(this.verse)
-      this.myAnn.myfoot.push(myval)
-    // console.log(this.myAnn)
+    checkBreak(i,j){
+      let myflag = false
+      let mytemp = this.GET_main.word_info[i+1]
+      if(!(mytemp === undefined)) {
+        if(j==2){
+          myflag = (this.GET_main.word_info[i].foot < this.GET_main.word_info[i+1].foot) &&
+          (this.GET_main.word_info[i].foot % 2 == 0)
+        } else {
+          myflag = (this.GET_main.word_info[i].foot < this.GET_main.word_info[i+1].foot)
+        }
+      }
+      return myflag
     },
-    addWordIndex() {
-      var db = firebase.firestore();
-      // db.collection("wordIndex").add({
-      //     chapter: this.chapter,
-      //     verse: this.verse,
-      //     i: val
-      //   })
-      db.collection("mymain").doc("c"+this.chapter+"v"+this.verse).set(this.GET_main)
-      // .then(function(docRef) {
-      //     console.log("Document written with ID: ", docRef.id);
-      //   })
-      //   .catch(function(error) {
-      //     console.error("Error adding document: ", error);
-      //   });
-    },
-    myUpdate(i, j) {
-      // this.$store.state.coretext.mymain.word_info[i].foot = parseInt(j);
-      // this.SET_main_foot({i:i, j:j});
-      this.GET_main_local.word_info[i].foot = parseInt(j);
-    },
-    myAdd(i) {
-      this.addWordIndex();
-      this.increment()
+    playSound: function (melody) {
+         var snd = new Audio();
+         snd.src = 'https://gitawebapp.firebaseapp.com/static/assets/audio/mp3/' + melody + '.mp3';
+         snd.play()
     }
   },
   components: {
@@ -164,11 +157,7 @@ this.SET_verse(1)
 
 <style scoped>
 .myspan {
-  line-height: 3.6em;
+  line-height: 1.6em;
   /* font-family: "myfont"; */
-}
-.active {
-  font-size: 2rem;
-  border-left: 5px solid red;
 }
 </style>

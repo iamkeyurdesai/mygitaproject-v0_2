@@ -9,7 +9,7 @@ export const menu = {
     subItems: ['read', 'recite', 'reflect'],
     subIcons: ['mdi-book-open', 'mdi-voice', 'mdi-thought-bubble'],
     navItems: { read: ['story', 'verse', 'quotes', 'meaning'],
-                recite: ['sanskrit', 'pronounce', 'practice', 'test'],
+                recite: ['learn', 'pronounce', 'practice', 'test'],
                 reflect: ['primary', 'commentary', 'community', 'concepts'] },
     navIcons: { read: ['mdi-book-open-page-variant', 'mdi-format-list-bulleted', 'mdi-format-quote-close', 'mdi-translate'],
                 recite: ['insert_chart', 'insert_chart', 'insert_chart', 'insert_chart'],
