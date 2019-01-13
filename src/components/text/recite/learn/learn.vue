@@ -19,8 +19,6 @@
     </v-layout>
     <v-divider :dark="GET_dark"></v-divider>
 
-
-
 <play-verse></play-verse>
 <v-divider :dark="GET_dark"></v-divider>
 

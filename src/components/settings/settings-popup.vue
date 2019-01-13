@@ -2,13 +2,14 @@
   <div class="text-xs-center">
     <v-dialog
     v-model="sheet"
-    hide-overlay    
+    hide-overlay
     scrollable
     transition="dialog-bottom-transition"
     >
   <span slot="activator">
-    <v-icon :style="this.options[this.theme].emphasis.medium" v-if="!sheet"> format_size</v-icon>
-    <v-icon :style="this.options[this.theme].emphasis.high" v-if="sheet"> format_size</v-icon>
+    <v-btn class="secondary primary--text">
+    <v-icon @click="sheet=true"> format_size</v-icon>
+  </v-btn>    
     </span>
     <v-card>
       <v-toolbar card dark color="primary">

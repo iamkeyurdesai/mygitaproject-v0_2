@@ -3,13 +3,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 const state = {
-  preview: [ ],
-  summary: [ ],
-  main: [ ],
-  gitapress: [ ],
-  sivananda: [ ],
-  sanskritLabels: { },
-  salutation: 'oṃ śrī paramātmane namaḥ'
+  sanskritLabels: []
 };
 
 export default {

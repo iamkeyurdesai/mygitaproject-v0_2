@@ -78,6 +78,7 @@
   <span>{{zz}}</span>
   <v-icon>{{menu[mainItem].navIcons[subItem][k]}}</v-icon>
 </v-btn>
+<settings-popup></settings-popup>
   </v-bottom-nav>
 
 </v-app>
@@ -88,6 +89,7 @@ import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
 import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
+import settingspopup from '@/components/settings/settings-popup.vue'
 
 export default {
   data() {
@@ -101,7 +103,8 @@ export default {
   name: 'App',
   components: {
     'firebase-auth': firebaseAuth,
-    'user-profile': userProfile
+    'user-profile': userProfile,
+    'settings-popup': settingspopup
   },
   computed: {
     ...mapState('settings', ['options', 'menu']),

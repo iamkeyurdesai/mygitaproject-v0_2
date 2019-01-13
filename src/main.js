@@ -33,6 +33,7 @@ import {
   VSwitch,
   VTabs,
   VSystemBar,
+  VSlider
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -64,7 +65,8 @@ Vue.use(Vuetify, {
     VRadioGroup,
     VSwitch,
     VTabs,
-    VSystemBar
+    VSystemBar,
+    VSlider
   },
   theme: {
   primary: "#190933",
@@ -127,6 +129,7 @@ var vm = new Vue({
      firebase.initializeApp(config)
      // this.$store.dispatch('settings/loadText')
      this.$store.dispatch('coretext/loadText');
+     // this.$store.dispatch('audiolabels/loadText');
   },
   components: { App },
   template: '<App/>'
