@@ -51,6 +51,7 @@
     <v-btn icon class="primary secondary--text">
       <v-icon>notifications</v-icon>
     </v-btn>
+    <settings-popup></settings-popup>
     <!-- if not authenticated then show the Sing In button
     if authenticated then render user-profile component -->
     <div v-if="!this.authenticated">
@@ -78,7 +79,6 @@
   <span>{{zz}}</span>
   <v-icon>{{menu[mainItem].navIcons[subItem][k]}}</v-icon>
 </v-btn>
-<settings-popup></settings-popup>
   </v-bottom-nav>
 
 </v-app>

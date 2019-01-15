@@ -20,7 +20,7 @@
             <v-btn :style="options[theme].emphasis.high" flat icon @click="playRateOn=!playRateOn">
               <v-icon >slow_motion_video</v-icon>
             </v-btn>
-            <v-btn v-if="false"
+            <v-btn v-if="true"
               flat
               icon
               @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling"
@@ -56,7 +56,7 @@
 
 <v-layout justify-center column class="mt-4">
 <v-layout justify-center v-if="verse===1">
-<span class="px-3 mytext" :class="{active: this.classObject==='start'}"> {{convert(preview[parseInt(chapter)-1].start)}} </span>
+<span class="px-3 mytext" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </span>
 <v-btn v-if="isLabeling" v-on:click="saveSoundPos('start')"> Start</v-btn>
 </v-layout>
 <v-layout justify-center>
@@ -80,7 +80,7 @@
 </v-layout>
 
 <v-layout justify-center v-if="parseInt(verse)===verseall[parseInt(chapter)-1]">
-<span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert(preview[chapter-1].end)}} </span>
+<span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
 <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
   </v-layout>
 <!-- loadedlabels: {{myAnn}} </br>
@@ -144,42 +144,16 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options']),
-    // ...mapState('audiolabels', ['sanskritLabels']),
-    ...mapState('coretext', ['main', 'preview', 'sanskritLabels']),
+    ...mapState('audiolabels', ['sanskritLabels']),
+    ...mapState('coretext', ['main', 'preview']),
     ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall']),
     ...mapGetters('coretext', [ 'GET_main']),
     ...mapGetters('settings', ['GET_dark']),
-    myAnn1: function(){
-      // return this.sanskritLabels
-      return {
-        time: [0],
-        verse: [],
-        label: []
-      }
-    },
     verse: {get(){return this.$store.state.parameters.verse}, set(value){this.SET_verse(value)}},
     playRateNum() {
       return this.playRateValues[this.playRateLabels.findIndex(a => a===this.playRate)]
     },
     classObject:  function () {
-        /**
-* Returns the closest smallest number from a sorted array.
-**/
-// function closest(arr, target) {
-//     if (!(arr) || arr.length == 0)
-//         return null;
-//     if (arr.length == 1)
-//         // return arr[0];
-//         return 0;
-//     for (var i=1; i<arr.length; i++) {
-//         // As soon as a number bigger than target is found, return the previous index
-//         if (arr[i] > target) return i-1
-//     }
-//     // No number in array is bigger so return the last.
-//     return arr.length-1;
-// }
-// if ( this.myAnn.mytime.length > 0) return this.myAnn.myfoot[closest(this.myAnn.mytime, this.myTrackerValue)]
-
 if(!this.isLabeling) {
 if (this.myTrackerValue > this.myAnn.time[this.myIndex + 1]) {
   this.myIndex  = this.myIndex + 1
@@ -197,6 +171,9 @@ return this.myAnn.label[this.myIndex]
     convert(myinput){
           return Sanscript.t(myinput, 'iast', this.script);
         },
+    convert_dev(myinput){
+          return Sanscript.t(myinput, 'devanagari', this.script);
+          },
     range(start, end) {
       var foo = [];
       for (var i = start; i <= end; i++) {
@@ -208,9 +185,9 @@ return this.myAnn.label[this.myIndex]
       this.mySound.stop()
       clearInterval(this.myTracker)
       this.isPlaying = false
-      // this.isLoaded = false
       this.myTrackerValue = 0
       this.myIndex = 0
+      this.mySound = null
     },
     pauseSoundFull: function () {
       this.mySound.pause()
@@ -218,9 +195,16 @@ return this.myAnn.label[this.myIndex]
       this.isPlaying = false
     },
     playSoundFull: function () {
-      this.myAnn = Object.assign({}, this.sanskritLabels['c'+this.chapter])
+      if(this.sanskritLabels['c'+this.chapter]) {
+        this.myAnn = Object.assign({}, this.sanskritLabels['c'+this.chapter])
+      } else {
+        this.myAnn = {
+        time: [0],
+        verse: [],
+        label: []
+      }
+      }
       self = this
-      this.isLoaded = true
       if(this.mySound == null) {
          let mylink = 'https://gitawebapp.firebaseapp.com/static/assets/audio/full/gita' + this.chapter + '.mp3';
          this.mySound = new Howl({
@@ -232,6 +216,7 @@ return this.myAnn.label[this.myIndex]
       self.myTrackerValue = self.mySound.seek()
     }
     self.isPlaying = true
+    self.isLoaded = true
   },
   autoplay: true
 });
@@ -313,6 +298,7 @@ return this.myAnn.label[this.myIndex]
       if(this.verse >1) {
         this.verse=1
         this.stopSoundFull()
+        this.playSoundFull()
       } else {
         this.decrement()
         this.verse=1
@@ -323,8 +309,12 @@ return this.myAnn.label[this.myIndex]
     skipNext(){
       if(this.chapter===this.verseall.length) {
         this.SET_chapter(1)
+        this.stopSoundFull()
+        this.playSoundFull()
       } else {
         this.SET_chapter(this.chapter + 1)
+        this.stopSoundFull()
+        this.playSoundFull()
       }
     }
   },

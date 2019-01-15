@@ -114,7 +114,7 @@ export default {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['main']),
-    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'slines', 'fsize']),
+    ...mapState('parameters', ['chapter', 'verse', 'breakSandhi', 'theme', 'script', 'fsize']),
     ...mapGetters('coretext', [ 'GET_main'])
   },
   methods: {

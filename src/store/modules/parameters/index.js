@@ -10,7 +10,6 @@ const state = {
   photoURL: 'not singed in',
   path: '/reflect/primary',
   breakSandhi: false,
-  audio: true,
   mainItem: 'Classroom',
   subItem: 'read',
   navItem: 'Story',
@@ -18,8 +17,7 @@ const state = {
   language: 'hindi',
   script: 'devanagari',
   fsize: 'medium',
-  fweight: '300',
-  slines: 'auto'
+  fweight: '300',  
 };
 
 export default {

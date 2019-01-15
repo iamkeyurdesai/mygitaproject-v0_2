@@ -7,9 +7,9 @@
     transition="dialog-bottom-transition"
     >
   <span slot="activator">
-    <v-btn class="secondary primary--text">
+    <v-btn flat icon class="primary secondary--text">
     <v-icon @click="sheet=true"> format_size</v-icon>
-  </v-btn>    
+  </v-btn>
     </span>
     <v-card>
       <v-toolbar card dark color="primary">
@@ -34,7 +34,7 @@
       </v-toolbar>
 
 
-  <v-card class="secondary px-2">
+  <v-card class="secondary pb-4 px-2">
   <v-layout row wrap>
   <v-flex>
 <v-card class="px-1">
@@ -43,12 +43,6 @@
             <v-radio v-for="(item, i) in options.fsize" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
           </v-radio-group>
   </v-card>
-<!-- <v-card class="px-1">
-            <v-radio-group v-model="fweight" row>
-              <strong> font weight: </strong>
-              <v-radio v-for="(item, i) in options.fweight" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
-            </v-radio-group>
-            </v-card> -->
             <v-card class="px-1">
           <v-radio-group v-model="theme" row>
             <strong>theme: </strong>
@@ -67,15 +61,6 @@
               <v-radio v-for="(item, i) in options.language" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
             </v-radio-group>
           </v-card>
-          <!-- <v-card class="px-1">
-            <v-radio-group v-model="slines" row>
-              <strong> shloaka lines: </strong>
-              <v-radio v-for="(item, i) in options.slines" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
-            </v-radio-group>
-          </v-card> -->
-          <v-card class="px-1">
-            <v-switch label="Audio" v-model="audio"></v-switch>
-            </v-card>
 </v-flex>
 </v-layout>
 </v-card>
@@ -103,10 +88,7 @@ export default {
     theme: {get(){return this.$store.state.parameters.theme}, set(value){this.SET_theme(value)}},
     language: {get(){return this.$store.state.parameters.language}, set(value){this.SET_language(value)}},
     script: {get(){return this.$store.state.parameters.script}, set(value){this.SET_script(value)}},
-    audio: {get(){return this.$store.state.parameters.audio}, set(value){this.SET_audio(value)}},
-    fsize: {get(){return this.$store.state.parameters.fsize}, set(value){this.SET_fsize(value)}},
-    fweight: {get(){return this.$store.state.parameters.fweight}, set(value){this.SET_fweight(value)}},
-    slines: {get(){return this.$store.state.parameters.slines}, set(value){this.SET_slines(value)}},
+    fsize: {get(){return this.$store.state.parameters.fsize}, set(value){this.SET_fsize(value)}}
 },
   methods: {
     ...mapMutations('parameters', ['SET_audio', 'SET_theme', 'SET_language', 'SET_script',
