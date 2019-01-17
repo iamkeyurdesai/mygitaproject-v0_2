@@ -89,6 +89,7 @@ loadedlabels: {{sanskritLabels['c'+chapter]}} </br> -->
 
 labeling: {{isLabeling}} </br>
 time: {{myTrackerValue}} </br>
+index: {{myIndex}} </br>
 myTracker: {{myTracker}} </br>
 ann_time: {{myAnn.time}} </br>
 ann_labl: {{myAnn.label}} </br>
@@ -182,7 +183,7 @@ return this.myAnn.label[this.myIndex]
       return foo;
     },
     stopSoundFull: function () {
-      this.mySound.stop()
+      if(this.mySound != null) this.mySound.stop()
       clearInterval(this.myTracker)
       this.isPlaying = false
       this.myTrackerValue = 0
@@ -197,12 +198,6 @@ return this.myAnn.label[this.myIndex]
     playSoundFull: function () {
       if(this.sanskritLabels['c'+this.chapter]) {
         this.myAnn = Object.assign({}, this.sanskritLabels['c'+this.chapter])
-      } else {
-        this.myAnn = {
-        time: [0],
-        verse: [],
-        label: []
-      }
       }
       self = this
       if(this.mySound == null) {
@@ -270,7 +265,7 @@ return this.myAnn.label[this.myIndex]
       this.myAnn.verse.push(this.verse)
       this.myAnn.label.push("finished")
       this.addLabels()
-      this.pauseSoundFull()
+      this.stopSoundFull()
     }
     },
     addLabels() {
