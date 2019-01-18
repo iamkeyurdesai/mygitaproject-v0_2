@@ -183,12 +183,11 @@ return this.myAnn.label[this.myIndex]
       return foo;
     },
     stopSoundFull: function () {
-      if(this.mySound != null) this.mySound.stop()
+      if(this.mySound !== null) this.mySound.stop()
       clearInterval(this.myTracker)
       this.isPlaying = false
       this.myTrackerValue = 0
       this.myIndex = 0
-      this.mySound = null
     },
     pauseSoundFull: function () {
       this.mySound.pause()
@@ -265,6 +264,7 @@ return this.myAnn.label[this.myIndex]
       this.myAnn.verse.push(this.verse)
       this.myAnn.label.push("finished")
       this.addLabels()
+      this.isLabelingFinished = true
       this.stopSoundFull()
     }
     },
@@ -297,19 +297,28 @@ return this.myAnn.label[this.myIndex]
       } else {
         this.decrement()
         this.verse=1
-        this.mySound=null
-        this.playSoundFull()
+        this.stopSoundFull()
+        console.log(this.mySound.state())
+        Howler.unload()
+        console.log(this.mySound.state())
+        // this.playSoundFull()
       }
     },
     skipNext(){
       if(this.chapter===this.verseall.length) {
         this.SET_chapter(1)
         this.stopSoundFull()
-        this.playSoundFull()
+        console.log(this.mySound.state())
+        Howler.unload()
+        console.log(this.mySound.state())
+        // this.playSoundFull()
       } else {
         this.SET_chapter(this.chapter + 1)
         this.stopSoundFull()
-        this.playSoundFull()
+        console.log(this.mySound.state())
+        Howler.unload()
+        console.log(this.mySound.state())
+        // this.playSoundFull()
       }
     }
   },
