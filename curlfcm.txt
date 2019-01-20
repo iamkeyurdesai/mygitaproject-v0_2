@@ -1,0 +1,19 @@
+individual message send working
+curl -X POST -H "Authorization: key=AIzaSyDFHV7eNjZSiMAS9_G-tzM4IHgAYK8z0kI" -H "Content-Type: application/json" -d "{\"to\": \"eHbN8aeSm6o:APA91bFXCO3S2z_VVD7Skk9PZ7YU0Y47e_ZSrdUgILBYeuVV6YsifthaLJjRrdB2S0L3DtTYIaNlA6VhTgDnjOggCzrYqQDRKKqn9XxCjUt057kxIiOxwezLPh3X04IOt5UGXnimUwmo\", \"notification\": { \"title\": \"Hellooo\", \"body\": \"World\", \"icon\": \"/firebase_logo.png\" }}" "https://fcm.googleapis.com/fcm/send"
+individual message send working
+curl -X POST -H "Authorization: key=AIzaSyDFHV7eNjZSiMAS9_G-tzM4IHgAYK8z0kI" -H "Content-Type: application/json" -d "{\"to\": \"dxMqgqO4B1A:APA91bE9ZitCYhb9giE4f00d_nVwAwhR770lxlTU5xlBSYKvEU2_QmWXk2T866Tc_1hYq247t1aF3dOHdvhfGAaQ5md_0BMJGlFtw9C7nv-iEYmDlI1fMoROV9AtTd5WLYOtiLJlw7md\", \"notification\": { \"title\": \"Hellooo\", \"body\": \"World\", \"icon\": \"/firebase_logo.png\" }}" "https://fcm.googleapis.com/fcm/send"
+
+
+
+
+
+curl -i -X POST -H "Authorization: key=AIzaSyDFHV7eNjZSiMAS9_G-tzM4IHgAYK8z0kI" -H "Content-Type: application/json" https://iid.googleapis.com/iid/v1/dxMqgqO4B1A:APA91bE9ZitCYhb9giE4f00d_nVwAwhR770lxlTU5xlBSYKvEU2_QmWXk2T866Tc_1hYq247t1aF3dOHdvhfGAaQ5md_0BMJGlFtw9C7nv-iEYmDlI1fMoROV9AtTd5WLYOtiLJlw7md/rel/topics/test
+Content-Type:application/json
+Authorization:key=AIzaSyZ-1u...0GBYzPu7Udno5aA
+
+topic subsricption working
+curl -X POST -H "Content-Type:application/json" -H "Authorization:key=AIzaSyDFHV7eNjZSiMAS9_G-tzM4IHgAYK8z0kI" -d "{\"registration_tokens\": [\"dxMqgqO4B1A:APA91bE9ZitCYhb9giE4f00d_nVwAwhR770lxlTU5xlBSYKvEU2_QmWXk2T866Tc_1hYq247t1aF3dOHdvhfGAaQ5md_0BMJGlFtw9C7nv-iEYmDlI1fMoROV9AtTd5WLYOtiLJlw7md\", \"eHbN8aeSm6o:APA91bFXCO3S2z_VVD7Skk9PZ7YU0Y47e_ZSrdUgILBYeuVV6YsifthaLJjRrdB2S0L3DtTYIaNlA6VhTgDnjOggCzrYqQDRKKqn9XxCjUt057kxIiOxwezLPh3X04IOt5UGXnimUwmo\"], \"to\":  \"/topics/movies\" }" https://iid.googleapis.com/iid/v1:batchAdd
+topic send working
+curl -X POST -H "Content-Type:application/json" -H "Authorization:key=AIzaSyDFHV7eNjZSiMAS9_G-tzM4IHgAYK8z0kI" -d "{ \"to\" : \"/topics/movies\", \"priority\" : \"high\", \"notification\" : { \"body\" : \"तत्रैकस्थं जगत्कृत्स्नं प्रविभक्तमनेकधा |अपश्यद्देवदेवस्य शरीरे पाण्डवस्तदा || (11|13)\", \"title\" : \"Good morning  ॐ︎ \",} }" https://fcm.googleapis.com/fcm/send
+
+तत्रैकस्थं जगत्कृत्स्नं प्रविभक्तमनेकधा |अपश्यद्देवदेवस्य शरीरे पाण्डवस्तदा || (11|13)

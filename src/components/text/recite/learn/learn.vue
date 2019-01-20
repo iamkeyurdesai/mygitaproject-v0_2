@@ -22,7 +22,7 @@
 <play-verse></play-verse>
 <v-divider :dark="GET_dark"></v-divider>
 
-
+<firebase-messaging></firebase-messaging>  
 
 </div>
 </template>
@@ -31,6 +31,7 @@
 import chaptermenu from '../../reflect/chapter-menu.vue'
 import versemenu from '../../reflect/verse-menu.vue'
 import playverse from './play-verse.vue'
+import firebasemessaging from './firebase-messaging.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -80,7 +81,8 @@ export default {
   components: {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
-    'play-verse': playverse
+    'play-verse': playverse,
+    'firebase-messaging': firebasemessaging
   }
 }
 </script>
