@@ -22,7 +22,7 @@
 <play-verse></play-verse>
 <v-divider :dark="GET_dark"></v-divider>
 
-<firebase-messaging></firebase-messaging>  
+<!-- <firebase-messaging></firebase-messaging>   -->
 
 </div>
 </template>
