@@ -33,7 +33,10 @@ import {
   VSwitch,
   VTabs,
   VSystemBar,
-  VSlider
+  VSlider,
+  VTextField,
+  VTextarea,
+  VProgressCircular
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -66,7 +69,10 @@ Vue.use(Vuetify, {
     VSwitch,
     VTabs,
     VSystemBar,
-    VSlider
+    VSlider,
+    VTextField,
+    VTextarea,
+    VProgressCircular
   },
   theme: {
   primary: "#190933",

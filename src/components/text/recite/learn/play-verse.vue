@@ -1,9 +1,9 @@
 <template>
-<v-layout justify-center column class="myspan">
+<v-layout justify-center column>
 
   <v-divider :dark="GET_dark"></v-divider>
   <v-layout justify-space-between class="mt-2 px-3" style="height: 36px">
-    <v-slider v-model="verse" thumb-color="accentinfo" thumb-label="always" :thumb-size="18" :min="1"
+    <v-slider v-model="verse_local" thumb-color="accentinfo" thumb-label="always" :thumb-size="18" :min="1"
     :max="verseall[chapter-1]" :step="1" :dark="GET_dark"></v-slider>
   </v-layout>
   <v-layout justify-space-between class="ma-0 pa-0" style="height: 36px">
@@ -23,18 +23,26 @@
       <span :style="options[theme].emphasis.high" v-if="isPlaying" class="caption">
         <span> {{myTrackerValue_formatted}} </span> <span> / </span> <span> {{myDuration_formatted}} </span>
       </span>
-      <v-btn v-if="true" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="options[theme].emphasis.high">
+      <v-btn v-if="false" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="options[theme].emphasis.high">
         <v-icon>
           {{ isLabeling ? 'label' : 'label_off' }}
         </v-icon>
       </v-btn>
 
     </div>
+    <div v-if="isLoading">
+    <v-progress-circular
+      indeterminate
+      color="accentmain"
+    ></v-progress-circular>
+    </div>
+    <div>
     <v-btn color="button" fab small @click="isPlaying ? pauseSoundFull() : playSoundFull()">
       <v-icon>
         {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
       </v-icon>
     </v-btn>
+    </div>
   </v-layout>
 
   <v-divider :dark="GET_dark"></v-divider>
@@ -59,25 +67,33 @@
 
     </v-layout>
 
-    <v-layout row align-center justify-center>
+    <!-- <v-layout row align-center justify-center> -->
       <div align="left">
-        <span v-for="(item,i) in GET_main.foot" :class="`accent${i+1}--text`">
-    <span class="px-3 mytext" :class="{active: classObject===`foot${i+1}`}"> {{convert(item.foot)}} {{footBreaks[i]}}
-    <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption">
-    {{chapter}}|{{verse}}
-    </span>
-        <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
-        <br/> </span>
+        <div align="center" class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
+          <span v-for="(item1,i1) in GET_main.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
+            {{convert(item1.sanskrit)}}
+            </span> {{footBreaks[i]}}
+      <span class="bigger"> <br/>{{convert(item.foot)}}</span>
+        {{footBreaks[i]}}
+        <span v-if="i==6" :style="options[theme].emphasis.medium" class="caption">
+        {{chapter}}|{{verse}}
         </span>
+        <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
+</br>
       </div>
-    </v-layout>
-
-    <v-layout justify-center v-if="parseInt(verse)===verseall[parseInt(chapter)-1]">
+      </div>
+    <!-- </v-layout> -->
+<!-- :class="options.fsizeInternal[fsize]" -->
+    <v-layout justify-center class="py-2 mytext ml-1" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]">
       <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
       <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
     </v-layout>
+
     <!-- loadedlabels: {{myAnn}} </br>
 loadedlabels: {{sanskritLabels['c'+chapter]}} </br> -->
+<!-- time: {{myTrackerValue}} </br>
+index: {{myIndex}} -->
+
     <div v-if="isLabeling">
 
       labeling: {{isLabeling}} </br>
@@ -125,6 +141,7 @@ export default {
     playRateOn: false,
     isPlaying: false,
     isLoaded: false,
+    isLoading: false,
     isLabeling: false,
     isLabelingFinished: false,
     mySound: null,
@@ -144,6 +161,16 @@ export default {
     },
     volumeMute: function() {
       if (this.mySound) this.mySound.mute(this.volumeMute)
+    },
+    chapter: function(){
+      this.stopSoundFull()
+      this.mySound.unload()
+      this.isLoaded = false
+      this.mySound = null
+      this.playSoundFull()
+    },
+    verse: function(){
+      this.verse_local = this.verse
     }
   },
   computed: {
@@ -180,16 +207,16 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
-    verse: {
+    verse_local: {
       get() {
         return this.$store.state.parameters.verse
       },
       set(value) {
         this.SET_verse(value)
-        this.myIndex = this.myAnn.verse.findIndex(v => v===this.verse)
+        this.myIndex = this.myAnn.verse.findIndex(v => v===this.verse_local)
         this.myTrackerValue = this.myAnn.time[this.myIndex]
         if(this.isLoaded) this.mySound.seek(this.myTrackerValue)
       }
@@ -238,6 +265,7 @@ export default {
       this.isPlaying = false
     },
     playSoundFull: function() {
+      this.isLoading = true
       if (this.sanskritLabels['c' + this.chapter]) {
         this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
       }
@@ -255,6 +283,12 @@ export default {
             }
             self.isPlaying = true
             self.isLoaded = true
+            self.isLoading = false
+            if(self.verse_local > 1){
+            self.myIndex = self.myAnn.verse.findIndex(v => v===self.verse_local)
+            self.myTrackerValue = self.myAnn.time[self.myIndex]
+            self.mySound.seek(self.myTrackerValue)
+          }
           },
           autoplay: true
         });
@@ -266,6 +300,7 @@ export default {
           self.myTrackerValue = self.mySound.seek()
         }
         this.isPlaying = true
+        this.isLoading = false
       }
     },
     saveSoundPos: function(myval) {
@@ -336,14 +371,14 @@ export default {
     },
     skipPrevious() {
       if (this.verse > 1) {
-        this.verse = 1
         this.stopSoundFull()
+        this.verse_local = 1
         this.playSoundFull()
       } else {
         this.decrement()
-        this.verse = 1
         this.stopSoundFull()
         this.mySound.unload()
+        this.verse_local = 1
         this.mySound = null
         this.playSoundFull()
       }
@@ -379,6 +414,10 @@ export default {
   transition: font-size 0.3s ease-in-out;
 }
 
+.bigger {
+  font-size: 110%;
+  opacity: 0.6;
+}
 .active {
   font-size: 1.5rem;
   border-left: 4px solid rgba(256, 10, 10, 0.7);
