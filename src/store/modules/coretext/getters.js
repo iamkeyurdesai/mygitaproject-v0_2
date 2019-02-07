@@ -24,9 +24,17 @@ const GET_salutation = (state, getters, rootState) => {
   return Sanscript.t(state.salutation, 'iast', rootState.parameters.script);
 };
 
+const GET_gitapress_chapter = (state, getters, rootState) => {
+  let mytemp =  state.gitapress.filter(function(item) {
+    return (item.chapter_id == rootState.parameters.chapter);
+  });
+  return mytemp;
+};
+
 export default {
   GET_main,
   GET_gitapress,
   GET_salutation,
-  GET_sivananda
+  GET_sivananda,
+  GET_gitapress_chapter
 };

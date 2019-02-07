@@ -8,12 +8,15 @@ export const menu = {
     Classroom: {
     subItems: ['read', 'recite', 'reflect'],
     subIcons: ['mdi-book-open', 'mdi-voice', 'mdi-thought-bubble'],
-    navItems: { read: ['story', 'verse', 'quotes', 'meaning'],
-                recite: ['learn', 'pronounce', 'practice', 'test'],
-                reflect: ['primary', 'commentary', 'community', 'concepts'] },
-    navIcons: { read: ['mdi-book-open-page-variant', 'mdi-format-list-bulleted', 'mdi-format-quote-close', 'mdi-translate'],
-                recite: ['insert_chart', 'insert_chart', 'insert_chart', 'insert_chart'],
-                reflect: ['P', 'mdi-lightbulb', 'mdi-forum', 'live_help'] }
+    navItems: { read: ['summary', 'verses', 'context'],
+                recite: ['learn', 'sanskrit', 'monitor'],
+                reflect: ['primary', 'commentary', 'community'] },
+    navLabels: { read: ['read the summary', 'verse by verse', 'follow the context'],
+                recite: ['recite the gita', 'pronounce sanskrit', 'monitor progress'],
+                reflect: ['study the gita', 'read commentaries', 'reflect and reason'] },
+    navIcons: { read: ['mdi-book-open-page-variant', 'mdi-format-list-bulleted', 'timeline'],
+                recite: ['record_voice_over', 'sort_by_alpha', 'rowing'],
+                reflect: ['speaker_notes', 'vpn_key', 'mdi-thought-bubble'] }
       },
 
       Playground: {

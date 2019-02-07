@@ -36,7 +36,10 @@ import {
   VSlider,
   VTextField,
   VTextarea,
-  VProgressCircular
+  VProgressCircular,
+  VTimeline,
+  VImg,
+  VHover
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -72,7 +75,10 @@ Vue.use(Vuetify, {
     VSlider,
     VTextField,
     VTextarea,
-    VProgressCircular
+    VProgressCircular,
+    VTimeline,
+    VImg,
+    VHover
   },
   theme: {
   primary: "#190933",

@@ -23,7 +23,7 @@
       <span :style="options[theme].emphasis.high" v-if="isPlaying" class="caption">
         <span> {{myTrackerValue_formatted}} </span> <span> / </span> <span> {{myDuration_formatted}} </span>
       </span>
-      <v-btn v-if="false" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="options[theme].emphasis.high">
+      <v-btn v-if="true" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="options[theme].emphasis.high">
         <v-icon>
           {{ isLabeling ? 'label' : 'label_off' }}
         </v-icon>
@@ -365,7 +365,7 @@ export default {
     },
     myAdd(i) {
       if (this.verse < this.verseall[this.chapter - 1]) {
-        this.verse = this.verse + 1
+        this.verse_local = this.verse_local + 1
         this.addLabels()
       }
     },

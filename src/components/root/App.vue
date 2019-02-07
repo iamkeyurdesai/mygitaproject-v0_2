@@ -74,11 +74,12 @@
   </v-content>
 
   <!-- dynamic bottom navigation -->
-    <v-bottom-nav :value="showNav" :active.sync="navItem" app shift height="48" class="secondary primary--text">
+    <v-bottom-nav :value="showNav" :active.sync="navItem" app height="56" class="secondary primary--text">
 <v-btn v-for="(zz, k) in menu[mainItem].navItems[subItem]" :key="zz" :value='zz' class="secondary primary--text">
-  <span>{{zz}}</span>
+  <span>{{menu[mainItem].navLabels[subItem][k]}}</span>
   <v-icon>{{menu[mainItem].navIcons[subItem][k]}}</v-icon>
 </v-btn>
+<!-- <v-icon @click.stop="drawer = !drawer" class="primary--text text-xs-right">menu</v-icon> -->
   </v-bottom-nav>
 
 </v-app>
