@@ -20,7 +20,7 @@ export const menu = {
       },
 
       Playground: {
-      subItems: ['read', 'recite', 'reflect'],
+      subItems: ['option1', 'option2', 'option3'],
       subIcons: ['mdi-book-open-page-variant', 'explore', 'explore'],
       navItems: { read: ['read', 'recite', 'reflect'],
                   recite: ['read', 'recite', 'reflect'],
@@ -31,7 +31,7 @@ export const menu = {
         },
 
         'Meditation Hall': {
-        subItems: ['read', 'recite', 'reflect'],
+        subItems: ['option1', 'option2', 'option3'],
         subIcons: ['explore', 'explore', 'explore'],
         navItems: { read: ['read', 'recite', 'reflect'],
                     recite: ['read', 'recite', 'reflect'],

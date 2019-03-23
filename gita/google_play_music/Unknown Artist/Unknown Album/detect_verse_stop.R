@@ -29,8 +29,8 @@ library(tidyverse)
 # n_thr <- c(floor(n_thr[1]), ceiling(n_thr[2]))
 # mypattern <- mydetect[n_thr[1]:n_thr[2]]
 
-mytimeall <- c(36.76, 97.93, 57.10, 39.15, 39.85)
-mycorall_thr <- c(0.99, 0.99, 0.98, 0.99, 0.98)
+mytimeall <- c(36.76, 97.93, 57.10, 39.15, 18.20)
+mycorall_thr <- c(0.99, 0.99, 0.98, 0.99, 0.99)
 mydist_all <- c(10, 10, 10, 10, 10)
 
 for(i in 5:5) {

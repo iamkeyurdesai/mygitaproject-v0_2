@@ -7,25 +7,26 @@ if (state.verse < state.verseall[state.chapter-1])
 } else {
   state.chapter += 1
   if (state.chapter > 18) state.chapter = 1
-  if (state.chapter === 13)  {
-    state.verse = 0
-  } else {
-    state.verse = 1
-  }
+  // if (state.chapter === 13)  {
+  //   state.verse = 0
+  // } else {
+  //   state.verse = 1
+  // }
 }
 
 };
 const decrement = (state) => {
-if (state.chapter === 13)  {
-  if (state.verse != 0)
-  {
-    state.verse -= 1
-  } else {
-    state.chapter -= 1
-    if (state.chapter < 1) state.chapter = 18
-    state.verse = state.verseall[state.chapter-1]
-  }
-} else {
+// if (state.chapter === 13)  {
+//   if (state.verse != 0)
+//   {
+//     state.verse -= 1
+//   } else {
+//     state.chapter -= 1
+//     if (state.chapter < 1) state.chapter = 18
+//     state.verse = state.verseall[state.chapter-1]
+//   }
+// } else
+{
   if (state.verse != 1)
   {
   state.verse -= 1

@@ -10,7 +10,7 @@
     <v-flex>
       <v-card class="primary secondary--text">
           <div class="pa-5 ma-5">
-            advertise here
+            coming soon
           </div>
           <v-list class="primary">
           <v-list-group v-model="menu.mainActive[i]" v-for="(xx, i) in menu.mainItems" :key="xx" :prepend-icon="menu.mainIcons[i]"
@@ -41,21 +41,21 @@
   <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" class="primary secondary--text"
   scroll-off-screen :scroll-threshold="1" dense>
     <v-toolbar-side-icon @click.stop="drawer = !drawer" class="primary secondary--text"></v-toolbar-side-icon>
-    <v-toolbar-title dark>
-      Gita
+    <v-toolbar-title>
+    Power  Gita
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon class="primary secondary--text">
+        <!-- <v-btn icon class="primary secondary--text">
       <v-icon>group</v-icon>
     </v-btn>
     <v-btn icon class="primary secondary--text">
       <v-icon>notifications</v-icon>
-    </v-btn>
+    </v-btn> -->
     <settings-popup></settings-popup>
     <!-- if not authenticated then show the Sing In button
     if authenticated then render user-profile component -->
     <div v-if="!this.authenticated">
-      <v-btn small flat class="primary secondary--text" @click.native.stop="dialog = true">Sing In</v-btn>
+      <v-btn small flat icon class="secondary--text" @click.native.stop="dialog = true">Sing In</v-btn>
       <v-dialog v-model="dialog">
         <firebase-auth></firebase-auth>
       </v-dialog>
