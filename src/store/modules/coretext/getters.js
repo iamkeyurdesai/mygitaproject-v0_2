@@ -6,6 +6,13 @@ const GET_main = (state, getters, rootState) => {
   return mytemp[0];
 };
 
+const GET_main_chapter = (state, getters, rootState) => {
+  let mytemp =  state.main.filter(function(item) {
+    return (item.chapter_id == rootState.parameters.chapter);
+  });
+  return mytemp;
+};
+
 const GET_gitapress = (state, getters, rootState) => {
   let mytemp =  state.gitapress.filter(function(item) {
     return (item.chapter_id == rootState.parameters.chapter &&  item.verse_id == rootState.parameters.verse);
@@ -33,6 +40,7 @@ const GET_gitapress_chapter = (state, getters, rootState) => {
 
 export default {
   GET_main,
+  GET_main_chapter,
   GET_gitapress,
   GET_salutation,
   GET_sivananda,

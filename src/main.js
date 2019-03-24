@@ -112,8 +112,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   let mypath = to.path.split("/");
-  if (mypath[1] != null) store.state.parameters.subItem = mypath[1];
-  if (mypath[2] != null) store.state.parameters.navItem = mypath[2];
+  if (mypath[1] != null) store.state.parameters.mainItem = mypath[1];
   if (to.params.data != null) {
       if(to.params.data.includes("api=1")) {
         let myquery = to.params.data.split("&");

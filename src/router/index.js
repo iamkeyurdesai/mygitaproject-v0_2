@@ -1,18 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import reflect from '@/components/text/reflect/reflect'
-import primary from '@/components/text/reflect/Primary/primary'
-import commentary from '@/components/text/reflect/Commentary/commentary'
 
+import reflect from '@/components/reflect/reflect'
 import welcome from '@/components/root/welcome'
-
-import recite from '@/components/text/recite/recite'
-import learn from '@/components/text/recite/learn/learn'
-
-import read from '@/components/text/read/read'
-import context from '@/components/text/read/context/context'
-
-import Editor from '@/components/Editor'
+import recite from '@/components/recite/recite'
+import read from '@/components/read/read'
+import meditate from '@/components/meditate/meditate'
 import {store} from '../store/index.js'
 
 Vue.use(Router)
@@ -20,29 +13,10 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'welcome',
-      component: welcome
-    },
-    {
-      path: '/reflect', name: 'reflect', component: reflect,
-      children: [
-        {path: 'primary/:data?', component: primary},
-        {path: 'commentary/:data?', component: commentary}
-      ]
-    },
-    {
-      path: '/recite', name: 'recite', component: recite,
-      children: [
-        {path: 'learn/:data?', component: learn}
-      ]
-    },
-    {
-      path: '/read', name: 'read', component: read,
-      children: [
-        {path: 'context/:data?', component: context}
-      ]
-    }
+    { path: '/', name: 'welcome', component: welcome },
+    { path: '/reflect/:data?', name: 'reflect', component: reflect },
+    { path: '/recite/:data?', name: 'recite', component: recite },
+    { path: '/read/:data?', name: 'read', component: read },
+    { path: '/meditate/:data?', name: 'meditate', component: meditate }
   ]
 })

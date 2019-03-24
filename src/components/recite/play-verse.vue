@@ -126,7 +126,7 @@ import {
   mapState
 } from 'vuex';
 import Sanscript from 'Sanscript';
-import settingspopup from '../../../settings/settings-popup.vue'
+import settingspopup from '../settings/settings-popup.vue'
 import {
   Howl,
   Howler
