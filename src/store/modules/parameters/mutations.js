@@ -47,6 +47,12 @@ const SET_path = (state, input) => {
 const SET_showNav = (state, input) => {
   state.showNav = input
 };
+const SET_fabShow = (state, input) => {
+  state.fabShow = input
+};
+const SET_offsetTop = (state, input) => {
+  state.offsetTop = input
+};
 const SET_offsetTop1 = (state, input) => {
   state.offsetTop1 = input
 };
@@ -137,5 +143,7 @@ export default {
   SET_showVerse,
   SET_showNav,
   SET_offsetTop1,
-  SET_offsetTop2
+  SET_offsetTop2,
+  SET_offsetTop,
+  SET_fabShow
 };

@@ -5,7 +5,7 @@
   <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" class="primary secondary--text"
   scroll-off-screen :scroll-threshold="1" dense>
     <v-toolbar-title>
-    Power  Gita
+    Power Gita
     </v-toolbar-title>
     <v-spacer></v-spacer>
         <!-- <v-btn icon class="primary secondary--text">
@@ -29,7 +29,7 @@
   </v-toolbar>
 
 
-      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high" v-scroll="onScroll"
+      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high"
       v-touch="{
             up: () => setNav(false),
             down: () => setNav(true)

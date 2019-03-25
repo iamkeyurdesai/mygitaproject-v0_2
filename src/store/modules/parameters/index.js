@@ -23,7 +23,9 @@ const state = {
   fsize: 'medium',
   fweight: '300',
   offsetTop1: 0,
-  offsetTop2: 0
+  offsetTop2: 0,
+  offsetTop: 0,
+  fabShow: true
 };
 
 export default {
