@@ -9,13 +9,21 @@ const state = {
   authenticated: false,
   photoURL: 'not singed in',
   path: '/reflect/primary',
+  showNav: true,
   breakSandhi: false,
+  showLink: false,
+  showTranslation: false,
+  showVerse: true,
+  showAnvaya: false,
+  columnCount: 2,
   mainItem: 'read',
   theme: 'kali',
   language: 'hindi',
   script: 'devanagari',
   fsize: 'medium',
   fweight: '300',
+  offsetTop1: 0,
+  offsetTop2: 0
 };
 
 export default {

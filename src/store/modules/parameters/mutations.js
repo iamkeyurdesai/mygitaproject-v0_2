@@ -7,25 +7,10 @@ if (state.verse < state.verseall[state.chapter-1])
 } else {
   state.chapter += 1
   if (state.chapter > 18) state.chapter = 1
-  // if (state.chapter === 13)  {
-  //   state.verse = 0
-  // } else {
-  //   state.verse = 1
-  // }
 }
 
 };
 const decrement = (state) => {
-// if (state.chapter === 13)  {
-//   if (state.verse != 0)
-//   {
-//     state.verse -= 1
-//   } else {
-//     state.chapter -= 1
-//     if (state.chapter < 1) state.chapter = 18
-//     state.verse = state.verseall[state.chapter-1]
-//   }
-// } else
 {
   if (state.verse != 1)
   {
@@ -40,11 +25,12 @@ const decrement = (state) => {
 
 const SET_chapter = (state, input) => {
   state.chapter = input
-  if (state.chapter === 13)  {
-    state.verse = 0
-  } else {
-    state.verse = 1
-  }
+  state.verse = 1
+  // if (state.chapter === 13)  {
+  //   state.verse = 0
+  // } else {
+  //   state.verse = 1
+  // }
 };
 const SET_verse = (state, input) => {
   state.verse = input
@@ -58,8 +44,32 @@ const SET_photoURL = (state, input) => {
 const SET_path = (state, input) => {
   state.path = input
 };
+const SET_showNav = (state, input) => {
+  state.showNav = input
+};
+const SET_offsetTop1 = (state, input) => {
+  state.offsetTop1 = input
+};
+const SET_offsetTop2 = (state, input) => {
+  state.offsetTop2 = input
+};
 const SET_breakSandhi = (state, input) => {
   state.breakSandhi = input
+};
+const SET_showLink = (state, input) => {
+  state.showLink = input
+};
+const SET_showTranslation = (state, input) => {
+  state.showTranslation = input
+};
+const SET_showAnvaya = (state, input) => {
+  state.showAnvaya = input
+};
+const SET_showVerse = (state, input) => {
+  state.showVerse = input
+};
+const SET_columnCount = (state, input) => {
+  state.columnCount = input
 };
 const SET_audio = (state, input) => {
   state.audio = input
@@ -109,6 +119,7 @@ export default {
   SET_photoURL,
   SET_path,
   SET_breakSandhi,
+  SET_columnCount,
   SET_audio,
   SET_mainItem,
   SET_subItem,
@@ -119,5 +130,12 @@ export default {
   SET_value,
   SET_fsize,
   SET_fweight,
-  SET_slines
+  SET_slines,
+  SET_showLink,
+  SET_showTranslation,
+  SET_showAnvaya,
+  SET_showVerse,
+  SET_showNav,
+  SET_offsetTop1,
+  SET_offsetTop2
 };

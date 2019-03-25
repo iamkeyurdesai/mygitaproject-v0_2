@@ -29,7 +29,8 @@
   </v-toolbar>
 
 
-      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high" v-touch="{
+      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high" v-scroll="onScroll"
+      v-touch="{
             up: () => setNav(false),
             down: () => setNav(true)
           }">
@@ -39,7 +40,7 @@
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56" class="secondary primary--text">
 <v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' class="secondary primary--text">
-  <span>{{zz}}</span>
+  <span class="body-1">{{zz}}</span>
   <v-icon>{{menu.mainIcons[k]}}</v-icon>
 </v-btn>
   </v-bottom-nav>
@@ -57,8 +58,7 @@ import settingspopup from '@/components/settings/settings-popup.vue'
 export default {
   data() {
     return {
-      dialog: false, // open authentication dialog
-      showNav: true
+      dialog: false // open authentication dialog
     }
   },
   name: 'App',
@@ -72,13 +72,36 @@ export default {
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
+    showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
+    offsetTop1: {get(){return this.$store.state.parameters.offsetTop1}, set(value){this.SET_offsetTop1(value)}},
+    offsetTop2: {get(){return this.$store.state.parameters.offsetTop2}, set(value){this.SET_offsetTop2(value)}},
     compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();}
   },
   methods: {
     setNav(myval){
-      this.showNav = myval
+      if(this.offsetTop < 500) {
+        this.showNav = true
+      } else {
+        this.showNav = myval
+      }
     },
-    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem', 'SET_subItem', 'SET_navItem'])
+    onScroll (e) {
+      if (window.pageYOffset || document.documentElement.scrollTop  > 500) {
+      if(this.showNav) {
+        let tmp = window.pageYOffset || document.documentElement.scrollTop
+        if(tmp > (this.offsetTop1 + 20)) this.showNav = false
+      this.offsetTop1 = tmp
+      } else {
+        let tmp = window.pageYOffset || document.documentElement.scrollTop
+        if(tmp < (this.offsetTop2 - 20)) this.showNav = true
+        this.offsetTop2 = tmp
+      }
+    } else {
+      this.showNav = true
+    }
+    },
+    ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_offsetTop1', 'SET_offsetTop2'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {

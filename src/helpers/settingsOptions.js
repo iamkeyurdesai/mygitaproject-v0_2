@@ -16,7 +16,7 @@ export const options = {
     background: "#4527A0",
     button: "#D81B60",
     accentmain: "#EA80FC",
-    accentinfo: '#82B1FF',
+    accentinfo: '#4f88e6',
     accent1: "#00E5FF",
     accent2: "#FFC400",
     accent3: "#76FF03",
