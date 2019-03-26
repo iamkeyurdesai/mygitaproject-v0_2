@@ -27,7 +27,7 @@
       </v-container>
     </v-img>
   </v-card>
-  <v-btn @click="$vuetify.goTo('#read10', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
+  <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
     <v-icon>arrow_left</v-icon>
   </v-btn>
   <v-card-text class="pa-0">
@@ -46,9 +46,9 @@
           <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
           <v-divider :dark="GET_dark" v-if="showLink"></v-divider>
 
-          <uvachCard :verse_id="item.verse_id"  v-if="showVerse"> </uvachCard>
-          <shloakCard :verse_id="item.verse_id"  v-if="showVerse"></shloakCard>
-          <v-divider :dark="GET_dark" v-if="showVerse"></v-divider>
+          <uvachCard :verse_id="item.verse_id"  v-show="showVerse"> </uvachCard>
+          <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
+          <v-divider :dark="GET_dark" v-show="showVerse"></v-divider>
 
           <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
           <v-divider :dark="GET_dark" v-if="showTranslation"></v-divider>
@@ -100,7 +100,7 @@ export default {
   }
 },
 methods: {
-  ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow']),
+  ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
   },
@@ -119,6 +119,17 @@ beforeRouteEnter(to, from, next) {
 },
 beforeRouteUpdate(to, from, next) {
   next();
+},
+watch: {
+breakSandhi: function(val){
+  this.$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+}
+},
+updated: function () {
+  self = this
+  this.$nextTick(function () {
+    setTimeout(self.SET_breakSandhi(!self.breakSandhi), 2000)
+  })
 },
 components: {
   shloakCard,
