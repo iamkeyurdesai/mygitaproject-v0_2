@@ -277,7 +277,7 @@ export default {
           src: [mylink],
           rate: this.playRateNum,
           onload: function() {
-            self.myTracker = setInterval(myTimer, 1000)
+            self.myTracker = setInterval(myTimer, 100)
 
             function myTimer() {
               self.myTrackerValue = self.mySound.seek()

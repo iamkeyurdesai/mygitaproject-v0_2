@@ -3,8 +3,8 @@ The verse_id is provided as a prop
 The language is decided from Vuex parameters-->
 
 <template>
-  <v-card-title class="pa-2  font-weight-light adjustLineHeight" :style="options[theme].emphasis.high">
-    {{GET_gitapress_local.bhavarth}}  ({{chapter}}|{{verse_id}})
+  <v-card-title class="adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
+    {{GET_gitapress_local.bhavarth}}
   </v-card-title>
 </template>
 
@@ -25,6 +25,11 @@ export default {
     ...mapState('parameters', ['theme', 'language', 'script', 'chapter']),
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter']),
+    cssProps() { return {
+        borderLeftStyle: 'solid',
+        borderLeftColor: this.$vuetify.theme.accentmain
+      }
+    },
     // use verse_id to get specific verse of the main text
     GET_gitapress_local() {
       self = this

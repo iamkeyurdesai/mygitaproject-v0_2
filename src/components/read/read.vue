@@ -21,43 +21,41 @@
           <strong class="display-4 font-weight-regular mr-4">{{chapter}}</strong>
           <v-layout column justify-end>
             <div class="headline font-weight-light">{{ convert(preview[chapter-1].title1) }}</div>
-            <div class="text-uppercase font-weight-light">{{(this.preview[this.chapter-1].title1)}}</div>
+            <div class="font-weight-light">{{(this.preview[this.chapter-1].titleEnglish)}}</div>
           </v-layout>
         </v-layout>
       </v-container>
     </v-img>
   </v-card>
-  <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
+  <readNavigation> </readNavigation>
+  <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
     <v-icon>arrow_left</v-icon>
-  </v-btn>
+  </v-btn> -->
   <v-card-text class="pa-0">
-    <v-card flat class="my-3 background" v-for="(item, i) in GET_gitapress_chapter" :id="'read'+i" :key="i" :dark="GET_dark">
+    <v-card flat class="background mx-1 my-2" v-for="(item, i) in GET_gitapress_chapter" :id="'read'+i" :key="i" :dark="GET_dark">
       <v-hover>
         <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
-          <!-- <readheaderCard :verse_id="item.verse_id" v-show="showNav"> </readheaderCard>
-          <v-divider :dark="GET_dark"></v-divider> -->
 
           <div>
             <!-- verse id -->
-            <span class="title ma-2 font-weight-light" :style="options[theme].emphasis.medium">{{item.verse_id}}</span>
+            <span class="ma-3 font-weight-light" :style="options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
           </div>
 
 
-          <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
-          <v-divider :dark="GET_dark" v-if="showLink"></v-divider>
+          <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
+          <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
 
           <uvachCard :verse_id="item.verse_id"  v-show="showVerse"> </uvachCard>
           <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
-          <v-divider :dark="GET_dark" v-show="showVerse"></v-divider>
+          <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
 
-          <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
-          <v-divider :dark="GET_dark" v-if="showTranslation"></v-divider>
+          <bhavarthCard :verse_id="item.verse_id"  v-show="showTranslation"> </bhavarthCard>
+          <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 
-          <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
+          <anvayaCard :verse_id="item.verse_id"  v-show="showAnvaya"></anvayaCard>
         </div>
       </v-hover>
     </v-card>
-    <readNavigation> </readNavigation>
   </v-card-text>
 </div>
 </div>
@@ -79,8 +77,19 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-
+    readLoaded: false
     }
+  },
+  mounted() {
+    //do something after mounting vue instance
+      self = this
+      this.$nextTick(function () {
+        console.log('mounted')
+        console.log('#read' + this.verse)
+        setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
+        console.log(this.$router.currentRoute)
+        // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+      })
   },
   computed: {
     ...mapState('settings', ['options']),
@@ -121,15 +130,16 @@ beforeRouteUpdate(to, from, next) {
   next();
 },
 watch: {
-breakSandhi: function(val){
-  this.$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+readLoaded: function(val){
+  this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
 }
 },
 updated: function () {
-  self = this
-  this.$nextTick(function () {
-    setTimeout(self.SET_breakSandhi(!self.breakSandhi), 2000)
-  })
+this.$nextTick(function () {
+  console.log('updated')
+  console.log('#read' + this.verse)
+  this.readLoaded = !this.readLoaded
+})
 },
 components: {
   shloakCard,

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import goTo from 'vuetify/lib/components/Vuetify/util/goTo'
 
 import reflect from '@/components/reflect/reflect'
 import welcome from '@/components/root/welcome'

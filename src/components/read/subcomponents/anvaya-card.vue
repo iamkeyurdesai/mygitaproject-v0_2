@@ -12,8 +12,8 @@ Local func convert() uses lib Sanscript -->
       <v-btn  :dark="GET_dark" flat small v-on:click.stop="decreaseColumn()">
         <v-icon>remove</v-icon>
       </v-btn>
-      <div class="caption">
-        Anvaya <span :style="options[theme].emphasis.medium" class="caption"> ({{chapter}}|{{verse_id}}) </span> 
+      <div class="caption" :style="options[theme].emphasis.medium">
+        Anvaya
       </div>
       <v-btn  :dark="GET_dark" flat small v-on:click.stop="increaseColumn()">
         <v-icon>add</v-icon>
@@ -30,7 +30,7 @@ Local func convert() uses lib Sanscript -->
           </span>
         </div>
       <!-- for light theme -->
-      <div align="left" class="trantext" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #0000005F'}]" v-else key="lightAnvaya">
+      <div align="left" class="trantext pb-3" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #0000005F'}]" v-else key="lightAnvaya">
           <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`">
             {{convert(GET_main_local.word_info[i-1].sanskrit)}} = <span class="myspan2">{{GET_main_local.word_info[i-1][language]}}</span><br></span>
           </span>

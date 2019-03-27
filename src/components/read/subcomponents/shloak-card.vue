@@ -6,7 +6,7 @@ Local func convert() used lib Sanscript -->
 
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
-  <v-layout row align-center justify-center class="adjustLineHeight">
+  <v-layout row align-center justify-center class="adjustLineHeight pa-2">
 
     <!-- breakSandhi is false -->
     <div v-if="breakSandhi===false"  key="breakSandhiFalse" align="left">
@@ -14,7 +14,7 @@ Local func convert() used lib Sanscript -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
           <!-- chapter and verse ids -->
-          <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption"> {{chapter}}|{{verse_id}} </span>
+          <!-- <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption"> {{chapter}}|{{verse_id}} </span> -->
           <br/>
         </span>
       </span>
@@ -29,7 +29,7 @@ Local func convert() used lib Sanscript -->
         <span v-if="checkBreak(i,4)"><br/></span>
       </span>
       <!-- chapter and verse ids -->
-      <span :style="options[theme].emphasis.medium"  class="caption"> {{chapter}}|{{verse_id}} </span>
+      <!-- <span :style="options[theme].emphasis.medium"  class="caption"> {{chapter}}|{{verse_id}} </span> -->
     </div>
 
   </v-layout>
