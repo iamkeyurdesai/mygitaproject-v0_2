@@ -6,6 +6,7 @@
          }"
         :style="cssProps">
 
+<v-responsive>
     <div
     class="mx-0 background lighten-1"
     max-width="500"
@@ -32,14 +33,17 @@
     <v-icon>arrow_left</v-icon>
   </v-btn> -->
   <v-card-text class="pa-0">
-    <v-card class="background mx-1 my-2" v-for="(item, i) in GET_gitapress_chapter" :id="'read'+i" :key="i" :dark="GET_dark">
+<v-container grid-list-md text-xs-left class="pa-0">
+<v-layout row wrap>
+    <v-flex xs12 sm6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="'read'+i">
+<v-card class="background ma-1" :dark="GET_dark">
       <v-hover>
         <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
 
-          <div>
+          <v-layout row align-top>
             <!-- verse id -->
-            <span class="ma-3 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-          </div>
+            <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+          </v-layout>
 
 
           <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
@@ -56,9 +60,15 @@
           <anvayaCard :verse_id="item.verse_id"  v-show="showAnvaya"></anvayaCard>
         </div>
       </v-hover>
+
     </v-card>
+  </v-flex>
+    </v-layout>
+</v-container>
+
   </v-card-text>
 </div>
+</v-responsive>
 </div>
 </template>
 
@@ -155,7 +165,4 @@ components: {
 </script>
 
 <style lang="scss">
-.trantext {
-  column-width: auto;
-}
 </style>

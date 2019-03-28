@@ -9,19 +9,21 @@ Local func convert() used lib Sanscript -->
   <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
 
     <!-- breakSandhi is false -->
-    <div v-if="breakSandhi===false"  key="breakSandhiFalse" align="left">
+    <div v-show="!breakSandhi"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
           <!-- chapter and verse ids -->
-          <span v-if="i==3" :style="'color: ' + options[theme].emphasis.disabled" class="caption"> {{chapter}}|{{verse_id}} </span>
+          <span v-show="i==3" :style="'color: ' + options[theme].emphasis.disabled" class="small"> {{chapter}}|{{verse_id}} </span>
+          </span>
+
           <br/>
         </span>
       </span>
     </div>
 
     <!-- breakSandhi is true -->
-    <div v-else key="breakSandhiTrue" align="left">
+    <div v-show="breakSandhi" key="breakSandhiTrue" align="left"  class="mytall" :class="{active: breakSandhi_animate}">
       <!-- render words with break at the end of the foot inserted using checkBreak -->
       <!-- <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
         <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
@@ -33,11 +35,15 @@ Local func convert() used lib Sanscript -->
         <div class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main_local.foot" :class="[`accent${i+1}--text`]">
           <span class="opaque">{{convert(item.foot)}}</span>
           {{footbreaks[i]}}<br/>
-          <span v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
+          <span v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item1.sanskrit)">
             {{convert(item1.sanskrit)}}
           </span>
           {{footbreaks[i]}}
-          <v-icon :class="[`accent${i+1}--text`]" class="opaque smaller">vpn_key</v-icon>
+          <v-icon :class="[`accent${i+1}--text`]" class="opaque tiny">vpn_key</v-icon>
+          <span v-show="i==3" class="mx-1">
+            <v-icon  small v-on:click.stop="breakSandhi_animate = !breakSandhi_animate"
+            :style="'color: ' + options[theme].emphasis.medium"> track_changes </v-icon>
+          </span>
         </br>
       </div>
     </div>
@@ -59,7 +65,8 @@ export default {
     required: true
   },
   data: () => ({
-    footbreaks: ["", "|", "", "||", "", "|"]  // goes to six due to 6 foot verses in chapter 1
+    footbreaks: ["", "|", "", "||", "", "|"],  // goes to six due to 6 foot verses in chapter 1
+    breakSandhi_animate: false
   }),
   computed: {
     ...mapState('settings', ['options']),
@@ -104,10 +111,22 @@ export default {
 .adjustLineHeight {
   line-height: 1.6em;
 }
-.smaller {
+.small {
+  font-size: 70%;
+}
+.tiny {
   font-size: 50%;
 }
 .opaque {
   opacity: 0.7;
 }
+.mytall {
+  transition: font-size 0.3s ease-in-out;
+}
+.active {
+  font-size: 1.1rem;
+  line-height: 1.6em;
+  border-left: 2px solid rgba(256, 10, 10, 0.7);
+}
+
 </style>
