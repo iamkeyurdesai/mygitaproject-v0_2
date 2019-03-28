@@ -29,11 +29,11 @@
     </v-img>
   </v-card>
   <readNavigation> </readNavigation>
-  <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
+  <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
     <v-icon>arrow_left</v-icon>
-  </v-btn> -->
+  </v-btn>
   <v-card-text class="pa-0">
-<v-container grid-list-md text-xs-left class="pa-0">
+<v-container grid-list-md text-xs-left class="pa-1">
 <v-layout row wrap>
     <v-flex xs12 sm6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="'read'+i">
 <v-card class="background ma-1" :dark="GET_dark">
