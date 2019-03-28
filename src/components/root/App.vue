@@ -29,7 +29,7 @@
   </v-toolbar>
 
 
-      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="this.options[this.theme].emphasis.high"
+      <v-content class="background" :class="options.fsizeInternal[fsize]" :style="'color:' + this.options[this.theme].emphasis.high"
       v-touch="{
             up: () => setNav(false),
             down: () => setNav(true)

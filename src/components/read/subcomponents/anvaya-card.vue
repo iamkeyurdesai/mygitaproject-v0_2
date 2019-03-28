@@ -5,7 +5,7 @@ Number of columns is decided using columnCount from Vuex
 Local func convert() uses lib Sanscript -->
 
 <template>
-  <div class="text-xs-center">
+  <div class="text-xs-center font-weight-light">
 
     <!-- add header with increase / decrease functionality -->
     <v-layout justify-center align-center row class="adjustLineHeight">
@@ -24,13 +24,13 @@ Local func convert() uses lib Sanscript -->
     <v-layout justify-center row class="px-5">
 
       <!-- for dark theme -->
-      <div align="left" class="trantext" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #FFFFFF5F'} ]" v-if="this.GET_dark" key="darkAnvaya">
+      <div align="left" class="trantext pb-3 adjustLineHeight" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #FFFFFF5F'} ]" v-if="this.GET_dark" key="darkAnvaya">
           <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`">
             {{convert(GET_main_local.word_info[i-1].sanskrit)}} = <span class="myspan2">{{GET_main_local.word_info[i-1][language]}}</span><br></span>
           </span>
         </div>
       <!-- for light theme -->
-      <div align="left" class="trantext pb-3" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #0000005F'}]" v-else key="lightAnvaya">
+      <div align="left" class="trantext pb-3 adjustLineHeight" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #0000005F'}]" v-else key="lightAnvaya">
           <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`">
             {{convert(GET_main_local.word_info[i-1].sanskrit)}} = <span class="myspan2">{{GET_main_local.word_info[i-1][language]}}</span><br></span>
           </span>

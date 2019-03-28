@@ -27,8 +27,8 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter']),
     cssProps() { return {
-        borderLeftStyle: 'solid',
-        borderLeftColor: this.$vuetify.theme.accentinfo
+        borderLeft: 'solid ' + this.$vuetify.theme.accentinfo + ' 4px',        
+        color: this.options[this.theme].emphasis.medium
       }
     },
     // use verse_id to get specific verse of the main text

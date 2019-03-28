@@ -32,23 +32,24 @@
     <v-icon>arrow_left</v-icon>
   </v-btn> -->
   <v-card-text class="pa-0">
-    <v-card flat class="background mx-1 my-2" v-for="(item, i) in GET_gitapress_chapter" :id="'read'+i" :key="i" :dark="GET_dark">
+    <v-card class="background mx-1 my-2" v-for="(item, i) in GET_gitapress_chapter" :id="'read'+i" :key="i" :dark="GET_dark">
       <v-hover>
         <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
 
           <div>
             <!-- verse id -->
-            <span class="ma-3 font-weight-light" :style="options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+            <span class="ma-3 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
           </div>
 
 
           <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
           <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
 
-          <uvachCard :verse_id="item.verse_id"  v-show="showVerse"> </uvachCard>
+          <uvachCard :verse_id="item.verse_id" v-show="showVerse"> </uvachCard>
           <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
           <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
 
+          <uvachCard :verse_id="item.verse_id" v-show="showTranslation & !showVerse"> </uvachCard>
           <bhavarthCard :verse_id="item.verse_id"  v-show="showTranslation"> </bhavarthCard>
           <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 

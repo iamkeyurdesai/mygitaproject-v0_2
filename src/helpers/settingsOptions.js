@@ -23,9 +23,9 @@ export const options = {
     accent4: "#F48FB1"
   },
   emphasis: {
-    high: 'color: #FFFFFFDF',
-    medium: 'color: #FFFFFF9F',
-    disabled: 'color: #FFFFFF5F'
+    high: '#FFFFFFDF',
+    medium: '#FFFFFF9F',
+    disabled: '#FFFFFF5F'
   },
   dark: true
 },
@@ -48,9 +48,9 @@ export const options = {
     accent4: "#F48FB1"
   },
   emphasis: {
-    high: 'color: #FFFFFFDF',
-    medium: 'color: #FFFFFF9F',
-    disabled: 'color: #FFFFFF5F'
+    high: '#FFFFFFDF',
+    medium: '#FFFFFF9F',
+    disabled: '#FFFFFF5F'
   },
   dark: true
 },
@@ -73,9 +73,9 @@ export const options = {
     accent4: "#FF5722"
   },
   emphasis: {
-    high: 'color: #000000BF',
-    medium: 'color: #0000009F',
-    disabled: 'color: #0000005F'
+    high: '#000000BF',
+    medium: '#0000009F',
+    disabled: '#0000005F'
   },
   dark: false
 },

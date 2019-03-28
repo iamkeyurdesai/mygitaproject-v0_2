@@ -6,7 +6,7 @@ Local func convert() used lib Sanscript -->
 
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
-  <v-layout row align-center justify-center class="adjustLineHeight pa-2">
+  <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
 
     <!-- breakSandhi is false -->
     <div v-if="breakSandhi===false"  key="breakSandhiFalse" align="left">
@@ -14,7 +14,7 @@ Local func convert() used lib Sanscript -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
           <!-- chapter and verse ids -->
-          <!-- <span v-if="i==3" :style="options[theme].emphasis.medium" class="caption"> {{chapter}}|{{verse_id}} </span> -->
+          <span v-if="i==3" :style="'color: ' + options[theme].emphasis.disabled" class="caption"> {{chapter}}|{{verse_id}} </span>
           <br/>
         </span>
       </span>
@@ -23,13 +23,27 @@ Local func convert() used lib Sanscript -->
     <!-- breakSandhi is true -->
     <div v-else key="breakSandhiTrue" align="left">
       <!-- render words with break at the end of the foot inserted using checkBreak -->
-      <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
+      <!-- <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
         <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
         <span v-else> {{convert(item.sanskrit)}},</span>
         <span v-if="checkBreak(i,4)"><br/></span>
-      </span>
+      </span> -->
+
+      <div align="left">
+        <div class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main_local.foot" :class="[`accent${i+1}--text`]">
+          <span class="opaque">{{convert(item.foot)}}</span>
+          {{footbreaks[i]}}<br/>
+          <span v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
+            {{convert(item1.sanskrit)}}
+          </span>
+          {{footbreaks[i]}}
+          <v-icon :class="[`accent${i+1}--text`]" class="opaque smaller">vpn_key</v-icon>
+        </br>
+      </div>
+    </div>
+
       <!-- chapter and verse ids -->
-      <!-- <span :style="options[theme].emphasis.medium"  class="caption"> {{chapter}}|{{verse_id}} </span> -->
+      <!-- <span :style="'color: ' + options[theme].emphasis.medium"  class="caption"> {{chapter}}|{{verse_id}} </span> -->
     </div>
 
   </v-layout>
@@ -89,5 +103,11 @@ export default {
 <style scoped>
 .adjustLineHeight {
   line-height: 1.6em;
+}
+.smaller {
+  font-size: 50%;
+}
+.opaque {
+  opacity: 0.7;
 }
 </style>
