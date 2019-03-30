@@ -37,6 +37,7 @@ import {
   VTextField,
   VTextarea,
   VProgressCircular,
+  VProgressLinear,
   VTimeline,
   VImg,
   VHover
@@ -76,6 +77,7 @@ Vue.use(Vuetify, {
     VTextField,
     VTextarea,
     VProgressCircular,
+    VProgressLinear,
     VTimeline,
     VImg,
     VHover
