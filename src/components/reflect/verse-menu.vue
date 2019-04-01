@@ -43,7 +43,7 @@
 <v-card class="my-1" v-for="(item, i) in mysummary" :key="i">
    <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
             <v-flex>
-            <v-card-text class="pa-1"> {{item.hindi}}</v-card-text>
+            <v-card-text class="pa-1"> {{item[language]}}</v-card-text>
           </v-flex>
           <v-flex>
            <v-card-text class="pa-1">
@@ -77,7 +77,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'theme', 'subItem']),
+    ...mapState('parameters', ['chapter', 'verse', 'theme', 'subItem', 'language']),
     ...mapState('coretext', ['summary']),
     mysummary(){
       // console.log(this.summary);

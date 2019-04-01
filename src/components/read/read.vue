@@ -33,9 +33,11 @@
     <v-icon>arrow_left</v-icon>
   </v-btn> -->
   <v-card-text class="pa-0">
+    <readSummary> </readSummary>
+    <readOutline> </readOutline>
 <v-container grid-list-md text-xs-left class="pa-1">
 <v-layout row wrap>
-    <v-flex xs12 sm6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="'read'+i">
+    <v-flex xs12 sm6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
 <v-card class="background ma-2" :dark="GET_dark">
       <v-hover>
         <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
@@ -84,6 +86,8 @@ import bhavarthCard from './subcomponents/bhavarth-card.vue'
 import readheaderCard from './subcomponents/readheader-card.vue'
 import uvachCard from './subcomponents/uvach-card.vue'
 import readNavigation from './subcomponents/read-navigation.vue'
+import readOutline from './subcomponents/read-outline.vue'
+import readSummary from './subcomponents/read-summary.vue'
 import Sanscript from 'Sanscript';
 export default {
   data: function() {
@@ -142,13 +146,16 @@ beforeRouteUpdate(to, from, next) {
 },
 watch: {
 readLoaded: function(val){
-  this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+  this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+},
+verse: function(val){
+  this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
 }
 },
 updated: function () {
 this.$nextTick(function () {
   console.log('updated')
-  console.log('#read' + this.verse)
+  console.log('#read' +  this.verse)
   this.readLoaded = !this.readLoaded
 })
 },
@@ -159,7 +166,9 @@ components: {
   bhavarthCard,
   readheaderCard,
   uvachCard,
-  readNavigation
+  readNavigation,
+  readOutline,
+  readSummary
 }
 }
 </script>

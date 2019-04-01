@@ -40,7 +40,8 @@ import {
   VProgressLinear,
   VTimeline,
   VImg,
-  VHover
+  VHover,
+  VResponsive
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -80,7 +81,8 @@ Vue.use(Vuetify, {
     VProgressLinear,
     VTimeline,
     VImg,
-    VHover
+    VHover,
+    VResponsive
   },
   theme: {
   primary: "#190933",

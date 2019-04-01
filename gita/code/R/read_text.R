@@ -24,3 +24,11 @@ for( i in istart:2150) {
 
 write_lines(myfull %>% filter(page > 43, page < 112) %>% pull(text), 
             path = "../../data/export/sadhak_sanjeevani_english_chapter1.txt")
+
+library(pdftools)
+text <- pdf_text("../../data/import/Sadhak-Sanjeevini-English.pdf") %>%
+  as_tibble()
+text1 <- text %>% filter(str_detect(value, "Link:"))
+text1 %>% mutate(mylink = str_extract(value, "Link:(.|\n|\r)*?\\s{3,}")) -> text2
+text2 %>% select(mylink) %>% View()
+text1 %>% filter(is.na(text2$mylink)) %>% View()
