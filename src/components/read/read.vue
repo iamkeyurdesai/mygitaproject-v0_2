@@ -1,76 +1,94 @@
 <template>
   <div v-scroll="onScroll"
-       v-touch="{
-         left: () => increment(),
-         right: () => decrement()
-         }"
-        :style="cssProps">
+    :style="cssProps">
 
-<v-responsive>
-    <div
-    class="mx-0 background lighten-1"
-    max-width="500"
-    :dark="GET_dark"
-    >
-    <v-card flat dark>
-      <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/forest.jpg"
-      gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
+    <v-responsive>
+      <div
+      class="mx-0 background lighten-1"
+      max-width="500"
+      :dark="GET_dark"
       >
-      <v-container fill-height>
-        <v-layout align-center>
-          <strong class="display-4 font-weight-regular mr-4">{{chapter}}</strong>
-          <v-layout column justify-end>
-            <div class="headline font-weight-light">{{ convert(preview[chapter-1].title1) }}</div>
-            <div class="font-weight-light">{{(this.preview[this.chapter-1].titleEnglish)}}</div>
+      <v-card flat dark>
+        <v-img
+        src="https://cdn.vuetifyjs.com/images/cards/forest.jpg"
+        gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
+        >
+        <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
+        <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+        <v-container fill-height align-center>
+          <v-layout column>
+<v-layout align-end>
+            <span v-if="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
+              {{ convert(preview[chapter-1].title1) }}
+            </span>
+            <span v-else class="title font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
+              {{ convert(preview[chapter-1].title1) }}
+            </span>
+
+            </v-layout>
+            <v-layout row align-start  class="mt-0 pt-0">
+              <span class="display-3 font-weight-light mr-1 mt-0">
+            {{chapter}}</span>
+              <span class="font-weight-light mt-3">{{(this.preview[this.chapter-1].titleEnglish)}}</span>
           </v-layout>
-        </v-layout>
-      </v-container>
-    </v-img>
-  </v-card>
-  <readNavigation> </readNavigation>
-  <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
+            </v-layout>
+        </v-container>
+      </v-img>
+    </v-card>
+    <readNavigation> </readNavigation>
+    <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
     <v-icon>arrow_left</v-icon>
   </v-btn> -->
   <v-card-text class="pa-0">
-    <readSummary> </readSummary>
-    <readOutline> </readOutline>
-<v-container grid-list-md text-xs-left class="pa-1">
-<v-layout row wrap>
-    <v-flex xs12 sm6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
-<v-card class="background ma-2" :dark="GET_dark">
-      <v-hover>
-        <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
+    <v-container grid-list-md text-xs-left class="pa-0">
+      <v-layout row wrap class="ma-0" justify-center>
+        <v-flex class="pa-2 xs12 text-xs-center">
+        <button :style="cssProps">{{GET_salutation}}</button>
+        </v-flex>
+        <v-flex xs12 lg6 class="ma-0">
+          <readSummary> </readSummary>
+          </v-flex>
+          <v-flex xs12 lg6 class="ma-0">
+          <readOutline> </readOutline>
+          </v-flex>
+      </v-layout>
+    </v-container>
+        <v-container grid-list-md text-xs-left class="pa-1">
+          <v-layout row wrap>
+            <v-flex xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
+              <v-card class="background ma-2" :dark="GET_dark">
+                <v-hover>
+                  <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
 
-          <v-layout row align-top>
-            <!-- verse id -->
-            <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+                    <v-layout row align-top>
+                      <!-- verse id -->
+                      <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+                    </v-layout>
+
+
+                    <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
+                    <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
+
+                    <uvachCard :verse_id="item.verse_id" v-show="showVerse"> </uvachCard>
+                    <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
+                    <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
+
+                    <uvachCard :verse_id="item.verse_id" v-show="showTranslation & !showVerse"> </uvachCard>
+                    <bhavarthCard :verse_id="item.verse_id"  v-show="showTranslation"> </bhavarthCard>
+                    <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
+
+                    <anvayaCard :verse_id="item.verse_id"  v-show="showAnvaya"></anvayaCard>
+                  </div>
+                </v-hover>
+
+              </v-card>
+            </v-flex>
           </v-layout>
+        </v-container>
 
-
-          <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
-          <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
-
-          <uvachCard :verse_id="item.verse_id" v-show="showVerse"> </uvachCard>
-          <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
-          <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
-
-          <uvachCard :verse_id="item.verse_id" v-show="showTranslation & !showVerse"> </uvachCard>
-          <bhavarthCard :verse_id="item.verse_id"  v-show="showTranslation"> </bhavarthCard>
-          <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
-
-          <anvayaCard :verse_id="item.verse_id"  v-show="showAnvaya"></anvayaCard>
-        </div>
-      </v-hover>
-
-    </v-card>
-  </v-flex>
-    </v-layout>
-</v-container>
-
-  </v-card-text>
-</div>
-</v-responsive>
+      </v-card-text>
+    </div>
+  </v-responsive>
 </div>
 </template>
 
@@ -92,19 +110,19 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-    readLoaded: false
+      readLoaded: false
     }
   },
   mounted() {
     //do something after mounting vue instance
-      self = this
-      this.$nextTick(function () {
-        console.log('mounted')
-        console.log('#read' + this.verse)
-        setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
-        console.log(this.$router.currentRoute)
-        // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-      })
+    self = this
+    this.$nextTick(function () {
+      console.log('mounted')
+      console.log('#read' + this.verse)
+      setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
+      console.log(this.$router.currentRoute)
+      // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+    })
   },
   computed: {
     ...mapState('settings', ['options']),
@@ -119,12 +137,14 @@ export default {
       '--bg-hover-color': this.$vuetify.theme.accent1,
       '--hover-content': JSON.stringify(this.hoverContent),
       '--mywidth': "75px",
-      '--myfill': "25px"
+      '--myfill': "25px",
+      'color': this.options[this.theme].emphasis.medium
     }
   }
 },
 methods: {
-  ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse']),
+  ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
+  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
   },
@@ -145,19 +165,19 @@ beforeRouteUpdate(to, from, next) {
   next();
 },
 watch: {
-readLoaded: function(val){
-  this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-},
-verse: function(val){
-  this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-}
+  readLoaded: function(val){
+    this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+  },
+  verse: function(val){
+    this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+  }
 },
 updated: function () {
-this.$nextTick(function () {
-  console.log('updated')
-  console.log('#read' +  this.verse)
-  this.readLoaded = !this.readLoaded
-})
+  this.$nextTick(function () {
+    console.log('updated')
+    console.log('#read' +  this.verse)
+    // this.readLoaded = !this.readLoaded
+  })
 },
 components: {
   shloakCard,

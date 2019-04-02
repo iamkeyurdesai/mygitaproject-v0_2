@@ -1,15 +1,15 @@
 <template>
-  <v-flex class="secondary ma-2 pa-0 xs12 md6">
-    <div align="center" class="title primary--text pa-2 font-weight-medium">
-      Chapter {{chapter}} Outline
-      </span>
-    </div>
+  <v-card class="ma-1 mt-2 background" raised>
         <v-container grid-list-xs class="text-xs-left ma-0 pa-1">
           <v-layout column wrap class="ma-0">
+            <div align="center" class="subheading pa-2 font-weight-medium" :style="cssProps">
+              Chapter {{chapter}} Outline
+              </span>
+            </div>
             <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
               <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
                 <v-flex>
-                  <v-card-text class="pa-1 font-weight-regular adjustLineHeight" :class="options.fsizeInternal['medium']" :style="cssProps">
+                  <v-card-text class="pa-1 font-weight-regular adjustLineHeight" :class="options.fsizeInternal['medium']">
                     {{item[language]}}
                   </v-card-text>
                 </v-flex>
@@ -25,7 +25,7 @@
             </v-card>
           </v-layout>
         </v-container>
-      </v-flex>
+      </v-card>
 </template>
 <!-- <v-btn @click="$vuetify.goTo('read'+this.chapter+vid, { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
   <v-icon>arrow_left</v-icon>
@@ -46,7 +46,7 @@ export default {
       }, this.chapter);
     },
     cssProps() { return {
-        color: this.options["saraswati"].emphasis.high
+        color: this.options[this.theme].emphasis.high
   }
 }
   },

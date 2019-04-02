@@ -1,6 +1,4 @@
 const increment = (state) => {
-
-
 if (state.verse < state.verseall[state.chapter-1])
 {
   state.verse += 1
@@ -8,8 +6,8 @@ if (state.verse < state.verseall[state.chapter-1])
   state.chapter += 1
   if (state.chapter > 18) state.chapter = 1
 }
-
 };
+
 const decrement = (state) => {
 {
   if (state.verse != 1)
@@ -19,6 +17,29 @@ const decrement = (state) => {
   state.chapter -= 1
   if (state.chapter < 1) state.chapter = 18
   state.verse = state.verseall[state.chapter-1]
+ }
+}
+};
+
+const incrementChapter = (state) => {
+if (state.chapter < 18)
+{
+  state.chapter += 1
+} else {
+  // state.chapter += 1
+  // if (state.chapter > 18) state.chapter = 1
+}
+};
+
+const decrementChapter = (state) => {
+{
+  if (state.chapter > 1)
+  {
+  state.chapter -= 1
+  } else {
+  // state.chapter -= 1
+  // if (state.chapter < 1) state.chapter = 18
+  // state.verse = state.verseall[state.chapter-1]
  }
 }
 };
@@ -119,6 +140,8 @@ state[id] = list;
 export default {
   increment,
   decrement,
+  incrementChapter,
+  decrementChapter,
   SET_chapter,
   SET_verse,
   SET_authenticated,
