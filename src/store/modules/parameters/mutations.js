@@ -24,7 +24,7 @@ const decrement = (state) => {
 const incrementChapter = (state) => {
 if (state.chapter < 18)
 {
-  state.readProgress = true
+  if(!state.readProgress){
   state.showLinktmp = state.showLink
   state.showTranslationtmp = state.showTranslation
   state.showVersetmp = state.showVerse
@@ -35,18 +35,30 @@ if (state.chapter < 18)
   state.showVerse = false
   state.breakSandhi = false
   state.showAnvaya = false
+  state.readProgress = true
   state.chapter += 1
+} else {
+  state.showLink = false
+  state.showTranslation = false
+  state.showVerse = false
+  state.breakSandhi = false
+  state.showAnvaya = false
+  state.readProgress = true
+  state.chapter += 1
+}
+
 } else {
   // state.chapter += 1
   // if (state.chapter > 18) state.chapter = 1
 }
 };
 
-const decrementChapter = (state) => {
+const decrementChapter = (state, mutations) => {
 {
   if (state.chapter > 1)
   {
-    state.readProgress = true
+
+    if(!state.readProgress){
     state.showLinktmp = state.showLink
     state.showTranslationtmp = state.showTranslation
     state.showVersetmp = state.showVerse
@@ -57,7 +69,18 @@ const decrementChapter = (state) => {
     state.showVerse = false
     state.breakSandhi = false
     state.showAnvaya = false
-  state.chapter -= 1
+    state.readProgress = true
+    state.chapter -= 1
+    } else {
+    state.showLink = false
+    state.showTranslation = false
+    state.showVerse = false
+    state.breakSandhi = false
+    state.showAnvaya = false
+    state.readProgress = true
+    state.chapter -= 1
+    }
+
   } else {
   // state.chapter -= 1
   // if (state.chapter < 1) state.chapter = 18
@@ -159,7 +182,7 @@ const SET_slines = (state, input) => {
   state.slines = input
 };
 const SET_readProgress = (state, input) => {
-  state.readProgress = input  
+  state.readProgress = input
 };
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {

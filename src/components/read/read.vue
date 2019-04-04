@@ -116,7 +116,9 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-      readLoaded: false
+      readLoaded: false,
+      trackTimeout1: -1,
+      trackTimeout2: -1
     }
   },
   mounted() {
@@ -179,9 +181,13 @@ watch: {
   },
   readProgress: function(val){
     if(this.readProgress) {
-      setTimeout(() => {this.SET_readProgress(false)}, 500)
-      setTimeout(() => {this.SET_resetVerseFlags()}, 300)
+      clearTimeout(this.trackTimeout1)
+      this.trackTimeout1 = setTimeout(() => {this.SET_readProgress(false)}, 300)
   }
+  if(!this.readProgress) {
+    clearTimeout(this.trackTimeout2)
+    this.trackTimeout2 = setTimeout(() => {this.SET_resetVerseFlags()}, 200)
+}
   }
 },
 updated: function () {
