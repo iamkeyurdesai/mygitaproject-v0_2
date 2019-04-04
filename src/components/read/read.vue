@@ -2,7 +2,7 @@
   <div v-scroll="onScroll"
     :style="cssProps">
 
-    <v-responsive>
+
       <div
       class="mx-0 background lighten-1"
       max-width="500"
@@ -13,15 +13,21 @@
         src="https://cdn.vuetifyjs.com/images/cards/forest.jpg"
         gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
         >
-        <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
-        <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+        <!-- <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
+        <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn> -->
         <v-container fill-height align-center>
           <v-layout column>
+            <v-layout row>
+                  <v-icon class="mt-4" @click="decrementChapter" large> keyboard_arrow_left  </v-icon>
+                  <v-progress-linear v-if="readProgress" :indeterminate="true"></v-progress-linear>
+                  <v-spacer v-else></v-spacer>
+                  <v-icon  class="mt-4" @click="incrementChapter" large> keyboard_arrow_right </v-icon>
+                  </v-layout>
 <v-layout align-end>
-            <span v-if="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
+            <span v-show="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
               {{ convert(preview[chapter-1].title1) }}
             </span>
-            <span v-else class="title font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
+            <span v-show="this.script!=='tamil'" class="title font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
               {{ convert(preview[chapter-1].title1) }}
             </span>
 
@@ -57,8 +63,8 @@
           <v-layout row wrap>
             <v-flex xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
               <v-card class="background ma-2" :dark="GET_dark">
-                <v-hover>
-                  <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
+                <!-- <v-hover>
+                  <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`"> -->
 
                     <v-layout row align-top>
                       <!-- verse id -->
@@ -66,20 +72,20 @@
                     </v-layout>
 
 
-                    <sambandhCard :verse_id="item.verse_id" v-show="showLink"> </sambandhCard>
+                    <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
                     <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
 
-                    <uvachCard :verse_id="item.verse_id" v-show="showVerse"> </uvachCard>
-                    <shloakCard :verse_id="item.verse_id"  v-show="showVerse"></shloakCard>
+                    <uvachCard :verse_id="item.verse_id" v-if="showVerse"> </uvachCard>
+                    <shloakCard :verse_id="item.verse_id"  v-if="showVerse"></shloakCard>
                     <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
 
-                    <uvachCard :verse_id="item.verse_id" v-show="showTranslation & !showVerse"> </uvachCard>
-                    <bhavarthCard :verse_id="item.verse_id"  v-show="showTranslation"> </bhavarthCard>
+                    <uvachCard :verse_id="item.verse_id" v-if="showTranslation & !showVerse"> </uvachCard>
+                    <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
                     <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 
-                    <anvayaCard :verse_id="item.verse_id"  v-show="showAnvaya"></anvayaCard>
-                  </div>
-                </v-hover>
+                    <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
+                  <!-- </div>
+                </v-hover> -->
 
               </v-card>
             </v-flex>
@@ -88,7 +94,7 @@
 
       </v-card-text>
     </div>
-  </v-responsive>
+
 </div>
 </template>
 
@@ -117,10 +123,10 @@ export default {
     //do something after mounting vue instance
     self = this
     this.$nextTick(function () {
-      console.log('mounted')
-      console.log('#read' + this.verse)
-      setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
-      console.log(this.$router.currentRoute)
+      // console.log('mounted')
+      // console.log('#read' + this.verse)
+      // setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
+      // console.log(this.$router.currentRoute)
       // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
     })
   },
@@ -128,8 +134,8 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav']),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_main_chapter']),
+    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'readProgress']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {get(){return this.$store.state.parameters.offsetTop}, set(value){this.SET_offsetTop(value)}},
     fabShow: {get(){return this.$store.state.parameters.fabShow}, set(value){this.SET_fabShow(value)}},
@@ -144,7 +150,7 @@ export default {
 },
 methods: {
   ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
-  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse']),
+  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_readProgress', 'SET_resetVerseFlags']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
   },
@@ -170,12 +176,18 @@ watch: {
   },
   verse: function(val){
     this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+  },
+  readProgress: function(val){
+    if(this.readProgress) {
+      setTimeout(() => {this.SET_readProgress(false)}, 500)
+      setTimeout(() => {this.SET_resetVerseFlags()}, 300)
+  }
   }
 },
 updated: function () {
   this.$nextTick(function () {
-    console.log('updated')
-    console.log('#read' +  this.verse)
+    // console.log('updated')
+    // console.log('#read' +  this.verse)
     // this.readLoaded = !this.readLoaded
   })
 },

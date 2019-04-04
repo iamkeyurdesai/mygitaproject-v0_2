@@ -69,9 +69,13 @@ export default {
   },
   methods: {
     ...mapMutations('parameters', ['SET_columnCount']),
-    convert(myinput){
+    convert(myinput) {
+      if(this.script === "iast") {
+        return myinput
+      } else {
       return Sanscript.t(myinput, 'iast', this.script);
-    },
+    }
+  },
     myindex_extract() {
       return this.GET_main_local.word_info.map(x => x.index)
     },

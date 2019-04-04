@@ -9,7 +9,7 @@ Local func convert() used lib Sanscript -->
   <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
 
     <!-- breakSandhi is false -->
-    <div v-show="!breakSandhi"  key="breakSandhiFalse" align="left">
+    <div v-if="!breakSandhi"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
@@ -23,7 +23,7 @@ Local func convert() used lib Sanscript -->
     </div>
 
     <!-- breakSandhi is true -->
-    <div v-show="breakSandhi" key="breakSandhiTrue" align="left"  class="mytall">
+    <div v-if="breakSandhi" key="breakSandhiTrue" align="left"  class="mytall">
       <!-- render words with break at the end of the foot inserted using checkBreak -->
       <!-- <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
         <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
@@ -55,12 +55,12 @@ Local func convert() used lib Sanscript -->
 
       <div v-show="breakSandhi_animate" align="left">
         <div class="mx-1" align="center">
-          <span v-show="!pauseSandhi">
+          <span v-if="!pauseSandhi">
             <v-btn small icon :style="'color: ' + options[theme].emphasis.medium">
             <v-icon  v-on:click.stop="pauseSandhi = true"> pause_circle_outline </v-icon>
           </v-btn>
           </span>
-          <span v-show="pauseSandhi">
+          <span v-if="pauseSandhi">
             <v-btn small icon :style="'color: ' + options[theme].emphasis.medium">
             <v-icon  v-on:click.stop="pauseSandhi = false"> play_circle_outline </v-icon>
           </v-btn>
@@ -117,7 +117,11 @@ export default {
   },
   methods: {
     convert(myinput) {
+      if(this.script === "iast") {
+        return myinput
+      } else {
       return Sanscript.t(myinput, 'iast', this.script);
+    }
     },
     checkBreak(i, j) {
       let myflag = false

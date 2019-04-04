@@ -8,10 +8,10 @@
       </div>
 
         <v-card-text class="pa-1 adjustLineHeight font-weight-light" :style="cssProps">
-          <span v-show="showFullSummary" :style="'color:' + this.options[this.theme].emphasis.high" v-html="preview[chapter-1].preview">
+          <span v-if="showFullSummary" :style="'color:' + this.options[this.theme].emphasis.high" v-html="preview[chapter-1].preview">
           </span>
-          <span v-show="showFullSummary" :style="'color:' + this.options[this.theme].emphasis.disabled" class="font-weight-light" @click="showFullSummary=false"> less </span>
-          <div v-show="!showFullSummary" :style="'color:' + this.options[this.theme].emphasis.high"> <span> {{truncateWithEllipses}} </span>
+          <span v-if="showFullSummary" :style="'color:' + this.options[this.theme].emphasis.disabled" class="font-weight-light" @click="showFullSummary=false"> less </span>
+          <div v-if="!showFullSummary" :style="'color:' + this.options[this.theme].emphasis.high"> <span> {{truncateWithEllipses}} </span>
             <span :style="'color:' + this.options[this.theme].emphasis.disabled" class="font-weight-light" @click="showFullSummary=true"> more </span>
           </div>
         </v-card-text>
@@ -40,7 +40,6 @@ export default {
   truncateWithEllipses() {
     let text = this.preview[this.chapter - 1].preview
     let max = 200
-    console.log(text)
     return text.substr(0,max-1)+(text.length>max ? '' : '');
   }
 },

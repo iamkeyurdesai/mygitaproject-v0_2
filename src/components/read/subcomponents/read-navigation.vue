@@ -6,9 +6,9 @@ The language is decided from Vuex parameters-->
 <div>
 
     <v-fab-transition>
-      <v-speed-dial v-model="fab" fab small bottom right fixed class="mb-5">
-        <v-btn v-show="fabShow" slot="activator" v-model="fab" color="accentinfo" dark fab small>
-          <v-icon>account_circle</v-icon>
+      <v-speed-dial v-model="fab" fab small top left fixed class="mt-4" direction="bottom">
+        <v-btn v-show="fabShow" slot="activator" v-model="fab" color="accentmain" dark fab small>
+          <v-icon>add</v-icon>
           <v-icon>close</v-icon>
         </v-btn>
         <!-- showLink -->
@@ -81,15 +81,6 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['theme', 'breakSandhi', 'showLink', 'showTranslation', 'showAnvaya', 'showVerse',
     'fabShow', 'offsetTop']),
-    ...mapGetters('coretext', ['GET_gitapress_chapter']),
-    // use verse_id to get specific verse of the main text
-    GET_gitapress_local() {
-      self = this
-      let mytemp = this.GET_gitapress_chapter.filter(function(item) {
-        return (item.verse_id === self.verse_id);
-      });
-      return mytemp[0];
-    }
   },
   methods: {
     ...mapMutations('parameters', ['SET_breakSandhi', 'SET_showLink', 'SET_showTranslation', 'SET_showAnvaya', 'SET_showVerse']),

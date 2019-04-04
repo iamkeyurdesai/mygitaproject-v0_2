@@ -24,6 +24,17 @@ const decrement = (state) => {
 const incrementChapter = (state) => {
 if (state.chapter < 18)
 {
+  state.readProgress = true
+  state.showLinktmp = state.showLink
+  state.showTranslationtmp = state.showTranslation
+  state.showVersetmp = state.showVerse
+  state.breakSandhitmp = state.breakSandhi
+  state.showAnvayatmp = state.showAnvaya
+  state.showLink = false
+  state.showTranslation = false
+  state.showVerse = false
+  state.breakSandhi = false
+  state.showAnvaya = false
   state.chapter += 1
 } else {
   // state.chapter += 1
@@ -35,6 +46,17 @@ const decrementChapter = (state) => {
 {
   if (state.chapter > 1)
   {
+    state.readProgress = true
+    state.showLinktmp = state.showLink
+    state.showTranslationtmp = state.showTranslation
+    state.showVersetmp = state.showVerse
+    state.breakSandhitmp = state.breakSandhi
+    state.showAnvayatmp = state.showAnvaya
+    state.showLink = false
+    state.showTranslation = false
+    state.showVerse = false
+    state.breakSandhi = false
+    state.showAnvaya = false
   state.chapter -= 1
   } else {
   // state.chapter -= 1
@@ -42,6 +64,14 @@ const decrementChapter = (state) => {
   // state.verse = state.verseall[state.chapter-1]
  }
 }
+};
+
+const SET_resetVerseFlags = (state) => {
+    state.showLink = state.showLinktmp
+    state.showTranslation = state.showTranslationtmp
+    state.showVerse = state.showVersetmp
+    state.breakSandhi = state.breakSandhitmp
+    state.showAnvaya = state.showAnvayatmp
 };
 
 const SET_chapter = (state, input) => {
@@ -128,6 +158,9 @@ const SET_fweight = (state, input) => {
 const SET_slines = (state, input) => {
   state.slines = input
 };
+const SET_readProgress = (state, input) => {
+  state.readProgress = input  
+};
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -168,5 +201,7 @@ export default {
   SET_offsetTop1,
   SET_offsetTop2,
   SET_offsetTop,
-  SET_fabShow
+  SET_fabShow,
+  SET_readProgress,
+  SET_resetVerseFlags
 };
