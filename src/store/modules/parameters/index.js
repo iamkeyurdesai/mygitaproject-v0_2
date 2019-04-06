@@ -15,10 +15,6 @@ const state = {
   showTranslation: false,
   showVerse: true,
   showAnvaya: false,
-  showLinktmp: false,
-  showTranslationtmp: false,
-  showVersetmp: true,
-  showAnvaya: false,
   columnCount: 2,
   mainItem: 'read',
   theme: 'kali',
@@ -26,11 +22,9 @@ const state = {
   script: 'devanagari',
   fsize: 'medium',
   fweight: '300',
-  offsetTop1: 0,
-  offsetTop2: 0,
   offsetTop: 0,
   fabShow: true,
-  readProgress: false
+  loadTheRestOfVerses: false
 };
 
 export default {

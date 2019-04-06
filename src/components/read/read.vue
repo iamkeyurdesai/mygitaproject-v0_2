@@ -2,7 +2,6 @@
   <div v-scroll="onScroll"
     :style="cssProps">
 
-
       <div
       class="mx-0 background lighten-1"
       max-width="500"
@@ -19,8 +18,8 @@
           <v-layout column>
             <v-layout row>
                   <v-icon class="mt-4" @click="decrementChapter" large> keyboard_arrow_left  </v-icon>
-                  <v-progress-linear v-if="readProgress" :indeterminate="true"></v-progress-linear>
-                  <v-spacer v-else></v-spacer>
+                  <!-- <v-progress-linear v-if="readProgress" :indeterminate="true"></v-progress-linear> -->
+                  <v-spacer></v-spacer>
                   <v-icon  class="mt-4" @click="incrementChapter" large> keyboard_arrow_right </v-icon>
                   </v-layout>
 <v-layout align-end>
@@ -61,11 +60,9 @@
     </v-container>
         <v-container grid-list-md text-xs-left class="pa-1">
           <v-layout row wrap>
-            <v-flex xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
+            <v-flex  xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
               <v-card class="background ma-2" :dark="GET_dark">
-                <!-- <v-hover>
-                  <div slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`"> -->
-
+                <div v-if="i < 4 || loadTheRestOfVerses">
                     <v-layout row align-top>
                       <!-- verse id -->
                       <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
@@ -84,8 +81,8 @@
                     <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 
                     <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
-                  <!-- </div>
-                </v-hover> -->
+                </div>
+
 
               </v-card>
             </v-flex>
@@ -116,19 +113,12 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-      readLoaded: false,
-      trackTimeout1: -1,
-      trackTimeout2: -1
     }
   },
   mounted() {
     //do something after mounting vue instance
     self = this
     this.$nextTick(function () {
-      // console.log('mounted')
-      // console.log('#read' + this.verse)
-      // setTimeout(this.SET_offsetTop(this.offsetTop + 1), 100)
-      // console.log(this.$router.currentRoute)
       // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
     })
   },
@@ -136,7 +126,7 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'readProgress']),
+    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses']),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {get(){return this.$store.state.parameters.offsetTop}, set(value){this.SET_offsetTop(value)}},
@@ -152,7 +142,7 @@ export default {
 },
 methods: {
   ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
-  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_readProgress', 'SET_resetVerseFlags']),
+  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
   },
@@ -164,7 +154,11 @@ methods: {
       this.fabShow = false
     }
     this.offsetTop = scrollTemp
-  }
+    if(scrollTemp > 300) {
+      this.SET_loadTheRestOfVerses(true)
+    }
+    console.log(scrollTemp)
+  },
 },
 beforeRouteEnter(to, from, next) {
   next();
@@ -173,28 +167,17 @@ beforeRouteUpdate(to, from, next) {
   next();
 },
 watch: {
-  readLoaded: function(val){
-    this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-  },
   verse: function(val){
+    if (!this.loadTheRestOfVerses) {
+    this.SET_loadTheRestOfVerses(true)
+    setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 500)
+  } else {
     this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-  },
-  readProgress: function(val){
-    if(this.readProgress) {
-      clearTimeout(this.trackTimeout1)
-      this.trackTimeout1 = setTimeout(() => {this.SET_readProgress(false)}, 300)
   }
-  if(!this.readProgress) {
-    clearTimeout(this.trackTimeout2)
-    this.trackTimeout2 = setTimeout(() => {this.SET_resetVerseFlags()}, 200)
-}
   }
 },
 updated: function () {
   this.$nextTick(function () {
-    // console.log('updated')
-    // console.log('#read' +  this.verse)
-    // this.readLoaded = !this.readLoaded
   })
 },
 components: {

@@ -16,8 +16,8 @@
                 <v-flex>
                   <v-card-text class="pa-1" :class="options.fsizeInternal['medium']">
                     <span  v-for="(vid, j) in range(item.begin, item.end)"  :key="j">
-                      <button  class="activity subheading mybutton ma-1 elevation-5" @click="setVerse_local(vid)" v-if="vid==verse"> {{vid}} </button>
-                      <button  class="caption mybutton ma-1 elevation-5" @click="setVerse_local(vid)" v-else> {{vid}} </button>
+                      <button  class="activity subheading mybutton ma-1 elevation-5" @click="SET_verse(vid > 1? vid - 1 : vid + 1)" v-if="vid==verse"> {{vid}} </button>
+                      <button  class="caption mybutton ma-1 elevation-5" @click="SET_verse(vid)" v-else> {{vid}} </button>
                     </span>
                   </v-card-text>
                 </v-flex>
@@ -52,10 +52,6 @@ export default {
   },
   methods: {
     ...mapMutations('parameters', ['SET_verse']),
-    setVerse_local(vid){
-      this.SET_verse(vid);
-      this.$vuetify.goTo('#read' + (vid - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-    },
     range(start, end) {
       var foo = [];
       for (var i = start; i <= end; i++) {
