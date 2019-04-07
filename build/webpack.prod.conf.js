@@ -115,7 +115,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       runtimeCaching: [
         {
           // Match any request ends with .png, .jpg, .jpeg or .svg.
-          urlPattern: /gita.*\.mp3$/,
+          urlPattern: /full\/gita.*\.mp3$/,
           // Apply a cache-first strategy.
           handler: 'cacheFirst',
           options: {

@@ -73,35 +73,14 @@ export default {
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
-    offsetTop1: {get(){return this.$store.state.parameters.offsetTop1}, set(value){this.SET_offsetTop1(value)}},
-    offsetTop2: {get(){return this.$store.state.parameters.offsetTop2}, set(value){this.SET_offsetTop2(value)}},
     compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();}
   },
   methods: {
     setNav(myval){
-      if(this.offsetTop < 500) {
-        this.showNav = true
-      } else {
-        this.showNav = myval
-      }
-    },
-    onScroll (e) {
-      if (window.pageYOffset || document.documentElement.scrollTop  > 500) {
-      if(this.showNav) {
-        let tmp = window.pageYOffset || document.documentElement.scrollTop
-        if(tmp > (this.offsetTop1 + 20)) this.showNav = false
-      this.offsetTop1 = tmp
-      } else {
-        let tmp = window.pageYOffset || document.documentElement.scrollTop
-        if(tmp < (this.offsetTop2 - 20)) this.showNav = true
-        this.offsetTop2 = tmp
-      }
-    } else {
-      this.showNav = true
-    }
+      this.showNav = myval
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_offsetTop1', 'SET_offsetTop2'])
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -123,6 +102,11 @@ export default {
        },
        theme: function(val){
          this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
+       },
+       mainItem: function(val) {
+         if(this.mainItem!=='read') {
+           this.SET_loadTheRestOfVerses(false)
+         }
        }
   }
 }

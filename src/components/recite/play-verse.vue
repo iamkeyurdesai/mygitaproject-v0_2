@@ -8,22 +8,22 @@
   </v-layout>
   <v-layout justify-space-between class="ma-0 pa-0" style="height: 36px">
     <div class="ma-0 pa-0">
-      <v-btn :style="options[theme].emphasis.high" flat icon @click="skipPrevious()">
+      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="skipPrevious()">
         <v-icon> skip_previous </v-icon>
       </v-btn>
-      <v-btn :style="options[theme].emphasis.high" flat icon @click="skipNext()">
+      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="skipNext()">
         <v-icon> skip_next </v-icon>
       </v-btn>
-      <v-btn :style="options[theme].emphasis.high" flat icon @click="volumeMute =!volumeMute">
+      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="volumeMute =!volumeMute">
         <v-icon> {{ volumeMute ? 'volume_off' : 'volume_mute' }} </v-icon>
       </v-btn>
-      <v-btn :style="options[theme].emphasis.high" flat icon @click="playRateOn=!playRateOn">
+      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="playRateOn=!playRateOn">
         <v-icon>slow_motion_video</v-icon>
       </v-btn>
-      <span :style="options[theme].emphasis.high" v-if="isPlaying" class="caption">
+      <span :style="'color:' + options[theme].emphasis.high" v-if="isPlaying" class="caption">
         <span> {{myTrackerValue_formatted}} </span> <span> / </span> <span> {{myDuration_formatted}} </span>
       </span>
-      <v-btn v-if="false" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="options[theme].emphasis.high">
+      <v-btn v-if="false" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="'color:' + options[theme].emphasis.high">
         <v-icon>
           {{ isLabeling ? 'label' : 'label_off' }}
         </v-icon>

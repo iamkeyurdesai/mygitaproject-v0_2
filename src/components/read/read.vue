@@ -17,10 +17,9 @@
         <v-container fill-height align-center>
           <v-layout column>
             <v-layout row>
-                  <v-icon class="mt-4" @click="decrementChapter" large> keyboard_arrow_left  </v-icon>
-                  <!-- <v-progress-linear v-if="readProgress" :indeterminate="true"></v-progress-linear> -->
+                  <v-btn icon large class="mt-4" @click="decrementChapter()"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
                   <v-spacer></v-spacer>
-                  <v-icon  class="mt-4" @click="incrementChapter" large> keyboard_arrow_right </v-icon>
+                  <v-btn icon large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
                   </v-layout>
 <v-layout align-end>
             <span v-show="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
@@ -156,8 +155,7 @@ methods: {
     this.offsetTop = scrollTemp
     if(scrollTemp > 300) {
       this.SET_loadTheRestOfVerses(true)
-    }
-    console.log(scrollTemp)
+    }    
   },
 },
 beforeRouteEnter(to, from, next) {
@@ -170,7 +168,7 @@ watch: {
   verse: function(val){
     if (!this.loadTheRestOfVerses) {
     this.SET_loadTheRestOfVerses(true)
-    setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 500)
+    setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 400)
   } else {
     this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
   }
