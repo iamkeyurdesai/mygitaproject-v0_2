@@ -1,7 +1,7 @@
 <template>
 <div class="comm">
 
-  <img src="https://source.unsplash.com/random" width="150px">
+  <!-- <img src="https://source.unsplash.com/random" width="150px"> -->
 <p v-html="GET_sivananda.commentary" v-bind:style="{fontWeight : this.fontWeight, fontSize:this.fontSize}">
   </p>
 </div>

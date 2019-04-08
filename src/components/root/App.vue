@@ -107,6 +107,8 @@ export default {
          if(this.mainItem!=='read') {
            this.SET_loadTheRestOfVerses(false)
          }
+         setTimeout(() => {console.log(window.navigator.serviceWorker.ready)}, 1000 * 1)
+         setTimeout(() => {window.navigator.serviceWorker.ready.then(registration => { registration.update(); })}, 1000 * 1)
        }
   }
 }

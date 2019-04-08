@@ -13,6 +13,13 @@ const GET_main_chapter = (state, getters, rootState) => {
   return mytemp;
 };
 
+const GET_preview_chapter = (state, getters, rootState) => {
+  let mytemp =  state.preview.filter(function(item) {
+    return (item.chapter_id == rootState.parameters.chapter);
+  });
+  return mytemp[0];
+};
+
 const GET_gitapress = (state, getters, rootState) => {
   let mytemp =  state.gitapress.filter(function(item) {
     return (item.chapter_id == rootState.parameters.chapter &&  item.verse_id == rootState.parameters.verse);
@@ -44,5 +51,6 @@ export default {
   GET_gitapress,
   GET_salutation,
   GET_sivananda,
-  GET_gitapress_chapter
+  GET_gitapress_chapter,
+  GET_preview_chapter
 };

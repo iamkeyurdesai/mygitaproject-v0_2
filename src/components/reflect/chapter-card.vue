@@ -34,7 +34,7 @@
             </v-card-actions>
             <v-slide-y-transition>
               <v-card-text v-show="show" class="body-2 pa-0">
-                <div v-html="preview[index].preview" v-bind:style="{fontWeight : 200}"> </div>
+                <!-- <div v-html="preview[index]['preview'][language]" v-bind:style="{fontWeight : 200}"> </div> -->
               </v-card-text>
             </v-slide-y-transition>
           </v-flex>
@@ -55,7 +55,7 @@
       show: false
     }),
     computed: {
-      ...mapState('parameters', ['chapter']),
+      ...mapState('parameters', ['chapter', 'language']),
       ...mapState('coretext', ['preview']),
       ...mapGetters('settings', ['GET_dark'])
     },

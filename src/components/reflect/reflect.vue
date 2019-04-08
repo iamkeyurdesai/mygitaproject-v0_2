@@ -1,5 +1,7 @@
 <template>
-<v-layout v-scroll="onScroll" column v-touch="{
+<div>
+<span> coming soon...  </span>
+<v-layout v-if="false" v-scroll="onScroll" column v-touch="{
       left: () => increment(),
       right: () => decrement(),
       up: () => {fabShow = true},
@@ -61,6 +63,7 @@
 
   </v-layout>
 
+</div>
 </template>
 
 <script>

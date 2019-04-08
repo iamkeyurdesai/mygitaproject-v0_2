@@ -23,17 +23,17 @@
                   </v-layout>
 <v-layout align-end>
             <span v-show="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
-              {{ convert(preview[chapter-1].title1) }}
+              {{ convert(this.GET_preview_chapter.title1) }}
             </span>
             <span v-show="this.script!=='tamil'" class="title font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
-              {{ convert(preview[chapter-1].title1) }}
+              {{ convert(this.GET_preview_chapter.title1) }}
             </span>
 
             </v-layout>
             <v-layout row align-start  class="mt-0 pt-0">
               <span class="display-3 font-weight-light mr-1 mt-0">
             {{chapter}}</span>
-              <span class="font-weight-light mt-3">{{(this.preview[this.chapter-1].titleEnglish)}}</span>
+              <span class="font-weight-light mt-3">{{this.GET_preview_chapter.titleEnglish}}</span>
           </v-layout>
             </v-layout>
         </v-container>
@@ -126,7 +126,7 @@ export default {
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
     'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses']),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {get(){return this.$store.state.parameters.offsetTop}, set(value){this.SET_offsetTop(value)}},
     fabShow: {get(){return this.$store.state.parameters.fabShow}, set(value){this.SET_fabShow(value)}},
@@ -155,7 +155,7 @@ methods: {
     this.offsetTop = scrollTemp
     if(scrollTemp > 300) {
       this.SET_loadTheRestOfVerses(true)
-    }    
+    }
   },
 },
 beforeRouteEnter(to, from, next) {
