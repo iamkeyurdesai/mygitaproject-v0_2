@@ -9,7 +9,7 @@
       >
       <v-card flat dark>
         <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/forest.jpg"
+        :src="this.chapterPreviewImage"
         gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
         >
         <!-- <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
@@ -137,6 +137,10 @@ export default {
       '--myfill': "25px",
       'color': this.options[this.theme].emphasis.medium
     }
+  },
+  chapterPreviewImage() {
+    let mylink = 'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/chapter' + this.chapter + '.jpeg'    
+    return mylink
   }
 },
 methods: {

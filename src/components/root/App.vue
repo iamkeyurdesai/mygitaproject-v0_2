@@ -2,11 +2,12 @@
 <v-app>
 
 
-  <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp" class="primary secondary--text"
-  scroll-off-screen :scroll-threshold="1" dense>
+  <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
+
     <v-toolbar-title>
-    Power Gita
-    </v-toolbar-title>
+    <span class="body-1 grow"> Power </span> <v-icon color="secondary" class="inverted">fas fa-tree</v-icon>Gita
+  </v-toolbar-title>
+
     <v-spacer></v-spacer>
         <!-- <v-btn icon class="primary secondary--text">
       <v-icon>group</v-icon>
@@ -40,7 +41,7 @@
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56" class="secondary primary--text">
 <v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' class="secondary primary--text">
-  <span class="body-1">{{zz}}</span>
+  <span class="caption">{{zz}}</span>
   <v-icon>{{menu.mainIcons[k]}}</v-icon>
 </v-btn>
   </v-bottom-nav>
@@ -115,4 +116,26 @@ export default {
 </script>
 
 <style lang="scss">
+.inverted {
+  position: relative;
+  top: 3px;
+  margin-right: 2px;
+  transform: rotate(180deg);
+  animation: mymove 10s infinite;
+  animation-timing-function: ease;
+  animation-delay: 2s;
+}
+@keyframes mymove {
+  from {transform: rotate(360deg);}
+  to {transform: rotate(180deg);}
+}
+.grow {
+  animation: mygrowth 10s infinite;
+  animation-timing-function: ease;
+  animation-delay: 2s;
+}
+@keyframes mygrowth {
+  from {font-size: 0.4em; opacity: 0.6;}
+  to {font-size: 1em; opacity: 1;}
+}
 </style>

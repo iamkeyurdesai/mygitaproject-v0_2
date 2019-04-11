@@ -1,10 +1,11 @@
 export const options = {
   theme: [
-    'lakshmi',
-    'kali',
-    'saraswati'
+    'none',
+    'purple',
+    'black',
+    'white'
   ],
-  lakshmi: {
+  purple: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
@@ -29,7 +30,7 @@ export const options = {
   },
   dark: true
 },
-  kali: {
+  black: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
@@ -54,7 +55,7 @@ export const options = {
   },
   dark: true
 },
-  saraswati: {
+  white: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
@@ -79,17 +80,42 @@ export const options = {
   },
   dark: false
 },
+  none: {
+    theme: {
+    primary: "#190933",
+    secondary: "#D0E2F7",
+    activity: "#FBAA06",
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107',
+    background: "#FFFFFF",
+    button: "#D81B60",
+    accentmain: "#EA80FC",
+    accentinfo: '#1867c0',
+    accent1: "#111111",
+    accent2: "#111111",
+    accent3: "#111111",
+    accent4: "#111111"
+  },
+  emphasis: {
+    high: '#000000BF',
+    medium: '#0000009F',
+    disabled: '#0000005F'
+  },
+  dark: false
+},
   script: [
-    'bengali',
+    'iast',
     'devanagari',
     'gujarati',
-    'gurmukhi',
-    'malayalam',
-    'kannada',
-    'oriya',
     'tamil',
     'telugu',
-    'iast',
+    'malayalam',
+    'kannada',
+    'bengali',
+    'gurmukhi',
+    'oriya',
     'itrans'
   ],
   language: [
@@ -101,8 +127,7 @@ export const options = {
     '4x',
     'auto'
   ],
-  fweight: ['100', '300', '400', '500', '700', '900'],
-  fsize: ['small', 'medium', 'large', 'xlarge', 'xxlarge'],
-  fsizeInternal: {small: 'body-1', medium: 'body-2', large: 'subheading', xlarge: 'title', xxlarge: 'headline'},
-  fsizeInternal1: {small: '1rem', medium: '1.5rem', large: '2rem', xlarge: '3rem'}
+  // fweight: ['100', '300', '400', '500', '700', '900'],
+  fsize: ['small', 'medium', 'big'],
+  fsizeInternal: {small: 'body-2', medium: 'subheading', big: 'title'},
 }

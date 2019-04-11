@@ -38,10 +38,10 @@ Local func convert() used lib Sanscript -->
         </v-btn>
       </div>
         <div class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main_local.foot" :class="[`accent${i+1}--text`]">
-          <span class="opaque">{{convert(item.foot)}}</span>
+          <span>{{convert(item.foot)}}</span>
           {{footbreaks[i]}}<br/>
           <span>
-          <span v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item1.sanskrit)">
+          <span class="opaque" v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item1.sanskrit)">
             {{convert(item1.sanskrit)}}
           </span>
           {{footbreaks[i]}}
@@ -67,9 +67,9 @@ Local func convert() used lib Sanscript -->
           </span>
         </div>
         <div class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main_local.foot" :class="[`accent${i+1}--text`]">
-          <span class="opaque" :id="'shloakaUnbroken'+chapter+verse_id+i"></span>
+          <span :id="'shloakaUnbroken'+chapter+verse_id+i"></span>
           <br/>
-          <span :id="'shloakaBroken'+chapter+verse_id+i">
+          <span class="opaque" :id="'shloakaBroken'+chapter+verse_id+i">
           <span v-for="(item1,i1) in GET_main_local.word_info.filter(a => a.foot == (i + 1))">
           </span>
         </span>

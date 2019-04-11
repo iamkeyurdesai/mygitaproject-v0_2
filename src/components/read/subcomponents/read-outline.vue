@@ -9,7 +9,7 @@
             <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
               <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
                 <v-flex>
-                  <v-card-text class="pa-1 font-weight-regular adjustLineHeight" :class="options.fsizeInternal['medium']">
+                  <v-card-text class="pa-1 font-weight-regular adjustLineHeight" :class="options.fsizeInternal['small']">
                     {{item[language]}}
                   </v-card-text>
                 </v-flex>
