@@ -1,0 +1,38 @@
+{
+  "theme": ["lakshmi", "kali", "saraswati"],
+  "lakshmi": {
+    "type": "dark",
+    "background": ["#7E57C2", "#5E35B1"],
+    "toolbar": "deep-purple darken-4",
+    "toolbarAccent1": "deep-purple darken-1",
+    "drawer": "purple darken-3",
+    "textMain": "white",
+    "textAccent1": ["aqua", "gold", "pink", "lawngreen"],
+    "textAccent2": "yellow",
+    "iconDisabled": "grey",
+    "iconEnabled": "white",
+    "iconActive": "orange"
+  },
+  "kali": {
+    "type": "dark",
+    "background": "color",
+    "toolbar": "color",
+    "drawer": "color",
+    "textMain": "color",
+    "textAccent1": ["aqua", "gold", "pink", "lawngreen"],
+    "textAccent2": "color"
+  },
+  "saraswati": {
+    "type": "white",
+    "background": "color",
+    "toolbar": "color",
+    "drawer": "color",
+    "textMain": "color",
+    "textAccent1": ["aqua", "gold", "pink", "lawngreen"],
+    "textAccent2": "color"
+  },
+  "language": ["bengali", "devanagari", "gujarati", "gurmukhi",
+               "malayalam", "kannada", "oriya", "tamil", "telugu",
+               "iast", "itrans"],
+  "layout": ["tall", "wide"]
+}

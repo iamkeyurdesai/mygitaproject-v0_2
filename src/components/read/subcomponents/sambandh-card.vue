@@ -5,7 +5,7 @@ The language is decided from Vuex parameters-->
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-2 px-2 py-1"
   :style="cssProps">
-      {{GET_gitapress_local.sambandh}}
+      {{GET_gitapress_local["sambandh_"+this.language]}}
   </v-card-text>
 </template>
 
@@ -27,8 +27,8 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter']),
     cssProps() { return {
-        borderLeft: 'solid ' + this.$vuetify.theme.accentinfo + ' 4px',        
-        color: this.options[this.theme].emphasis.medium
+        borderLeft: 'solid ' + this.$vuetify.theme.accentinfo + ' 4px',
+        color: this.options[this.theme].emphasis.high
       }
     },
     // use verse_id to get specific verse of the main text

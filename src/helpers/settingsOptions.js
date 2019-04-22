@@ -1,47 +1,21 @@
 export const options = {
   theme: [
-    'none',
-    'purple',
-    'black',
-    'white'
+    'plain',
+    'light',
+    'dark'
   ],
-  purple: {
+  dark: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
-    activity: "#FBAA06",
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107',
-    background: "#4527A0",
-    button: "#D81B60",
-    accentmain: "#EA80FC",
-    accentinfo: '#4f88e6',
-    accent1: "#00E5FF",
-    accent2: "#FFC400",
-    accent3: "#76FF03",
-    accent4: "#F48FB1"
-  },
-  emphasis: {
-    high: '#FFFFFFDF',
-    medium: '#FFFFFF9F',
-    disabled: '#FFFFFF5F'
-  },
-  dark: true
-},
-  black: {
-    theme: {
-    primary: "#190933",
-    secondary: "#D0E2F7",
-    activity: "#FBAA06",
+    activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
     background: "#010429",
     button: "#D81B60",
-    accentmain: "#EA80FC",
+    accentmain: "#ff002b",
     accentinfo: '#82B1FF',
     accent1: "#00E5FF",
     accent2: "#FFC400",
@@ -55,18 +29,18 @@ export const options = {
   },
   dark: true
 },
-  white: {
+  light: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
-    activity: "#FBAA06",
+    activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
     background: "#FFFFFF",
     button: "#D81B60",
-    accentmain: "#EA80FC",
+    accentmain: "#ff002b",
     accentinfo: '#1867c0',
     accent1: "#43A047",
     accent2: "#9C27B0",
@@ -80,18 +54,18 @@ export const options = {
   },
   dark: false
 },
-  none: {
+  plain: {
     theme: {
     primary: "#190933",
     secondary: "#D0E2F7",
-    activity: "#FBAA06",
+    activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
     background: "#FFFFFF",
     button: "#D81B60",
-    accentmain: "#EA80FC",
+    accentmain: "#ff002b",
     accentinfo: '#1867c0',
     accent1: "#111111",
     accent2: "#111111",

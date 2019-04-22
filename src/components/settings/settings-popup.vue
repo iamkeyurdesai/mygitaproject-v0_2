@@ -7,9 +7,7 @@
     transition="dialog-bottom-transition"
     >
   <span slot="activator">
-    <v-btn flat icon class="primary secondary--text">
     <v-icon @click="sheet=true"> format_size</v-icon>
-  </v-btn>
     </span>
     <v-card>
       <v-toolbar card dark color="primary">

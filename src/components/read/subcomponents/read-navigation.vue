@@ -6,10 +6,10 @@ The language is decided from Vuex parameters-->
 <div>
 
     <v-fab-transition>
-      <v-speed-dial v-model="fab" fab small top left fixed class="mt-4" direction="bottom">
-        <v-btn v-show="fabShow" slot="activator" v-model="fab" color="accentmain" dark fab small>
-          <v-icon>add</v-icon>
-          <v-icon>close</v-icon>
+      <v-speed-dial v-model="fab" bottom right fixed class="mb-5" direction="top">
+        <v-btn v-show="fabShow" slot="activator" v-model="fab" color="accentmain" dark fab>
+          <v-icon large>add</v-icon>
+          <v-icon large>close</v-icon>
         </v-btn>
         <!-- showLink -->
         <v-btn icon small color="accentmain" v-if="!showLink" v-on:click.stop="SET_showLink(!showLink)">
@@ -56,11 +56,18 @@ The language is decided from Vuex parameters-->
     </v-fab-transition>
 
     <v-fab-transition>
-      <v-btn v-show="!fabShow & offsetTop > 500" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-        color="blue darken-2" dark fab small bottom left fixed class="my-5 mx-0">
-        <v-icon>arrow_upward</v-icon>
+      <v-btn v-show="!fabShow & offsetTop > 2500" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
+        color="accentmain" dark fab small bottom left fixed class="mb-5">
+        <v-icon large>keyboard_arrow_up</v-icon>
       </v-btn>
     </v-fab-transition>
+
+    <v-fab-transition>
+      <v-btn v-show="fabShow" color="primary" dark fab small bottom left fixed class="mb-5">
+    <settings-popup></settings-popup>
+      </v-btn>
+    </v-fab-transition>
+
 </div>
 </template>
 
@@ -69,10 +76,14 @@ The language is decided from Vuex parameters-->
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
+import settingspopup from '@/components/settings/settings-popup.vue'
 export default {
   props: {
     verse_id: Number,
     required: true
+  },
+  components: {
+    'settings-popup': settingspopup
   },
   data: () => ({
     fab: false

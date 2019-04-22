@@ -1,95 +1,91 @@
 <template>
   <div v-scroll="onScroll"
-    :style="cssProps">
+  :style="cssProps">
+  <v-flex class="pa-2 xs12 text-xs-center mt-2 mb-3">
+    <button :style="cssProps">{{GET_salutation}}</button>
+  </v-flex>
+  <div
+  class="mx-0 background lighten-1"
+  max-width="500"
+  :dark="GET_dark"
+  >
+  <v-card flat dark>
+    <v-img
+    :src="this.chapterPreviewImage"
+    gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
+    >
+    <!-- <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
+    <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn> -->
+    <v-container fill-height >
+      <v-layout column>
 
-      <div
-      class="mx-0 background lighten-1"
-      max-width="500"
-      :dark="GET_dark"
-      >
-      <v-card flat dark>
-        <v-img
-        :src="this.chapterPreviewImage"
-        gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
-        >
-        <!-- <v-btn icon fab top left fixed large class="mt-4" @click="decrementChapter()"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
-        <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn> -->
-        <v-container fill-height align-center>
-          <v-layout column>
-            <v-layout row>
-                  <v-btn icon large class="mt-4" @click="decrementChapter()"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn icon large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
-                  </v-layout>
-<v-layout align-end>
-            <span v-show="this.script==='tamil'" class="font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
-              {{ convert(this.GET_preview_chapter.title1) }}
-            </span>
-            <span v-show="this.script!=='tamil'" class="title font-weight-light pl-1" :style="'border-left: solid #FFFF009F'">
-              {{ convert(this.GET_preview_chapter.title1) }}
-            </span>
+        <v-layout row align-start justify-start>
+          <v-btn fab small light  @click="decrementChapter()"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn fab small light @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+        </v-layout>
 
+          <v-layout class="mt-5 pt-5 mb-0">
+            <span class="display-2 font-weight-light mr-1 mt-0">
+              {{chapter}}</span>
+              <span class="title font-weight-light">
+                {{ convert(this.GET_preview_chapter.title1) }} </br>
+                <span class="caption font-weight-light">  {{this.GET_preview_chapter.titleEnglish}} </span>
+              </span>
             </v-layout>
-            <v-layout row align-start  class="mt-0 pt-0">
-              <span class="display-3 font-weight-light mr-1 mt-0">
-            {{chapter}}</span>
-              <span class="font-weight-light mt-3">{{this.GET_preview_chapter.titleEnglish}}</span>
-          </v-layout>
             </v-layout>
-        </v-container>
-      </v-img>
-    </v-card>
-    <readNavigation> </readNavigation>
-    <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
-    <v-icon>arrow_left</v-icon>
-  </v-btn> -->
-  <v-card-text class="pa-0">
-    <v-container grid-list-md text-xs-left class="pa-0">
-      <v-layout row wrap class="ma-0" justify-center>
-        <v-flex class="pa-2 xs12 text-xs-center">
-        <button :style="cssProps">{{GET_salutation}}</button>
-        </v-flex>
-        <v-flex xs12 lg6 class="ma-0">
-          <readSummary> </readSummary>
-          </v-flex>
-          <v-flex xs12 lg6 class="ma-0">
-          <readOutline> </readOutline>
-          </v-flex>
-      </v-layout>
-    </v-container>
-        <v-container grid-list-md text-xs-left class="pa-1">
-          <v-layout row wrap>
-            <v-flex  xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
-              <v-card class="background ma-2" :dark="GET_dark">
-                <div v-if="i < 4 || loadTheRestOfVerses">
-                    <v-layout row align-top>
-                      <!-- verse id -->
-                      <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                    </v-layout>
+
+      </v-container>
+    </v-img>
+  </v-card>
+  <readNavigation> </readNavigation>
+  <!-- <v-btn @click="$vuetify.goTo('#read20', { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
+  <v-icon>arrow_left</v-icon>
+</v-btn> -->
+<v-card-text class="pa-0">
+  <v-container grid-list-md text-xs-left class="pa-0">
+    <v-layout row wrap class="ma-0" justify-center>
+      <v-flex xs12 lg6 class="ma-0">
+        <readSummary> </readSummary>
+      </v-flex>
+      <v-flex xs12 lg6 class="ma-0">
+        <readOutline> </readOutline>
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <v-container grid-list-md text-xs-left class="pa-1">
+    <v-layout row wrap>
+      <v-flex  xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
+        <v-card class="background ma-2" :dark="GET_dark">
+          <div v-if="i < 4 || loadTheRestOfVerses">
+            <v-layout row align-top>
+              <!-- verse id -->
+              <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+            </v-layout>
 
 
-                    <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
-                    <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
+            <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
+            <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
 
-                    <uvachCard :verse_id="item.verse_id" v-if="showVerse"> </uvachCard>
-                    <shloakCard :verse_id="item.verse_id"  v-if="showVerse"></shloakCard>
-                    <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
+            <uvachCard :verse_id="item.verse_id" v-if="showVerse"> </uvachCard>
+            <shloakCard :verse_id="item.verse_id"  v-if="showVerse"></shloakCard>
+            <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
 
-                    <uvachCard :verse_id="item.verse_id" v-if="showTranslation & !showVerse"> </uvachCard>
-                    <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
-                    <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
+            <uvachCard :verse_id="item.verse_id" v-if="showTranslation & !showVerse"> </uvachCard>
+            <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
+            <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 
-                    <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
-                </div>
+            <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
+          </div>
 
 
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 
-      </v-card-text>
-    </div>
+</v-card-text>
+</div>
 
 </div>
 </template>
@@ -139,7 +135,7 @@ export default {
     }
   },
   chapterPreviewImage() {
-    let mylink = 'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/chapter' + this.chapter + '.jpeg'    
+    let mylink = 'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/previewchapter' + this.chapter + '.jpeg'
     return mylink
   }
 },
@@ -171,11 +167,11 @@ beforeRouteUpdate(to, from, next) {
 watch: {
   verse: function(val){
     if (!this.loadTheRestOfVerses) {
-    this.SET_loadTheRestOfVerses(true)
-    setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 400)
-  } else {
-    this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-  }
+      this.SET_loadTheRestOfVerses(true)
+      setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 400)
+    } else {
+      this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+    }
   }
 },
 updated: function () {

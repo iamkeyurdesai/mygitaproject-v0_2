@@ -17,7 +17,7 @@ const state = {
   showAnvaya: false,
   columnCount: 2,
   mainItem: 'read',
-  theme: 'black',
+  theme: 'dark',
   language: 'hindi',
   script: 'devanagari',
   fsize: 'small',

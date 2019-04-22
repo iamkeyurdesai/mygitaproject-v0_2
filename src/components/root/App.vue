@@ -5,7 +5,12 @@
   <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
 
     <v-toolbar-title>
-    <span class="body-1 grow"> Power </span> <v-icon color="secondary" class="inverted">fas fa-tree</v-icon>Gita
+      <v-avatar size="24px" tile>
+        <img
+          :src="'/static/img/icons/icon-72x72.png'"
+          alt="Error Loading"
+        >
+      </v-avatar> Power Gita
   </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -15,7 +20,7 @@
     <v-btn icon class="primary secondary--text">
       <v-icon>notifications</v-icon>
     </v-btn> -->
-    <settings-popup></settings-popup>
+    <!-- <settings-popup></settings-popup> -->
     <!-- if not authenticated then show the Sing In button
     if authenticated then render user-profile component -->
     <div v-if="!this.authenticated">
@@ -39,8 +44,8 @@
   </v-content>
 
   <!-- dynamic bottom navigation -->
-    <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56" class="secondary primary--text">
-<v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' class="secondary primary--text">
+    <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56">
+<v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' color="activity--text">
   <span class="caption">{{zz}}</span>
   <v-icon>{{menu.mainIcons[k]}}</v-icon>
 </v-btn>
@@ -116,26 +121,4 @@ export default {
 </script>
 
 <style lang="scss">
-.inverted {
-  position: relative;
-  top: 3px;
-  margin-right: 2px;
-  transform: rotate(180deg);
-  animation: mymove 10s infinite;
-  animation-timing-function: ease;
-  animation-delay: 2s;
-}
-@keyframes mymove {
-  from {transform: rotate(360deg);}
-  to {transform: rotate(180deg);}
-}
-.grow {
-  animation: mygrowth 10s infinite;
-  animation-timing-function: ease;
-  animation-delay: 2s;
-}
-@keyframes mygrowth {
-  from {font-size: 0.4em; opacity: 0.6;}
-  to {font-size: 1em; opacity: 1;}
-}
 </style>
