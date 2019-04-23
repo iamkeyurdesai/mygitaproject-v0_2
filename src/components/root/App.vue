@@ -5,7 +5,7 @@
   <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
 
     <v-toolbar-title>
-      <v-avatar size="24px" tile>
+      <v-avatar size="28px" tile>
         <img
           :src="'/static/img/icons/icon-72x72.png'"
           alt="Error Loading"
@@ -14,17 +14,20 @@
   </v-toolbar-title>
 
     <v-spacer></v-spacer>
-        <!-- <v-btn icon class="primary secondary--text">
+        <v-btn icon  class="primary secondary--text ma-0">
       <v-icon>group</v-icon>
     </v-btn>
-    <v-btn icon class="primary secondary--text">
+    <v-btn icon  class="primary secondary--text ma-0">
       <v-icon>notifications</v-icon>
-    </v-btn> -->
+    </v-btn>
+    <v-btn icon small class="primary secondary--text ma-0">
+      <v-icon>search</v-icon>
+    </v-btn>
     <!-- <settings-popup></settings-popup> -->
     <!-- if not authenticated then show the Sing In button
     if authenticated then render user-profile component -->
     <div v-if="!this.authenticated">
-      <v-btn small flat icon class="secondary--text" @click.native.stop="dialog = true">Sing In</v-btn>
+      <v-btn small flat class="activity white--text ma-0 pa-0" @click.native.stop="dialog = true">Sing In</v-btn>
       <v-dialog v-model="dialog">
         <firebase-auth></firebase-auth>
       </v-dialog>
@@ -37,7 +40,7 @@
 
       <v-content class="background" :class="options.fsizeInternal[fsize]" :style="'color:' + this.options[this.theme].emphasis.high"
       v-touch="{
-            up: () => setNav(false),
+            up: () => setNav(true),
             down: () => setNav(true)
           }">
       <router-view></router-view>
@@ -45,7 +48,7 @@
 
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56">
-<v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' color="activity--text">
+<v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' color="primary--text">
   <span class="caption">{{zz}}</span>
   <v-icon>{{menu.mainIcons[k]}}</v-icon>
 </v-btn>

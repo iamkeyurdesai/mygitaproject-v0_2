@@ -7,7 +7,7 @@ export const options = {
   dark: {
     theme: {
     primary: "#190933",
-    secondary: "#D0E2F7",
+    secondary: "#E0E2F7",
     activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',
@@ -32,7 +32,7 @@ export const options = {
   light: {
     theme: {
     primary: "#190933",
-    secondary: "#D0E2F7",
+    secondary: "#E0E2F7",
     activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',
@@ -57,7 +57,7 @@ export const options = {
   plain: {
     theme: {
     primary: "#190933",
-    secondary: "#D0E2F7",
+    secondary: "#E0E2F7",
     activity: "#ff9933",
     error: '#FF5252',
     info: '#2196F3',

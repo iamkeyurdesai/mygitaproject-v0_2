@@ -1,15 +1,12 @@
 <template>
   <div v-scroll="onScroll"
   :style="cssProps">
-  <v-flex class="pa-2 xs12 text-xs-center mt-2 mb-3">
-    <button :style="cssProps">{{GET_salutation}}</button>
-  </v-flex>
   <div
   class="mx-0 background lighten-1"
   max-width="500"
   :dark="GET_dark"
   >
-  <v-card flat dark>
+  <v-card flat dark class="mt-3">
     <v-img
     :src="this.chapterPreviewImage"
     gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
@@ -45,6 +42,9 @@
 <v-card-text class="pa-0">
   <v-container grid-list-md text-xs-left class="pa-0">
     <v-layout row wrap class="ma-0" justify-center>
+      <v-flex class="pa-2 xs12 text-xs-center mt-2 mb-3">
+        <button :style="cssProps">{{GET_salutation}}</button>
+      </v-flex>
       <v-flex xs12 lg6 class="ma-0">
         <readSummary> </readSummary>
       </v-flex>
