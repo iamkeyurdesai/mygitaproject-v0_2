@@ -1,5 +1,768 @@
 [
   {
+    "chapter_id": 19,
+    "verse_id": 1,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "dharovāca",
+    "foot": [
+      {
+        "foot": "bhagavanparemeśāna"
+      },
+      {
+        "foot": "bhaktiravyabhicāriṇī"
+      },
+      {
+        "foot": "prārabdhaṃ bhujyamānasya"
+      },
+      {
+        "foot": "kathaṃ bhavati he prabho"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 2,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "prārabdhaṃ bhujyamāno hi"
+      },
+      {
+        "foot": "gītābhyāsarataḥ sadā"
+      },
+      {
+        "foot": "sa muktaḥ sa sukhī loke"
+      },
+      {
+        "foot": "karmaṇā nopalipyate"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 3,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "mahāpāpādipāpāni"
+      },
+      {
+        "foot": "gītādhyānaṃ karoti cet"
+      },
+      {
+        "foot": "kvacitsparśaṃ na kurvanti"
+      },
+      {
+        "foot": "nalinīdalamambuvat"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 4,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītāyāḥ pustakaṃ yatra"
+      },
+      {
+        "foot": "yatra pāṭhaḥ pravartate"
+      },
+      {
+        "foot": "tatra sarvāṇi tīrthāṇi"
+      },
+      {
+        "foot": "prayāgādīni tatra vai"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 5,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "sarve devāśca ṛṣayo"
+      },
+      {
+        "foot": "yoginaḥ pannagāśca ye"
+      },
+      {
+        "foot": "gopālā gopikā vāpi"
+      },
+      {
+        "foot": "nāradoddhavapārṣadaiḥ"
+      },
+      {
+        "foot": "sahāyo jāyate śīghraṃ"
+      },
+      {
+        "foot": "yatra gītā pravartate"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 6,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "yatra gītāvicāraśca"
+      },
+      {
+        "foot": "paṭhanaṃ pāṭhanaṃ śṛtam"
+      },
+      {
+        "foot": "tatrāhaṃ niścitaṃ pṛthvi"
+      },
+      {
+        "foot": "nivasāmi sadaiva hi"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 7,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītāśraye'haṃ tiṣṭhāmi"
+      },
+      {
+        "foot": "gītā me cottamaṃ gṛham"
+      },
+      {
+        "foot": "gītājñānamupāśritya"
+      },
+      {
+        "foot": "trīṃlokānpālayāmyaham"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 8,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītā me paramā vidyā"
+      },
+      {
+        "foot": "brahmarūpā na saṃśayaḥ"
+      },
+      {
+        "foot": "ardhamātrākṣarā nityā"
+      },
+      {
+        "foot": "svānirvācyapadātmikā"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 9,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "cidānandena kṛṣṇena"
+      },
+      {
+        "foot": "proktā svamukhato'rjunam"
+      },
+      {
+        "foot": "vedatrayī parānandā"
+      },
+      {
+        "foot": "tattvārthajñānasaṃyutā"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 10,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "yo'ṣṭādaśajapo nityaṃ"
+      },
+      {
+        "foot": "naro niścalamānasaḥ"
+      },
+      {
+        "foot": "jñānasiddhiṃ sa labhate"
+      },
+      {
+        "foot": "tato yāti paraṃ padam"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 11,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "pāṭhe'samarthaḥ sampūrṇe"
+      },
+      {
+        "foot": "tato'rdhaṃ pāṭhamācaret"
+      },
+      {
+        "foot": "tadā godānajaṃ puṇyaṃ"
+      },
+      {
+        "foot": "labhate nātra saṃśayaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 12,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "tribhāgaṃ paṭhamānastu"
+      },
+      {
+        "foot": "gaṅgāsnānaphalaṃ labhet"
+      },
+      {
+        "foot": "ṣaḍaṃśaṃ japamānastu"
+      },
+      {
+        "foot": "somayāgaphalaṃ labhet"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 13,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "ekādhyāyaṃ tu yo nityaṃ"
+      },
+      {
+        "foot": "paṭhate bhaktisaṃyutaḥ"
+      },
+      {
+        "foot": "rudralokamavāpnoti"
+      },
+      {
+        "foot": "gaṇo bhūtvā vasecciram"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 14,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "adhyāyaṃ ślokapādaṃ vā"
+      },
+      {
+        "foot": "nityaṃ yaḥ paṭhate naraḥ"
+      },
+      {
+        "foot": "sa yāti naratāṃ yāvat"
+      },
+      {
+        "foot": "manvantaraṃ vasundhare"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 15,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītāyāḥ ślokadaśakaṃ"
+      },
+      {
+        "foot": "sapta pañca catuṣṭayam"
+      },
+      {
+        "foot": "dvau trīnekaṃ tadardhaṃ vā"
+      },
+      {
+        "foot": "ślokānāṃ yaḥ paṭhennaraḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 16,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "candralokamavāpnoti"
+      },
+      {
+        "foot": "varṣāṇāmayutaṃ dhruvam"
+      },
+      {
+        "foot": "gītāpāṭhasamāyukto"
+      },
+      {
+        "foot": "mṛto mānuṣatāṃ vrajet"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 17,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītābhyāsaṃ punaḥ kṛtvā"
+      },
+      {
+        "foot": "labhate muktimuttamām"
+      },
+      {
+        "foot": "gītetyuccārasaṃyukto"
+      },
+      {
+        "foot": "mriyamāṇo gatiṃ labhet"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 18,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītārthaśravaṇāsakto"
+      },
+      {
+        "foot": "mahāpāpayuto'pi vā"
+      },
+      {
+        "foot": "vaikuṇṭhaṃ samavāpnoti"
+      },
+      {
+        "foot": "viṣṇunā saha modate"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 19,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītārthaṃ dhyāyate nityaṃ"
+      },
+      {
+        "foot": "kṛtvā karmāṇi bhūriśaḥ"
+      },
+      {
+        "foot": "jīvanmuktaḥ sa vijñeyo"
+      },
+      {
+        "foot": "dehānte paramaṃ padam"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 20,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītāmāśritya bahavo"
+      },
+      {
+        "foot": "bhūbhujo janakādayaḥ"
+      },
+      {
+        "foot": "nirdhūtakalmaṣā loke"
+      },
+      {
+        "foot": "gītāyātāḥ paraṃ padam"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 21,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "gītāyāḥ paṭhanaṃ kṛtvā"
+      },
+      {
+        "foot": "māhātmyaṃ naiva yaḥ paṭhet"
+      },
+      {
+        "foot": "vṛthā pāṭho bhavettasya"
+      },
+      {
+        "foot": "śrama eva hyudāhṛtaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 22,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "śrī viṣṇuruvāca",
+    "foot": [
+      {
+        "foot": "etanmāhātmyasaṃyuktaṃ"
+      },
+      {
+        "foot": "gītābhyāsaṃ karoti yaḥ"
+      },
+      {
+        "foot": "sa tatphalamavāpnoti"
+      },
+      {
+        "foot": "durlabhāṃ gatimāpnuyāt"
+      }
+    ]
+  },
+  {
+    "chapter_id": 19,
+    "verse_id": 23,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "māhātmyametadgītāyā"
+      },
+      {
+        "foot": "mayā prokta satātanam"
+      },
+      {
+        "foot": "gītānte ca paṭhedyastu"
+      },
+      {
+        "foot": "yaduktaṃ tatphalaṃ labhet"
+      }
+    ]
+  },
+  {
+    "chapter_id": 20,
+    "verse_id": 1,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "namo'stu te vyāsa viśālabuddhe"
+      },
+      {
+        "foot": "phullāravindāyatapatranetra"
+      },
+      {
+        "foot": "yena tvayā bhāratatailapūrṇaḥ"
+      },
+      {
+        "foot": "prajvālito jñānamayaḥ pradīpaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 21,
+    "verse_id": 1,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "gururbrahmā gururviṣṇūḥ"
+      },
+      {
+        "foot": "gururdevo maheśvaraḥ"
+      },
+      {
+        "foot": "guruḥ sākṣāt parabrahma"
+      },
+      {
+        "foot": "tasmai śrīgurave namaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 21,
+    "verse_id": 2,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "dhyānamūlaṃ gurormūrtiḥ"
+      },
+      {
+        "foot": "pūjāmūlaṃ guroḥ padam"
+      },
+      {
+        "foot": "mantramūlaṃ gurorvākyaṃ"
+      },
+      {
+        "foot": "mokṣamūlaṃ guroḥ kṛpā"
+      }
+    ]
+  },
+  {
+    "chapter_id": 22,
+    "verse_id": 1,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "kṛṣṇāya vāsudevāya"
+      },
+      {
+        "foot": "devakī nandanāya ca"
+      },
+      {
+        "foot": "nandagopa kumārāya"
+      },
+      {
+        "foot": "govindāya namo namaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 1,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "oṃ pārthāya pratibodhitāṃ bhagavatā nārāyaṇena svayaṃ"
+      },
+      {
+        "foot": "vyāsena grathitāṃ purāṇamuninā madhye mahābhāratam"
+      },
+      {
+        "foot": "advaitāmṛtavarṣiṇīṃ bhagavatīmaṣṭādaśādhyāyinīṃ"
+      },
+      {
+        "foot": "amba tvāmanusandadhāmi bhagavadgīte bhavedveṣiṇīm"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 2,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "namo'stu te vyāsa viśālabuddhe"
+      },
+      {
+        "foot": "phullāravindāyatapatranetra"
+      },
+      {
+        "foot": "yena tvayā bhāratatailapūrṇaḥ"
+      },
+      {
+        "foot": "prajvālito jñānamayaḥ pradīpaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 3,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "prapannapārijātāya"
+      },
+      {
+        "foot": "totravetraikapāṇaye"
+      },
+      {
+        "foot": "jñānamudrāya kṛṣṇāya"
+      },
+      {
+        "foot": "gītāmṛtaduhe namaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 4,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "sarvopaniṣado gāvo"
+      },
+      {
+        "foot": "dogdhā gopāla nandanaḥ"
+      },
+      {
+        "foot": "pārtho vatsaḥ sudhīrbhoktā"
+      },
+      {
+        "foot": "dugdhaṃ gītāmṛtaṃ mahat"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 5,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "vasudevasutaṃ devaṃ"
+      },
+      {
+        "foot": "kaṃsacāṇūramardanam"
+      },
+      {
+        "foot": "devakīparamānandaṃ"
+      },
+      {
+        "foot": "kṛṣṇaṃ vande jagadgurum"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 6,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "bhīṣmadroṇataṭā jayadrathajalā gāndhāranīlotpalā"
+      },
+      {
+        "foot": "śalyagrāhavatī kṛpeṇa vahanī karṇena velākulā"
+      },
+      {
+        "foot": "aśvatthāmavikarṇaghoramakarā duryodhanāvartinī"
+      },
+      {
+        "foot": "sottīrṇā khalu pāṇḍavai raṇanadī kaivartakaḥ keśavaḥ"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 7,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "pārāśaryavacaḥ sarojamamalaṃ gītārthagandhotkaṭaṃ"
+      },
+      {
+        "foot": "nānākhyānakakesaraṃ harikathāsambodhanābodhitam"
+      },
+      {
+        "foot": "loke sajjanaṣaṭpadairaharahaḥ pepīyamānaṃ mudā"
+      },
+      {
+        "foot": "bhūyādbhāratapaṅkajaṃ kalimalapradhvaṃsi naḥ śreyase"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 8,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "mūkaṃ karoti vācālaṃ"
+      },
+      {
+        "foot": "paṅguṃ laṅghayate girim"
+      },
+      {
+        "foot": "yatkṛpā tamahaṃ vande"
+      },
+      {
+        "foot": "paramānandamādhavam"
+      }
+    ]
+  },
+  {
+    "chapter_id": 23,
+    "verse_id": 9,
+    "chhandaH": "Anushtubh",
+    "word_info": "",
+    "speaker": "sūta uvāca",
+    "foot": [
+      {
+        "foot": "yaṃ brahmā varuṇendrarudramarutaḥ stunvanti divyaiḥ stavaiḥ"
+      },
+      {
+        "foot": "vedaiḥ sāṅgapadakramopaniṣadairgāyanti yaṃ sāmagāḥ"
+      },
+      {
+        "foot": "dhyānāvasthitatadgatena manasā paśyanti yaṃ yogino"
+      },
+      {
+        "foot": "yasyāntaṃ na viduḥ surāsuragaṇā devāya tasmai namaḥ"
+      }
+    ]
+  }
+  ,
+  {
     "count2": 16,
     "foot": [
       {

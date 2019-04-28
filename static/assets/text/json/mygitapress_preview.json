@@ -189,51 +189,51 @@
   {
     "chapter_id": 19,
     "title": "Gita Mahatmya",
-    "start": "Sri Ganeshaaya Namah! Gopaalakrishnaaya Namah!",
-    "end":"Om Shanti, Shanti, Shanti!",
+    "start": "atha śrīgītāmāhātmyaprārambhaḥ",
+    "end":"iti śrīvārāhapurāṇe śrīgītāmāhātmyaṃ sampūrṇam",
     "hindi": "",
     "english": "",
-    "title1": "Gita Mahatmya",
-    "titleEnglish": "Gita Mahatmya"
+    "title1": "gītā māhātmya",
+    "titleEnglish": "The Glory of the Gita"
   },
   {
     "chapter_id": 20,
-    "title": "Prayer to Vyasa",
-    "start": "",
-    "end":"",
+    "title": "Meditation on Sage Vyasa",
+    "start": "atha śrīvyāsa dhyānam",
+    "end":"iti śrīvyāsa dhyānam",
     "hindi": "",
     "english": "",
-    "title1": "Prayer to Vyasa",
-    "titleEnglish": "Prayer to Vyasa"
+    "title1": "śrīvyāsa dhyānam",
+    "titleEnglish": "Meditation on Sage Vyasa"
   },
   {
     "chapter_id": 21,
-    "title": "Prayer to the Guru",
-    "start": "",
-    "end":"",
+    "title": "Meditation on the Guru",
+    "start": "atha śrīguru dhyānam",
+    "end":"iti śrīguru dhyānam",
     "hindi": "",
     "english": "",
-    "title1": "Prayer to the Guru",
-    "titleEnglish": "Prayer to Guru"
+    "title1": "śrīguru dhyānam",
+    "titleEnglish": "Meditation on the Guru"
   },
   {
     "chapter_id": 22,
-    "title": "Prayer to Lord Krishna",
-    "start": "",
-    "end":"",
+    "title": "Meditation on Lord Krishna",
+    "start": "atha śrīkṛṣṇa dhyānam",
+    "end":"iti śrīkṛṣṇa dhyānam",
     "hindi": "",
     "english": "",
-    "title1": "Prayer to Lord Krishna",
-    "titleEnglish": "Prayer to Lord Krishna"
+    "title1": "śrīkṛṣṇa dhyānam",
+    "titleEnglish": "Meditation on Lord Krishna"
   },
   {
     "chapter_id": 23,
     "title": "Gita Dhyanam",
-    "start": "",
-    "end":"",
+    "start": "atha dhyānam",
+    "end":"iti dhyānam",
     "hindi": "",
     "english": "",
-    "title1": "Gita Dhyanam",
-    "titleEnglish": "MEDITATION ON THE GITA"
+    "title1": "gītā dhyānam",
+    "titleEnglish": "Meditation on the Gita"
   }
 ]

@@ -3,8 +3,7 @@
         <v-container grid-list-xs class="text-xs-left ma-0 pa-1">
           <v-layout column wrap class="ma-0">
             <div align="center" class="subheading pa-2 font-weight-medium" :style="cssProps">
-              Chapter {{chapter}} Outline
-              </span>
+              Chapter {{chapter}} Outline              
             </div>
             <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
               <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->

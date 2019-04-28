@@ -42,14 +42,17 @@
 <v-card-text class="pa-0">
   <v-container grid-list-md text-xs-left class="pa-0">
     <v-layout row wrap class="ma-0" justify-center>
-      <v-flex class="pa-2 xs12 text-xs-center mt-2 mb-3">
+      <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
+        <readSummary> </readSummary>
+      </v-flex>
+      <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
+        <readOutline> </readOutline>
+      </v-flex>
+      <v-flex class="pa-1 xs12 text-xs-center mt-3 mb-1">
         <button :style="cssProps">{{GET_salutation}}</button>
       </v-flex>
       <v-flex xs12 lg6 class="ma-0">
-        <readSummary> </readSummary>
-      </v-flex>
-      <v-flex xs12 lg6 class="ma-0">
-        <readOutline> </readOutline>
+        <readStart> </readStart>
       </v-flex>
     </v-layout>
   </v-container>
@@ -82,6 +85,9 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-flex xs12 lg6 class="ma-0">
+      <readEnd> </readEnd>
+    </v-flex>
   </v-container>
 
 </v-card-text>
@@ -104,6 +110,8 @@ import uvachCard from './subcomponents/uvach-card.vue'
 import readNavigation from './subcomponents/read-navigation.vue'
 import readOutline from './subcomponents/read-outline.vue'
 import readSummary from './subcomponents/read-summary.vue'
+import readStart from './subcomponents/read-start.vue'
+import readEnd from './subcomponents/read-end.vue'
 import Sanscript from 'Sanscript';
 export default {
   data: function() {
@@ -135,7 +143,7 @@ export default {
     }
   },
   chapterPreviewImage() {
-    let mylink = 'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/previewchapter' + this.chapter + '.jpeg'
+    let mylink = '/static/img/chapter_preview/previewchapter' + this.chapter + '.jpeg'
     return mylink
   }
 },
@@ -187,7 +195,9 @@ components: {
   uvachCard,
   readNavigation,
   readOutline,
-  readSummary
+  readSummary,
+  readStart,
+  readEnd
 }
 }
 </script>
