@@ -4,7 +4,7 @@ The language is decided from Vuex parameters-->
 
 <template>
   <v-card-title class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
-    {{GET_gitapress_local.bhavarth}}
+    {{myTranslation}}
   </v-card-title>
 </template>
 
@@ -24,16 +24,30 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['theme', 'language', 'script', 'chapter']),
     ...mapGetters('settings', ['GET_dark']),
-    ...mapGetters('coretext', ['GET_gitapress_chapter']),
+    ...mapGetters('coretext', ['GET_gitapress_chapter', 'GET_sivananda_chapter']),
     cssProps() { return {
-      borderLeft: 'solid ' + this.$vuetify.theme.accentmain + ' 4px',
+      borderLeft: 'solid ' + this.$vuetify.theme.success + ' 3px',
       color: this.options[this.theme].emphasis.high
       }
     },
+    myTranslation() {
+    if(this.language=="english") {
+      return this.GET_sivananda_local.translation
+    } else if(this.language=="hindi") {
+      return this.GET_gitapress_local.bhavarth
+    }
+  },
     // use verse_id to get specific verse of the main text
     GET_gitapress_local() {
       self = this
       let mytemp = this.GET_gitapress_chapter.filter(function(item) {
+        return (item.verse_id === self.verse_id);
+      });
+      return mytemp[0];
+    },
+    GET_sivananda_local() {
+      self = this
+      let mytemp = this.GET_sivananda_chapter.filter(function(item) {
         return (item.verse_id === self.verse_id);
       });
       return mytemp[0];

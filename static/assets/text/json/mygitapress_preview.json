@@ -185,5 +185,55 @@
     "english": "",
     "title1": "mokṣasaṃnyāsayogaḥ",
     "titleEnglish": "The Yoga of Liberation by Renunciation"
+  },
+  {
+    "chapter_id": 19,
+    "title": "Gita Mahatmya",
+    "start": "Sri Ganeshaaya Namah! Gopaalakrishnaaya Namah!",
+    "end":"Om Shanti, Shanti, Shanti!",
+    "hindi": "",
+    "english": "",
+    "title1": "Gita Mahatmya",
+    "titleEnglish": "Gita Mahatmya"
+  },
+  {
+    "chapter_id": 20,
+    "title": "Prayer to Vyasa",
+    "start": "",
+    "end":"",
+    "hindi": "",
+    "english": "",
+    "title1": "Prayer to Vyasa",
+    "titleEnglish": "Prayer to Vyasa"
+  },
+  {
+    "chapter_id": 21,
+    "title": "Prayer to the Guru",
+    "start": "",
+    "end":"",
+    "hindi": "",
+    "english": "",
+    "title1": "Prayer to the Guru",
+    "titleEnglish": "Prayer to Guru"
+  },
+  {
+    "chapter_id": 22,
+    "title": "Prayer to Lord Krishna",
+    "start": "",
+    "end":"",
+    "hindi": "",
+    "english": "",
+    "title1": "Prayer to Lord Krishna",
+    "titleEnglish": "Prayer to Lord Krishna"
+  },
+  {
+    "chapter_id": 23,
+    "title": "Gita Dhyanam",
+    "start": "",
+    "end":"",
+    "hindi": "",
+    "english": "",
+    "title1": "Gita Dhyanam",
+    "titleEnglish": "MEDITATION ON THE GITA"
   }
 ]

@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const loadText = function ({ commit }) {
   const ax = axios.create({
-  baseURL: 'https://gitawebapp.firebaseapp.com/static/'
+  // baseURL: 'https://gitawebapp.firebaseapp.com/static/'
+  baseURL: '/static/'
   })
   ax.get('assets/text/json/mygitapress_preview.json', { crossdomain: true}).then((response) => {
     commit('setText', { list: response.data,  id: "preview"})
@@ -25,7 +26,17 @@ const loadText = function ({ commit }) {
     console.log(err)
   });
   ax.get('assets/text/json/mygitapress_commentary.json', { crossdomain: true}).then((response) => {
+    commit('setText', { list: response.data,  id: "gitapress_commentary"})
+  }, (err) => {
+    console.log(err)
+  });
+  ax.get('assets/text/json/mysivananda_translation.json', { crossdomain: true}).then((response) => {
     commit('setText', { list: response.data,  id: "sivananda"})
+  }, (err) => {
+    console.log(err)
+  });
+  ax.get('assets/text/json/mysivananda_commentary.json', { crossdomain: true}).then((response) => {
+    commit('setText', { list: response.data,  id: "sivananda_commentary"})
   }, (err) => {
     console.log(err)
   });

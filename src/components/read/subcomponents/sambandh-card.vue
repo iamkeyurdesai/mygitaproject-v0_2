@@ -27,7 +27,7 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter']),
     cssProps() { return {
-        borderLeft: 'solid ' + this.$vuetify.theme.accentinfo + ' 4px',
+        borderLeft: 'solid ' + this.$vuetify.theme.info + ' 3px',
         color: this.options[this.theme].emphasis.high
       }
     },

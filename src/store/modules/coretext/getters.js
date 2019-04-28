@@ -45,6 +45,12 @@ const GET_gitapress_chapter = (state, getters, rootState) => {
   return mytemp;
 };
 
+const GET_sivananda_chapter = (state, getters, rootState) => {
+  let mytemp =  state.sivananda.filter(function(item) {
+    return (item.chapter_id == rootState.parameters.chapter);
+  });
+  return mytemp;
+};
 export default {
   GET_main,
   GET_main_chapter,
@@ -52,5 +58,6 @@ export default {
   GET_salutation,
   GET_sivananda,
   GET_gitapress_chapter,
-  GET_preview_chapter
+  GET_preview_chapter,
+  GET_sivananda_chapter
 };

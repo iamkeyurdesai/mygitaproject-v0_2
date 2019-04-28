@@ -8,7 +8,7 @@ export const options = {
     theme: {
     primary: "#190933",
     secondary: "#E0E2F7",
-    activity: "#ff9933",
+    activity: "#ff7733",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
@@ -16,7 +16,7 @@ export const options = {
     background: "#010429",
     button: "#D81B60",
     accentmain: "#ff002b",
-    accentinfo: '#82B1FF',
+    accentinfo: '#0096ff',
     accent1: "#00E5FF",
     accent2: "#FFC400",
     accent3: "#76FF03",
@@ -33,7 +33,7 @@ export const options = {
     theme: {
     primary: "#190933",
     secondary: "#E0E2F7",
-    activity: "#ff9933",
+    activity: "#ff7733",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
@@ -58,7 +58,7 @@ export const options = {
     theme: {
     primary: "#190933",
     secondary: "#E0E2F7",
-    activity: "#ff9933",
+    activity: "#ff7733",
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',

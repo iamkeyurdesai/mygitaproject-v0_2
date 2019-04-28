@@ -22,11 +22,13 @@ const decrement = (state) => {
 };
 
 const incrementChapter = (state) => {
-if (state.chapter < 18)
+if (state.chapter < 23)
 {
   state.loadTheRestOfVerses = false
   state.chapter += 1
 } else {
+  state.loadTheRestOfVerses = false
+  state.chapter = 1
 }
 };
 
@@ -36,6 +38,8 @@ const decrementChapter = (state, mutations) => {
     state.loadTheRestOfVerses = false
     state.chapter -= 1
   } else {
+    state.loadTheRestOfVerses = false
+    state.chapter = 23
  }
 };
 
