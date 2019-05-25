@@ -13,7 +13,7 @@ Local func convert() uses lib Sanscript -->
         <v-icon>remove</v-icon>
       </v-btn>
       <div class="caption" :style="options[theme].emphasis.medium">
-        Anvaya
+        Word by Word
       </div>
       <v-btn  :dark="GET_dark" flat small v-on:click.stop="increaseColumn()">
         <v-icon>add</v-icon>

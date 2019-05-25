@@ -1,59 +1,19 @@
 <template>
 <v-layout justify-center column>
 
+<div class="center">
+  <youtube :video-id="videoId" width="360" height="200" ref="youtube" :player-vars="playerVars"
+  @playing="playing" @ended="verse_local=1" fitParent />
+</div>
+
+
   <v-divider :dark="GET_dark"></v-divider>
   <v-layout justify-space-between class="mt-2 px-3" style="height: 36px">
     <v-slider v-model="verse_local" thumb-color="accentinfo" thumb-label="always" :thumb-size="18" :min="1"
     :max="verseall[chapter-1]" :step="1" :dark="GET_dark"></v-slider>
   </v-layout>
-  <v-layout justify-space-between class="ma-0 pa-0" style="height: 36px">
-    <div class="ma-0 pa-0">
-      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="skipPrevious()">
-        <v-icon> skip_previous </v-icon>
-      </v-btn>
-      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="skipNext()">
-        <v-icon> skip_next </v-icon>
-      </v-btn>
-      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="volumeMute =!volumeMute">
-        <v-icon> {{ volumeMute ? 'volume_off' : 'volume_mute' }} </v-icon>
-      </v-btn>
-      <v-btn :style="'color:' + options[theme].emphasis.high" flat icon @click="playRateOn=!playRateOn">
-        <v-icon>slow_motion_video</v-icon>
-      </v-btn>
-      <span :style="'color:' + options[theme].emphasis.high" v-if="isPlaying" class="caption">
-        <span> {{myTrackerValue_formatted}} </span> <span> / </span> <span> {{myDuration_formatted}} </span>
-      </span>
-      <v-btn v-if="false" flat icon @click="isLabeling ? isLabeling=!isLabeling : isLabeling=!isLabeling" :style="'color:' + options[theme].emphasis.high">
-        <v-icon>
-          {{ isLabeling ? 'label' : 'label_off' }}
-        </v-icon>
-      </v-btn>
-
-    </div>
-    <div v-if="isLoading">
-    <v-progress-circular
-      indeterminate
-      color="accentmain"
-    ></v-progress-circular>
-    </div>
-    <div>
-    <v-btn color="button" fab small @click="isPlaying ? pauseSoundFull() : playSoundFull()">
-      <v-icon>
-        {{ isPlaying ? 'mdi-pause' : 'mdi-play' }}
-      </v-icon>
-    </v-btn>
-    </div>
-  </v-layout>
 
   <v-divider :dark="GET_dark"></v-divider>
-  <v-expand-transition>
-    <div v-if="playRateOn" :dark="GET_dark" class="elevation-5">
-      <v-radio-group v-model="playRate" row :dark="GET_dark">
-        <strong>speed: </strong>
-        <v-radio v-for="(item, i) in playRateLabels" v-bind:label="item" v-bind:value="item" :key="item + '_key'" class="caption"></v-radio>
-      </v-radio-group>
-    </div>
-  </v-expand-transition>
 
   <v-layout justify-center column class="mt-4">
     <v-layout justify-center v-if="verse===1">
@@ -67,47 +27,27 @@
 
     </v-layout>
 
-    <!-- <v-layout row align-center justify-center> -->
-      <div align="left">
-        <div align="center" class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
+      <div align="center">
+        <div align="left" class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
 <span class="bigger">{{convert(item.foot)}}</span>
-          {{footBreaks[i]}}<br/>
-          <span v-for="(item1,i1) in GET_main.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
+          {{footBreaks[i]}}
+          <!-- <br/> -->
+          <!-- <span v-for="(item1,i1) in GET_main.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
             {{convert(item1.sanskrit)}}
             </span>
         {{footBreaks[i]}}
         <span v-if="i==6" :style="options[theme].emphasis.medium" class="caption">
         {{chapter}}|{{verse}}
-        </span>
+        </span> -->
         <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
 </br>
       </div>
-      </div>
-    <!-- </v-layout> -->
-<!-- :class="options.fsizeInternal[fsize]" -->
+    </div>
+
     <v-layout justify-center class="py-2 mytext ml-1" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]">
       <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
       <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
     </v-layout>
-
-    <!-- loadedlabels: {{myAnn}} </br>
-loadedlabels: {{sanskritLabels['c'+chapter]}} </br> -->
-<!-- time: {{myTrackerValue}} </br>
-index: {{myIndex}} -->
-
-    <div v-if="isLabeling">
-
-      labeling: {{isLabeling}} </br>
-      time: {{myTrackerValue}} </br>
-      index: {{myIndex}} </br>
-      myTracker: {{myTracker}} </br>
-      ann_time: {{myAnn.time}} </br>
-      ann_labl: {{myAnn.label}} </br>
-      ann_vers: {{myAnn.verse}} </br>
-      verse: {{verse}} </br>
-      rate: {{playRate}} </br>
-      rate Num: {{playRateNum}}
-    </div>
   </v-layout>
 </v-layout>
 </template>
@@ -135,76 +75,35 @@ export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],
     chapterDone: [1, 12],
-    volumeMute: false,
-    playRate: "normal",
-    playRateValues: [0.9, 1, 1.1, 1.2],
-    playRateLabels: ["slow", "normal", "fast", "blaze"],
-    playRateOn: false,
-    isPlaying: false,
-    isLoaded: false,
-    isLoading: false,
     isLabeling: false,
     isLabelingFinished: false,
-    mySound: null,
     myTracker: null,
     myTrackerValue: null,
+    myTrackerValueOld: null,
     activeFoot: 0,
     myIndex: 0,
+    myYoutubeTracker: null,
     myAnn: {
       time: [0],
       verse: [],
       label: []
-    }
+    },
+    videoId: "vBEGfWWWXPQ",
+    myTrackerON: 0,
+    playerVars: {
+        autoplay: 0,
+        fs: 0,
+        modestbranding: 1,
+        rel: 0
+      }
   }),
   watch: {
-    playRateNum: function() {
-      if (this.mySound) this.mySound.rate(this.playRateNum)
-    },
-    volumeMute: function() {
-      if (this.mySound) this.mySound.mute(this.volumeMute)
-    },
-    chapter: function(){
-      this.stopSoundFull()
-      this.mySound.unload()
-      this.isLoaded = false
-      this.mySound = null
-      this.playSoundFull()
-    },
-    verse: function(){
-      this.verse_local = this.verse
+    chapter: function() {
+      if(this.chapter == 2) this.videoId = "cZnf5ipFB9k"
+      if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"      
     }
   },
   computed: {
-    myTrackerValue_formatted()  {
-    if(this.myTrackerValue>0) {
-      var secs = this.myTrackerValue
-    var sec_num = parseInt(secs, 10)
-    var hours   = Math.floor(sec_num / 3600) % 24
-    var minutes = Math.floor(sec_num / 60) % 60
-    var seconds = sec_num % 60
-    return [hours,minutes,seconds]
-        .map(v => v < 10 ? "0" + v : v)
-        .filter((v,i) => v !== "00" || i > 0)
-        .join(":")
-      } else {
-        return "0:00"
-      }
-    },
-    myDuration_formatted()  {
-    if(this.mySound.duration()>=0) {
-      var secs = this.mySound.duration()
-    var sec_num = parseInt(secs, 10)
-    var hours   = Math.floor(sec_num / 3600) % 24
-    var minutes = Math.floor(sec_num / 60) % 60
-    var seconds = sec_num % 60
-    return [hours,minutes,seconds]
-        .map(v => v < 10 ? "0" + v : v)
-        .filter((v,i) => v !== "00" || i > 0)
-        .join(":")
-      } else {
-        return "0:00"
-      }
-    },
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview']),
@@ -219,17 +118,20 @@ export default {
         this.SET_verse(value)
         this.myIndex = this.myAnn.verse.findIndex(v => v===this.verse_local)
         this.myTrackerValue = this.myAnn.time[this.myIndex]
-        if(this.isLoaded) this.mySound.seek(this.myTrackerValue)
+        this.advance()
       }
-    },
-    playRateNum() {
-      return this.playRateValues[this.playRateLabels.findIndex(a => a === this.playRate)]
     },
     classObject: function() {
       if (!this.isLabeling) {
         if (this.myTrackerValue > this.myAnn.time[this.myIndex + 1]) {
           this.myIndex = this.myIndex + 1
           this.SET_verse(this.myAnn.verse[this.myIndex])
+          this.myTrackerValueOld = this.myTrackerValue
+        } else {
+          if(this.myTrackerValue < this.myTrackerValueOld){
+          this.myIndex = this.myAnn.time.findIndex(v => v===this.myTrackerValue)
+          this.SET_verse(this.myAnn.verse[this.myIndex])
+        }
         }
         return this.myAnn.label[this.myIndex]
       } else {
@@ -252,59 +154,6 @@ export default {
         foo.push(i);
       }
       return foo;
-    },
-    stopSoundFull: function() {
-      if (this.mySound !== null) this.mySound.stop()
-      clearInterval(this.myTracker)
-      this.isPlaying = false
-      this.myTrackerValue = 0
-      this.myIndex = 0
-    },
-    pauseSoundFull: function() {
-      this.mySound.pause()
-      clearInterval(this.myTracker)
-      this.isPlaying = false
-    },
-    playSoundFull: function() {
-      this.isLoading = true
-      if (this.sanskritLabels['c' + this.chapter]) {
-        this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
-      }
-      self = this
-      if (this.mySound == null) {
-        let mylink = 'https://gitawebapp.firebaseapp.com/static/assets/audio/full/gita' + this.chapter + '.mp3';
-        this.mySound = new Howl({
-          src: [mylink],
-          rate: this.playRateNum,
-          onload: function() {
-            self.myTracker = setInterval(myTimer, 100)
-
-            function myTimer() {
-              self.myTrackerValue = self.mySound.seek()
-            }
-            self.isPlaying = true
-            self.isLoaded = true
-            self.isLoading = false
-            if(self.verse_local > 1){
-            self.myIndex = self.myAnn.verse.findIndex(v => v===self.verse_local)
-            self.myTrackerValue = self.myAnn.time[self.myIndex]
-            self.mySound.seek(self.myTrackerValue)
-          }
-          // console.log(self.mySound.duration())
-          // console.log(self.mySound.volume())
-          },
-          autoplay: true
-        });
-      } else {
-        this.mySound.play()
-        this.myTracker = setInterval(myTimer, 1000)
-
-        function myTimer() {
-          self.myTrackerValue = self.mySound.seek()
-        }
-        this.isPlaying = true
-        this.isLoading = false
-      }
     },
     saveSoundPos: function(myval) {
       console.log(myval)
@@ -348,23 +197,11 @@ export default {
         this.myAnn.label.push("finished")
         this.addLabels()
         this.isLabelingFinished = true
-        this.stopSoundFull()
       }
     },
     addLabels() {
       var db = firebase.firestore();
-      // db.collection("wordIndex").add({
-      //     chapter: this.chapter,
-      //     verse: this.verse,
-      //     i: val
-      //   })
       db.collection("mylabels").doc("c" + this.chapter).set(this.myAnn)
-      // .then(function(docRef) {
-      //     console.log("Document written with ID: ", docRef.id);
-      //   })
-      //   .catch(function(error) {
-      //     console.error("Error adding document: ", error);
-      //   });
     },
     myAdd(i) {
       if (this.verse < this.verseall[this.chapter - 1]) {
@@ -372,34 +209,33 @@ export default {
         this.addLabels()
       }
     },
-    skipPrevious() {
-      if (this.verse > 1) {
-        this.stopSoundFull()
-        this.verse_local = 1
-        this.playSoundFull()
-      } else {
-        this.decrement()
-        this.stopSoundFull()
-        this.mySound.unload()
-        this.verse_local = 1
-        this.mySound = null
-        this.playSoundFull()
+    playing() {
+      if(this.myTrackerON===0) {
+      if (this.sanskritLabels['c' + this.chapter]) {
+        this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
       }
+      this.myYoutubeTracker = setInterval(this.myYoutubeTime, 50);
+      this.myTrackerON = 1
+      this.verse_local = this.verse
+      this.advance()
+    }
     },
-    skipNext() {
-      if (this.chapter === this.verseall.length) {
-        this.SET_chapter(1)
-        this.stopSoundFull()
-        this.mySound.unload()
-        this.mySound = null
-        this.playSoundFull()
-      } else {
-        this.SET_chapter(this.chapter + 1)
-        this.stopSoundFull()
-        this.mySound.unload()
-        this.mySound = null
-        this.playSoundFull()
-      }
+    paused() {
+      clearInterval(this.myYoutubeTracker)
+      this.myTrackerON = 0
+    },
+    advance() {
+      this.$refs.youtube.player.seekTo(this.myTrackerValue, true);
+      console.log("in advance")
+    },
+    myYoutubeTime() {
+      self = this
+      this.$refs.youtube.player.getCurrentTime().then(
+        function(result) {
+          self.myTrackerValue = result
+        }, function(err) {
+        }
+      )
     }
   },
   components: {
@@ -410,7 +246,7 @@ export default {
 
 <style scoped>
 .myspan {
-  line-height: 2.5em;
+  line-height: 1.5em;
 }
 
 .mytext {
@@ -422,8 +258,8 @@ export default {
   opacity: 0.6;
 }
 .active {
-  font-size: 1.5rem;
-  border-left: 4px solid rgba(256, 10, 10, 0.7);
+  font-size: 1rem;
+  border-left: 2px solid rgba(256, 10, 10, 0.7);
 }
 
 div.v-input__control {

@@ -1,8 +1,9 @@
 <template>
-<div v-touch="{
+<!-- <div v-touch="{
       left: () => increment(),
       right: () => decrement()
-    }" :style="cssProps">
+    }" :style="cssProps"> -->
+    <div :style="cssProps">
   <!-- header containing chapter, verse and salutation -->
 
 
@@ -18,8 +19,19 @@
     </v-flex>
     </v-layout>
     <v-divider :dark="GET_dark"></v-divider>
+<chapterCarousel></chapterCarousel>
 
-<play-verse></play-verse>
+<v-tabs v-model="active" color="background lighten-1" slider-color="activity" :dark="GET_dark">
+
+    <v-tab href="#listen" ripple > LISTEN </v-tab>
+    <v-tab href="#chant" ripple > CHANT </v-tab>
+    <v-tab href="#learn" ripple class="secondary--text darken-1"> LEARN </v-tab>
+
+        <v-tab-item  :value="'listen'">  <play-verse></play-verse>  </v-tab-item>
+        <v-tab-item  :value="'chant'">  chant  </v-tab-item>
+        <v-tab-item  :value="'learn'">  learn  </v-tab-item>
+        </v-tabs>
+
 <v-divider :dark="GET_dark"></v-divider>
 
 <!-- <firebase-messaging></firebase-messaging>   -->
@@ -32,6 +44,7 @@ import chaptermenu from '../reflect/chapter-menu.vue'
 import versemenu from '../reflect/verse-menu.vue'
 import playverse from './play-verse.vue'
 import firebasemessaging from './firebase-messaging.vue'
+import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -40,7 +53,7 @@ import { mapMutations } from 'vuex';
 export default {
   data: function() {
     return {
-
+active: null
     }
   },
   computed: {
@@ -82,7 +95,8 @@ export default {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     'play-verse': playverse,
-    'firebase-messaging': firebasemessaging
+    'firebase-messaging': firebasemessaging,
+    chapterCarousel
   }
 }
 </script>

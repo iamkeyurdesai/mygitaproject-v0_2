@@ -78,7 +78,7 @@ The language is decided from Vuex parameters-->
 
     <v-bottom-sheet v-model="readHelp" inset max-width="65%">
       <v-list>
-    <v-subheader class="ml-2 subheading info--text"> Press these buttons for </v-subheader>
+    <v-subheader class="ml-2 subheading info--text"> Press to </v-subheader>
 
     <v-list-tile
       v-for="tile in tiles"
@@ -121,12 +121,12 @@ export default {
     fab: false,
     readHelp: false,
     tiles: [
-        { icon: 'format_size', title: 'Set language and script' },
-        { icon: 'view_headline', title: 'Original verse' },
-        { icon: 'link', title: 'Link with the previous verse' },
-        { icon: 'translate', title: 'Translation of the verse' },
-        { icon: 'format_bold', title: 'Breakdown into words and sentence formation' },
-        { icon: 'gavel', title: 'Break sandhi' }
+        { icon: 'format_size', title: 'select language' },
+        { icon: 'view_headline', title: 'read original verses' },
+        { icon: 'link', title: 'read links' },
+        { icon: 'translate', title: 'read translation' },
+        { icon: 'format_bold', title: 'read word-by-word' },
+        { icon: 'gavel', title: 'break sandhi (word fusion)' }
       ]
   }),
   computed: {

@@ -23,8 +23,7 @@
         </v-layout>
 
           <v-layout class="mt-5 pt-5 mb-0">
-            <span class="display-2 font-weight-light mr-1 mt-0">
-              {{chapter}}</span>
+            <span v-if="chapter < 19" class="display-2 font-weight-light mr-1 mt-0">{{chapter}}</span>            
               <span class="title font-weight-light">
                 {{ convert(this.GET_preview_chapter.title1) }} </br>
                 <span class="caption font-weight-light">  {{this.GET_preview_chapter.titleEnglish}} </span>
@@ -48,8 +47,8 @@
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
         <readOutline> </readOutline>
       </v-flex>
-      <v-flex class="pa-1 xs12 text-xs-center mt-3 mb-1">
-        <button :style="cssProps">{{GET_salutation}}</button>
+      <v-flex xs12 lg6 class="ma-0">
+        <readSalutation> </readSalutation>
       </v-flex>
       <v-flex xs12 lg6 class="ma-0">
         <readStart> </readStart>
@@ -112,6 +111,7 @@ import readOutline from './subcomponents/read-outline.vue'
 import readSummary from './subcomponents/read-summary.vue'
 import readStart from './subcomponents/read-start.vue'
 import readEnd from './subcomponents/read-end.vue'
+import readSalutation from './subcomponents/read-salutation.vue'
 import Sanscript from 'Sanscript';
 export default {
   data: function() {
@@ -197,7 +197,8 @@ components: {
   readOutline,
   readSummary,
   readStart,
-  readEnd
+  readEnd,
+  readSalutation
 }
 }
 </script>

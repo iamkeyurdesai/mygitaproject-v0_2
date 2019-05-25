@@ -7,6 +7,8 @@ import router from './router'
 import {store} from './store/index.js'
 // import Vuetify from 'vuetify'
 // import VueTippy from 'vue-tippy'
+import VueYoutube from 'vue-youtube'
+Vue.use(VueYoutube)
 
 import {
   Vuetify,
