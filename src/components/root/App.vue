@@ -64,6 +64,7 @@ import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
 import settingspopup from '@/components/settings/settings-popup.vue'
 
+
 export default {
   data() {
     return {
@@ -102,6 +103,7 @@ export default {
       }
     });
     this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
+
   },
   watch: {
        compoundWatch: function(val) {
@@ -116,8 +118,9 @@ export default {
          if(this.mainItem!=='read') {
            this.SET_loadTheRestOfVerses(false)
          }
-         setTimeout(() => {console.log(window.navigator.serviceWorker.ready)}, 1000 * 1)
-         setTimeout(() => {window.navigator.serviceWorker.ready.then(registration => { registration.update(); })}, 1000 * 1)
+         //fetch the latest version of the service worker
+         //if not change on the server then nothing happens
+         window.navigator.serviceWorker.ready.then(registration => { registration.update(); })
        }
   }
 }

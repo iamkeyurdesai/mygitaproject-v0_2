@@ -137,6 +137,7 @@ router.beforeEach((to, from, next) => {
 import firebase from 'firebase'
 import {config} from './helpers/firebaseConfig'
 
+
 /* eslint-disable no-new */
 var vm = new Vue({
   el: '#app',
@@ -147,6 +148,16 @@ var vm = new Vue({
      // this.$store.dispatch('settings/loadText')
      this.$store.dispatch('coretext/loadText');
      this.$store.dispatch('audiolabels/loadText');
+  },
+  mounted() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          // This fires when the service worker controlling this page
+          // changes, eg a new worker has skipped waiting and become
+          // the new active worker.          
+          window.location.reload();
+        });
+      }
   },
   components: { App },
   template: '<App/>'

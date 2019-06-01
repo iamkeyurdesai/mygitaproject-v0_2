@@ -94,13 +94,14 @@ export default {
         autoplay: 0,
         fs: 0,
         modestbranding: 1,
-        rel: 0
+        rel: 0,
+        playsinline: 1
       }
   }),
   watch: {
     chapter: function() {
       if(this.chapter == 2) this.videoId = "cZnf5ipFB9k"
-      if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"      
+      if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"
     }
   },
   computed: {

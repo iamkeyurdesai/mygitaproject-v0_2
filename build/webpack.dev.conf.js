@@ -9,6 +9,7 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -36,6 +37,48 @@ module.exports = merge(baseWebpackConfig, {
       serviceWorkerLoader: `<script>${fs.readFileSync(path.join(__dirname,
         './service-worker-dev.js'), 'utf-8')}</script>`
     }),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin(),
+    // service worker caching
+    new WorkboxPlugin.GenerateSW({
+      swDest: '/service-worker.js',
+      navigateFallback: '/index.html',
+      navigateFallbackBlacklist: [/auth/],
+      clientsClaim: true,
+      skipWaiting: true,
+      // Exclude images from the precache
+      exclude: [/\.(?:mp3)$/],
+      // Define runtime caching rules.
+      runtimeCaching: [
+        {
+          // Match any request ends with .png, .jpg, .jpeg or .svg.
+          urlPattern: /full\/gita.*\.mp3$/,
+          // Apply a cache-first strategy.
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'my-mp3-cache',
+            // Only cache 10 images.
+            expiration: {
+              maxEntries: 5,
+              maxAgeSeconds: 5*365*24*60*60
+            },
+          },
+        },
+        {
+          // Match any request ends with .png, .jpg, .jpeg or .svg.
+          urlPattern: /.*(?:googleapis|gstatic|cdn\.firebase)\.com.*$/,
+          // urlPattern: /\.jpeg$/,
+          // Apply a cache-first strategy.
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'my-lib-cache',
+            // Only cache 10 images.
+            expiration: {
+              maxEntries: 20,
+              maxAgeSeconds: 5*365*24*60*60
+            },
+          },
+        },
+      ],
+    })
   ]
 })
