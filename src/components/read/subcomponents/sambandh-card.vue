@@ -3,8 +3,10 @@ The verse_id is provided as a prop
 The language is decided from Vuex parameters-->
 
 <template>
+
   <v-card-text class="font-weight-light adjustLineHeight my-2 px-2 py-1"
   :style="cssProps">
+  <div align="center" class="info--text">link</div>
       {{GET_gitapress_local["sambandh_"+this.language]}}
   </v-card-text>
 </template>

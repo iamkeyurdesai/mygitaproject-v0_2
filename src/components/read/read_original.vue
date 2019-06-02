@@ -15,10 +15,7 @@
   <v-divider :dark="GET_dark"></v-divider>
   <chapterCarousel></chapterCarousel>
   <v-divider :dark="GET_dark"></v-divider>
-<div class="font-weight-light pa-1 body-2"> Read chapter</div>
-<v-flex xs12 lg6 class="ma-0">
-  <readStart> </readStart>
-</v-flex>
+
   <div
   class="mx-0 background lighten-1"
   max-width="500"
@@ -33,6 +30,12 @@
     <v-btn icon fab top right fixed large class="mt-4" @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn> -->
     <v-container fill-height >
       <v-layout column>
+
+        <v-layout row align-start justify-start>
+          <v-btn fab small light  @click="decrementChapter()"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn fab small light @click="incrementChapter()"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+        </v-layout>
 
           <v-layout class="mt-5 pt-5 mb-0">
             <span v-if="chapter < 19" class="display-2 font-weight-light mr-1 mt-0">{{chapter}}</span>
@@ -51,52 +54,51 @@
   <v-icon>arrow_left</v-icon>
 </v-btn> -->
 <v-card-text class="pa-0">
-  <v-container grid-list-md text-xs-left class="pa-0" v-touch="{
-        left: () => increment(),
-        right: () => decrement()}">
+  <v-container grid-list-md text-xs-left class="pa-0">
     <v-layout row wrap class="ma-0" justify-center>
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
         <readSummary> </readSummary>
       </v-flex>
-        <v-flex xs12>
-        <v-divider :dark="GET_dark"></v-divider>
-      </v-flex>
-      <v-layout class="font-weight-light pa-1 ml-1 body-2" justify-left v-if="chapter < 19"> Select verse</v-layout>
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
         <readOutline> </readOutline>
       </v-flex>
+      <v-flex xs12 lg6 class="ma-0">
+        <readSalutation> </readSalutation>
+      </v-flex>
+      <v-flex xs12 lg6 class="ma-0">
+        <readStart> </readStart>
+      </v-flex>
     </v-layout>
   </v-container>
-  <v-divider :dark="GET_dark"></v-divider>
   <v-container grid-list-md text-xs-left class="pa-1">
-    <v-layout class="font-weight-light pa-1 body-2" justify-left> Read verse by verse</v-layout>
     <v-layout row wrap>
-
-
-        <v-card class="background ma-2 pa-1" :dark="GET_dark">
+      <v-flex  xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
+        <v-card class="background ma-2" :dark="GET_dark">
+          <div v-if="i < 4 || loadTheRestOfVerses">
             <v-layout row align-top>
               <!-- verse id -->
-              <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{verse}}</span>
+              <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
             </v-layout>
 
 
-            <sambandhCard :verse_id="verse" v-if="chapter < 19"> </sambandhCard>
+            <sambandhCard :verse_id="item.verse_id" v-if="showLink"> </sambandhCard>
             <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
 
-            <uvachCard :verse_id="verse"> </uvachCard>
-            <shloakCard :verse_id="verse"></shloakCard>
+            <uvachCard :verse_id="item.verse_id" v-if="showVerse"> </uvachCard>
+            <shloakCard :verse_id="item.verse_id"  v-if="showVerse"></shloakCard>
             <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
 
-            <!-- <uvachCard :verse_id="verse" v-if="showTranslation & !showVerse"> </uvachCard> -->
-            <bhavarthCard :verse_id="verse"> </bhavarthCard>
+            <uvachCard :verse_id="item.verse_id" v-if="showTranslation & !showVerse"> </uvachCard>
+            <bhavarthCard :verse_id="item.verse_id"  v-if="showTranslation"> </bhavarthCard>
             <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
 
-            <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
+            <anvayaCard :verse_id="item.verse_id"  v-if="showAnvaya"></anvayaCard>
+          </div>
+
 
         </v-card>
+      </v-flex>
     </v-layout>
-    <v-divider :dark="GET_dark"></v-divider>
-    <v-layout class="font-weight-light pa-1 body-2" justify-left> Colophon</v-layout>
     <v-flex xs12 lg6 class="ma-0">
       <readEnd> </readEnd>
     </v-flex>
@@ -165,7 +167,7 @@ export default {
   }
 },
 methods: {
-  ...mapMutations('parameters', ['incrementChapter', 'decrementChapter', 'increment', 'decrement',
+  ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
   'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
@@ -189,20 +191,20 @@ beforeRouteEnter(to, from, next) {
 beforeRouteUpdate(to, from, next) {
   next();
 },
-// watch: {
-//   verse: function(val){
-//     if (!this.loadTheRestOfVerses) {
-//       this.SET_loadTheRestOfVerses(true)
-//       setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 400)
-//     } else {
-//       this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-//     }
-//   }
-// },
-// updated: function () {
-//   this.$nextTick(function () {
-//   })
-// }
+watch: {
+  verse: function(val){
+    if (!this.loadTheRestOfVerses) {
+      this.SET_loadTheRestOfVerses(true)
+      setTimeout(() => {this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})}, 400)
+    } else {
+      this.$vuetify.goTo('#read' + (this.verse - 1), { duration: 300, offset: 0, easing: 'easeInOutCubic'})
+    }
+  }
+},
+updated: function () {
+  this.$nextTick(function () {
+  })
+},
 components: {
   shloakCard,
   anvayaCard,
@@ -217,7 +219,7 @@ components: {
   readEnd,
   readSalutation,
   'chapter-menu': chaptermenu,
-  'verse-menu': versemenu,
+  'verse-menu': versemenu,  
   chapterCarousel
 }
 }

@@ -11,7 +11,7 @@
       <v-flex>
       <chapter-menu></chapter-menu>
       </v-flex>
-      <v-flex class="pa-2 text-xs-center">
+      <v-flex class="pa-2 text-xs-center body-2">
       <button>{{GET_salutation}}</button>
       </v-flex>
       <v-flex>
@@ -20,15 +20,16 @@
     </v-layout>
     <v-divider :dark="GET_dark"></v-divider>
 <chapterCarousel></chapterCarousel>
-
+<v-divider :dark="GET_dark"></v-divider>
+<div class="font-weight-light mt-2 pa-1 body-2"> Select action</div>
 <v-tabs v-model="active" color="background lighten-1" slider-color="activity" :dark="GET_dark">
 
     <v-tab href="#listen" ripple > LISTEN </v-tab>
     <v-tab href="#chant" ripple > CHANT </v-tab>
-    <v-tab href="#learn" ripple class="secondary--text darken-1"> LEARN </v-tab>
+    <v-tab href="#learn" ripple> LEARN </v-tab>
 
         <v-tab-item  :value="'listen'">  <play-verse></play-verse>  </v-tab-item>
-        <v-tab-item  :value="'chant'">  chant  </v-tab-item>
+        <v-tab-item  :value="'chant'">  <chant-verse></chant-verse>   </v-tab-item>
         <v-tab-item  :value="'learn'">  learn  </v-tab-item>
         </v-tabs>
 
@@ -43,6 +44,7 @@
 import chaptermenu from '../reflect/chapter-menu.vue'
 import versemenu from '../reflect/verse-menu.vue'
 import playverse from './play-verse.vue'
+import chantverse from './chant-verse.vue'
 import firebasemessaging from './firebase-messaging.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
@@ -95,6 +97,7 @@ active: null
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     'play-verse': playverse,
+    'chant-verse': chantverse,
     'firebase-messaging': firebasemessaging,
     chapterCarousel
   }

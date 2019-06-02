@@ -100,7 +100,7 @@ export default {
   }),
   watch: {
     chapter: function() {
-      if(this.chapter == 2) this.videoId = "cZnf5ipFB9k"
+      if(this.chapter == 2) this.videoId = "vBEGfWWWXPQ"
       if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"
     }
   },

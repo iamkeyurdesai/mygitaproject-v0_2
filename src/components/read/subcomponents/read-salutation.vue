@@ -1,5 +1,5 @@
 <template>
-<v-card class="ma-0 pa-0 background">
+<v-card class="ma-0 pa-0 background" flat>
   <v-layout column wrap class="ma-0" justify-center>
       <v-flex class="ma-0 pa-0 xs12 lg6">
         <div align="center" class="pa-2 accentinfo--text" :style="cssProps">

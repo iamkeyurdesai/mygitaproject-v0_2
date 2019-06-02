@@ -3,9 +3,10 @@ The verse_id is provided as a prop
 The language is decided from Vuex parameters-->
 
 <template>
-  <v-card-title class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
+  <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
+    <div align="center" class="success--text">translation</div>
     {{myTranslation}}
-  </v-card-title>
+  </v-card-text>
 </template>
 
 
@@ -22,7 +23,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['theme', 'language', 'script', 'chapter']),
+    ...mapState('parameters', ['theme', 'language', 'script', 'chapter', 'verse']),
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter', 'GET_sivananda_chapter']),
     cssProps() { return {
