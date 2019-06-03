@@ -6,7 +6,7 @@
   :dark="GET_dark"
   >
   <v-divider :dark="GET_dark"></v-divider>
-  <v-layout class="font-weight-light pa-1 ml-1 body-2" justify-left v-if="chapter < 19"> Jump to verse</v-layout>
+  <v-layout class="font-weight-light px-1 mt-1 subheading" justify-left v-if="chapter < 19"> Click to verse</v-layout>
 <chantNavigation> </chantNavigation>
 <v-card-text class="pa-0">
   <v-container grid-list-md text-xs-left class="pa-0">
@@ -16,18 +16,18 @@
       </v-flex>
       <v-flex>
       <v-divider :dark="GET_dark"></v-divider>
-      <v-layout class="font-weight-light pa-1 ml-1 body-2" justify-left v-if="chapter < 19"> Begin chanting</v-layout>
+      <v-layout class="font-weight-light pa-1 ml-1 subheading" justify-left v-if="chapter < 19"> Begin chanting</v-layout>
     </v-flex>
+    </v-layout>
+  </v-container>
+  <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
+    <v-layout row wrap>
       <v-flex xs12 lg6 class="ma-0">
         <readSalutation> </readSalutation>
       </v-flex>
       <v-flex xs12 lg6 class="ma-0">
         <readStart> </readStart>
       </v-flex>
-    </v-layout>
-  </v-container>
-  <v-container grid-list-md text-xs-left class="pa-1">
-    <v-layout row wrap>
       <v-flex  xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0"   :id="`read${i}`">
         <v-card class="background ma-2" :dark="GET_dark">
           <div>
@@ -65,7 +65,7 @@ import readOutline from '../read/subcomponents/read-outline.vue'
 import readStart from '../read/subcomponents/read-start.vue'
 import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
-import chantNavigation from '../read/subcomponents/read-navigation.vue'
+import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript';
 export default {
   data: function() {
@@ -83,7 +83,7 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses']),
+    'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall']),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {get(){return this.$store.state.parameters.offsetTop}, set(value){this.SET_offsetTop(value)}},
@@ -99,7 +99,7 @@ export default {
 },
 methods: {
   ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
-  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses']),
+  'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses', 'SET_verse']),
   convert(myinput){
     return Sanscript.t(myinput, 'iast', this.script);
   },

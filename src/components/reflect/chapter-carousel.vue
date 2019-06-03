@@ -1,9 +1,10 @@
 <template>
-<div class="background">
-<div class="font-weight-light mt-2 pa-1 body-2"> Select chapter </div>
+<div class="background" :style="cssProps">
+<div class="font-weight-light mt-2 pa-1 subheading"> Select chapter </div>
   <div class="scrolling-wrapper-flexbox background" id="chapterContainer">
     <div class="card mx-1" v-for="i in 23" @click="setChapter_local(i)">
 <v-card class="mt-0 background" :dark="GET_dark">
+  <div :class="{active: i===chapter}">
       <v-card class="mt-0">
         <v-img height="100px" width="100px"
         :src="chapterCarouselImage(i)">
@@ -11,6 +12,7 @@
       </v-card>
       <div class="body-2 pt-1"> {{title_local(i)}} </div>
       <div class="caption font-weight-light pb-1"> chapter {{i}} </div>
+      </div>
       </v-card>
     </div>
   </div>
@@ -35,7 +37,11 @@
     computed: {
       ...mapState('parameters', ['chapter', 'language', 'script']),
       ...mapState('coretext', ['preview']),
-      ...mapGetters('settings', ['GET_dark'])
+      ...mapGetters('settings', ['GET_dark']),
+      cssProps() { return {
+        '--border-color': this.$vuetify.theme.activity
+      }
+    }
     },
     methods: {
       ...mapMutations('parameters', ['SET_chapter']),
@@ -98,4 +104,9 @@
   margin-bottom: -52px;
   position: relative;
 }
+
+.active {
+  border: 2px solid var(--border-color);
+}
+
 </style>

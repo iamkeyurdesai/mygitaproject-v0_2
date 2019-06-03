@@ -125,6 +125,12 @@ const SET_slines = (state, input) => {
 const SET_loadTheRestOfVerses = (state, input) => {
   state.loadTheRestOfVerses = input
 };
+const SET_activeReciteTab = (state, input) => {
+  state.activeReciteTab = input
+};
+const SET_reciteChantFontSize = (state, input) => {
+  state.reciteChantFontSize = input
+};
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -164,5 +170,7 @@ export default {
   SET_showNav,
   SET_offsetTop,
   SET_fabShow,
-  SET_loadTheRestOfVerses
+  SET_loadTheRestOfVerses,
+  SET_activeReciteTab,
+  SET_reciteChantFontSize
 };

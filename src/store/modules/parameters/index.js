@@ -17,14 +17,16 @@ const state = {
   showAnvaya: false,
   columnCount: 2,
   mainItem: 'read',
-  theme: 'light',
+  theme: 'dark',
   language: 'english',
   script: 'iast',
-  fsize: 'small',
+  fsize: 'big',
   fweight: '300',
   offsetTop: 0,
   fabShow: true,
-  loadTheRestOfVerses: false
+  loadTheRestOfVerses: false,
+  activeReciteTab: "chant",
+  reciteChantFontSize: 3
 };
 
 export default {

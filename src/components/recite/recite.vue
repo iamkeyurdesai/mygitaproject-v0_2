@@ -21,16 +21,16 @@
     <v-divider :dark="GET_dark"></v-divider>
 <chapterCarousel></chapterCarousel>
 <v-divider :dark="GET_dark"></v-divider>
-<div class="font-weight-light mt-2 pa-1 body-2"> Select action</div>
-<v-tabs v-model="active" color="background lighten-1" slider-color="activity" :dark="GET_dark">
-
-    <v-tab href="#listen" ripple > LISTEN </v-tab>
-    <v-tab href="#chant" ripple > CHANT </v-tab>
-    <v-tab href="#learn" ripple> LEARN </v-tab>
-
-        <v-tab-item  :value="'listen'">  <play-verse></play-verse>  </v-tab-item>
-        <v-tab-item  :value="'chant'">  <chant-verse></chant-verse>   </v-tab-item>
-        <v-tab-item  :value="'learn'">  learn  </v-tab-item>
+<div class="font-weight-light mt-2 pa-1 subheading"> Select action</div>
+<v-tabs v-model="activeReciteTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
+    <v-tab href="#chant" ripple class="subheading"> CHANT </v-tab>
+    <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
+    <!-- <v-tab href="#learn" ripple class="subheading"> LEARN </v-tab> -->
+<v-tabs-items v-model="activeReciteTab" touchless>
+<v-tab-item  lazy transition :value="'chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
+        <v-tab-item  lazy transition :value="'listen'"> <br> <play-verse></play-verse>  </v-tab-item>
+        <!-- <v-tab-item  lazy transition :value="'learn'">  <br> learn  </v-tab-item> -->
+      </v-tabs-items>
         </v-tabs>
 
 <v-divider :dark="GET_dark"></v-divider>
@@ -69,10 +69,18 @@ active: null
         '--mywidth': "75px",
         '--myfill': "25px"
       }
-    }
-  },
+    },
+    activeReciteTab: {
+      get() {
+        return this.$store.state.parameters.activeReciteTab
+      },
+      set(value) {
+        this.SET_activeReciteTab(value)
+      }
+  }
+},
   methods: {
-    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
+    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeReciteTab']),
     decreaseColumn: function() {
       if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
     },
