@@ -20,7 +20,7 @@ const state = {
   theme: 'dark',
   language: 'english',
   script: 'iast',
-  fsize: 'big',
+  fsize: 'medium',
   fweight: '300',
   offsetTop: 0,
   fabShow: true,

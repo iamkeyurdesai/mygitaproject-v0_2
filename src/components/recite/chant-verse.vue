@@ -7,7 +7,7 @@
     <v-card-text class="pa-0">
 
       <v-layout column class="font-weight-light subheading background">
-        <v-flex pl-1 py-2 my-2> Begin chanting </v-flex>
+        <v-flex pa-1> Begin chanting </v-flex>
         <v-flex>
           <v-divider :dark="GET_dark"></v-divider>
         </v-flex>
@@ -48,14 +48,14 @@
       </v-container>
 
       <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
-        Congratulations! You finished chanting your chapter.
-        <v-btn dark @click="snackbar1 = false, snackbar2 = true">
+        <span class="subheading"> Congratulations! You finished chanting this chapter. </span>
+        <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
           Close
         </v-btn>
       </v-snackbar>
       <v-snackbar v-model="snackbar2" color="info" multi-line :timeout="0" v-if="chapter<19">
-        Do you want to chant Gita Mahatmya now?
-        <v-btn dark  @click="SET_chapter(19), snackbar2 = false, SET_verse(1),
+        <span class="subheading"> Do you want to chant Gita Mahatmya next? </span>
+        <v-btn large dark color="success" @click="SET_chapter(19), snackbar2 = false, SET_verse(1),
         $vuetify.goTo('#beginChanting', {
           duration: 300,
           offset: -300,
@@ -63,7 +63,7 @@
         })">
           YES
         </v-btn>
-        <v-btn dark @click="snackbar2 = false">
+        <v-btn large dark @click="snackbar2 = false" color="error">
           NO
         </v-btn>
       </v-snackbar>

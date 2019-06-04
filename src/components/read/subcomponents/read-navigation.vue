@@ -7,13 +7,13 @@ The language is decided from Vuex parameters-->
 
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom right fixed class="shiftUp shiftRight" v-on:click.stop="increment()" small>
+    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom right fixed class="mb-5 shiftRight" v-on:click.stop="increment()" small>
         <v-icon :style="cssProps_high" large> keyboard_arrow_right</v-icon>
     </v-btn>
   </v-fab-transition>
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUp shiftLeft" v-on:click.stop="decrement()" small>
+    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom left fixed class="mb-5 shiftLeft" v-on:click.stop="decrement()" small>
         <v-icon :style="cssProps_high" large> keyboard_arrow_left</v-icon>
     </v-btn>
   </v-fab-transition>
@@ -22,16 +22,18 @@ The language is decided from Vuex parameters-->
 
 
     <v-fab-transition>
-      <v-btn v-show="!fabShow & offsetTop > 1000" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-        color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="mb-5 shiftLeft">
-        <v-icon large>arrow_upward</v-icon>
+      <!-- <v-btn v-show="!fabShow & offsetTop > 1200" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
+        color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="mb-5 shiftLeft"> -->
+        <v-btn v-show="offsetTop > 2000" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
+          color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="shiftUp shiftLeft">
+        <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
     </v-fab-transition>
 
 
     <v-fab-transition>
-      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="mb-5 shiftRight">
-    <settings-popup></settings-popup>
+      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftUp shiftRight">
+    <settings-popup isScript isTheme isFsize></settings-popup>
       </v-btn>
     </v-fab-transition>
 
