@@ -4,7 +4,7 @@
       <v-flex class="ma-1 pa-0 xs12 lg6">
         <div align="center" class="pa-2 font-weight-medium info--text adjustLineHeight" :style="cssProps">
           ॥ {{convert_flexible(preview[chapter-1].end)}} ॥
-          <br> <br> <br> <br> <br> <br> <br>           
+          <br> <br>
       </div>
       </v-flex>
       </v-layout>

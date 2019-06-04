@@ -43,7 +43,8 @@ import {
   VTimeline,
   VImg,
   VHover,
-  VResponsive
+  VResponsive,
+  VSnackbar
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -84,7 +85,8 @@ Vue.use(Vuetify, {
     VTimeline,
     VImg,
     VHover,
-    VResponsive
+    VResponsive,
+    VSnackbar
   },
   theme: {
   primary: "#190933",
@@ -136,7 +138,8 @@ router.beforeEach((to, from, next) => {
 
 import firebase from 'firebase'
 import {config} from './helpers/firebaseConfig'
-
+import VueObserveVisibility from 'vue-observe-visibility'
+Vue.use(VueObserveVisibility)
 
 /* eslint-disable no-new */
 var vm = new Vue({
@@ -154,7 +157,7 @@ var vm = new Vue({
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           // This fires when the service worker controlling this page
           // changes, eg a new worker has skipped waiting and become
-          // the new active worker.          
+          // the new active worker.
           window.location.reload();
         });
       }

@@ -14,7 +14,7 @@ Local func convert() used lib Sanscript -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
           <!-- chapter and verse ids -->
-          <span v-show="i==3" :style="'color: ' + options[theme].emphasis.disabled" class="small"> {{chapter}}|{{verse_id}} </span>
+          <span v-show="i==3" :style="'color: ' + options[theme].emphasis.disabled" class="small" v-if="verseNumber"> {{chapter}}|{{verse_id}} </span>
           </span>
 
           <br/>
@@ -89,7 +89,8 @@ import Sanscript from 'Sanscript';
 export default {
   props: {
     verse_id: Number,
-    required: true
+    required: true,
+    verseNumber: Boolean
   },
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],  // goes to six due to 6 foot verses in chapter 1

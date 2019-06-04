@@ -35,25 +35,27 @@
   <v-card class="secondary pb-4 px-2">
   <v-layout row wrap>
   <v-flex>
-<v-card class="px-1">
+    <v-card class="px-1" v-if="isScript">
+      <v-radio-group v-model="script" row>
+        <strong>script: </strong>
+        <v-radio v-for="(item, i) in options.script" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
+      </v-radio-group>
+      </v-card>
+          
+<v-card class="px-1" v-if="isFsize">
           <v-radio-group v-model="fsize" row>
           <strong> font size: </strong>
             <v-radio v-for="(item, i) in options.fsize" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
           </v-radio-group>
   </v-card>
-            <v-card class="px-1">
+            <v-card class="px-1" v-if="isTheme">
           <v-radio-group v-model="theme" row>
             <strong>theme: </strong>
             <v-radio v-for="(item, i) in options.theme" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
           </v-radio-group>
           </v-card>
-            <v-card class="px-1">
-              <v-radio-group v-model="script" row>
-                <strong>script: </strong>
-                <v-radio v-for="(item, i) in options.script" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
-              </v-radio-group>
-              </v-card>
-          <v-card class="px-1">
+
+          <v-card class="px-1" v-if="isLanguage">
             <v-radio-group v-model="language" row>
               <strong>language: </strong>
               <v-radio v-for="(item, i) in options.language" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
@@ -76,6 +78,12 @@ import {mapState} from 'vuex';
 import { mapGetters } from 'vuex';
 
 export default {
+  props: {
+    isLanguage: Boolean,
+    isScript: Boolean,
+    isTheme: Boolean,
+    isFsize: Boolean
+  },
   data: () => ({
     sheet: false
   }),

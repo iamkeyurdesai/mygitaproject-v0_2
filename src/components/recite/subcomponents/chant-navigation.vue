@@ -22,18 +22,9 @@ The language is decided from Vuex parameters-->
 
 
 
-
-    <v-fab-transition>
-      <v-btn v-show="!fabShow & offsetTop > 900" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-        color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="mb-5 shiftLeft">
-        <v-icon large>arrow_upward</v-icon>
-      </v-btn>
-    </v-fab-transition>
-
-
     <v-fab-transition>
       <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="mb-5 shiftRight">
-    <settings-popup></settings-popup>
+    <settings-popup isScript isTheme></settings-popup>
       </v-btn>
     </v-fab-transition>
 
