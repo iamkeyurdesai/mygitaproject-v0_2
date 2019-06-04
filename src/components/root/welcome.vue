@@ -1,15 +1,23 @@
 <template>
   <div class="text-xs-center openicon" @click="$router.push(path)">
+    <!-- <div class="text-xs-center openicon" @click="myPathPush()"> -->
     ॐ
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
-      path: 'recite/learn'
     }
+  },
+  computed: {
+    ...mapState('parameters', ['path'])
   }
 }
 </script>

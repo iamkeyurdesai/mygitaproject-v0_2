@@ -15,7 +15,7 @@
   <v-divider :dark="GET_dark"></v-divider>
   <chapterCarousel></chapterCarousel>
   <v-divider :dark="GET_dark"></v-divider>
-<div class="font-weight-light pa-1 body-2"> Read chapter</div>
+<div class="font-weight-light pa-1 subheading"> Read chapter</div>
 <v-flex xs12 lg6 class="ma-0">
   <readStart> </readStart>
 </v-flex>
@@ -61,7 +61,7 @@
         <v-flex xs12>
         <v-divider :dark="GET_dark"></v-divider>
       </v-flex>
-      <v-layout class="font-weight-light pa-1 ml-1 body-2" justify-left v-if="chapter < 19"> Select verse</v-layout>
+      <v-layout class="font-weight-light pa-1 ml-1 subheading" justify-left v-if="chapter < 19"> Click to verse</v-layout>
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
         <readOutline> </readOutline>
       </v-flex>
@@ -69,7 +69,7 @@
   </v-container>
   <v-divider :dark="GET_dark"></v-divider>
   <v-container grid-list-md text-xs-left class="pa-1">
-    <v-layout class="font-weight-light pa-1 body-2" justify-left> Read verse by verse</v-layout>
+    <v-layout class="font-weight-light pa-1 subheading" justify-left> Read the verse</v-layout>
     <v-layout row wrap>
 
 
@@ -134,13 +134,6 @@ export default {
   data: function() {
     return {
     }
-  },
-  mounted() {
-    //do something after mounting vue instance
-    self = this
-    this.$nextTick(function () {
-      // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-    })
   },
   computed: {
     ...mapState('settings', ['options']),

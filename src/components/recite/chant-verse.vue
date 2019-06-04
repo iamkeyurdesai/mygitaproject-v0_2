@@ -15,13 +15,13 @@
 
       <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
         <v-layout row wrap>
-          <v-flex xs12 lg6 class="ma-0">
+          <v-flex xs12 class="ma-0">
             <readSalutation> </readSalutation>
           </v-flex>
-          <v-flex xs12 lg6 class="ma-0">
+          <v-flex xs12 class="ma-0">
             <readStart> </readStart>
           </v-flex>
-          <v-flex xs12 lg6 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`read${i}`" v-observe-visibility="{
+          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`read${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 300
             }">
@@ -36,7 +36,7 @@
             </v-card>
           </v-flex>
         </v-layout>
-        <v-flex xs12 lg6 class="ma-0">
+        <v-flex xs12 class="ma-0">
           <readEnd> </readEnd>
         </v-flex>
         <v-flex v-observe-visibility="{
@@ -48,7 +48,7 @@
       </v-container>
 
       <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
-        <span class="subheading"> Congratulations! You finished chanting this chapter. </span>
+        <span class="subheading"> Good job! You finished chanting this chapter. </span>
         <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
           Close
         </v-btn>
@@ -103,13 +103,6 @@ export default {
       snackbar1: false,
       snackbar2: false
     }
-  },
-  mounted() {
-    //do something after mounting vue instance
-    self = this
-    this.$nextTick(function() {
-      // this.$vuetify.goTo('#read' + this.verse, { duration: 300, offset: 0, easing: 'easeInOutCubic'})
-    })
   },
   computed: {
     ...mapState('settings', ['options']),

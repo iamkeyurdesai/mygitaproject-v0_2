@@ -90,7 +90,7 @@ export default {
       this.showNav = myval
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses'])
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -107,9 +107,11 @@ export default {
   },
   watch: {
        compoundWatch: function(val) {
-         this.$router.push('/' + this.mainItem + '/' + 'api=1' +
+         let myTempPath = '/' + this.mainItem + '/' + 'api=1' +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
-         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi);
+         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi
+         this.$router.push(myTempPath)
+         if(myTempPath !== "/") this.SET_path(myTempPath)
        },
        theme: function(val){
          this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)

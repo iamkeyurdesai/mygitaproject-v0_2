@@ -16,8 +16,7 @@ export default {
   methods: {
     ...mapMutations('parameters', ['SET_path'])
   },
-  mounted() {
-    this.SET_path(this.$router.currentRoute.path);
+  mounted() {    
     var uiConfig = {
       signInSuccessUrl: this.path,
       signInOptions: [

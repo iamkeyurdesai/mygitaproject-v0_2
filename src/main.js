@@ -119,6 +119,7 @@ Vue.use(require('vue-chartist'))
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  if(to.path !=="/") {
   let mypath = to.path.split("/");
   if (mypath[1] != null) store.state.parameters.mainItem = mypath[1];
   if (to.params.data != null) {
@@ -133,7 +134,8 @@ router.beforeEach((to, from, next) => {
         console.log("api=1 not found")
       }
     }
-  next()
+  }
+    next()
 })
 
 import firebase from 'firebase'
