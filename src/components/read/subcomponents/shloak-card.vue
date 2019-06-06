@@ -7,7 +7,6 @@ Local func convert() used lib Sanscript -->
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
   <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
-
     <!-- breakSandhi is false -->
     <div v-if="!breakSandhi"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->
@@ -23,14 +22,19 @@ Local func convert() used lib Sanscript -->
     </div>
 
     <!-- breakSandhi is true -->
+
     <div v-if="breakSandhi" key="breakSandhiTrue" align="left"  class="mytall">
       <!-- render words with break at the end of the foot inserted using checkBreak -->
-      <!-- <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
+
+      <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
+
         <span v-if="GET_main_local.word_info[i+1]=== undefined">  {{convert(item.sanskrit)}}{{" ||"}}</span>
         <span v-else> {{convert(item.sanskrit)}},</span>
         <span v-if="checkBreak(i,4)"><br/></span>
-      </span> -->
-
+      </span>
+      <span :style="'color: ' + options[theme].emphasis.disabled" class="small" v-if="verseNumber"> {{chapter}}|{{verse_id}} </span>
+</div>
+<div v-if="breakSandhi & false" key="breakSandhiTrue" align="left"  class="mytall">
       <div v-show="!breakSandhi_animate" align="left">
         <div class="mx-1" align="center">
           <v-btn small icon :style="'color: ' + options[theme].emphasis.medium">

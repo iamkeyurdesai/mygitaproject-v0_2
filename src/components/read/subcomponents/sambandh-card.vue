@@ -6,7 +6,7 @@ The language is decided from Vuex parameters-->
 
   <v-card-text class="font-weight-light adjustLineHeight my-2 px-2 py-1"
   :style="cssProps">
-  <div align="center" class="info--text">link</div>
+  <div align="left" class="info--text subheading">Link to the previous verse</div>
       {{GET_gitapress_local["sambandh_"+this.language]}}
   </v-card-text>
 </template>
@@ -29,7 +29,7 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter']),
     cssProps() { return {
-        borderLeft: 'solid ' + this.$vuetify.theme.info + ' 3px',
+        // borderLeft: 'solid ' + this.$vuetify.theme.info + ' 3px',
         color: this.options[this.theme].emphasis.high
       }
     },

@@ -1,53 +1,59 @@
 <template>
-  <v-card class="ma-1 mt-2 background" raised>
-        <v-container grid-list-xs class="text-xs-left ma-0 pa-1">
-          <v-layout column wrap class="ma-0">
-            <div align="center" class="subheading pa-2 font-weight-medium" :style="cssProps">
-              Chapter {{chapter}} Outline              
-            </div>
-            <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
-              <v-layout justify-center row> <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
-                <v-flex>
-                  <v-card-text class="pa-1 font-weight-regular adjustLineHeight" :class="options.fsizeInternal['small']">
-                    {{item[language]}}
-                  </v-card-text>
-                </v-flex>
-                <v-flex>
-                  <v-card-text class="pa-1" :class="options.fsizeInternal['medium']">
-                    <span  v-for="(vid, j) in range(item.begin, item.end)"  :key="j">
-                      <button  class="activity subheading mybutton ma-1 elevation-5" @click="SET_verse(vid > 1? vid - 1 : vid + 1)" v-if="vid==verse"> {{vid}} </button>
-                      <button  class="caption mybutton ma-1 elevation-5" @click="SET_verse(vid)" v-else> {{vid}} </button>
+<v-card class="ma-1 mt-2 background" raised>
+  <v-container grid-list-xs class="text-xs-left ma-0 pa-1">
+    <v-layout column wrap class="ma-0">
+      <div align="left" class="subheading font-weight-regular" :style="cssProps">
+        Chapter {{chapter}} Outline
+      </div>
+      <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
+        <v-layout justify-center column>
+          <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
+          <v-flex class="mt-0">
+            <v-card-text class="pa-1 font-weight-regular adjustLineHeight body-2">
+              {{item[language]}}
+            </v-card-text>
+          </v-flex>
+          <v-flex class="mt-0">
+            <v-card-text class="pa-1" >
+              <span v-for="(vid, j) in range(item.begin, item.end)" :key="j">
+                      <button  class="activity title mybutton ma-1 elevation-5" @click="SET_verse(vid > 1? vid - 1 : vid + 1)" v-if="vid==verse"> {{vid}} </button>
+                      <button  class="body-2 mybutton ma-1 elevation-5" @click="SET_verse(vid)" v-else> {{vid}} </button>
                     </span>
-                  </v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-card>
-          </v-layout>
-        </v-container>
+            </v-card-text>
+          </v-flex>
+        </v-layout>
       </v-card>
+    </v-layout>
+  </v-container>
+</v-card>
 </template>
 <!-- <v-btn @click="$vuetify.goTo('read'+this.chapter+vid, { duration: 300, offset: 0, easing: 'easeInOutCubic'})">
   <v-icon>arrow_left</v-icon>
 </v-btn> -->
 <script>
-import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+import {
+  mapActions,
+  mapMutations,
+  mapGetters,
+  mapState
+} from 'vuex';
 export default {
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'theme', 'subItem', 'language']),
     ...mapState('coretext', ['summary']),
     ...mapGetters('settings', ['GET_dark']),
-    mysummary(){
+    mysummary() {
       return this.summary.filter(function(item) {
         return item.chapter_id == this;
       }, this.chapter);
     },
-    cssProps() { return {
+    cssProps() {
+      return {
         color: this.options[this.theme].emphasis.high
-  }
-}
+      }
+    }
   },
   methods: {
     ...mapMutations('parameters', ['SET_verse']),
@@ -63,12 +69,13 @@ export default {
 </script>
 
 <style scoped>
-.mybutton{
-  border: 1px solid rgba(0,0,0,0.1);
+.mybutton {
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  width: 1.6rem;
+  width: 1.8em;
   height: auto;
 }
+
 .adjustLineHeight {
   line-height: 1.6em;
 }

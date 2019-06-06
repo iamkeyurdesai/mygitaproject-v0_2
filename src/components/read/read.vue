@@ -68,8 +68,9 @@
     </v-layout>
   </v-container>
   <v-divider :dark="GET_dark"></v-divider>
+  <v-layout class="font-weight-light pa-1 subheading" justify-left> Read verse {{verse}}</v-layout>
+
   <v-container grid-list-md text-xs-left class="pa-1">
-    <v-layout class="font-weight-light pa-1 subheading" justify-left> Read the verse</v-layout>
     <v-layout row wrap>
 
 
@@ -78,19 +79,37 @@
               <!-- verse id -->
               <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{verse}}</span>
             </v-layout>
-
+            <v-divider :dark="GET_dark"></v-divider>
 
             <sambandhCard :verse_id="verse" v-if="chapter < 19"> </sambandhCard>
-            <!-- <v-divider :dark="GET_dark" v-show="showLink"></v-divider> -->
+            <v-divider :dark="GET_dark"></v-divider>
+<v-layout row wrap>
+<span align="left" class="info--text subheading ma-2">Original verse</span>
+<v-spacer></v-spacer>
+<!-- breakSandhi -->
+<v-btn icon  color="accentmain" v-if="!breakSandhi" v-on:click.stop="SET_breakSandhi(!breakSandhi), snackbarWordAudioDecide()">
+  <v-icon> gavel</v-icon>
+</v-btn>
+<v-btn icon  color="activity" v-else v-on:click.stop="SET_breakSandhi(!breakSandhi)">
+  <v-icon small> gavel</v-icon>
+</v-btn>
+<v-snackbar v-model="snackbarWordAudio" :timeout="0" color="primary lighten-2" @click="snackbarWordAudio = false">
+  <span class="subheading"> <v-icon dark> touch_app</v-icon>
+    <span class="accent1--text"> {{convert(GET_main.word_info[snackbarWordAudioCount % 2].sanskrit)}} </span> to hear its pronunciation.</span>
+  <v-btn color="error" flat @click="snackbarWordAudio = false"> Close </v-btn>
+</v-snackbar>
+</v-layout>
 
             <uvachCard :verse_id="verse"> </uvachCard>
-            <shloakCard :verse_id="verse"></shloakCard>
-            <!-- <v-divider :dark="GET_dark" v-show="showVerse"></v-divider> -->
+
+            <shloakCard :verse_id="verse" verseNumber></shloakCard>
+          </v-hover>
+            <v-divider :dark="GET_dark"></v-divider>
 
             <!-- <uvachCard :verse_id="verse" v-if="showTranslation & !showVerse"> </uvachCard> -->
             <bhavarthCard :verse_id="verse"> </bhavarthCard>
-            <!-- <v-divider :dark="GET_dark" v-show="showTranslation"></v-divider> -->
-
+            <v-divider :dark="GET_dark"></v-divider>
+<div align="left" class="info--text subheading ma-2">Original verse rearranged</div>
             <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
 
         </v-card>
@@ -133,6 +152,8 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
+      snackbarWordAudio: false,
+      snackbarWordAudioCount: 0
     }
   },
   computed: {
@@ -140,7 +161,7 @@ export default {
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
     'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses']),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {get(){return this.$store.state.parameters.offsetTop}, set(value){this.SET_offsetTop(value)}},
     fabShow: {get(){return this.$store.state.parameters.fabShow}, set(value){this.SET_fabShow(value)}},
@@ -175,6 +196,10 @@ methods: {
       this.SET_loadTheRestOfVerses(true)
     }
   },
+  snackbarWordAudioDecide() {
+    this.snackbarWordAudioCount +=1
+    if(this.snackbarWordAudioCount < 4 | this.snackbarWordAudioCount % 20 === 0) this.snackbarWordAudio = true
+  }
 },
 beforeRouteEnter(to, from, next) {
   next();

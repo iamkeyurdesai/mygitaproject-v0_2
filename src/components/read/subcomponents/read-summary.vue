@@ -2,7 +2,7 @@
 <v-card class="ma-1 background">
   <v-layout column wrap class="ma-0" justify-center>
       <v-flex class="ma-1 pa-0 xs12 lg6">
-        <div align="center" class="subheading pa-2 font-weight-medium" :style="cssProps">
+        <div align="left" class="subheading font-weight-regular" :style="cssProps">
           Chapter {{chapter}} Summary
         </span>
       </div>

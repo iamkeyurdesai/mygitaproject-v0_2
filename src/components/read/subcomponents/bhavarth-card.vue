@@ -4,7 +4,7 @@ The language is decided from Vuex parameters-->
 
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
-    <div align="center" class="success--text">translation</div>
+    <div align="left" class="info--text subheading">Translation</div>
     {{myTranslation}}
   </v-card-text>
 </template>
@@ -27,7 +27,7 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_gitapress_chapter', 'GET_sivananda_chapter']),
     cssProps() { return {
-      borderLeft: 'solid ' + this.$vuetify.theme.success + ' 3px',
+      // borderLeft: 'solid ' + this.$vuetify.theme.success + ' 3px',
       color: this.options[this.theme].emphasis.high
       }
     },

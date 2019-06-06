@@ -12,8 +12,8 @@ Local func convert() uses lib Sanscript -->
       <v-btn  :dark="GET_dark" flat small v-on:click.stop="decreaseColumn()">
         <v-icon>remove</v-icon>
       </v-btn>
-      <div class="caption" :style="options[theme].emphasis.medium">
-        Word by Word
+      <div class="info--text body-2" >
+        word and its meaning
       </div>
       <v-btn  :dark="GET_dark" flat small v-on:click.stop="increaseColumn()">
         <v-icon>add</v-icon>
