@@ -97,6 +97,7 @@ const SET_audio = (state, input) => {
 };
 const SET_mainItem = (state, input) => {
   state.mainItem = input
+  state.activeTab = state.activeTabTrack[state.mainItem] 
 };
 const SET_subItem = (state, input) => {
   state.subItem = input
@@ -125,8 +126,9 @@ const SET_slines = (state, input) => {
 const SET_loadTheRestOfVerses = (state, input) => {
   state.loadTheRestOfVerses = input
 };
-const SET_activeReciteTab = (state, input) => {
-  state.activeReciteTab = input
+const SET_activeTab = (state, input) => {
+  state.activeTab = input
+  state.activeTabTrack[state.mainItem] = input
 };
 const SET_reciteChantFontSize = (state, input) => {
   state.reciteChantFontSize = input
@@ -171,6 +173,6 @@ export default {
   SET_offsetTop,
   SET_fabShow,
   SET_loadTheRestOfVerses,
-  SET_activeReciteTab,
+  SET_activeTab,
   SET_reciteChantFontSize
 };

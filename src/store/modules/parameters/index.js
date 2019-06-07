@@ -25,8 +25,14 @@ const state = {
   offsetTop: 0,
   fabShow: true,
   loadTheRestOfVerses: false,
-  activeReciteTab: "chant",
-  reciteChantFontSize: 3
+  activeTab: "chant",
+  reciteChantFontSize: 3,
+  activeTabTrack: {
+    read: "full",
+    recite: "chant",
+    reflect: "word",
+    meditate: "unique"
+  }
 };
 
 export default {

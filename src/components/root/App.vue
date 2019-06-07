@@ -80,10 +80,11 @@ export default {
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
-                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight']),
+                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
-    compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language, this.script, Date.now();}
+    compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language,
+      this.script, this.fsize, this.activeTab, Date.now();}
   },
   methods: {
     setNav(myval){
@@ -107,10 +108,11 @@ export default {
   },
   watch: {
        compoundWatch: function(val) {
-         let myTempPath = '/' + this.mainItem + '/' + 'api=1' +
+         let myTempPath = '/' + this.mainItem + '/' + 'api=1' + '&activeTab=' + this.activeTab +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
-         '&script=' + this.script + '&breakSandhi=' + this.breakSandhi
+         '&script=' + this.script + '&fsize=' + this.fsize 
          this.$router.push(myTempPath)
+         console.log(myTempPath)
          if(myTempPath !== "/") this.SET_path(myTempPath)
        },
        theme: function(val){

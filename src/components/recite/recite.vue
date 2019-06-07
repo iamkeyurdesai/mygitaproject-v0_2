@@ -22,11 +22,11 @@
 <chapterCarousel></chapterCarousel>
 <v-divider :dark="GET_dark"></v-divider>
 <div class="font-weight-light mt-2 pa-1 subheading"> Select action</div>
-<v-tabs v-model="activeReciteTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
+<v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <v-tab href="#chant" ripple class="subheading"> CHANT </v-tab>
     <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
     <!-- <v-tab href="#learn" ripple class="subheading"> LEARN </v-tab> -->
-<v-tabs-items v-model="activeReciteTab" touchless>
+<v-tabs-items v-model="activeTab" touchless>
 <v-tab-item  lazy transition :value="'chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
         <v-tab-item  lazy transition :value="'listen'"> <br> <play-verse></play-verse>  </v-tab-item>
         <!-- <v-tab-item  lazy transition :value="'learn'">  <br> learn  </v-tab-item> -->
@@ -70,17 +70,17 @@ active: null
         '--myfill': "25px"
       }
     },
-    activeReciteTab: {
+    activeTab: {
       get() {
-        return this.$store.state.parameters.activeReciteTab
+        return this.$store.state.parameters.activeTab
       },
       set(value) {
-        this.SET_activeReciteTab(value)
+        this.SET_activeTab(value)
       }
   }
 },
   methods: {
-    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeReciteTab']),
+    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeTab']),
     decreaseColumn: function() {
       if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
     },

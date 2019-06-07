@@ -8,7 +8,7 @@ Local func convert() used lib Sanscript -->
   <!-- foots are rendered row-wise with spacing defined by myspan -->
   <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
     <!-- breakSandhi is false -->
-    <div v-if="!breakSandhi"  key="breakSandhiFalse" align="left">
+    <div v-if="!breakSandhi | !wordByWord"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->
       <span v-for="(item,i) in GET_main_local.foot" :class="`accent${i+1}--text`">
         <span> {{convert(item.foot)}} {{footbreaks[i]}}
@@ -23,7 +23,7 @@ Local func convert() used lib Sanscript -->
 
     <!-- breakSandhi is true -->
 
-    <div v-if="breakSandhi" key="breakSandhiTrue" align="left"  class="mytall">
+    <div v-if="breakSandhi & wordByWord" key="breakSandhiTrue" align="left"  class="mytall">
       <!-- render words with break at the end of the foot inserted using checkBreak -->
 
       <span v-for="(item,i) in GET_main_local.word_info" :class="`accent${item.foot}--text`" @click="playSound(item.sanskrit)">
@@ -94,7 +94,8 @@ export default {
   props: {
     verse_id: Number,
     required: true,
-    verseNumber: Boolean
+    verseNumber: Boolean,
+    wordByWord: Boolean
   },
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],  // goes to six due to 6 foot verses in chapter 1

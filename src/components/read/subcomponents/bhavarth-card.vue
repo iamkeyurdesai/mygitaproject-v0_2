@@ -4,7 +4,7 @@ The language is decided from Vuex parameters-->
 
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
-    <div align="left" class="info--text subheading">Translation</div>
+    <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     {{myTranslation}}
   </v-card-text>
 </template>
@@ -17,7 +17,8 @@ import Sanscript from 'Sanscript';
 export default {
   props: {
     verse_id: Number,
-    required: true
+    required: true,
+    headingHide: Boolean
   },
   data: () => ({
   }),
