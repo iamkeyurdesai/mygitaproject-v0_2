@@ -1,27 +1,19 @@
 <template>
-<div :style="cssProps" v-scroll="onScroll" id="beginChanting">
+<div :style="cssProps" v-scroll="onScroll" id="beginChanting" v-if="isDeveloper">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
+    <!-- <readNavigation> </readNavigation> -->
 
+      <div class="font-weight-light pa-1 subheading background"> For questions enter</div>
 
-    <chantNavigation> </chantNavigation>
-    <v-card-text class="pa-0">
-
-      <v-layout column class="font-weight-light subheading background">
-        <v-flex pa-1> Begin chanting </v-flex>
-        <v-flex>
-          <v-divider :dark="GET_dark"></v-divider>
-        </v-flex>
-      </v-layout>
-
-      <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
+      <v-container grid-list-md text-xs-left class="pa-1">
         <v-layout row wrap>
-          <v-flex xs12 class="ma-0">
+          <!-- <v-flex xs12 class="ma-0">
             <readSalutation> </readSalutation>
           </v-flex>
           <v-flex xs12 class="ma-0">
             <readStart> </readStart>
-          </v-flex>
-          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`read${i}`" v-observe-visibility="{
+          </v-flex> -->
+          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`questions${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 300
             }">
@@ -30,8 +22,8 @@
                 <v-layout row align-top>
                   <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
                 </v-layout>
-                <uvachCard :verse_id="item.verse_id"> </uvachCard>
-                <shloakCard :verse_id="item.verse_id"></shloakCard>
+                <!-- <uvachCard :verse_id="item.verse_id"> </uvachCard> -->
+                <questionCard :verse_id="item.verse_id" headingHide></questionCard>
               </div>
             </v-card>
           </v-flex>
@@ -39,38 +31,13 @@
         <v-flex xs12 class="ma-0">
           <readEnd> </readEnd>
         </v-flex>
-        <v-flex v-observe-visibility="{
-          callback: (isVisible, entry) => visibilityChangedEnd(isVisible, entry, verseall[chapter-1]),
-          throttle: 300
-          }">
-          <v-card class="background ma-0 pa-0" flat :dark="GET_dark"> <br> </v-card>
-        </v-flex>
       </v-container>
 
-      <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
-        <span class="subheading"> Good job! You finished chanting this chapter. </span>
-        <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
-          Close
-        </v-btn>
-      </v-snackbar>
-      <v-snackbar v-model="snackbar2" color="info" multi-line :timeout="0" v-if="chapter<19">
-        <span class="subheading"> Do you want to chant Gita Mahatmya next? </span>
-        <v-btn large dark color="success" @click="SET_chapter(19), snackbar2 = false, SET_verse(1),
-        $vuetify.goTo('#beginChanting', {
-          duration: 300,
-          offset: -300,
-          easing: 'easeInOutCubic'
-        })">
-          YES
-        </v-btn>
-        <v-btn large dark @click="snackbar2 = false" color="error">
-          NO
-        </v-btn>
-      </v-snackbar>
-
-    </v-card-text>
   </div>
 
+</div>
+<div v-else>
+  coming soon...
 </div>
 </template>
 
@@ -87,29 +54,26 @@ import {
 import {
   mapMutations
 } from 'vuex';
-import shloakCard from '../read/subcomponents/shloak-card.vue'
+import questionCard from '../reflect/subcomponents/question-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
 import uvachCard from '../read/subcomponents/uvach-card.vue'
 import readOutline from '../read/subcomponents/read-outline.vue'
 import readStart from '../read/subcomponents/read-start.vue'
 import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
-import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
+import readNavigation from './subcomponents/read-navigation.vue'
 import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-      snackbarReset: false,
-      snackbar1: false,
-      snackbar2: false,
-      beginSeen: false
+
     }
   },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
+      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall', 'isDeveloper'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
     ...mapGetters('settings', ['GET_dark']),
@@ -160,18 +124,6 @@ export default {
     },
     visibilityChanged(isVisible, entry, i) {
       // console.log(isVisible, i, entry.time)
-      if(isVisible & i==0){
-        this.snackbarReset = true
-        this.snackbar1 = false
-        this.snackbar2 = false
-      }
-    },
-    visibilityChangedEnd(isVisible, entry, i) {
-      console.log(isVisible, i, entry.time)
-      if (isVisible & this.snackbarReset & i > 3) {
-        this.snackbarReset = false
-        this.snackbar1 = true
-      }
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -204,14 +156,14 @@ export default {
     this.$nextTick(function() {})
   },
   components: {
-    shloakCard,
+    questionCard,
     readheaderCard,
     uvachCard,
     readOutline,
     readStart,
     readEnd,
     readSalutation,
-    chantNavigation
+    readNavigation
   }
 }
 </script>

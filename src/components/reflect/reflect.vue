@@ -1,76 +1,50 @@
 <template>
-<div>
-<span> coming soon...  </span>
-<v-layout v-if="false" v-scroll="onScroll" column v-touch="{
+<!-- <div v-touch="{
       left: () => increment(),
-      right: () => decrement(),
-      up: () => {fabShow = true},
-      down: () => {fabShow = false}
-    }">
+      right: () => decrement()
+    }" :style="cssProps"> -->
+    <div :style="cssProps">
   <!-- header containing chapter, verse and salutation -->
 
-  <v-layout justify-space-between row wrap>
-    <v-flex>
-    <chapter-menu></chapter-menu>
+
+    <v-layout justify-space-between row wrap>
+      <v-flex>
+      <chapter-menu></chapter-menu>
+      </v-flex>
+      <v-flex class="pa-2 text-xs-center body-2">
+      <button>{{GET_salutation}}</button>
+      </v-flex>
+      <v-flex>
+      <verse-menu></verse-menu>
     </v-flex>
-    <v-flex class="pa-2 text-xs-center">
-    <button>{{GET_salutation}}</button>
-    </v-flex>
-    <v-flex>
-    <verse-menu></verse-menu>
-  </v-flex>
-  </v-layout>
-  <v-divider :dark="GET_dark"></v-divider>
+    </v-layout>
+    <v-divider :dark="GET_dark"></v-divider>
+<chapterCarousel></chapterCarousel>
+<v-divider :dark="GET_dark"></v-divider>
+<div class="font-weight-light mt-2 pa-1 subheading"> Select action</div>
+<v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
+    <!-- <v-tab href="#full" ripple class="subheading"> FULL </v-tab> -->
+    <v-tab href="#questions" ripple class="subheading"> QUESTIONS </v-tab>
+    <!-- <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab> -->
+<v-tabs-items v-model="activeTab" touchless>
+<!-- <v-tab-item  lazy transition :value="'full'">  <br> <readfull></readfull>   </v-tab-item> -->
+        <v-tab-item  lazy transition :value="'questions'"> <br> <reflectquestions></reflectquestions>  </v-tab-item>
+        <!-- <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item> -->
+      </v-tabs-items>
+        </v-tabs>
 
+<v-divider :dark="GET_dark"></v-divider>
 
-  <!-- commentary component-->
-  <v-tabs v-model="active" color="primary lighten-1" slider-color="activity" >
-        <v-tab v-for="n in 2" :key="n" ripple class="secondary--text darken-1">
-          {{options[theme].dark}}
-        </v-tab>
-        <v-tab-item v-for="n in 2" :key="n" >
-          <v-layout justify-space-between  class="mt-1 pa-3">
-      <sivananda-commentary>
-      </sivananda-commentary>
-                  </v-layout>
-        </v-tab-item>
-      </v-tabs>
-
-<v-fab-transition>
-        <v-speed-dial v-model="fab" fab small bottom right fixed class="mb-5" >
-              <v-btn v-show="fabShow" slot="activator" v-model="fab" color="blue darken-2" dark fab small >
-                <v-icon>account_circle</v-icon>
-                <v-icon>close</v-icon>
-              </v-btn>
-              <v-btn fab dark small color="green" >
-                <v-icon>edit</v-icon>
-              </v-btn>
-              <v-btn fab dark small color="indigo" >
-                <v-icon>add</v-icon>
-              </v-btn>
-              <v-btn fab dark small color="red" >
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </v-speed-dial>
-</v-fab-transition>
-
-<v-fab-transition>
-              <v-btn v-show="!fabShow & offsetTop > 500" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-                color="blue darken-2" dark fab small bottom left fixed class="my-4 mx-0">
-                <v-icon>arrow_upward</v-icon>
-              </v-btn>
-              </v-fab-transition>
-
-  </v-layout>
+<!-- <firebase-messaging></firebase-messaging>   -->
 
 </div>
 </template>
 
 <script>
-import chaptermenu from './chapter-menu.vue'
-import versemenu from './verse-menu.vue'
-import sivanandaCommentary from './sivananda_commentary.vue'
-
+import chaptermenu from './../reflect/chapter-menu.vue'
+import versemenu from './../reflect/verse-menu.vue'
+import reflectquestions from './reflect-questions.vue'
+import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -79,50 +53,43 @@ import { mapMutations } from 'vuex';
 export default {
   data: function() {
     return {
-      active: null,
-      fab: false,
-      fabShow: false,
-      offsetTop: 0,
-      styleAnvaya: { columnCount: 2
-      }
+active: null
     }
   },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
     ...mapGetters('coretext', ['GET_salutation']),
-    ...mapGetters('settings', ['GET_dark'])
-  },
+    ...mapGetters('settings', ['GET_dark']),
+    cssProps() { return {
+        '--bg-hover-color': this.$vuetify.theme.accent1,
+			  '--hover-content': JSON.stringify(this.hoverContent),
+        '--mywidth': "75px",
+        '--myfill': "25px"
+      }
+    },
+    activeTab: {
+      get() {
+        return this.$store.state.parameters.activeTab
+      },
+      set(value) {
+        this.SET_activeTab(value)
+      }
+  }
+},
   methods: {
-    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value']),
+    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeTab']),
     decreaseColumn: function() {
       if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
     },
     increaseColumn: function() {
       if(this.styleAnvaya.columnCount <4 ) this.styleAnvaya.columnCount += 1
     },
-    addTodo() {
-      var db = firebase.firestore();
-      db.collection("users").add({
-          first: "Vaibhav",
-          last: "Desai"
-        })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-        });
-    },
-      onScroll (e) {
-        let scrollTemp = window.pageYOffset || document.documentElement.scrollTop
-        if(scrollTemp < this.offsetTop) {
-          this.fabShow = true
-        } else {
-          this.fabShow = false
-        }
-        this.offsetTop = scrollTemp
-      }
+    changeTheme(val){
+      console.log(this.$vuetify)
+      this.$vuetify.theme = Object.assign({}, this.options["lakshmi"].theme)
+      console.log(this.$vuetify)
+    }
   },
   beforeRouteEnter(to, from, next) {
     // Pass a callback to next (optional)
@@ -135,10 +102,14 @@ export default {
   components: {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
-    'sivananda-commentary': sivanandaCommentary
+    chapterCarousel,
+    reflectquestions
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.trantext {
+    column-width: auto;
+}
 </style>

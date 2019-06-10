@@ -7,6 +7,14 @@ The language is decided from Vuex parameters-->
     <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     {{myTranslation}}
     <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
+    <v-textarea v-for="i in myix" class="ma-3"
+        v-model="myQuestions[i-1]"
+        color="deep-purple"
+        label="Question"
+        box
+      ></v-textarea>
+<v-btn small @click="myix += 1"> + </v-btn>
+    <v-btn small @click="saveQuestions()">save</v-btn>
   </v-card-text>
 </template>
 
@@ -23,6 +31,8 @@ export default {
     showVerseIndex: Boolean
   },
   data: () => ({
+    myix: 1,
+    myQuestions: ["first question"]
   }),
   computed: {
     ...mapState('settings', ['options']),
@@ -55,6 +65,12 @@ export default {
         return (item.verse_id === self.verse_id);
       });
       return mytemp[0];
+    }
+  },
+  methods: {
+    saveQuestions() {
+      var db = firebase.firestore();
+      db.collection("myquestions").doc("c" + this.chapter + "v" + this.verse_id).set({questions: this.myQuestions})
     }
   }
 }

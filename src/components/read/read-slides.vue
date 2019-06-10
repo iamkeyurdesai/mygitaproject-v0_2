@@ -5,25 +5,33 @@
       <div class="font-weight-light pa-1 subheading background"> Run a slide show</div>
 
 
-            <vue-flux
-   :options="fluxOptions"
-   :images="fluxImages"
-   :transitions="fluxTransitions"
-   :transitionOptions="transitionOptions"
-   :captions="fluxCaptions"
-   ref="slider">
-      <flux-pagination slot="pagination"></flux-pagination>
-      <flux-controls slot="controls"></flux-controls>
-      <flux-caption slot="caption"></flux-caption>
-</vue-flux>
-<v-btn @click="$refs.slider.showImage('next')">NEXT</v-btn>
+      <v-layout row align-start justify-start>
+        <v-btn fab small light  @click="ixImage-=1"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn fab small light @click="ixImage+=1"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+      </v-layout>
+        <v-card class="background ma-1" :dark="GET_dark">
+             <!-- <blockquote class="blockquote ma-0">
+               {{imageCaptions[ixImage]}}
+             </blockquote> -->
+             <uvachCard :verse_id="ixImage+1"> </uvachCard>
+             <bhavarthCard :verse_id="ixImage+1" headingHide showVerseIndex></bhavarthCard>
+           </v-card>
 
-
-
-
+        <div
+        class="mx-0 background lighten-1 something"
+        :dark="GET_dark"
+        >
+          <v-img
+          :src="imagePath"
+          gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
+          :style="cssImage"
+          >
+          </v-img>
 
   </div>
 
+</div>
 </div>
 </template>
 
@@ -49,30 +57,11 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import readNavigation from './subcomponents/read-navigation.vue'
 import Sanscript from 'Sanscript';
-import { VueFlux, FluxPagination, Transitions, FluxCaption, FluxControls } from 'vue-flux';
 
 export default {
   data: function() {
     return {
-        fluxOptions: {
-           autoplay: true,
-           width: "100%",
-           height: "300px"
-        },
-        fluxCaptions: ['something', 'something', 'something'],
-        fluxImages: [
-           'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/previewchapter1.jpeg',
-           'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/previewchapter2.jpeg',
-           'https://gitawebapp.firebaseapp.com/static/img/chapter_preview/previewchapter3.jpeg'
-        ],
-        fluxTransitions: {
-           transitionBook: Transitions.transitionKenburn
-        },
-        transitionOptions: {
-           transitionKenburn: {
-              totalDuration: 1000
-           }
-        }
+      ixImage: 0
     }
   },
   computed: {
@@ -85,12 +74,20 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
     cssProps() {
       return {
-        '--bg-hover-color': this.$vuetify.theme.accent1,
-        '--hover-content': JSON.stringify(this.hoverContent),
-        '--mywidth': "75px",
-        '--myfill': "25px",
         'color': this.options[this.theme].emphasis.high
       }
+    },
+    cssImage() {
+      return {
+            animation: 'move 10s ease infinite'
+      }
+    },
+    imageCaptions() {
+      return this.GET_sivananda_chapter.map(a => a.translation)
+
+    },
+    imagePath() {
+      return "/static/img/chapter_preview/previewchapter"+ (this.ixImage + 1) + ".jpeg"
     }
   },
   methods: {
@@ -123,14 +120,23 @@ export default {
     readStart,
     readEnd,
     readSalutation,
-    readNavigation,
-    VueFlux,
-    FluxPagination,
-    FluxCaption,
-    FluxControls
+    readNavigation
   }
 }
 </script>
 
 <style lang="scss">
+@keyframes move {
+  from {
+  	transform: scale(1.0);
+  }
+  to {
+  	transform: scale(1.5);
+  }
+}
+.something{
+  overflow: hidden;
+}
+.captionDiv{
+}
 </style>

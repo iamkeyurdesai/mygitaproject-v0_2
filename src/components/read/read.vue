@@ -25,11 +25,11 @@
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <v-tab href="#full" ripple class="subheading"> FULL </v-tab>
     <v-tab href="#simple" ripple class="subheading"> SIMPLE </v-tab>
-    <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab>
+    <!-- <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab> -->
 <v-tabs-items v-model="activeTab" touchless>
 <v-tab-item  lazy transition :value="'full'">  <br> <readfull></readfull>   </v-tab-item>
         <v-tab-item  lazy transition :value="'simple'"> <br> <readsimple></readsimple>  </v-tab-item>
-        <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item>
+        <!-- <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item> -->
       </v-tabs-items>
         </v-tabs>
 

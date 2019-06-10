@@ -80,7 +80,7 @@ export default {
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
-                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab']),
+                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
     compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language,
@@ -91,16 +91,22 @@ export default {
       this.showNav = myval
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path'])
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)
         this.SET_photoURL(user.photoURL)
+        if(user.photoURL ===
+        "https://lh3.googleusercontent.com/-MwCzZcUXDmg/AAAAAAAAAAI/AAAAAAAAAGA/aF3pVI8DYsE/photo.jpg") {
+          this.SET_isDeveloper(true)
+        }
+        console.log(this.isDeveloper)
       } else {
         this.SET_authenticated(false)
         this.SET_photoURL('not signed in')
+        this.SET_isDeveloper(false)
       }
     });
     this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
@@ -110,7 +116,7 @@ export default {
        compoundWatch: function(val) {
          let myTempPath = '/' + this.mainItem + '/' + 'api=1' + '&activeTab=' + this.activeTab +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
-         '&script=' + this.script + '&fsize=' + this.fsize 
+         '&script=' + this.script + '&fsize=' + this.fsize
          this.$router.push(myTempPath)
          console.log(myTempPath)
          if(myTempPath !== "/") this.SET_path(myTempPath)

@@ -44,7 +44,8 @@ import {
   VImg,
   VHover,
   VResponsive,
-  VSnackbar
+  VSnackbar,
+  VCarousel
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -86,7 +87,8 @@ Vue.use(Vuetify, {
     VImg,
     VHover,
     VResponsive,
-    VSnackbar
+    VSnackbar,
+    VCarousel
   },
   theme: {
   primary: "#190933",

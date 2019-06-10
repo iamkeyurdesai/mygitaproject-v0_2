@@ -32,7 +32,8 @@ const state = {
     recite: "chant",
     reflect: "word",
     meditate: "unique"
-  }
+  },
+  isDeveloper: false
 };
 
 export default {
