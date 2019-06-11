@@ -3,7 +3,7 @@
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <!-- <readNavigation> </readNavigation> -->
 
-      <div class="font-weight-light pa-1 subheading background"> For questions enter</div>
+      <div class="font-weight-light pa-1 subheading background"> For questions</div>
 
       <v-container grid-list-md text-xs-left class="pa-1">
         <v-layout row wrap>
@@ -22,7 +22,8 @@
                 <v-layout row align-top>
                   <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
                 </v-layout>
-                <!-- <uvachCard :verse_id="item.verse_id"> </uvachCard> -->
+                <uvachCard :verse_id="item.verse_id"> </uvachCard>
+                <shloakCard :verse_id="item.verse_id"> </shloakCard>
                 <questionCard :verse_id="item.verse_id" headingHide></questionCard>
               </div>
             </v-card>
@@ -54,6 +55,7 @@ import {
 import {
   mapMutations
 } from 'vuex';
+import shloakCard from '../read/subcomponents/shloak-card.vue'
 import questionCard from '../reflect/subcomponents/question-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
 import uvachCard from '../read/subcomponents/uvach-card.vue'
@@ -156,6 +158,7 @@ export default {
     this.$nextTick(function() {})
   },
   components: {
+    shloakCard,
     questionCard,
     readheaderCard,
     uvachCard,

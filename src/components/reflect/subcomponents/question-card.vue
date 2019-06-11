@@ -7,14 +7,14 @@ The language is decided from Vuex parameters-->
     <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     {{myTranslation}}
     <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
-    <v-textarea v-for="i in myix" class="ma-3"
+    <v-textarea v-for="i in myix" class="ma-3" :key="i"
         v-model="myQuestions[i-1]"
         color="deep-purple"
-        label="Question"
-        box
+        :label="'Question ' + myix"
+        outline
       ></v-textarea>
-<v-btn small @click="myix += 1"> + </v-btn>
-    <v-btn small @click="saveQuestions()">save</v-btn>
+<v-btn small @click="myix += 1, showSave=true"> + </v-btn>
+    <v-btn small @click="saveQuestions()" v-if="showSave">save</v-btn>
   </v-card-text>
 </template>
 
@@ -22,6 +22,7 @@ The language is decided from Vuex parameters-->
 
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+
 import Sanscript from 'Sanscript';
 export default {
   props: {
@@ -31,8 +32,9 @@ export default {
     showVerseIndex: Boolean
   },
   data: () => ({
+    showSave: true,
     myix: 1,
-    myQuestions: ["first question"]
+    myQuestions: ["What"]
   }),
   computed: {
     ...mapState('settings', ['options']),
@@ -70,7 +72,11 @@ export default {
   methods: {
     saveQuestions() {
       var db = firebase.firestore();
-      db.collection("myquestions").doc("c" + this.chapter + "v" + this.verse_id).set({questions: this.myQuestions})
+      db.collection("myquestions").doc(
+        "c" + this.chapter.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) +
+        "v" + this.verse_id.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})).set({
+        chapter_id: this.chapter, verse_id: this.verse_id, questions: this.myQuestions})
+      this.showSave = false
     }
   }
 }

@@ -5,11 +5,7 @@
       <div class="font-weight-light pa-1 subheading background"> Run a slide show</div>
 
 
-      <v-layout row align-start justify-start>
-        <v-btn fab small light  @click="ixImage-=1"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn fab small light @click="ixImage+=1"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
-      </v-layout>
+<fullscreen ref="fullscreen" @change="fullscreenChange">
         <v-card class="background ma-1" :dark="GET_dark">
              <!-- <blockquote class="blockquote ma-0">
                {{imageCaptions[ixImage]}}
@@ -24,12 +20,21 @@
         >
           <v-img
           :src="imagePath"
+          :lazy-src="imagePath"
           gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
           :style="cssImage"
+          transition
           >
           </v-img>
 
   </div>
+  <v-layout row align-start justify-start>
+    <v-btn fab small light  @click="ixImage-=1"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
+    <!-- <v-spacer></v-spacer> -->
+    <button type="button" @click="toggle" >Fullscreen</button>
+    <v-btn fab small light @click="ixImage+=1"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+  </v-layout>
+</fullscreen>
 
 </div>
 </div>
@@ -61,7 +66,8 @@ import Sanscript from 'Sanscript';
 export default {
   data: function() {
     return {
-      ixImage: 0
+      ixImage: 0,
+      fullscreen: false
     }
   },
   computed: {
@@ -99,7 +105,14 @@ export default {
     },
     visibilityChanged(isVisible, entry, i) {
       console.log(isVisible, i, entry.time)
-    }
+    },
+    toggle () {
+       this.$refs['fullscreen'].toggle() // recommended
+       // this.fullscreen = !this.fullscreen // deprecated
+     },
+     fullscreenChange (fullscreen) {
+       this.fullscreen = fullscreen
+     }
   },
   beforeRouteEnter(to, from, next) {
     next();

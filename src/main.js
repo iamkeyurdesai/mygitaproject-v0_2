@@ -144,12 +144,16 @@ import firebase from 'firebase'
 import {config} from './helpers/firebaseConfig'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueAnalytics from 'vue-analytics'
+import fullscreen from 'vue-fullscreen'
+
+Vue.use(fullscreen)
 
 Vue.use(VueAnalytics, {
   id: 'UA-141658397-1',
   router
 })
 Vue.use(VueObserveVisibility)
+
 
 /* eslint-disable no-new */
 var vm = new Vue({
