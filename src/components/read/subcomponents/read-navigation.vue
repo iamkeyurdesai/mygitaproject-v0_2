@@ -37,7 +37,38 @@ The language is decided from Vuex parameters-->
       </v-btn>
     </v-fab-transition>
 
+    <!-- share -->
+        <v-fab-transition>
+    <v-btn icon  color="success" v-on:click.stop="readHelp = true" dark fab small bottom right fixed class="shiftUpUp shiftRight">
+      <v-icon :style="cssProps_medium"> share</v-icon>
+    </v-btn>
+</v-fab-transition>
 
+
+<v-bottom-sheet v-model="readHelp" inset >
+<div class="secondary">
+  <v-subheader class="ma-2 subheading info--text"> Share using </v-subheader>
+<v-divider> </v-divider>
+<social-sharing :url="'https://gitawebapp.firebaseapp.com'+path" inline-template>
+<div>
+<network network="facebook">
+<v-icon class="ma-3" large> mdi-facebook</v-icon>
+</network>
+<network network="linkedin">
+<v-icon class="ma-3" large> mdi-linkedin</v-icon>
+</network>
+<network network="twitter">
+<v-icon class="ma-3" large> mdi-twitter</v-icon>
+</network>
+<network network="whatsapp">
+<v-icon class="ma-3" large> mdi-whatsapp</v-icon>
+</network>
+</div>
+</social-sharing>
+  <br> <br>
+</div>
+
+</v-bottom-sheet>
 
 </div>
 </template>
@@ -58,12 +89,21 @@ export default {
     'settings-popup': settingspopup
   },
   data: () => ({
-    fab: false
+    fab: false,
+    readHelp: false,
+    tiles: [
+        { icon: 'format_size', title: 'select language' },
+        { icon: 'view_headline', title: 'read original verses' },
+        { icon: 'link', title: 'read links' },
+        { icon: 'translate', title: 'read translation' },
+        { icon: 'format_bold', title: 'read word-by-word' },
+        { icon: 'gavel', title: 'break sandhi (word fusion)' }
+      ]
   }),
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['theme', 'breakSandhi', 'showLink', 'showTranslation', 'showAnvaya', 'showVerse',
-    'fabShow', 'offsetTop', 'chapter']),
+    'fabShow', 'offsetTop', 'chapter', 'path']),
     cssProps_medium() { return {
         'color': '#FFFFFFFF'
   }},
@@ -88,6 +128,9 @@ export default {
 }
 .shiftUp{
   margin-bottom: 100px;
+}
+.shiftUpUp{
+  margin-bottom: 150px;
 }
 .shiftLeft{
   margin-left: -5px;

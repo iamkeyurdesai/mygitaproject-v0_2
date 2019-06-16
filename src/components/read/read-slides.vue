@@ -1,41 +1,64 @@
 <template>
-<div :style="cssProps" id="beginReadSlides">
+<div :style="cssProps" id="beginReadSlides" v-if="isDeveloper">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
 
       <div class="font-weight-light pa-1 subheading background"> Run a slide show</div>
 
 
-<fullscreen ref="fullscreen" @change="fullscreenChange">
-        <v-card class="background ma-1" :dark="GET_dark">
-             <!-- <blockquote class="blockquote ma-0">
-               {{imageCaptions[ixImage]}}
-             </blockquote> -->
-             <uvachCard :verse_id="ixImage+1"> </uvachCard>
-             <bhavarthCard :verse_id="ixImage+1" headingHide showVerseIndex></bhavarthCard>
-           </v-card>
 
-        <div
-        class="mx-0 background lighten-1 something"
-        :dark="GET_dark"
-        >
-          <v-img
-          :src="imagePath"
-          :lazy-src="imagePath"
-          gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)"
-          :style="cssImage"
-          transition
-          >
+
+<fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
+<v-layout row justify-content-center v-if="$vuetify.breakpoint.width > $vuetify.breakpoint.height">
+<v-flex grow xs8 >
+        <div class="mx-0 background lighten-1 something" :dark="GET_dark" align="center">
+          <v-img :src="imagePath" :lazy-src="imagePath" gradient="to top,
+          rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition>
           </v-img>
-
-  </div>
-  <v-layout row align-start justify-start>
-    <v-btn fab small light  @click="ixImage-=1"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
-    <!-- <v-spacer></v-spacer> -->
-    <button type="button" @click="toggle" >Fullscreen</button>
-    <v-btn fab small light @click="ixImage+=1"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
-  </v-layout>
+</div>
+</v-flex>
+<v-layout column class="background" :dark="GET_dark">
+  <v-flex shrink>
+    <v-layout row>
+    <v-spacer></v-spacer>
+             <uvachCard :verse_id="ixImage+1"> </uvachCard>
+             <v-btn @click="toggle" icon :dark="GET_dark" small><v-icon>fullscreen</v-icon></v-btn>
+             </v-layout>
+             </v-flex>
+             <v-flex shrink>
+               <v-layout justify-space-between column fill-height>
+             <bhavarthCard :verse_id="ixImage+1" headingHide showVerseIndex></bhavarthCard>
+             <v-spacer></v-spacer>
+             <v-layout row align-end justify-end>
+               <v-btn fab small light  @click="ixImage-=1" icon :dark="GET_dark"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
+               <v-spacer></v-spacer>
+               <v-btn fab small light @click="ixImage+=1" icon :dark="GET_dark"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+             </v-layout>
+             </v-layout>
+</v-flex>
+</v-layout>
+</v-layout>
+<v-layout column justify-content-center v-else>
+  <v-layout column class="background" :dark="GET_dark">
+    <v-layout row align-end justify-end>
+      <v-btn fab small light  @click="ixImage-=1" icon :dark="GET_dark"> <v-icon large> keyboard_arrow_left  </v-icon> </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn fab small light @click="ixImage+=1" icon :dark="GET_dark"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+    </v-layout>
+      <v-layout row>
+      <v-spacer></v-spacer>
+               <uvachCard :verse_id="ixImage+1"> </uvachCard>
+               <v-spacer></v-spacer>
+               <v-btn @click="toggle" icon :dark="GET_dark" small><v-icon>fullscreen</v-icon></v-btn>
+               </v-layout>
+               <bhavarthCard :verse_id="ixImage+1" headingHide showVerseIndex></bhavarthCard>
+               </v-layout>
+        <div class="mx-0 mb-5 background lighten-1 something" :dark="GET_dark" align="center" >
+          <v-img :src="imagePath" :lazy-src="imagePath" gradient="to top,
+          rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition >
+          </v-img>
+</div>
+             </v-layout>
 </fullscreen>
-
 </div>
 </div>
 </template>
@@ -74,7 +97,7 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
+      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall', 'isDeveloper'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_sivananda_chapter']),
     ...mapGetters('settings', ['GET_dark']),
@@ -85,7 +108,7 @@ export default {
     },
     cssImage() {
       return {
-            animation: 'move 10s ease infinite'
+            animation: 'move 20s ease infinite'
       }
     },
     imageCaptions() {

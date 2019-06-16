@@ -4,13 +4,14 @@
 
   <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
 
-    <v-toolbar-title>
+    <v-toolbar-title @click="$router.push('/')">
+      <button>
       <v-avatar size="28px" tile>
         <img
           :src="'/static/img/icons/icon-72x72.png'"
           alt="Error Loading"
         >
-      </v-avatar> Power Gita
+      </v-avatar> Power Gita </button>
   </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -43,13 +44,15 @@
             up: () => setNav(true),
             down: () => setNav(true)
           }">
+          <v-container class="pa-0">
       <router-view></router-view>
+    </v-container>
   </v-content>
 
   <!-- dynamic bottom navigation -->
     <v-bottom-nav :value="showNav" :active.sync="mainItem" app height="56">
 <v-btn v-for="(zz, k) in menu.mainItems" :key="zz" :value='zz' color="primary--text">
-  <span class="caption">{{zz}}</span>
+  <span class="caption" :id="`main_${zz}`">{{zz}}</span>
   <v-icon>{{menu.mainIcons[k]}}</v-icon>
 </v-btn>
   </v-bottom-nav>
@@ -137,4 +140,7 @@ export default {
 </script>
 
 <style lang="scss">
+.container{
+  max-width: 960px;
+}
 </style>

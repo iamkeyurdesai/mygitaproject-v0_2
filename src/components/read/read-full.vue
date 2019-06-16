@@ -4,12 +4,11 @@
 
 
 <div class="font-weight-light pa-1 subheading"> For a comprehensive study</div>
-<v-flex xs12 lg6 class="ma-0">
+<v-flex xs12 class="ma-0">
   <readStart> </readStart>
 </v-flex>
   <div
   class="mx-0 background lighten-1"
-  max-width="500"
   :dark="GET_dark"
   >
   <v-card flat dark class="mt-3">
@@ -42,15 +41,15 @@
   <v-container grid-list-md text-xs-left class="pa-0" v-touch="{
         left: () => increment(),
         right: () => decrement()}">
-    <v-layout row wrap class="ma-0" justify-center>
-      <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
+    <v-layout column wrap class="ma-0" justify-center>
+      <v-flex xs12 class="ma-0" v-if="chapter < 19">
         <readSummary> </readSummary>
       </v-flex>
         <v-flex xs12>
         <v-divider :dark="GET_dark"></v-divider>
       </v-flex>
       <v-layout class="font-weight-light pa-1 ml-1 subheading" justify-left v-if="chapter < 19"> Click to verse</v-layout>
-      <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19">
+      <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19" justify-center>
         <readOutline> </readOutline>
       </v-flex>
     </v-layout>
@@ -106,7 +105,7 @@
     </v-layout>
     <v-divider :dark="GET_dark"></v-divider>
     <v-layout class="font-weight-light pa-1 body-2" justify-left> Colophon</v-layout>
-    <v-flex xs12 lg6 class="ma-0">
+    <v-flex xs12 class="ma-0">
       <readEnd> </readEnd>
     </v-flex>
   </v-container>

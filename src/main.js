@@ -145,6 +145,9 @@ import {config} from './helpers/firebaseConfig'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueAnalytics from 'vue-analytics'
 import fullscreen from 'vue-fullscreen'
+var SocialSharing = require('vue-social-sharing');
+
+Vue.use(SocialSharing);
 
 Vue.use(fullscreen)
 
