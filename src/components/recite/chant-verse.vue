@@ -20,7 +20,9 @@
           color="white"
         ></v-sparkline>
         <!-- </v-sheet> -->
+<vue-c3 :handler="handler"></vue-c3>
     </v-card>
+
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <chantNavigation> </chantNavigation>
     <v-card-text class="pa-0">
@@ -117,6 +119,8 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript';
+import VueC3 from 'vue-c3'
+import Vue from 'vue'
 export default {
   data: function() {
     return {
@@ -129,8 +133,29 @@ export default {
       myTime: [],
       myId: [],
       isChantOn: true,
+      handler: new Vue(),
+      myOptions: null
+
     }
   },
+    mounted () {
+      this.myOptions = {
+        size: {
+        height: 240,
+        width: 480
+      },
+        data: {
+          columns: [
+            // ['data1', 2, 4, 1, 5, 2, 1, 3, 1, 3, 5, 3, 2, 7, 8, 9, 7, 3, 1],
+            this.myTime
+            // ['data2', 7, 2, 4, 6, 10, 1, 4, 7, 8, 12, 14, 8, 5, 2, 5, 2, 2, 1]
+          ]
+        }
+      }
+      options.data.columns[0].unshift('data1')
+      // this.handler.$emit('init', this.myOptions)
+      console.log(this.myOptions)
+    },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
@@ -164,6 +189,13 @@ export default {
         'color': this.options[this.theme].emphasis.high
       }
     }
+    // c3Options() {
+    //     data: {
+    //       columns: [
+    //         ['data1', 2, 4, 1, 5, 2, 1]
+    //       ]
+    //     }
+    //   }
   },
   methods: {
     ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
@@ -190,7 +222,7 @@ export default {
       if(!isVisible) this.myFalse[i] = entry.time
     }
         if(isVisible & i==0){
-        this.snackbarReset = true        
+        this.snackbarReset = true
         this.snackbar1 = false
         this.snackbar2 = false
       }
@@ -205,6 +237,11 @@ export default {
         this.myId.push(i+1)
       }
         console.log(this.myTrue, this.myFalse, this.myTime)
+        // for(var i = 0;i<=this.myOptions.data.columns[0].length-1;i++) {
+        // this.myOptions.data.columns[0][i] = this.myTime[i]}
+        // this.myOptions.data.columns[0].unshift('data1')
+        this.handler.$emit('init', this.myOptions)
+        // this.handler.$emit('init', this.c3Options)
       }
   }
 },
@@ -249,10 +286,14 @@ export default {
     readStart,
     readEnd,
     readSalutation,
-    chantNavigation
+    chantNavigation,
+    VueC3
   }
 }
 </script>
 
 <style lang="scss">
+path.domain { fill: white; }
+.tick text { fill: yellow; }
+.c3-legend-item text { fill: grey; }
 </style>
