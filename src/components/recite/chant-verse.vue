@@ -1,13 +1,35 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
+  <v-card
+      class="mt-3 mx-auto background"
+      max-width="400"
+      :dark="GET_dark"
+    >
+    <!-- <v-sheet
+          class="v-sheet--offset mx-auto"
+          color="cyan"
+          elevation="12"
+          max-width="calc(100% - 32px)"
+        > -->
+      <!-- :labels="[...Array(verseall[chapter-1]).keys()]" -->
+        <v-sparkline
+          :labels="myId"
+          :value="myTime"
+          line-width="2"
+          padding="16"
+          color="white"
+        ></v-sparkline>
+        <!-- </v-sheet> -->
+    </v-card>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
-
-
     <chantNavigation> </chantNavigation>
     <v-card-text class="pa-0">
 
       <v-layout column class="font-weight-light subheading background">
-        <v-flex pa-1> Begin chanting </v-flex>
+        <v-flex pa-1> Begin chanting
+          <!-- <v-btn color="accentmain" fab @click="isChantOn=true" v-if="!isChantOn" small :dark="GET_dark"> <v-icon> play_arrow </v-icon> </v-btn>
+          <v-btn color="activity" fab @click="isChantOn=false" v-if="isChantOn" small :dark="GET_dark"> <v-icon> pause </v-icon> </v-btn> -->
+          </v-flex>
         <v-flex>
           <v-divider :dark="GET_dark"></v-divider>
         </v-flex>
@@ -23,7 +45,7 @@
           </v-flex>
           <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`read${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
-            throttle: 300
+            throttle: 1
             }">
             <v-card class="background ma-2" :dark="GET_dark">
               <div>
@@ -41,7 +63,7 @@
         </v-flex>
         <v-flex v-observe-visibility="{
           callback: (isVisible, entry) => visibilityChangedEnd(isVisible, entry, verseall[chapter-1]),
-          throttle: 300
+          throttle: 10
           }">
           <v-card class="background ma-0 pa-0" flat :dark="GET_dark"> <br> </v-card>
         </v-flex>
@@ -49,7 +71,7 @@
 
       <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
         <span class="subheading"> Good job! You finished chanting this chapter. </span>
-        <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
+        <v-btn dark large @click="snackbar1 = false, snackbar2 = true, isChantOn = true" color="error">
           Close
         </v-btn>
       </v-snackbar>
@@ -70,7 +92,6 @@
 
     </v-card-text>
   </div>
-
 </div>
 </template>
 
@@ -102,7 +123,12 @@ export default {
       snackbarReset: false,
       snackbar1: false,
       snackbar2: false,
-      beginSeen: false
+      beginSeen: false,
+      myTrue: [],
+      myFalse:  [],
+      myTime: [],
+      myId: [],
+      isChantOn: true,
     }
   },
   computed: {
@@ -159,21 +185,29 @@ export default {
       }
     },
     visibilityChanged(isVisible, entry, i) {
-      // console.log(isVisible, i, entry.time)
-      if(isVisible & i==0){
-        this.snackbarReset = true
+      if(this.isChantOn) {
+      if(isVisible) this.myTrue[i] = entry.time
+      if(!isVisible) this.myFalse[i] = entry.time
+    }
+        if(isVisible & i==0){
+        this.snackbarReset = true        
         this.snackbar1 = false
         this.snackbar2 = false
       }
     },
     visibilityChangedEnd(isVisible, entry, i) {
-      console.log(isVisible, i, entry.time)
       if (isVisible & this.snackbarReset & i > 3) {
         this.snackbarReset = false
+        this.isChantOn = false
         this.snackbar1 = true
+        for(var i = 0;i<=this.myTrue.length-1;i++) {
+        this.myTime.push(Math.ceil(this.myFalse[i] - this.myTrue[i]))
+        this.myId.push(i+1)
       }
-    }
-  },
+        console.log(this.myTrue, this.myFalse, this.myTime)
+      }
+  }
+},
   beforeRouteEnter(to, from, next) {
     next();
   },
@@ -199,6 +233,10 @@ export default {
         })
       }
     }
+    // chapter: function(val){
+    //   this.myTrue = Array(this.verseall[this.chapter -1]).fill(0)
+    //   this.myFalse = Array(this.verseall[this.chapter -1]).fill(0)
+    // }
   },
   updated: function() {
     this.$nextTick(function() {})

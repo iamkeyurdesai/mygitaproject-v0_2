@@ -3,18 +3,18 @@ The verse_id is provided as a prop
 The language is decided from Vuex parameters-->
 
 <template>
-<div>
+<div :style="cssProps">
 
 
   <v-fab-transition>
     <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom right fixed class="mb-5 shiftRight" v-on:click.stop="increment()" small v-if="lrArrowShow">
-        <v-icon :style="cssProps_high" large> keyboard_arrow_right</v-icon>
+        <v-icon :style="cssProps_high"> keyboard_arrow_right</v-icon>
     </v-btn>
   </v-fab-transition>
 
   <v-fab-transition>
     <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom left fixed class="mb-5 shiftLeft" v-on:click.stop="decrement()" small v-if="lrArrowShow">
-        <v-icon :style="cssProps_high" large> keyboard_arrow_left</v-icon>
+        <v-icon :style="cssProps_high"> keyboard_arrow_left</v-icon>
     </v-btn>
   </v-fab-transition>
 
@@ -24,9 +24,9 @@ The language is decided from Vuex parameters-->
     <v-fab-transition>
       <!-- <v-btn v-show="!fabShow & offsetTop > 1200" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
         color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="mb-5 shiftLeft"> -->
-        <v-btn v-show="offsetTop > 2000" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-          color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="shiftUp shiftLeft">
-        <v-icon>keyboard_arrow_up</v-icon>
+        <v-btn v-show="offsetTop >  1000" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
+          dark fab flat bottom small left fixed icon class="shiftMiddle mb-5">
+        <v-icon>fa-angle-double-up</v-icon>
       </v-btn>
     </v-fab-transition>
 
@@ -110,6 +110,10 @@ export default {
   cssProps_high() { return {
       'color': '#FFFFFFFF'
 }
+},  cssProps() { return {
+      // '--screenWidth': this.$vuetify.breakpoint.width/2+'px',
+      '--screenWidth': (this.$vuetify.breakpoint.width/2 - 40)+'px',
+}
 }
   },
   methods: {
@@ -138,5 +142,8 @@ export default {
 .shiftRight{
   margin-right: -5px;
 }
-
+.shiftMiddle{
+  margin-left: var(--screenWidth);
+  opacity: 0.67;
+  }
 </style>

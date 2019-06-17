@@ -3,7 +3,7 @@
     <!-- <div class="text-xs-center openicon" @click="myPathPush()"> -->
 
   <div :style="cssProps">
- <v-layout column align-center justify-center  class="px-5 py-3  fixedWidth" v-if="$vuetify.breakpoint.width < 650">
+ <v-layout column align-center justify-center  class="px-5 py-4  fixedWidth" v-if="$vuetify.breakpoint.width < 650">
    <div class="display-2 font-weight-bold info--text" >
      Read <br> Reflect <br> Meditate <br> Realize, with Power Gita
    </div>
@@ -51,13 +51,13 @@ so you can realize your true potential.
       <v-expansion-panel-content
         v-for="(item,i) in myHelpText"
         :key="i"
-        class="background title"
+        class="background subheading"
       >
         <template slot="header">
           <div>{{item.question}}</div>
         </template>
         <v-card class="background body-2" flat>
-          <v-card-text>{{item.answer}}</v-card-text>
+          <v-card-text class="body-2">{{item.answer}}</v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>

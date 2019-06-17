@@ -4,14 +4,16 @@
 
   <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
 
+
     <v-toolbar-title @click="$router.push('/')">
-      <button>
+
       <v-avatar size="28px" tile>
         <img
           :src="'/static/img/icons/icon-72x72.png'"
           alt="Error Loading"
         >
-      </v-avatar> Power Gita </button>
+      </v-avatar>   <v-btn flat class="ma-0 pa-0 secondary--text title text-none">  Power Gita
+    </v-btn>
   </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -141,6 +143,6 @@ export default {
 
 <style lang="scss">
 .container{
-  max-width: 960px;
+  max-width: 900px;
 }
 </style>
