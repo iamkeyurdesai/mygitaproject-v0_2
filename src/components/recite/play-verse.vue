@@ -70,10 +70,10 @@ import {
 } from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../settings/settings-popup.vue'
-import {
-  Howl,
-  Howler
-} from 'howler';
+// import {
+//   Howl,
+//   Howler
+// } from 'howler';
 export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],

@@ -12,15 +12,15 @@
           max-width="calc(100% - 32px)"
         > -->
       <!-- :labels="[...Array(verseall[chapter-1]).keys()]" -->
-        <v-sparkline
+        <!-- <v-sparkline
           :labels="myId"
           :value="myTime"
           line-width="2"
           padding="16"
           color="white"
-        ></v-sparkline>
+        ></v-sparkline> -->
         <!-- </v-sheet> -->
-<vue-c3 :handler="handler"></vue-c3>
+    <vue-c3 :handler="handler"></vue-c3>
     </v-card>
 
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
@@ -141,7 +141,7 @@ export default {
     mounted () {
       this.myOptions = {
         size: {
-        height: 240,
+        height: 230,
         width: 480
       },
         data: {
@@ -149,10 +149,11 @@ export default {
             // ['data1', 2, 4, 1, 5, 2, 1, 3, 1, 3, 5, 3, 2, 7, 8, 9, 7, 3, 1],
             this.myTime
             // ['data2', 7, 2, 4, 6, 10, 1, 4, 7, 8, 12, 14, 8, 5, 2, 5, 2, 2, 1]
-          ]
-        }
+          ],
+          type: 'bar'
+        },
       }
-      options.data.columns[0].unshift('data1')
+      this.myOptions.data.columns[0].unshift('data1')
       // this.handler.$emit('init', this.myOptions)
       console.log(this.myOptions)
     },
@@ -240,7 +241,9 @@ export default {
         // for(var i = 0;i<=this.myOptions.data.columns[0].length-1;i++) {
         // this.myOptions.data.columns[0][i] = this.myTime[i]}
         // this.myOptions.data.columns[0].unshift('data1')
+        console.log(this.myOptions)
         this.handler.$emit('init', this.myOptions)
+
         // this.handler.$emit('init', this.c3Options)
       }
   }

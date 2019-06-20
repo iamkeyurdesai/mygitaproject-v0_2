@@ -13,4 +13,4 @@ for ix in range(2685, len(mywords.sanskrit) - 1):
     # tts = gTTS(text=mytemp, lang='hi', slow=True)
     tts = gTTS(text=mytemp, lang='hi', slow=False)
     tts.save(mypath + mytemp1 + myextension)
- 
+    

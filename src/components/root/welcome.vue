@@ -99,9 +99,10 @@ export default {
                     "When I read the Bhagavad-Gita and reflect about <br> how God created this universe everything else seems so superfluous.<br> <strong class='error--text mb-3'>Albert Einstein</strong>",
                   "The marvel of the Bhagavad-Gita is <br> its truly beautiful revelation of life's wisdom <br> which enables philosophy to blossom into religion.<br> <strong class='error--text mb-3'>Herman Hesse</strong>"],
       myHelpText: [{question: "What is Power Gita?", answer: "here"},
-                   {question: "How does it relate to the Bhagavada-Gita?", answer: "here"},
+                   {question: "How is it related to Bhagavada-Gita?", answer: "here"},
+                   {question: "What is unique about Power Gita?", answer: "here"},
                    {question: "What can I do on Power Gita?", answer: "here"},
-                   {question: "How much does Power Gita cost?", answer: "here"},
+                   {question: "How much does Power Gita cost?", answer: "here"},                   
                  {question: "How can I contribute to Power Gita?", answer: "here"}]
     }
   },

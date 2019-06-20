@@ -2,7 +2,12 @@
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <readNavigation> </readNavigation>
-
+<v-btn @click="createSearch()"> addindex </v-btn>
+<div>
+<input type="text" id="autocomplete">
+            <input type="text" id="userinput" placeholder="Search by movie title ...">
+          </div>
+          <div id="suggestions"></div>
       <div class="font-weight-light pa-1 subheading background"> For a quick reading</div>
 
       <v-container grid-list-md text-xs-left class="pa-1">
@@ -60,19 +65,21 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import readNavigation from './subcomponents/read-navigation.vue'
 import Sanscript from 'Sanscript';
+var FlexSearch = require("flexsearch")
+
 export default {
   data: function() {
     return {
-      
+       index: null
     }
   },
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('coretext', ['preview']),
+    ...mapState('coretext', ['preview', 'sivananda', 'gitapress', 'gitapress_commentary']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
     ]),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_sivananda_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {
       get() {
@@ -121,6 +128,45 @@ export default {
     },
     visibilityChanged(isVisible, entry, i) {
       console.log(isVisible, i, entry.time)
+    },
+    createSearch(){
+      this.index = new FlexSearch({
+            encode: false,
+            suggest: true,
+   // tokenize: function(str){
+   //     return str.split(/[\x00-\x7F]+/);
+   // }
+        })
+
+        for(var i = 0; i < this.gitapress.length; i++){
+               this.index.add(i, this.gitapress[i].sambandh_hindi);
+           }
+           for(var i = 0; i < this.gitapress.length; i++){
+          this.index.add(i+this.gitapress.length, this.gitapress[i].sambandh_english);
+              }
+
+           var suggestions = document.getElementById("suggestions");
+        var autocomplete = document.getElementById("autocomplete");
+        var userinput = document.getElementById("userinput");
+           userinput.addEventListener("input", show_results, true);
+console.log(this.index)
+console.log(this.gitapress)
+
+           self = this
+           function show_results(){
+             console.log(this.value)
+            var value = this.value;
+            var results = self.index.search(value, 25);
+            console.log(results)
+            console.log(self.gitapress.length)
+            var i = 0, len = results.length;
+            for(; i < len; i++){
+            // console.log(self.gitapress[results[i]].sambandh_hindi)
+            console.log(self.gitapress[results[i] - self.gitapress.length].sambandh_english)
+          }
+
+          }
+
     }
   },
   beforeRouteEnter(to, from, next) {
