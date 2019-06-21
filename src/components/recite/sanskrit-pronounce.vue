@@ -13,10 +13,10 @@
         Vowels
       </v-flex>
       <v-layout row>
-      <v-flex  class="success mx-1">
+      <v-flex  xs4 class="success ma-1">
               short
             </v-flex>
-            <v-flex  class="success mx-1">
+            <v-flex xs8 class="success ma-1">
                     short
                   </v-flex>
                   </v-layout>
@@ -26,11 +26,13 @@
       Consonants
     </v-flex>
     </v-layout>
+
     <v-layout row v-for="myType in myTypes">
     <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink>
-  <v-btn round icon dark class="ma-0 pa-0 subheading">{{item.letter}}</v-btn>
+  <v-btn round icon dark class="ma-0 pa-0 title">{{item.letter}}</v-btn>
     </v-flex>
     </v-layout>
+
     </v-layout>
   </v-layout>
 
