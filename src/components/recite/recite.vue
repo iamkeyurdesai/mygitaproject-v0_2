@@ -25,11 +25,11 @@
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <v-tab href="#chant" ripple class="subheading"> CHANT </v-tab>
     <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
-    <!-- <v-tab href="#learn" ripple class="subheading"> LEARN </v-tab> -->
+    <v-tab href="#sanskrit" ripple class="subheading">SANSKRIT </v-tab>
 <v-tabs-items v-model="activeTab" touchless>
 <v-tab-item  lazy transition :value="'chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
         <v-tab-item  lazy transition :value="'listen'"> <br> <play-verse></play-verse>  </v-tab-item>
-        <!-- <v-tab-item  lazy transition :value="'learn'">  <br> learn  </v-tab-item> -->
+        <v-tab-item  lazy transition :value="'sanskrit'"> <br> <sanskrit-pronounce></sanskrit-pronounce>  </v-tab-item>
       </v-tabs-items>
         </v-tabs>
 
@@ -44,6 +44,7 @@
 import chaptermenu from '../reflect/chapter-menu.vue'
 import versemenu from '../reflect/verse-menu.vue'
 import playverse from './play-verse.vue'
+import sanskritpronounce from './sanskrit-pronounce.vue'
 import chantverse from './chant-verse.vue'
 import firebasemessaging from './firebase-messaging.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
@@ -107,6 +108,7 @@ active: null
     'play-verse': playverse,
     'chant-verse': chantverse,
     'firebase-messaging': firebasemessaging,
+    'sanskrit-pronounce': sanskritpronounce,
     chapterCarousel
   }
 }

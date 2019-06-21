@@ -45,6 +45,11 @@ const loadText = function ({ commit }) {
   }, (err) => {
     console.log(err)
   });
+  ax.get('assets/text/json/sanskrit_alphabet.json', { crossdomain: true}).then((response) => {
+    commit('setText', { list: response.data,  id: "sanskritAlphabet"})
+  }, (err) => {
+    console.log(err)
+  });
 };
 
 export default {
