@@ -4,84 +4,54 @@
 <div class="font-weight-light mt-2 pa-1 subheading"> Learn Sanskrit</div>
   <v-divider :dark="GET_dark"></v-divider>
 
-  <v-layout column align-center>
-    <v-layout column>
-<v-layout row>
-    <v-flex xs3>
+<div class="grid-container">
+
+<div class="grid-item1">
+  <v-layout column justify-space-between fill-height>
+    <v-flex v-for="myType in myTypes" :key="myType" class="rotate1 ma-0 pa-0" shrink>
+<v-btn round icon dark class="mr-2 ma-0 pa-0 text-none caption"><span class="pa-0 ma-0" align="left">{{myType}}</span></v-btn>
+    </v-flex>
+  </v-layout>
+</div>
+
+
+
+<div class="grid-item2 body-1">
+<v-layout row >
+    <v-flex grow>
       <v-layout column>
-<v-flex  class="info mx-1">
+<v-flex  xs4 class="warning">
         Vowels
       </v-flex>
       <v-layout row>
-      <v-flex  xs4 class="success ma-1">
-              short
-            </v-flex>
-            <v-flex xs8 class="success ma-1">
-                    short
+      <v-flex  xs5 class="success caption">
+                      short
+                    </v-flex>
+            <v-flex xs8 class="error">
+                    long
                   </v-flex>
                   </v-layout>
             </v-layout>
     </v-flex>
-    <v-flex xs9 class="info mx-1">
+    <v-flex xs9 class="info">
       Consonants
     </v-flex>
     </v-layout>
-
-    <v-layout row v-for="myType in myTypes">
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink>
-  <v-btn round icon dark class="ma-0 pa-0 title">{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-
-    </v-layout>
-  </v-layout>
-
-    <!-- <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.palatal">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.retroflex">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.dental">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.labial">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.palatovelar">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.labiovelar">
-  <v-btn>{{item.letter}}</v-btn>
-    </v-flex>
-    </v-layout>
-  </v-layout> -->
-
-  <!-- <v-layout column>
-  <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.dirgha">
-  {{item.letter}}
-  </v-flex>
-  </v-layout>
-    <v-layout row>
-      <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.svara">
-    {{item.letter}}
-      </v-flex>
-    </v-layout> -->
-
-
-  </v-flex>
 </div>
+
+<div class="grid-item3 background lighten-2">
+    <v-layout column>
+        <v-layout row v-for="myType in myTypes" :key="myType">
+        <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink class="ma-0 pa-0">
+      <v-btn round icon dark class="ma-0 pa-0 body-2" @click="playSound(item.letter)"><span class="pa-0 ma-0">{{item.letter}}</span></v-btn>
+        </v-flex>
+        </v-layout>
+    </v-layout>
+</div>
+
+</div>
+
+
 </v-layout>
 </template>
 
@@ -271,6 +241,11 @@ export default {
         }, function(err) {
         }
       )
+    },
+    playSound: function(melody) {
+      var snd = new Audio();
+      snd.src = '/static/assets/audio/mp3_alphabet/' + melody + '.mp3';
+      snd.play()
     }
   },
   components: {
@@ -299,5 +274,37 @@ export default {
 
 div.v-input__control {
   height: 0px;
+}
+.rotate {
+  transform: rotate(-90deg);
+}
+
+.grid-container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    " .        columnHeader"
+    "rowHeader mainContent";
+}
+
+.grid-item1 {
+  grid-area: rowHeader;
+  align-self: stretch;
+  text-align: left;
+}
+.grid-item2 {
+  grid-area: columnHeader;
+}
+.grid-item3 {
+  grid-area: mainContent;
+}
+.v-btn {
+  width: 28px;
+  height: 28px;
+}
+div.btn__content {
+  padding: 0;
 }
 </style>
