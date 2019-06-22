@@ -46,7 +46,8 @@ import {
   VResponsive,
   VSnackbar,
   VCarousel,
-  VSparkline
+  VSparkline,
+  VChip
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -90,7 +91,8 @@ Vue.use(Vuetify, {
     VResponsive,
     VSnackbar,
     VCarousel,
-    VSparkline
+    VSparkline,
+    VChip
   },
   theme: {
   primary: "#190933",

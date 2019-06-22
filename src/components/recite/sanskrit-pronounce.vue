@@ -3,39 +3,103 @@
 
 <div class="font-weight-light mt-2 pa-1 subheading"> Learn Sanskrit</div>
   <v-divider :dark="GET_dark"></v-divider>
+<fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
 
 <div class="grid-container">
-
+<div class="grid-item0">
+<v-btn @click="toggle" icon :dark="GET_dark" large><v-icon>fullscreen</v-icon></v-btn>
+</div>
 <div class="grid-item1">
   <v-layout column justify-space-between fill-height>
-    <v-flex v-for="myType in myTypes" :key="myType" class="rotate1 ma-0 pa-0" shrink>
-<v-btn round icon dark class="mr-2 ma-0 pa-0 text-none caption"><span class="pa-0 ma-0" align="left">{{myType}}</span></v-btn>
+    <v-flex v-for="myType in myTypes" :key="myType" class="ma-0 pa-0">
+<v-btn round icon dark class="mr-3 ma-0 pa-0 text-none caption">
+ {{myType}}
+</v-btn>
     </v-flex>
   </v-layout>
 </div>
 
 
 
-<div class="grid-item2 body-1">
+<div class="grid-item2 caption">
 <v-layout row >
-    <v-flex grow>
+    <v-flex grow xs3>
       <v-layout column>
-<v-flex  xs4 class="warning">
+<v-flex  class="warning">
         Vowels
       </v-flex>
       <v-layout row>
-      <v-flex  xs5 class="success caption">
-                      short
+      <v-flex  xs5 class="success">
+                      Short
                     </v-flex>
             <v-flex xs8 class="error">
-                    long
+                    Long
                   </v-flex>
                   </v-layout>
             </v-layout>
     </v-flex>
-    <v-flex xs9 class="info">
-      Consonants
+    <v-flex grow xs9 >
+      <v-layout column>
+        <v-flex class="info">
+          Consonants
+        </v-flex>
+
+      <v-layout row>
+      <v-flex  xs8 class="success">
+                      Stop
+                    </v-flex>
+            <v-flex xs2 class="error">
+                    Nasal
+                  </v-flex>
+                  <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
+                    <v-flex xs2 class="warning">
+                      Semi-vowel
+                        </v-flex>
+                        <v-flex xs4 class="info">
+                                Sibilant
+                              </v-flex>
+                  </v-layout>
+
+                  <v-layout row>
+                  <v-flex  xs4 class="success">
+                                  Unvoiced
+                                </v-flex>
+                        <v-flex xs8 class="error">
+                                Voiced
+                              </v-flex>
+                              <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
+                                <v-flex xs2 class="warning">
+                                  Unvoiced
+                                    </v-flex>
+                                    <v-flex xs2 class="info">
+                                            Voiced
+                                          </v-flex>
+                              </v-layout>
+
+                              <v-layout row>
+                              <v-flex  xs2 class="success">
+                                              Unaspirated
+                                            </v-flex>
+                                    <v-flex xs2 class="error">
+                                            Aspirated
+                                          </v-flex>
+                                          <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
+                                            <v-flex xs2 class="warning">
+                                              Unaspirated
+                                                </v-flex>
+                                                <v-flex xs2 class="info">
+                                                        Aspirated
+                                                      </v-flex>
+                                                      <v-flex xs4 class="warning">
+                                                        Unaspirated
+                                                          </v-flex>
+                                                          <v-flex xs4 class="info">
+                                                                  Aspirated
+                                                                </v-flex>
+                                          </v-layout>
+            </v-layout>
     </v-flex>
+
     </v-layout>
 </div>
 
@@ -43,14 +107,15 @@
     <v-layout column>
         <v-layout row v-for="myType in myTypes" :key="myType">
         <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink class="ma-0 pa-0">
-      <v-btn round icon dark class="ma-0 pa-0 body-2" @click="playSound(item.letter)"><span class="pa-0 ma-0">{{item.letter}}</span></v-btn>
+      <v-btn round icon dark class="ma-0 pa-0 title" @click="playSound(item.letter)"><span class="pa-0 ma-0 body-1">{{item.letter}} <br>
+        <span class="pa-0 ma-0 subheading text-none">{{convert_dev(item.letter)}}</span></span></v-btn>
         </v-flex>
         </v-layout>
     </v-layout>
 </div>
 
 </div>
-
+</fullscreen>
 
 </v-layout>
 </template>
@@ -77,6 +142,7 @@ import settingspopup from '../settings/settings-popup.vue'
 export default {
   data: () => ({
     myTypes: ["velar", "palatal", "retroflex", "dental", "labial", "labiovelar", "palatovelar"],
+    fullscreen: false,
     footBreaks: ["", "|", "", "||", "", "|"],
     chapterDone: [1, 12],
     isLabeling: false,
@@ -246,7 +312,14 @@ export default {
       var snd = new Audio();
       snd.src = '/static/assets/audio/mp3_alphabet/' + melody + '.mp3';
       snd.play()
-    }
+    },
+    toggle () {
+       this.$refs['fullscreen'].toggle() // recommended
+       // this.fullscreen = !this.fullscreen // deprecated
+     },
+     fullscreenChange (fullscreen) {
+       this.fullscreen = fullscreen
+     }
   },
   components: {
     'settings-popup': settingspopup
@@ -282,7 +355,7 @@ div.v-input__control {
 .grid-container {
   display: grid;
   justify-content: center;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto;
   grid-template-rows: auto;
   grid-template-areas:
     " .        columnHeader"
@@ -293,6 +366,7 @@ div.v-input__control {
   grid-area: rowHeader;
   align-self: stretch;
   text-align: left;
+  justify-self: start;
 }
 .grid-item2 {
   grid-area: columnHeader;
@@ -301,8 +375,8 @@ div.v-input__control {
   grid-area: mainContent;
 }
 .v-btn {
-  width: 28px;
-  height: 28px;
+  width: 48px;
+  height: 36px;
 }
 div.btn__content {
   padding: 0;
