@@ -47,27 +47,50 @@ The language is decided from Vuex parameters-->
 
 <v-bottom-sheet v-model="readHelp" inset >
 <div class="secondary">
-  <v-subheader class="ma-2 subheading info--text"> Share using </v-subheader>
-<v-divider> </v-divider>
-<social-sharing :url="'https://gitawebapp.firebaseapp.com'+path" inline-template>
-<div>
+  <v-subheader class="subheading info--text"> Share using </v-subheader>
+  <!-- <span class="caption"> {{path}} </span>
+  <span class="caption"> <br> {{readHelp}} </span> -->
+<!-- <v-divider> </v-divider> -->
+<social-sharing :url="'https://gitawebapp.firebaseapp.com'+path"
+                      title="Power Gita"
+                      description="Read, Reflect, Meditate, Realize, with Power Gita."
+                      quote="Power Gita is a modern app designed to help you acheive your spiritual goals — so you can realize your true potential."
+                      hashtags="Gita,Meditation,Yoga,Philosophy"
+inline-template>
+<div class="mx-3">
 <network network="facebook">
-<v-icon class="ma-3" large> mdi-facebook</v-icon>
-</network>
-<network network="linkedin">
-<v-icon class="ma-3" large> mdi-linkedin</v-icon>
+<v-btn icon> <v-icon class="mx-3" large color="#4267b2"> fab fa-facebook</v-icon> </v-btn>
 </network>
 <network network="twitter">
-<v-icon class="ma-3" large> mdi-twitter</v-icon>
+<v-btn icon> <v-icon class="mx-3" large color="#38A1F3"> fab fa-twitter</v-icon> </v-btn>
 </network>
-<network network="whatsapp">
+<!-- <network network="whatsapp">
 <v-icon class="ma-3" large> mdi-whatsapp</v-icon>
-</network>
+</network> -->
 </div>
 </social-sharing>
-  <br> <br>
-</div>
+<!-- <div class="px-3"> -->
+<!-- <vue-goodshare-facebook
+    :page_url="'https://gitawebapp.firebaseapp.com'+path"
+    has_counter
+    has_icon
+  ></vue-goodshare-facebook>
+  <vue-goodshare-whatsapp
+      :page_url="'https://gitawebapp.firebaseapp.com'+path"
+      has_icon
+    ></vue-goodshare-whatsapp>
+    <vue-goodshare-twitter
+        :page_url="'https://gitawebapp.firebaseapp.com'+path"
+        has_counter
+        has_icon
+      ></vue-goodshare-twitter> -->
+      <!-- <facebook :url="'https://gitawebapp.firebaseapp.com'+path" scale="3"></facebook>
+          <twitter :url="'https://gitawebapp.firebaseapp.com'+path" title="Power Gita" scale="3"></twitter>
+          <whats-app :url="'https://gitawebapp.firebaseapp.com'+path" title="Power Gita" scale="3"></whats-app>           -->
+  <br>
+<!-- </div> -->
 
+</div>
 </v-bottom-sheet>
 
 </div>
@@ -79,6 +102,15 @@ The language is decided from Vuex parameters-->
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '@/components/settings/settings-popup.vue'
+// import VueGoodshareFacebook from "vue-goodshare/src/providers/Facebook.vue"
+// import VueGoodshareWhatsapp from "vue-goodshare/src/providers/WhatsApp.vue"
+// import VueGoodshareTwitter from "vue-goodshare/src/providers/Twitter.vue"
+// import {
+//   Facebook,
+//   Twitter,
+//   WhatsApp,
+// } from "vue-socialmedia-share";
+
 export default {
   props: {
     verse_id: Number,
@@ -86,7 +118,13 @@ export default {
     lrArrowShow: Boolean
   },
   components: {
-    'settings-popup': settingspopup
+    'settings-popup': settingspopup,
+    // Facebook,
+    // Twitter,
+    // WhatsApp
+    // VueGoodshareTwitter,
+    // VueGoodshareFacebook,
+    // VueGoodshareWhatsapp
   },
   data: () => ({
     fab: false,

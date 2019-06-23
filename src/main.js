@@ -47,7 +47,8 @@ import {
   VSnackbar,
   VCarousel,
   VSparkline,
-  VChip
+  VChip,
+  VSubheader
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -92,7 +93,8 @@ Vue.use(Vuetify, {
     VSnackbar,
     VCarousel,
     VSparkline,
-    VChip
+    VChip,
+    VSubheader
   },
   theme: {
   primary: "#190933",
@@ -151,7 +153,6 @@ import fullscreen from 'vue-fullscreen'
 
 
 var SocialSharing = require('vue-social-sharing');
-
 Vue.use(SocialSharing);
 
 Vue.use(fullscreen)

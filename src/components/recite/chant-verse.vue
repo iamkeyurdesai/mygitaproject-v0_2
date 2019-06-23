@@ -20,7 +20,7 @@
           color="white"
         ></v-sparkline> -->
         <!-- </v-sheet> -->
-    <vue-c3 :handler="handler"></vue-c3>
+    <!-- <vue-c3 :handler="handler"></vue-c3> -->
     </v-card>
 
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
