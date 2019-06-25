@@ -10,12 +10,12 @@
     <div class="grid-container">
       <!-- <div class="grid-item0"> -->
         <!-- <v-layout column class="ma-0 pa-0"> -->
-        <v-btn @click="toggle" color="accentmain" large dark fab bottom right fixed class="mb-5 shiftRight">
+        <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
         <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
         <v-icon v-else>fullscreen</v-icon>
         </v-btn>
 
-        <v-btn @click="oneScript=!oneScript" color="accentinfo" large dark fab bottom right fixed class="shiftUp shiftRight">
+        <v-btn @click="oneScript=!oneScript" color="accentinfo"  dark fab bottom right fixed class="shiftUp shiftRight">
           <v-icon v-if="oneScript">add_circle_outline</v-icon>
           <v-icon v-else>remove_circle_outline</v-icon>
         </v-btn>
@@ -33,18 +33,18 @@
 
 
 
-      <div class="grid-item2">
+      <div class="grid-item2 secondary">
         <v-layout row >
           <v-flex grow xs3>
-            <v-layout column>
-              <v-flex  class="warning">
-                Vowels
+            <v-layout column fill-height>
+              <v-flex>
+                <v-card dark class="ma-1 accentmain disabled" flat tile> Vowels </v-card>
               </v-flex>
-              <v-layout row>
-                <v-flex  xs5 class="success">
+              <v-layout row fill-height>
+                <v-flex  xs5 class="ma-1 success">
                   Short
                 </v-flex>
-                <v-flex xs8 class="error">
+                <v-flex xs8 class="ma-1 error">
                   Long
                 </v-flex>
               </v-layout>
@@ -52,60 +52,60 @@
           </v-flex>
           <v-flex grow xs9 >
             <v-layout column>
-              <v-flex class="info">
-                Consonants
+              <v-flex  v-ripple>
+                <v-card  dark class="ma-1  accentmain" raised> Consonants </v-card>
               </v-flex>
 
               <v-layout row>
-                <v-flex  xs8 class="success">
+                <v-flex  xs8 class="ma-1 success">
                   Stop
                 </v-flex>
-                <v-flex xs2 class="error">
+                <v-flex xs2 class="ma-1 error">
                   Nasal
                 </v-flex>
                 <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class="warning tinyFont">
-                  Semivowel
+                <v-flex xs2 class="warning">
+                  Semi-vowel
                 </v-flex>
-                <v-flex xs4 class="info">
+                <v-flex xs4 class="ma-1 info">
                   Sibilant
                 </v-flex>
               </v-layout>
 
               <v-layout row>
-                <v-flex  xs4 class="success">
+                <v-flex  xs4 class="ma-1 success">
                   Unvoiced
                 </v-flex>
-                <v-flex xs8 class="error">
+                <v-flex xs8 class="ma-1 error">
                   Voiced
                 </v-flex>
                 <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class="warning tinyFont">
-
+                <v-flex xs2 class=" ma-1 warning tinyFont">
+<br>
                 </v-flex>
-                <v-flex xs2 class="info tinyFont">
-
+                <v-flex xs2 class="ma-1 info tinyFont">
+<br>
                 </v-flex>
               </v-layout>
 
               <v-layout row>
-                <v-flex  xs2 class="success tinyFont">
-
+                <v-flex  xs2 class="ma-1 success tinyFont">
+<br>
                 </v-flex>
-                <v-flex xs2 class="error tinyFont">
-
+                <v-flex xs2 class="ma-1 error tinyFont">
+<br>
                 </v-flex>
                 <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class="warning tinyFont">
-
+                <v-flex xs2 class=" ma-1 warning tinyFont">
+<br>
                 </v-flex>
-                <v-flex xs2 class="info tinyFont">
-
+                <v-flex xs2 class="ma-1 info tinyFont">
+<br>
                 </v-flex>
-                <v-flex xs4 class="warning">
+                <v-flex xs4 class="ma-1 warning">
                   Unaspirated
                 </v-flex>
-                <v-flex xs4 class="info">
+                <v-flex xs4 class="ma-1 info">
                   Aspirated
                 </v-flex>
               </v-layout>
@@ -118,8 +118,10 @@
 <div class="grid-item3 background lighten-2">
     <v-layout column class="addBorder ma-0 pa-0">
         <v-layout row v-for="myType in myTypes" :key="myType">
-        <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink class="ma-0 pa-0">
-          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript"><span class="pa-0 ma-0">{{item.letter}}</span></v-btn>
+        <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink class="ma-0 pa-0" :class="{fadeLetter:!hideLetter[i]}">
+          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript">
+            <span class="pa-0 ma-0" :ref="item.letter" :id="'alphabet_'+item.letter">{{item.letter}}</span>
+          </v-btn>
       <v-btn round icon :dark="GET_dark" class="ma-0 pa-0" @click="playSound(item.letter)" :class="myFontSize" v-else>
         <span class="pa-0 ma-0 shrinkHeight">{{item.letter}} <br>
         <span class="pa-0 ma-0 text-none"  :class="myFontSizeSecond">{{convert_dev(item.letter)}}</span></span>
@@ -128,6 +130,8 @@
         </v-layout>
     </v-layout>
 </div>
+<!-- <v-btn @click="go()" color="accentmain"  dark> Go Anime </v-btn> -->
+<!-- <input class="log update-log"> </input> -->
 
 </div>
 </fullscreen>
@@ -139,6 +143,8 @@
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../settings/settings-popup.vue'
+import { translate, rotate, timelineTranslate } from './animate';
+
 export default {
   data: () => ({
     myTypes: ["velar", "palatal", "retroflex", "dental", "labial", "palatovelar", "labiovelar", "nasalization", "discharge"],
@@ -149,10 +155,11 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'sanskritAlphabet']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'hideLetter']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     cssProps() {
+      this.SET_hideLetter(0)
       return {
         '--myWidth':  this.computeMyWidth + 'px',
         '--myHeight': this.computeMyHeight + 'px',
@@ -192,7 +199,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_hideLetter']),
     ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
@@ -221,7 +228,15 @@ export default {
      },
      fullscreenChange (fullscreen) {
        this.fullscreen = fullscreen
-     }
+     },
+     go() {
+      //console.log(this.$refs)
+      //translate(this.$refs["अ"], this.computeMyWidth);
+      //translate(this.$refs["आ"], -this.computeMyWidth);
+
+      // rotate([this.$refs["अ"], this.$refs["आ"]]);
+      timelineTranslate([this.$refs["अ"], this.$refs["आ"]]);
+    }
   },
   components: {
     'settings-popup': settingspopup
@@ -248,6 +263,12 @@ export default {
 .active {
   font-size: 1em;
   border-left: 2px solid rgba(256, 10, 10, 0.7);
+}
+.activated {
+  opacity: 1;
+}
+.disabled {
+  opacity: 0.6;
 }
 .shrinkHeight {
   line-height: 1.1em;
@@ -281,6 +302,7 @@ div.v-input__control {
 .grid-item2 {
   grid-area: columnHeader;
   font-size: var(--myLabelSize);
+  align-self: stretch;
 }
 .grid-item3 {
   grid-area: mainContent;
@@ -302,7 +324,7 @@ div.btn__content {
   padding: 0;
 }
 .shiftUp{
-  margin-bottom: 90px;
+  margin-bottom: 100px;
 }
 .shiftUpUp{
   margin-bottom: 150px;
@@ -317,4 +339,7 @@ div.btn__content {
   margin-left: var(--screenWidth);
   opacity: 0.67;
   }
+.fadeLetter{
+  opacity: 0.3;
+}
 </style>

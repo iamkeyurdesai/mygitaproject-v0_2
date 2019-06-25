@@ -33,7 +33,8 @@ const state = {
     reflect: "word",
     meditate: "unique"
   },
-  isDeveloper: false
+  isDeveloper: false,
+  hideLetter: Array(67).fill(false)
 };
 
 export default {

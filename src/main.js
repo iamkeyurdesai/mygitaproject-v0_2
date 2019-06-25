@@ -55,6 +55,7 @@ import '../node_modules/vuetify/src/stylus/app.styl'
 // import * as directives from 'vuetify/es5/directives'
 import Touch from 'vuetify/es5/directives/touch'
 import Scroll from 'vuetify/es5/directives/scroll'
+import Ripple from 'vuetify/es5/directives/ripple'
 
 Vue.use(Vuetify, {
   components: {
@@ -115,7 +116,8 @@ Vue.use(Vuetify, {
 },
   directives: {
     Touch,
-    Scroll
+    Scroll,
+    Ripple
   },
   options: {
     customProperties: true

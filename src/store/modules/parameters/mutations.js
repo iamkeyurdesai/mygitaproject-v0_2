@@ -145,6 +145,12 @@ state[id] = (list == 'true');
 state[id] = list;
 }
 }
+
+const SET_hideLetter = (state, input) => {
+  state.hideLetter[input] = false
+}
+
+
 export default {
   increment,
   decrement,
@@ -178,5 +184,6 @@ export default {
   SET_loadTheRestOfVerses,
   SET_activeTab,
   SET_reciteChantFontSize,
-  SET_isDeveloper
+  SET_isDeveloper,
+  SET_hideLetter
 };
