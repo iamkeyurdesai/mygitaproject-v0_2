@@ -146,8 +146,8 @@ state[id] = list;
 }
 }
 
-const SET_hideLetter = (state, input) => {
-  state.hideLetter[input] = false
+const SET_alphabetSelect = (state, input) => {
+  state.alphabetSelect[input[0]][input[1]] = !state.alphabetSelect[input[0]][input[1]]
 }
 
 
@@ -185,5 +185,5 @@ export default {
   SET_activeTab,
   SET_reciteChantFontSize,
   SET_isDeveloper,
-  SET_hideLetter
+  SET_alphabetSelect
 };

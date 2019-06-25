@@ -23,7 +23,7 @@
       <!-- </div> -->
       <div class="grid-item1">
         <v-layout column justify-space-between fill-height>
-          <v-flex v-for="myType in myTypes" :key="myType" class="ma-0 pa-0">
+          <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0">
             <v-btn round icon :dark="GET_dark" class="mr-3 ma-0 pa-0 text-none makeLabelSize">
               {{myType}}
             </v-btn>
@@ -44,7 +44,7 @@
                 <v-flex  xs5 class="ma-1 success">
                   Short
                 </v-flex>
-                <v-flex xs8 class="ma-1 error">
+                <v-flex xs8 class="ma-1 error" @click="SET_alphabetSelect(['column', 'long'])">
                   Long
                 </v-flex>
               </v-layout>
@@ -117,8 +117,8 @@
 
 <div class="grid-item3 background lighten-2">
     <v-layout column class="addBorder ma-0 pa-0">
-        <v-layout row v-for="myType in myTypes" :key="myType">
-        <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item[myType]" shrink class="ma-0 pa-0" :class="{fadeLetter:!hideLetter[i]}">
+        <v-layout row v-for="myType in Object.keys(alphabetSelect.row)" :key="myType">
+        <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes(myType)" shrink class="ma-0 pa-0" :class="{fadeLetter: item.fadeON}">
           <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript">
             <span class="pa-0 ma-0" :ref="item.letter" :id="'alphabet_'+item.letter">{{item.letter}}</span>
           </v-btn>
@@ -147,7 +147,8 @@ import { translate, rotate, timelineTranslate } from './animate';
 
 export default {
   data: () => ({
-    myTypes: ["velar", "palatal", "retroflex", "dental", "labial", "palatovelar", "labiovelar", "nasalization", "discharge"],
+    // myTypes: ["velar", "palatal", "retroflex", "dental", "labial", "palatovelar", "labiovelar", "nasalization", "discharge"],
+    // myTypes: Object.keys(alphabetSelect.row),
     fullscreen: false,
     oneScript: true
   }),
@@ -155,11 +156,29 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'sanskritAlphabet']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'hideLetter']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'alphabetSelect']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     cssProps() {
-      this.SET_hideLetter(0)
+      // console.log(Object.keys(this.alphabetSelect.column).filter(key => this.alphabetSelect.column[key]))
+      // console.log(Object.keys(this.alphabetSelect.row).filter(key => this.alphabetSelect.row[key]))
+      console.log(this.alphabetSelect.column.long)
+      var t0 = performance.now();
+      this.sanskritAlphabet.forEach(item => {
+        var myselection = Object.keys(this.alphabetSelect.column).filter(key => this.alphabetSelect.column[key]).concat(
+          Object.keys(this.alphabetSelect.row).filter(key => this.alphabetSelect.row[key])
+        )
+        // console.log(myselection)
+        // console.log(item.tag.split('_'))
+        function doesItContain(currentTag) {
+          return myselection.includes(currentTag)
+        }
+        // console.log(item.tag.split('_').every(doesItContain))
+        item.fadeON = !item.tag.split('_').every(doesItContain)
+      })
+      var t1 = performance.now();
+      console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+
       return {
         '--myWidth':  this.computeMyWidth + 'px',
         '--myHeight': this.computeMyHeight + 'px',
@@ -199,7 +218,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_hideLetter']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_alphabetSelect']),
     ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
@@ -340,6 +359,6 @@ div.btn__content {
   opacity: 0.67;
   }
 .fadeLetter{
-  opacity: 0.3;
+  opacity: 0.2;
 }
 </style>

@@ -34,7 +34,34 @@ const state = {
     meditate: "unique"
   },
   isDeveloper: false,
-  hideLetter: Array(67).fill(false)
+  alphabetSelect: {
+    column: {
+      vowel: true,
+      short: true,
+      long: false,
+      consonant: true,
+      stop: true,
+      nasal: true,
+      semivowel: true,
+      sibilant: true,
+      unvoiced: true,
+      voiced: true,
+      unaspirated: true,
+      aspirated: true
+    },
+    row: {
+      velar: false,
+      palatal: false,
+      retroflex: false,
+      dental: true,
+      labial: true,
+      palatovelar: true,
+      labiovelar: true,
+      nasalization: true,
+      discharge: true
+    }
+  }
+
 };
 
 export default {
