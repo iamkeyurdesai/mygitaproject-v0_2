@@ -7,24 +7,27 @@
    <v-subheader :dark="GET_dark"> Learn Sanskrit Alphabet </v-subheader>
   <fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
 
+    <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
+    <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
+    <v-icon v-else>fullscreen</v-icon>
+    </v-btn>
+
+    <v-btn @click="oneScript=!oneScript" color="accentinfo"  dark fab bottom right fixed class="shiftUp shiftRight">
+      <v-icon v-if="oneScript">add_circle_outline</v-icon>
+      <v-icon v-else>remove_circle_outline</v-icon>
+    </v-btn>
+
     <div class="grid-container">
       <!-- <div class="grid-item0"> -->
         <!-- <v-layout column class="ma-0 pa-0"> -->
-        <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
-        <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
-        <v-icon v-else>fullscreen</v-icon>
-        </v-btn>
 
-        <v-btn @click="oneScript=!oneScript" color="accentinfo"  dark fab bottom right fixed class="shiftUp shiftRight">
-          <v-icon v-if="oneScript">add_circle_outline</v-icon>
-          <v-icon v-else>remove_circle_outline</v-icon>
-        </v-btn>
       <!-- </v-layout> -->
       <!-- </div> -->
-      <div class="grid-item1">
+      <div class="grid-item1 secondary">
         <v-layout column justify-space-between fill-height>
-          <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0">
-            <v-btn round icon :dark="GET_dark" class="mr-3 ma-0 pa-0 text-none makeLabelSize">
+          <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0"  shrink>
+            <v-btn  small class="rowButton ma-1 pa-0 text-none makeLabelSize white"
+            :class="{disabled: !alphabetSelect['row'][myType]}" @click="SET_alphabetSelect(['row', myType])">
               {{myType}}
             </v-btn>
           </v-flex>
@@ -32,99 +35,135 @@
       </div>
 
 
-
-      <div class="grid-item2 secondary">
-        <v-layout row >
-          <v-flex grow xs3>
-            <v-layout column fill-height>
-              <v-flex>
-                <v-card dark class="ma-1 accentmain disabled" flat tile> Vowels </v-card>
+<div class="grid-item2 secondary" v-if="true">
+  <!-- vowel header -->
+        <div class="columnHeaderItem1" :style="{width: computeMyWidth*3 + 'px'}">
+          <v-layout column fill-height>
+            <v-flex light class="elevation-10 white black--text makeLabelSize ma-1" grow
+            :class="{disabled: !alphabetSelect['column']['vowel']}" @click="SET_alphabetSelect(['column','vowel'])">
+              vowel
               </v-flex>
-              <v-layout row fill-height>
-                <v-flex  xs5 class="ma-1 success">
-                  Short
-                </v-flex>
-                <v-flex xs8 class="ma-1 error" @click="SET_alphabetSelect(['column', 'long'])">
-                  Long
-                </v-flex>
-              </v-layout>
-            </v-layout>
-          </v-flex>
-          <v-flex grow xs9 >
-            <v-layout column>
-              <v-flex  v-ripple>
-                <v-card  dark class="ma-1  accentmain" raised> Consonants </v-card>
+            <v-layout row fill-height>
+                <v-flex grow class="elevation-10 mb-1 mx-1 deep-orange darken-4 white--text makeLabelSize"
+                :class="{disabled: !alphabetSelect['column']['short']}" @click="SET_alphabetSelect(['column','short'])"
+                :style="{maxWidth: computeMyWidth*0.9 + 'px'}">
+                short
               </v-flex>
-
-              <v-layout row>
-                <v-flex  xs8 class="ma-1 success">
-                  Stop
-                </v-flex>
-                <v-flex xs2 class="ma-1 error">
-                  Nasal
-                </v-flex>
-                <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class="warning">
-                  Semi-vowel
-                </v-flex>
-                <v-flex xs4 class="ma-1 info">
-                  Sibilant
-                </v-flex>
-              </v-layout>
-
-              <v-layout row>
-                <v-flex  xs4 class="ma-1 success">
-                  Unvoiced
-                </v-flex>
-                <v-flex xs8 class="ma-1 error">
-                  Voiced
-                </v-flex>
-                <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class=" ma-1 warning tinyFont">
-<br>
-                </v-flex>
-                <v-flex xs2 class="ma-1 info tinyFont">
-<br>
-                </v-flex>
-              </v-layout>
-
-              <v-layout row>
-                <v-flex  xs2 class="ma-1 success tinyFont">
-<br>
-                </v-flex>
-                <v-flex xs2 class="ma-1 error tinyFont">
-<br>
-                </v-flex>
-                <!-- <v-flex xs2 class="warning" v-html="'Semi<br>vowel'"> -->
-                <v-flex xs2 class=" ma-1 warning tinyFont">
-<br>
-                </v-flex>
-                <v-flex xs2 class="ma-1 info tinyFont">
-<br>
-                </v-flex>
-                <v-flex xs4 class="ma-1 warning">
-                  Unaspirated
-                </v-flex>
-                <v-flex xs4 class="ma-1 info">
-                  Aspirated
-                </v-flex>
-              </v-layout>
+                <v-flex grow class="elevation-10 mb-1 mr-1 blue-grey darken-4 white--text makeLabelSize"
+                :class="{disabled: !alphabetSelect['column']['long']}" @click="SET_alphabetSelect(['column','long'])"
+                :style="{maxWidth: computeMyWidth*1.85 + 'px'}">
+                long
+              </v-flex>
             </v-layout>
-          </v-flex>
-
-        </v-layout>
+          </v-layout>
       </div>
 
-<div class="grid-item3 background lighten-2">
-    <v-layout column class="addBorder ma-0 pa-0">
+      <!-- consonant header -->
+        <div class="columnHeaderItem2" :style="{width: computeMyWidth*8 + 'px'}">
+          <v-layout column fill-height>
+            <v-flex  class="white black--text makeLabelSize  ma-1" grow
+            :class="{disabled: !alphabetSelect['column']['consonant']}" @click="SET_alphabetSelect(['column','consonant'])">
+              consonant
+              </v-flex>
+
+            <!-- row 1   -->
+            <v-layout row>
+                <v-flex grow class="elevation-10 mb-1 mx-1 green darken-1 white--text makeLabelSize"
+                :class="{disabled: !alphabetSelect['column']['stop']}" @click="SET_alphabetSelect(['column','stop'])"
+                :style="{width: computeMyWidth*0.9*4 + 'px'}">
+                stop
+              </v-flex>
+              <v-flex grow class="elevation-10 mb-1 mr-1 blue darken-1 white--text makeLabelSize"
+              :class="{disabled: !alphabetSelect['column']['nasal']}" @click="SET_alphabetSelect(['column','nasal'])"
+              :style="{width: computeMyWidth*0.8 + 'px'}">
+              nasal
+            </v-flex>
+            <v-flex grow class="elevation-10 mb-1 green darken-4 white--text makeLabelSize"
+            :class="{disabled: !alphabetSelect['column']['semivowel']}" @click="SET_alphabetSelect(['column','semivowel'])"
+            :style="{width: computeMyWidth*0.8 + 'px'}">
+            semiv
+          </v-flex>
+          <v-flex grow class="elevation-10 mb-1 mx-1 blue darken-4 white--text makeLabelSize"
+          :class="{disabled: !alphabetSelect['column']['sibilant']}" @click="SET_alphabetSelect(['column','sibilant'])"
+          :style="{width: computeMyWidth*0.9*2 + 'px'}">
+          sibilant
+        </v-flex>
+            </v-layout>
+
+            <!-- row 2   -->
+            <v-layout row>
+                <v-flex grow class="elevation-10 mb-1 mx-1 pink darken-1 white--text makeLabelSize"
+                :class="{disabled: !alphabetSelect['column']['unvoiced']}" @click="SET_alphabetSelect(['column','unvoiced'])"
+                :style="{width: computeMyWidth*0.9*2 + 'px'}">
+                unvoiced
+              </v-flex>
+              <v-flex grow class="elevation-10 mb-1 orange darken-1 white--text makeLabelSize"
+              :class="{disabled: !alphabetSelect['column']['voiced']}" @click="SET_alphabetSelect(['column','voiced'])"
+              :style="{width: computeMyWidth*0.9*4 + 'px'}">
+              voiced
+            </v-flex>
+            <v-flex grow class="elevation-10 mb-1 ml-1 pink darken-1 white--text makeLabelSize"
+            :class="{disabled: !alphabetSelect['column']['unvoiced']}" @click="SET_alphabetSelect(['column','unvoiced'])"
+            :style="{width: computeMyWidth*0.8 + 'px'}">
+            <br>
+          </v-flex>
+          <v-flex grow class="elevation-10 mb-1 mx-1 orange darken-1 white--text makeLabelSize"
+          :class="{disabled: !alphabetSelect['column']['voiced']}" @click="SET_alphabetSelect(['column','voiced'])"
+          :style="{width: computeMyWidth*0.8 + 'px'}">
+            <br>
+        </v-flex>
+
+            </v-layout>
+
+            <!-- row 3   -->
+            <v-layout row>
+                <v-flex grow class="elevation-10 mb-1 mx-1 lime darken-4 white--text makeLabelSize"
+                :class="{disabled: !alphabetSelect['column']['unaspirated']}" @click="SET_alphabetSelect(['column','unaspirated'])"
+                :style="{width: computeMyWidth*0.8 + 'px'}">
+                <br>
+              </v-flex>
+              <v-flex grow class="elevation-10 mb-1 mr-1 indigo darken-1 white--text makeLabelSize"
+              :class="{disabled: !alphabetSelect['column']['aspirated']}" @click="SET_alphabetSelect(['column','aspirated'])"
+              :style="{width: computeMyWidth*0.8 + 'px'}">
+              <br>
+            </v-flex>
+            <v-flex grow class="elevation-10 mb-1 mr-1 lime darken-4 white--text makeLabelSize"
+            :class="{disabled: !alphabetSelect['column']['unaspirated']}" @click="SET_alphabetSelect(['column','unaspirated'])"
+            :style="{width: computeMyWidth*0.8 + 'px'}">
+            <br>
+          </v-flex>
+          <v-flex grow class="elevation-10 mb-1 mr-1 indigo darken-1 white--text makeLabelSize"
+          :class="{disabled: !alphabetSelect['column']['aspirated']}" @click="SET_alphabetSelect(['column','aspirated'])"
+          :style="{width: computeMyWidth*0.8 + 'px'}">
+            <br>
+        </v-flex>
+            <v-flex grow class="elevation-10 mb-1 mr-1 lime darken-4 white--text makeLabelSize"
+            :class="{disabled: !alphabetSelect['column']['unaspirated']}" @click="SET_alphabetSelect(['column','unaspirated'])"
+            :style="{width: computeMyWidth*0.9*2 + 'px'}">
+            unaspirated
+            </v-flex>
+            <v-flex grow class="elevation-10 mb-1 mr-1 indigo darken-1 white--text makeLabelSize"
+            :class="{disabled: !alphabetSelect['column']['aspirated']}" @click="SET_alphabetSelect(['column','aspirated'])"
+            :style="{width: computeMyWidth*0.9*2 + 'px'}">
+            aspirated
+            </v-flex>
+</v-layout>
+
+          </v-layout>
+        </div>
+
+</div>
+
+<div class="grid-item3 background lighten-1">
+    <v-layout column class="ma-0 pa-0" :class="{addBorder: !GET_dark}">
         <v-layout row v-for="myType in Object.keys(alphabetSelect.row)" :key="myType">
         <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes(myType)" shrink class="ma-0 pa-0" :class="{fadeLetter: item.fadeON}">
-          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript">
-            <span class="pa-0 ma-0" :ref="item.letter" :id="'alphabet_'+item.letter">{{item.letter}}</span>
+          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title alphaButton" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript">
+            <span class="pa-0 ma-0  text-none  font-weight-light" :ref="item.letter" :id="'alphabet_'+item.letter">{{convert_dev(item.letter)}}</span>
           </v-btn>
-      <v-btn round icon :dark="GET_dark" class="ma-0 pa-0" @click="playSound(item.letter)" :class="myFontSize" v-else>
-        <span class="pa-0 ma-0 shrinkHeight">{{item.letter}} <br>
-        <span class="pa-0 ma-0 text-none"  :class="myFontSizeSecond">{{convert_dev(item.letter)}}</span></span>
+      <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 alphaButton" @click="playSound(item.letter)" :class="myFontSizeFirst" v-else>
+        <span class="pa-0 ma-0 shrinkHeight  font-weight-light">{{item.letter}} <br>
+        <span class="pa-0 ma-0 text-none  font-weight-light"  :class="myFontSizeSecond">{{convert_dev(item.letter)}}</span></span>
       </v-btn>
         </v-flex>
         </v-layout>
@@ -147,8 +186,6 @@ import { translate, rotate, timelineTranslate } from './animate';
 
 export default {
   data: () => ({
-    // myTypes: ["velar", "palatal", "retroflex", "dental", "labial", "palatovelar", "labiovelar", "nasalization", "discharge"],
-    // myTypes: Object.keys(alphabetSelect.row),
     fullscreen: false,
     oneScript: true
   }),
@@ -182,37 +219,60 @@ export default {
       return {
         '--myWidth':  this.computeMyWidth + 'px',
         '--myHeight': this.computeMyHeight + 'px',
+        '--myHeightRowButton': this.computeMyHeight*0.7 + 'px',
         '--myLabelSize': this.computeMyLabelSize + 'px',
       }
     },
     computeMyWidth() {
-      let mytemp = 28
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 40
+      let mytemp = 25
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 36
+      if(this.$vuetify.breakpoint.width > 800) mytemp = 54
       return  mytemp
     },
     computeMyHeight() {
-      let mytemp = 28
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 38
+      let mytemp = 32
+      if(this.oneScript) mytemp = 28
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 35
+      if(this.$vuetify.breakpoint.width > 800) mytemp = 52
       return  mytemp
     },
     computeMyLabelSize() {
       let mytemp = 8
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 12
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 11
+      if(this.$vuetify.breakpoint.width > 800) mytemp = 14
       return  mytemp
     },
     myFontSize() {
-      let mytemp = "caption"
+      let mytemp = "body-1"
       if(this.$vuetify.breakpoint.width > 500) {
         if(this.oneScript) {
-          mytemp = "title"
-        } else mytemp = "body-2"
+          mytemp = "subheading"
+        } else mytemp = "body-1"
+      }
+      if(this.$vuetify.breakpoint.width > 800) {
+        if(this.oneScript) {
+          mytemp = "headline"
+        } else mytemp = "subheading"
+      }
+      return mytemp
+    },
+    myFontSizeFirst() {
+      let mytemp = "caption"
+      if(this.$vuetify.breakpoint.width > 500) {
+        mytemp = "caption"
+      }
+      if(this.$vuetify.breakpoint.width > 800) {
+        mytemp = "subheading"
       }
       return mytemp
     },
     myFontSizeSecond() {
       let mytemp = "caption"
       if(this.$vuetify.breakpoint.width > 500) {
-        mytemp = "subheading"
+        mytemp = "body-2"
+      }
+      if(this.$vuetify.breakpoint.width > 800) {
+        mytemp = "title"
       }
       return mytemp
     }
@@ -287,7 +347,8 @@ export default {
   opacity: 1;
 }
 .disabled {
-  opacity: 0.6;
+  opacity: 0.5;
+  text-decoration: line-through;
 }
 .shrinkHeight {
   line-height: 1.1em;
@@ -302,11 +363,11 @@ div.v-input__control {
 .grid-container {
   display: grid;
   justify-content: center;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto;
   grid-template-areas:
-    " buttonBar columnHeader"
-    "rowHeader mainContent";
+    "buttonBar columnHeader columnHeader"
+    "rowHeader mainContent mainContent";
 }
 .grid-item0 {
   grid-area: buttonBar;
@@ -318,27 +379,53 @@ div.v-input__control {
   justify-self: start;
   font-size: var(--myLabelSize);
 }
-.grid-item2 {
-  grid-area: columnHeader;
-  font-size: var(--myLabelSize);
-  align-self: stretch;
-}
 .grid-item3 {
   grid-area: mainContent;
 }
+.grid-item2 {
+  display: grid;
+  grid-area: columnHeader;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+  "vowel consonant"
+}
+
+.columnHeaderItem1 {
+  grid-area: vowel;
+  place-self: stretch;
+}
+.columnHeaderItem2 {
+  grid-area: consonant;
+  place-self: stretch;
+}
+
 .makeLabelSize {
   font-size: var(--myLabelSize);
 }
 .addBorder {
-  border: 2px solid black;
-  border-radius: 5px;
+  border: 1px solid black;
+  /* border-radius: 5px; */
 }
-.v-btn {
+.alphaButton.v-btn {
   width: var(--myWidth);
   height: var(--myHeight);
   /* width: 40px;
   height: 32px; */
+  padding: 0;
 }
+.rowButton.v-btn {
+  width: var(--myWidth);
+  height: var(--myHeightRowButton);
+  /* width: 40px;
+  height: 32px; */
+  padding: 0;
+}
+.grid-item1.btn__content {
+  padding: 0;
+  margin:0;
+}
+
 div.btn__content {
   padding: 0;
 }
@@ -359,6 +446,7 @@ div.btn__content {
   opacity: 0.67;
   }
 .fadeLetter{
-  opacity: 0.2;
+  opacity: 0.4;
+  text-decoration: line-through;
 }
 </style>
