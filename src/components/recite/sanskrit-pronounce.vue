@@ -5,9 +5,10 @@
   <v-divider :dark="GET_dark"></v-divider>
    -->
    <v-subheader :dark="GET_dark"> Learn Sanskrit Alphabet </v-subheader>
+
   <fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
 
-    <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
+    <!-- <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
     <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
     <v-icon v-else>fullscreen</v-icon>
     </v-btn>
@@ -15,14 +16,35 @@
     <v-btn @click="oneScript=!oneScript" color="accentinfo"  dark fab bottom right fixed class="shiftUp shiftRight">
       <v-icon v-if="oneScript">add_circle_outline</v-icon>
       <v-icon v-else>remove_circle_outline</v-icon>
-    </v-btn>
+    </v-btn> -->
 
     <div class="grid-container">
-      <!-- <div class="grid-item0"> -->
-        <!-- <v-layout column class="ma-0 pa-0"> -->
-
-      <!-- </v-layout> -->
-      <!-- </div> -->
+      <div class="grid-item0 background darken-1">
+        <v-layout column class="ma-0 pa-0">
+        <v-layout row class="ma-0 pa-0">
+          <v-btn @click="toggle" dark icon small>
+          <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
+          <v-icon v-else>fullscreen</v-icon>
+          </v-btn>
+          <v-btn @click="oneScript=!oneScript" dark icon small>
+            <span v-if="oneScript" class="shrinkHeight  caption text-none">आ<br>ā</span>
+            <v-icon v-else>ā</v-icon>
+          </v-btn>
+      </v-layout>
+      <v-layout row class="ma-0 pa-0">
+        <v-btn @click="toggle" dark icon small>
+        <v-icon v-if="fullscreen" class="subheading" dark>
+          settings_backup_restore
+        </v-icon>
+        <v-icon v-else> &#9775</v-icon>
+        </v-btn>
+        <v-btn @click="oneScript=!oneScript" dark icon small>
+          <span v-if="oneScript" class="shrinkHeight  caption text-none">ी े<br>ि  ु</span>
+          <v-icon v-else>ā</v-icon>
+        </v-btn>
+    </v-layout>
+      </v-layout>
+      </div>
       <div class="grid-item1 secondary">
         <v-layout column justify-space-between fill-height>
           <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0"  shrink>
@@ -167,12 +189,21 @@
       </v-btn>
         </v-flex>
         </v-layout>
+        <!-- <v-layout class="shiftUp grid-item4 background"> -->
+        <v-flex xs6 class="grid-item4 shiftUp text-xs-left body-1 font-weight-regular accentinfo--text">
+      something is going to be written here what will that be let's see.
+      </v-flex>
+          <!-- </v-layout> -->
+
     </v-layout>
 </div>
 <!-- <v-btn @click="go()" color="accentmain"  dark> Go Anime </v-btn> -->
 <!-- <input class="log update-log"> </input> -->
 
 </div>
+
+
+
 </fullscreen>
 
 </v-layout>
@@ -224,22 +255,28 @@ export default {
       }
     },
     computeMyWidth() {
+      if(this.$vuetify.breakpoint.width < 850 &
+        this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height) {
+        this.SET_showNav(false)
+      } else {
+        this.SET_showNav(true)
+      }
       let mytemp = 25
       if(this.$vuetify.breakpoint.width > 500) mytemp = 36
-      if(this.$vuetify.breakpoint.width > 800) mytemp = 54
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 54
       return  mytemp
     },
     computeMyHeight() {
       let mytemp = 32
-      if(this.oneScript) mytemp = 28
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 35
-      if(this.$vuetify.breakpoint.width > 800) mytemp = 52
+      if(this.oneScript) mytemp = 25
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 32
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 52
       return  mytemp
     },
     computeMyLabelSize() {
       let mytemp = 8
       if(this.$vuetify.breakpoint.width > 500) mytemp = 11
-      if(this.$vuetify.breakpoint.width > 800) mytemp = 14
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 14
       return  mytemp
     },
     myFontSize() {
@@ -249,7 +286,7 @@ export default {
           mytemp = "subheading"
         } else mytemp = "body-1"
       }
-      if(this.$vuetify.breakpoint.width > 800) {
+      if(this.$vuetify.breakpoint.width > 850) {
         if(this.oneScript) {
           mytemp = "headline"
         } else mytemp = "subheading"
@@ -261,7 +298,7 @@ export default {
       if(this.$vuetify.breakpoint.width > 500) {
         mytemp = "caption"
       }
-      if(this.$vuetify.breakpoint.width > 800) {
+      if(this.$vuetify.breakpoint.width > 850) {
         mytemp = "subheading"
       }
       return mytemp
@@ -271,14 +308,15 @@ export default {
       if(this.$vuetify.breakpoint.width > 500) {
         mytemp = "body-2"
       }
-      if(this.$vuetify.breakpoint.width > 800) {
+      if(this.$vuetify.breakpoint.width > 850) {
         mytemp = "title"
       }
       return mytemp
     }
   },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_alphabetSelect']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse',
+    'SET_alphabetSelect', 'SET_showNav']),
     ...mapMutations('coretext', ['SET_main_foot']),
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
@@ -381,6 +419,7 @@ div.v-input__control {
 }
 .grid-item3 {
   grid-area: mainContent;
+  position: relative;
 }
 .grid-item2 {
   display: grid;
@@ -430,7 +469,10 @@ div.btn__content {
   padding: 0;
 }
 .shiftUp{
-  margin-bottom: 100px;
+  position: absolute;
+  width: 50%;
+  bottom: 0;
+  right: 0;
 }
 .shiftUpUp{
   margin-bottom: 150px;

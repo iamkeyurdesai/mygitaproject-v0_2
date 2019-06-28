@@ -2,7 +2,7 @@
 <v-app>
 
 
-  <v-toolbar app fixed class="primary secondary--text" :manual-scorr="showNav">
+  <v-toolbar app fixed class="primary secondary--text" v-show="showNav">
 
 
     <v-toolbar-title @click="$router.push('/')">
@@ -137,7 +137,7 @@ export default {
          //if not change on the server then nothing happens
          window.navigator.serviceWorker.ready.then(registration => { registration.update(); })
        }
-  }
+       }
 }
 </script>
 
