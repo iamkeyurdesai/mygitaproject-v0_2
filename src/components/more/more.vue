@@ -1,7 +1,7 @@
 <template>
-<div class="ma-2">
-  Coming soon...
-</div>
+  <div class="ma-2">
+    Coming soon...
+  </div>
 </template>
 
 <script>

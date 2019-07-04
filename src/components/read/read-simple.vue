@@ -2,14 +2,14 @@
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <readNavigation> </readNavigation>
-<!-- <v-btn @click="createSearch()"> addindex </v-btn>
+<v-btn @click="createSearch()"> addindex </v-btn>
 <div>
 <input type="text" id="autocomplete">
             <input type="text" id="userinput" placeholder="Search by movie title ...">
           </div>
-          <div id="suggestions"></div> -->
-      <div class="font-weight-light pa-1 subheading background"> For a quick reading</div>
+          <div id="suggestions"></div>
 
+<v-subheader :dark="GET_dark" class="background"> For a quick reading </v-subheader>
       <v-container grid-list-md text-xs-left class="pa-1">
         <v-layout row wrap>
           <v-flex xs12 class="ma-0">
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('coretext', ['preview', 'sivananda', 'gitapress', 'gitapress_commentary']),
+    ...mapState('coretext', ['preview', 'sivananda', 'gitapress', 'gitapress_commentary', 'main']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
     ]),
@@ -130,20 +130,28 @@ export default {
       console.log(isVisible, i, entry.time)
     },
     createSearch(){
+      console.log(this.main[0].foot.length)
       this.index = new FlexSearch({
             encode: false,
             suggest: true,
-   // tokenize: function(str){
-   //     return str.split(/[\x00-\x7F]+/);
-   // }
+   tokenize: function(str){
+       // return str.split(/[\x00-\x7F]+/);
+       return str.split("");
+   }
         })
 
-        for(var i = 0; i < this.gitapress.length; i++){
-               this.index.add(i, this.gitapress[i].sambandh_hindi);
-           }
-           for(var i = 0; i < this.gitapress.length; i++){
-          this.index.add(i+this.gitapress.length, this.gitapress[i].sambandh_english);
-              }
+        // for(var i = 0; i < this.gitapress.length; i++){
+        //        this.index.add(i, this.gitapress[i].sambandh_hindi);
+        //    }
+        //    for(var i = 0; i < this.gitapress.length; i++){
+        //   this.index.add(i+this.gitapress.length, this.gitapress[i].sambandh_english);
+        //       }
+        for(var j = 0; j < 4; j++) {
+                 for(var i = 0; i < this.gitapress.length; i++){
+                this.index.add(i+j*this.gitapress.length,
+                  this.main[i].foot.length > j ? this.main[i].foot[j]["foot"] : "");
+                    }
+                  }
 
            var suggestions = document.getElementById("suggestions");
         var autocomplete = document.getElementById("autocomplete");
@@ -156,13 +164,17 @@ console.log(this.gitapress)
            function show_results(){
              console.log(this.value)
             var value = this.value;
-            var results = self.index.search(value, 25);
+            var results = self.index.search(value);
             console.log(results)
             console.log(self.gitapress.length)
             var i = 0, len = results.length;
             for(; i < len; i++){
             // console.log(self.gitapress[results[i]].sambandh_hindi)
-            console.log(self.gitapress[results[i] - self.gitapress.length].sambandh_english)
+            // console.log(self.gitapress[results[i] - self.gitapress.length].sambandh_english)
+            console.log(self.main[results[i] % self.gitapress.length].foot[0]["foot"],
+                        self.main[results[i] % self.gitapress.length].foot[1]["foot"],
+                        self.main[results[i] % self.gitapress.length].foot[2]["foot"],
+                        self.main[results[i] % self.gitapress.length].foot[3]["foot"])
           }
 
           }

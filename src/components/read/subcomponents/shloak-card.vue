@@ -6,7 +6,7 @@ Local func convert() used lib Sanscript -->
 
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
-  <v-layout row align-center justify-center class="font-weight-light adjustLineHeight pa-2">
+  <v-layout row align-center justify-center class="adjustLineHeight pa-2">
     <!-- breakSandhi is false -->
     <div v-if="!breakSandhi | !wordByWord"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->

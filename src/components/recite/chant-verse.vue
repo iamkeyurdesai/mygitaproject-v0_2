@@ -22,20 +22,10 @@
         <!-- </v-sheet> -->
     <!-- <vue-c3 :handler="handler"></vue-c3> -->
     </v-card>
-
+<v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <chantNavigation> </chantNavigation>
     <v-card-text class="pa-0">
-
-      <v-layout column class="font-weight-light subheading background">
-        <v-flex pa-1> Begin chanting
-          <!-- <v-btn color="accentmain" fab @click="isChantOn=true" v-if="!isChantOn" small :dark="GET_dark"> <v-icon> play_arrow </v-icon> </v-btn>
-          <v-btn color="activity" fab @click="isChantOn=false" v-if="isChantOn" small :dark="GET_dark"> <v-icon> pause </v-icon> </v-btn> -->
-          </v-flex>
-        <v-flex>
-          <v-divider :dark="GET_dark"></v-divider>
-        </v-flex>
-      </v-layout>
 
       <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
         <v-layout row wrap>

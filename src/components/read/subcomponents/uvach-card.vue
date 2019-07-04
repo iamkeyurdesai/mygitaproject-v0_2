@@ -4,7 +4,7 @@ The language is decided from Vuex parameters-->
 
 <template>
   <v-layout justify-center>
-    <v-card-title class="pa-0 ma-0 font-weight-light warning--text" :style="'color:' + options[theme].emphasis.medium"
+    <v-card-title class="pa-0 ma-0 activity--text" :style="'color:' + options[theme].emphasis.medium"
     v-show="GET_main_local.speaker!==GET_main_local_prev.speaker"> {{convert(GET_main_local.speaker)}} </v-card-title>
   </v-layout>
 </template>

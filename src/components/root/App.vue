@@ -88,8 +88,16 @@ export default {
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
-    compoundWatch() {return this.mainItem, this.chapter, this.verse, this.theme, this.language,
-      this.script, this.fsize, this.activeTab, Date.now();}
+    compoundWatch() {
+      if(this.$vuetify.breakpoint.width < 850 &
+        this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height) {
+        this.SET_showNav(false)
+      } else {
+        this.SET_showNav(true)
+      }
+      return this.mainItem, this.chapter, this.verse, this.theme, this.language,
+      this.script, this.fsize, this.activeTab, Date.now();
+    }
   },
   methods: {
     setNav(myval){

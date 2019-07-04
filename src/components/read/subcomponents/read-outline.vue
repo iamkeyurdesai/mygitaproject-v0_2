@@ -5,7 +5,7 @@
       <div align="left" class="subheading font-weight-regular" :style="cssProps">
         Chapter {{chapter}} Outline
       </div>
-      <v-card class="ma-1" v-for="(item, i) in mysummary" :key="i">
+      <v-card class="my-1" v-for="(item, i) in mysummary" :key="i" flat>
         <v-layout justify-center column>
           <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
           <v-flex class="mt-0">
@@ -13,7 +13,7 @@
               {{item[language]}}
             </v-card-text>
           </v-flex>
-          <v-flex class="mt-0">
+          <v-flex class="mt-0 pa-0">
             <v-card-text class="pa-1" >
               <span v-for="(vid, j) in range(item.begin, item.end)" :key="j">
                       <button  class="activity title mybutton ma-1 elevation-5" @click="SET_verse(vid > 1? vid - 1 : vid + 1)" v-if="vid==verse"> {{vid}} </button>

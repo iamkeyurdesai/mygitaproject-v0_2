@@ -1,404 +1,520 @@
 [
   {
-    "letter": "अ",
+    "letter": "a",
     "tag": "vowel_velar_short",
     "id": 1,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*A*merica"
   },
   {
-    "letter": "आ",
+    "letter": "ā",
     "tag": "vowel_velar_long",
     "id": 2,
-    "fadeON": false
+    "showON": true,
+    "approximation": "f*a*ther"
   },
   {
     "letter": " ",
     "tag": "vowel_velar_long",
     "id": 3,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "इ",
+    "letter": "i",
     "tag": "vowel_palatal_short",
     "id": 4,
-    "fadeON": false
+    "showON": true,
+    "approximation": "f*i*ll"
   },
   {
-    "letter": "ई",
+    "letter": "ī",
     "tag": "vowel_palatal_long",
     "id": 5,
-    "fadeON": false
+    "showON": true,
+    "approximation": "f*ee*d"
   },
   {
     "letter": " ",
     "tag": "vowel_palatal_long",
     "id": 6,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "उ",
+    "letter": "u",
     "tag": "vowel_labial_short",
     "id": 7,
-    "fadeON": false
+    "showON": true,
+    "approximation": "f*u*ll"
   },
   {
-    "letter": "ऊ",
+    "letter": "ū",
     "tag": "vowel_labial_long",
     "id": 8,
-    "fadeON": false
+    "showON": true,
+    "approximation": "f*oo*l"
   },
   {
     "letter": " ",
     "tag": "vowel_labial_long",
     "id": 9,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ऋ",
+    "letter": "ṛ",
     "tag": "vowel_retroflex_short",
     "id": 10,
-    "fadeON": false
+    "showON": true,
+    "approximation": "p*re*tty"
   },
   {
-    "letter": "ॠ",
+    "letter": "ṝ",
     "tag": "vowel_retroflex_long",
     "id": 11,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ma*ri*ne"
   },
   {
     "letter": " ",
     "tag": "vowel_retroflex_long",
     "id": 12,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ऌ",
+    "letter": "ḷ",
     "tag": "vowel_dental_short",
     "id": 13,
-    "fadeON": false
+    "showON": true,
+    "approximation": "reve*lr*y"
   },
   {
-    "letter": "ॡ",
+    "letter": "ḹ",
     "tag": "vowel_dental_long",
     "id": 14,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
     "letter": " ",
     "tag": "vowel_dental_long",
     "id": 15,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
     "letter": " ",
     "tag": "vowel_palatovelar_short",
     "id": 16,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ए",
+    "letter": "e",
     "tag": "vowel_palatovelar_long",
     "id": 17,
-    "fadeON": false
+    "showON": true,
+    "approximation": "pr*e*y"
   },
   {
-    "letter": "ऐ",
+    "letter": "ai",
     "tag": "vowel_palatovelar_long",
     "id": 18,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*ai*sle"
   },
   {
     "letter": " ",
     "tag": "vowel_labiovelar_short",
     "id": 19,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ओ",
+    "letter": "o",
     "tag": "vowel_labiovelar_long",
     "id": 20,
-    "fadeON": false
+    "showON": true,
+    "approximation": "st*o*ne"
   },
   {
-    "letter": "औ",
+    "letter": "au",
     "tag": "vowel_labiovelar_long",
     "id": 21,
-    "fadeON": false
-  },
-  {
-    "letter": "ं",
-    "tag": "vowel_nasalization_short",
-    "id": 22,
-    "fadeON": false
+    "showON": true,
+    "approximation": "h*ou*se"
   },
   {
     "letter": " ",
+    "tag": "vowel_nasalization_short",
+    "id": 22,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": "aṃ",
     "tag": "vowel_nasalization_long",
     "id": 23,
-    "fadeON": false
+    "showON": true,
+    "approximation": "h*um*"
   },
   {
     "letter": " ",
     "tag": "vowel_nasalization_long",
     "id": 24,
-    "fadeON": false
-  },
-  {
-    "letter": "ः",
-    "tag": "vowel_discharge_short_aspirated",
-    "id": 25,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
     "letter": " ",
+    "tag": "vowel_discharge_short_aspirated",
+    "id": 25,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": "aḥ",
     "tag": "vowel_discharge_long_aspirated",
     "id": 26,
-    "fadeON": false
+    "showON": true,
+    "approximation": "a*ha*"
   },
   {
     "letter": " ",
     "tag": "vowel_discharge_long_aspirated",
     "id": 27,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "क",
+    "letter": "k",
     "tag": "consonant_velar_stop_unvoiced_unaspirated",
     "id": 28,
-    "fadeON": false
+    "showON": true,
+    "approximation": "see*k*"
   },
   {
-    "letter": "ख",
+    "letter": "kh",
     "tag": "consonant_velar_stop_unvoiced_aspirated",
     "id": 29,
-    "fadeON": false
+    "showON": true,
+    "approximation": "bac*k*hand"
   },
   {
-    "letter": "ग",
+    "letter": "g",
     "tag": "consonant_velar_stop_voiced_unaspirated",
     "id": 30,
-    "fadeON": false
+    "showON": true,
+    "approximation": "bi*g*"
   },
   {
-    "letter": "घ",
+    "letter": "gh",
     "tag": "consonant_velar_stop_voiced_aspirated",
     "id": 31,
-    "fadeON": false
+    "showON": true,
+    "approximation": "bi*g*head"
   },
   {
-    "letter": "ङ",
+    "letter": "ṅ",
     "tag": "consonant_velar_nasal_voiced_unaspirated",
     "id": 32,
-    "fadeON": false
+    "showON": true,
+    "approximation": "si*ng*"
   },
   {
     "letter": " ",
     "tag": "consonant_velar_semivowel_voiced_unaspirated",
     "id": 33,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
     "letter": " ",
     "tag": "consonant_velar_sibilant_unvoiced_aspirated",
     "id": 34,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "च",
+    "letter": "c",
     "tag": "consonant_palatal_stop_unvoiced_unaspirated",
     "id": 35,
-    "fadeON": false
+    "showON": true,
+    "approximation": "cat*ch*"
   },
   {
-    "letter": "छ",
+    "letter": "ch",
     "tag": "consonant_palatal_stop_unvoiced_aspirated",
     "id": 36,
-    "fadeON": false
+    "showON": true,
+    "approximation": "cat*ch*er"
   },
   {
-    "letter": "ज",
+    "letter": "j",
     "tag": "consonant_palatal_stop_voiced_unaspirated",
     "id": 37,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*j*oy"
   },
   {
-    "letter": "झ",
+    "letter": "jh",
     "tag": "consonant_palatal_stop_voiced_aspirated",
     "id": 38,
-    "fadeON": false
+    "showON": true,
+    "approximation": "hed*ge*hog"
   },
   {
-    "letter": "ञ",
+    "letter": "ñ",
     "tag": "consonant_palatal_nasal_voiced_unaspirated",
     "id": 39,
-    "fadeON": false
+    "showON": true,
+    "approximation": "pu*nch*"
   },
   {
-    "letter": "ट",
+    "letter": "ṭ",
     "tag": "consonant_retroflex_stop_unvoiced_unaspirated",
     "id": 40,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*t*ub"
   },
   {
-    "letter": "ठ",
+    "letter": "ṭh",
     "tag": "consonant_retroflex_stop_unvoiced_aspirated",
     "id": 41,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ca*t*house"
   },
   {
-    "letter": "ड",
+    "letter": "ḍ",
     "tag": "consonant_retroflex_stop_voiced_unaspirated",
     "id": 42,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*d*eer"
   },
   {
-    "letter": "ढ",
+    "letter": "ḍh",
     "tag": "consonant_retroflex_stop_voiced_aspirated",
     "id": 43,
-    "fadeON": false
+    "showON": true,
+    "approximation": "bir*d*house"
   },
   {
-    "letter": "ण",
+    "letter": "ṇ",
     "tag": "consonant_retroflex_nasal_voiced_unaspirated",
     "id": 44,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ru*n*t"
   },
   {
-    "letter": "त",
+    "letter": "t",
     "tag": "consonant_dental_stop_unvoiced_unaspirated",
     "id": 45,
-    "fadeON": false
+    "showON": true,
+    "approximation": "perfec*t*o"
   },
   {
-    "letter": "थ",
+    "letter": "th",
     "tag": "consonant_dental_stop_unvoiced_aspirated",
     "id": 46,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*th*eif"
   },
   {
-    "letter": "द",
+    "letter": "d",
     "tag": "consonant_dental_stop_voiced_unaspirated",
     "id": 47,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*d*ense"
   },
   {
-    "letter": "ध",
+    "letter": "dh",
     "tag": "consonant_dental_stop_voiced_aspirated",
     "id": 48,
-    "fadeON": false
+    "showON": true,
+    "approximation": "har*d*work"
   },
   {
-    "letter": "न",
+    "letter": "n",
     "tag": "consonant_dental_nasal_voiced_unaspirated",
     "id": 49,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*n*ut"
   },
   {
-    "letter": "प",
+    "letter": "p",
     "tag": "consonant_labial_stop_unvoiced_unaspirated",
     "id": 50,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*p*in"
   },
   {
-    "letter": "फ",
+    "letter": "ph",
     "tag": "consonant_labial_stop_unvoiced_aspirated",
     "id": 51,
-    "fadeON": false
+    "showON": true,
+    "approximation": "u*p*hill"
   },
   {
-    "letter": "ब",
+    "letter": "b",
     "tag": "consonant_labial_stop_voiced_unaspirated",
     "id": 52,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ru*b*"
   },
   {
-    "letter": "भ",
+    "letter": "bh",
     "tag": "consonant_labial_stop_voiced_aspirated",
     "id": 53,
-    "fadeON": false
+    "showON": true,
+    "approximation": "a*bh*or"
   },
   {
-    "letter": "म",
+    "letter": "m",
     "tag": "consonant_labial_nasal_voiced_unaspirated",
     "id": 54,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*m*ud"
   },
   {
-    "letter": "य",
+    "letter": "y",
     "tag": "consonant_palatal_semivowel_voiced_unaspirated",
     "id": 55,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*y*es"
   },
   {
-    "letter": "र",
+    "letter": "r",
     "tag": "consonant_retroflex_semivowel_voiced_unaspirated",
     "id": 56,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*r*ain"
   },
   {
-    "letter": "ल",
+    "letter": "l",
     "tag": "consonant_dental_semivowel_voiced_unaspirated",
     "id": 57,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*l*ight"
   },
   {
-    "letter": "व",
+    "letter": "v",
     "tag": "consonant_labial_semivowel_voiced_unaspirated",
     "id": 58,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*v*oice"
   },
   {
     "letter": " ",
     "tag": "consonant_labial_sibilant_unvoiced_aspirated",
     "id": 59,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
     "letter": " ",
     "tag": "consonant_labial_sibilant_voiced_aspirated",
     "id": 60,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "श",
+    "letter": "ś",
     "tag": "consonant_palatal_sibilant_unvoiced_aspirated",
     "id": 61,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ru*sh*"
   },
   {
     "letter": " ",
     "tag": "consonant_palatal_sibilant_voiced_aspirated",
     "id": 62,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ष",
+    "letter": "ṣ",
     "tag": "consonant_retroflex_sibilant_unvoiced_aspirated",
     "id": 63,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*su*re"
   },
   {
     "letter": " ",
     "tag": "consonant_retroflex_sibilant_voiced_aspirated",
     "id": 64,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "स",
+    "letter": "s",
     "tag": "consonant_dental_sibilant_unvoiced_aspirated",
     "id": 65,
-    "fadeON": false
+    "showON": true,
+    "approximation": "ga*s*"
   },
   {
     "letter": " ",
     "tag": "consonant_dental_sibilant_voiced_aspirated",
     "id": 66,
-    "fadeON": false
+    "showON": true,
+    "approximation": "FALSE"
   },
   {
-    "letter": "ह",
+    "letter": "h",
     "tag": "consonant_velar_sibilant_voiced_aspirated",
     "id": 67,
-    "fadeON": false
+    "showON": true,
+    "approximation": "*h*oney"
+  },
+  {
+    "letter": " ",
+    "tag": "consonant_palatovelar_stop",
+    "id": 68,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": " ",
+    "tag": "consonant_palatovelar_stop",
+    "id": 69,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": " ",
+    "tag": "consonant_palatovelar_stop",
+    "id": 70,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": " ",
+    "tag": "consonant_palatovelar_stop",
+    "id": 71,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": "jñ",
+    "tag": "consonant_palatovelar_nasal_voiced_unaspirated",
+    "id": 72,
+    "showON": true,
+    "approximation": "a*gn*osia"
+  },
+  {
+    "letter": "ḻ",
+    "tag": "consonant_palatovelar_semivowel_voiced_unaspirated",
+    "id": 73,
+    "showON": true,
+    "approximation": "FALSE"
+  },
+  {
+    "letter": "kṣ",
+    "tag": "consonant_palatovelar_sibilant_unvoiced_aspirated",
+    "id": 74,
+    "showON": true,
+    "approximation": "*ksh*atriyas"
   }
 ]

@@ -4,7 +4,7 @@ The language is decided from Vuex parameters-->
 
 <template>
 
-  <v-card-text class="font-weight-light adjustLineHeight my-2 px-2 py-1"
+  <v-card-text class="adjustLineHeight my-2 px-2 py-1"
   :style="cssProps">
   <div align="left" class="info--text subheading">Link to the previous verse</div>
       {{GET_gitapress_local["sambandh_"+this.language]}}

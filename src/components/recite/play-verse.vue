@@ -1,23 +1,23 @@
 <template>
 <v-layout justify-center column>
 
-<div class="font-weight-light mt-2 pa-1 subheading"> Play audio</div>
+<v-subheader :dark="GET_dark"> Play audio </v-subheader>
 <div class="center">
   <youtube :video-id="videoId" width="360" height="200" ref="youtube" :player-vars="playerVars"
   @playing="playing" @ended="verse_local=1" fitParent />
 </div>
 
 
-  <v-divider :dark="GET_dark"></v-divider>
-  <div class="font-weight-light mt-2 pa-1 subheading"> Scroll to verse</div>
+  <v-subheader :dark="GET_dark"> Scroll to verse </v-subheader>
+
   <v-layout justify-space-between class="my-2 px-3" style="height: 36px">
     <v-slider v-model="verse_local" thumb-color="accentinfo" thumb-label="always" :thumb-size="18" :min="1"
     :max="verseall[chapter-1]" :step="1" :dark="GET_dark"></v-slider>
   </v-layout>
 
-  <v-divider :dark="GET_dark"></v-divider>
 
-<div class="font-weight-light mt-2 pa-1 subheading"> Slideshow</div>
+<v-subheader :dark="GET_dark"> You are listening to </v-subheader>
+
   <v-layout justify-center column class="mt-4">
     <v-layout justify-center v-if="verse===1">
       <span class="px-3 mytext" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </span>

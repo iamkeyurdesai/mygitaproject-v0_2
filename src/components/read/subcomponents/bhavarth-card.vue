@@ -3,7 +3,7 @@ The verse_id is provided as a prop
 The language is decided from Vuex parameters-->
 
 <template>
-  <div class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
+  <div class="adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
     <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     <span> {{myTranslation}} </span>
     <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>

@@ -2,8 +2,8 @@
   <div v-scroll="onScroll"
   :style="cssProps">
 
+<v-subheader :dark="GET_dark"> For comprehensively study </v-subheader>
 
-<div class="font-weight-light pa-1 subheading"> For a comprehensive study</div>
 <v-flex xs12 class="ma-0">
   <readStart> </readStart>
 </v-flex>
@@ -45,17 +45,16 @@
       <v-flex xs12 class="ma-0" v-if="chapter < 19">
         <readSummary> </readSummary>
       </v-flex>
-        <v-flex xs12>
-        <v-divider :dark="GET_dark"></v-divider>
-      </v-flex>
-      <v-layout class="font-weight-light pa-1 ml-1 subheading" justify-left v-if="chapter < 19"> Click to verse</v-layout>
+        
+        <v-subheader :dark="GET_dark" class="background" v-if="chapter < 19"> Click to verse </v-subheader>
+
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19" justify-center>
         <readOutline> </readOutline>
       </v-flex>
     </v-layout>
   </v-container>
-  <v-divider :dark="GET_dark"></v-divider>
-  <v-layout class="font-weight-light pa-1 subheading" justify-left> Read verse {{verse}}</v-layout>
+
+<v-subheader :dark="GET_dark" class="background"> Read chapter {{chapter}} verse {{verse}} </v-subheader>
 
   <v-container grid-list-md text-xs-left class="pa-1">
     <v-layout row wrap justify-center>
@@ -100,7 +99,6 @@
             <v-divider :dark="GET_dark"></v-divider>
 <div align="left" class="info--text subheading ma-2" v-if="chapter < 19">Original verse rearranged</div>
             <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
-
         </v-card>
     </v-layout>
     <v-divider :dark="GET_dark"></v-divider>

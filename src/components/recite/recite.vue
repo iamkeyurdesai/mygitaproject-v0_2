@@ -21,7 +21,7 @@
     <v-divider :dark="GET_dark"></v-divider>
 <chapterCarousel></chapterCarousel>
 <v-divider :dark="GET_dark"></v-divider>
-<div class="font-weight-light mt-2 pa-1 subheading"> Select action</div>
+<v-subheader :dark="GET_dark"> Select mode </v-subheader>
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <v-tab href="#chant" ripple class="subheading"> CHANT </v-tab>
     <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
@@ -33,7 +33,7 @@
       </v-tabs-items>
         </v-tabs>
 
-<v-divider :dark="GET_dark"></v-divider>
+<!-- <v-divider :dark="GET_dark"></v-divider> -->
 
 <!-- <firebase-messaging></firebase-messaging>   -->
 

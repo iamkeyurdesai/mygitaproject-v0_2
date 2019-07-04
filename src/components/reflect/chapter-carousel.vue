@@ -1,6 +1,6 @@
 <template>
 <div class="background" :style="cssProps">
-<div class="font-weight-light mt-2 pa-1 subheading"> Select chapter </div>
+<v-subheader :dark="GET_dark"> Select chapter </v-subheader>
   <div class="scrolling-wrapper-flexbox background" id="chapterContainer">
     <div class="card mx-1" v-for="i in 23" @click="setChapter_local(i)">
 <v-card class="mt-0 background" :dark="GET_dark">
@@ -10,8 +10,8 @@
         :src="chapterCarouselImage(i)">
       </v-img>
       </v-card>
-      <div class="body-2 pt-1"> {{title_local(i)}} </div>
-      <div class="caption font-weight-light pb-1"> chapter {{i}} </div>
+      <div class="body-1 pt-1"> {{title_local(i)}} </div>
+      <div class="caption pb-1"> chapter {{i}} </div>
       </div>
       </v-card>
     </div>

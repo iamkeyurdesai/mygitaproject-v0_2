@@ -19,33 +19,55 @@
     </v-btn> -->
 
     <div class="grid-container">
-      <div class="grid-item0 background darken-1">
+      <v-card class="grid-item0 background" :dark="GET_dark">
         <v-layout column class="ma-0 pa-0">
         <v-layout row class="ma-0 pa-0">
-          <v-btn @click="toggle" dark icon small>
+          <v-btn @click="toggle" :dark="GET_dark" icon small>
           <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
           <v-icon v-else>fullscreen</v-icon>
           </v-btn>
-          <v-btn @click="oneScript=!oneScript" dark icon small>
+          <v-btn @click="oneScript=!oneScript" :dark="GET_dark" icon small>
             <span v-if="oneScript" class="shrinkHeight  caption text-none">आ<br>ā</span>
             <v-icon v-else>ā</v-icon>
           </v-btn>
       </v-layout>
       <v-layout row class="ma-0 pa-0">
-        <v-btn @click="toggle" dark icon small>
+        <v-btn @click="toggle" :dark="GET_dark" icon small>
         <v-icon v-if="fullscreen" class="subheading" dark>
           settings_backup_restore
         </v-icon>
         <v-icon v-else> &#9775</v-icon>
         </v-btn>
-        <v-btn @click="oneScript=!oneScript" dark icon small>
+        <v-btn @click="selectConsonantAdd=!selectConsonantAdd" :dark="GET_dark" icon small>
           <span v-if="oneScript" class="shrinkHeight  caption text-none">ी े<br>ि  ु</span>
           <v-icon v-else>ā</v-icon>
         </v-btn>
     </v-layout>
       </v-layout>
-      </div>
-      <div class="grid-item1 secondary">
+    </v-card>
+
+    <v-bottom-sheet v-model="selectConsonantAdd" inset max-width="400px" >
+      <v-card>
+        <v-subheader class="ml-2 subheading info--text"> Press to </v-subheader>
+        <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('vowel') & item.letter!==' '"
+          :class="{activeButton: inherentVowel===item.letter}"
+          round fab small class="ma-1 pa-1 title alphaButton1"
+          @click="inherentVowel=item.letter">
+            <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
+          </v-btn>
+
+          <!-- <v-btn icon  v-if="tile.icon==='format_size'" color="accentinfo">
+            <v-icon :style="cssProps_medium"> {{tile.icon}}</v-icon>
+          </v-btn>
+          <v-btn icon  v-else color="accentmain">
+            <v-icon :style="cssProps_medium"> {{tile.icon}}</v-icon>
+          </v-btn>                       -->
+    </v-card>
+  </v-bottom-sheet>
+
+
+      <!-- <div class="grid-item1 secondary"> -->
+        <v-card light class="grid-item1 secondary">
         <v-layout column justify-space-between fill-height>
           <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0"  shrink>
             <v-btn  small class="rowButton ma-1 pa-0 text-none makeLabelSize white"
@@ -54,10 +76,12 @@
             </v-btn>
           </v-flex>
         </v-layout>
-      </div>
+      </v-card>
+      <!-- </div> -->
 
 
-<div class="grid-item2 secondary" v-if="true">
+<v-card class="grid-item2 secondary">
+
   <!-- vowel header -->
         <div class="columnHeaderItem1" :style="{width: computeMyWidth*3 + 'px'}">
           <v-layout column fill-height>
@@ -173,36 +197,46 @@
 
           </v-layout>
         </div>
+</v-card>
 
-</div>
-
-<div class="grid-item3 background lighten-1">
-    <v-layout column class="ma-0 pa-0" :class="{addBorder: !GET_dark}">
+<!-- <div class="grid-item3 background"> -->
+  <v-card :dark="GET_dark" class="grid-item3 background">
+    <v-layout column class="ma-0 pa-0" :class="{addBorder: false}">
         <v-layout row v-for="myType in Object.keys(alphabetSelect.row)" :key="myType">
         <v-flex v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes(myType)" shrink class="ma-0 pa-0" :class="{fadeLetter: item.fadeON}">
-          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title alphaButton" :class="myFontSize" @click="playSound(item.letter)" v-if="oneScript">
-            <span class="pa-0 ma-0  text-none  font-weight-light" :ref="item.letter" :id="'alphabet_'+item.letter">{{convert_dev(item.letter)}}</span>
+          <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title alphaButton"
+          :class="myFontSize" @click="pressLetterAction(item)" v-if="oneScript">
+            <span class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">
+              {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+            </span>
           </v-btn>
-      <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 alphaButton" @click="playSound(item.letter)" :class="myFontSizeFirst" v-else>
-        <span class="pa-0 ma-0 shrinkHeight  font-weight-light">{{item.letter}} <br>
-        <span class="pa-0 ma-0 text-none  font-weight-light"  :class="myFontSizeSecond">{{convert_dev(item.letter)}}</span></span>
+      <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 alphaButton"
+      @click="pressLetterAction(item)" :class="myFontSizeFirst" v-else>
+        <span class="pa-0 ma-0 shrinkHeight  ">
+          {{convert_todev(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+          <br>
+        <span class="pa-0 ma-0 text-none  "  :class="myFontSizeSecond">
+      {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+        </span>
+      </span>
       </v-btn>
         </v-flex>
         </v-layout>
         <!-- <v-layout class="shiftUp grid-item4 background"> -->
         <v-flex xs6 class="grid-item4 shiftUp text-xs-left body-1 font-weight-regular accentinfo--text">
-      something is going to be written here what will that be let's see.
+          <v-card :dark="GET_dark" class="background accentinfo--text pa-1 subheading" v-html="clickTextShowFormat"></v-card>
       </v-flex>
           <!-- </v-layout> -->
-
     </v-layout>
-</div>
+    </v-card>
+<!-- </div> -->
 <!-- <v-btn @click="go()" color="accentmain"  dark> Go Anime </v-btn> -->
 <!-- <input class="log update-log"> </input> -->
 
 </div>
 
-
+<br>
+<br>
 
 </fullscreen>
 
@@ -218,7 +252,11 @@ import { translate, rotate, timelineTranslate } from './animate';
 export default {
   data: () => ({
     fullscreen: false,
-    oneScript: true
+    oneScript: true,
+    clickTextShow: null,
+    clickLetter: null,
+    inherentVowel: 'a',
+    selectConsonantAdd: false
   }),
   computed: {
     ...mapState('settings', ['options']),
@@ -230,6 +268,7 @@ export default {
     cssProps() {
       // console.log(Object.keys(this.alphabetSelect.column).filter(key => this.alphabetSelect.column[key]))
       // console.log(Object.keys(this.alphabetSelect.row).filter(key => this.alphabetSelect.row[key]))
+      console.log(this.sanskritAlphabet)
       console.log(this.alphabetSelect.column.long)
       var t0 = performance.now();
       this.sanskritAlphabet.forEach(item => {
@@ -255,12 +294,6 @@ export default {
       }
     },
     computeMyWidth() {
-      if(this.$vuetify.breakpoint.width < 850 &
-        this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height) {
-        this.SET_showNav(false)
-      } else {
-        this.SET_showNav(true)
-      }
       let mytemp = 25
       if(this.$vuetify.breakpoint.width > 500) mytemp = 36
       if(this.$vuetify.breakpoint.width > 850) mytemp = 54
@@ -312,6 +345,13 @@ export default {
         mytemp = "title"
       }
       return mytemp
+    },
+    clickTextShowFormat(){
+      if(this.clickTextShow==="FALSE" | this.clickTextShow===null) {
+      return null
+    } else {
+      return this.clickLetter + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>")
+    }
     }
   },
   methods: {
@@ -323,6 +363,9 @@ export default {
     },
     convert_dev(myinput) {
       return Sanscript.t(myinput, 'devanagari', this.script);
+    },
+    convert_todev(myinput) {
+      return Sanscript.t(myinput, 'iast', 'devanagari');
     },
     addLabels() {
       var db = firebase.firestore();
@@ -353,6 +396,11 @@ export default {
 
       // rotate([this.$refs["अ"], this.$refs["आ"]]);
       timelineTranslate([this.$refs["अ"], this.$refs["आ"]]);
+    },
+    pressLetterAction(item){
+      this.playSound(this.convert_todev(item.letter))
+      this.clickTextShow=item.approximation
+      this.clickLetter=this.convert(item.letter)
     }
   },
   components: {
@@ -470,7 +518,7 @@ div.btn__content {
 }
 .shiftUp{
   position: absolute;
-  width: 50%;
+  width: 65%;
   bottom: 0;
   right: 0;
 }
@@ -490,5 +538,9 @@ div.btn__content {
 .fadeLetter{
   opacity: 0.4;
   text-decoration: line-through;
+}
+.activeButton{
+  color: #FF1744;
+  border: 2px solid rgba(256, 10, 10, 0.7);
 }
 </style>
