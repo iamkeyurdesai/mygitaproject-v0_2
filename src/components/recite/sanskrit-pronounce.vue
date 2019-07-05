@@ -6,7 +6,7 @@
    -->
    <v-subheader :dark="GET_dark"> Learn Sanskrit Alphabet </v-subheader>
 
-  <fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
+  <!-- <fullscreen ref="fullscreen" @change="fullscreenChange" class="background"> -->
 
     <!-- <v-btn @click="toggle" color="accentmain"  dark fab bottom right fixed class="mb-5 shiftRight">
     <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
@@ -22,13 +22,12 @@
       <v-card class="grid-item0 background" :dark="GET_dark">
         <v-layout column class="ma-0 pa-0">
         <v-layout row class="ma-0 pa-0">
-          <v-btn @click="toggle" :dark="GET_dark" icon small>
-          <v-icon v-if="fullscreen">fullscreen_exit</v-icon>
-          <v-icon v-else>fullscreen</v-icon>
+          <v-btn @click="matrikaChakraOn=!matrikaChakraOn" :dark="GET_dark" icon small>
+          <v-icon v-if="matrikaChakraOn">visibility</v-icon>
+          <v-icon v-else>visibility_off</v-icon>
           </v-btn>
           <v-btn @click="oneScript=!oneScript" :dark="GET_dark" icon small>
-            <span v-if="oneScript" class="shrinkHeight  caption text-none">आ<br>ā</span>
-            <v-icon v-else>ā</v-icon>
+            <v-icon :class="{stirkeThrough:oneScript}">translate</v-icon>
           </v-btn>
       </v-layout>
       <v-layout row class="ma-0 pa-0">
@@ -36,10 +35,15 @@
         <v-icon v-if="fullscreen" class="subheading" dark>
           settings_backup_restore
         </v-icon>
-        <v-icon v-else> &#9775</v-icon>
+        <v-icon v-else> help</v-icon>
         </v-btn>
-        <v-btn @click="selectConsonantAdd=!selectConsonantAdd" :dark="GET_dark" icon small>
-          <span  class="shrinkHeight  body-1 text-none">{{convert(inherentVowel)}}</span>
+        <v-btn @click="selectConsonantAdd=!selectConsonantAdd" :dark="GET_dark" icon small v-if="!matrikaChakraOn">
+          <span v-if="conjunctConsonant!==''" class="shrinkHeight body-1 text-none">{{convert(conjunctConsonant)}}<br>{{convert(inherentVowel)}}</span>
+          <span v-else class="title text-none">{{convert(inherentVowel)}}</span>
+        </v-btn>
+        <v-btn @click="playMatrikaChakra=!playMatrikaChakra" v-else :dark="GET_dark" icon small>
+          <v-icon v-if="!playMatrikaChakra">play_arrow</v-icon>
+          <v-icon v-if="playMatrikaChakra">pause</v-icon>
         </v-btn>
     </v-layout>
       </v-layout>
@@ -48,7 +52,7 @@
     <v-bottom-sheet v-model="selectConsonantAdd" inset max-width="500px" >
       <v-card>
         <v-subheader class="ml-2 subheading info--text">
-          Compound letter using {{convert(inherentVowel)}} <br> For example, {{convert('k')}} + {{convert(inherentVowel)}} = {{convert('k'+inherentVowel)}}
+          Form a compound letter using {{convert(inherentVowel)}} <br> &nbsp For example, {{convert('k')}} + {{convert(inherentVowel)}} = {{convert('k'+inherentVowel)}}
         </v-subheader>
         <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('vowel') & item.letter!==' ' & !item.letter.match(/(ṝ|ḷ|ḹ)/)"
           :class="{activeButton: inherentVowel===item.letter}"
@@ -56,8 +60,9 @@
           @click="inherentVowel=item.letter, clickTextShowVowel=item.approximation, conjunctConsonant='' ">
             <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
           </v-btn>
+          <v-divider class="my-2"></v-divider>
           <v-subheader class="ml-2 subheading info--text" v-if="conjunctConsonant!==''">
-            Conjunct consonant {{convert(conjunctConsonant)}} <br> For example, {{convert('k')}} + {{convert(conjunctConsonant)}} + {{convert(inherentVowel)}} = {{convert('k'+conjunctConsonant+inherentVowel)}}
+            Form a conjunct consonant using {{convert(conjunctConsonant)}} <br> &nbsp For example, {{convert('k')}} + {{convert(conjunctConsonant)}} + {{convert(inherentVowel)}} = {{convert('k'+conjunctConsonant+inherentVowel)}}
           </v-subheader>
           <v-subheader class="ml-2 subheading info--text" v-else>
             Conjunct consonant none
@@ -77,8 +82,8 @@
   </v-bottom-sheet>
 
 
-      <!-- <div class="grid-item1 secondary"> -->
-        <v-card light class="grid-item1 secondary">
+
+        <v-card light class="grid-item1 secondary" v-if="!matrikaChakraOn">
         <v-layout column justify-space-between fill-height>
           <v-flex v-for="myType in Object.keys(alphabetSelect.row)" :key="myType" class="ma-0 pa-0"  shrink>
             <v-btn  small class="rowButton ma-1 pa-0 text-none makeLabelSize white"
@@ -88,10 +93,20 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <!-- </div> -->
+      <v-card light class="grid-item1 secondary" v-if="matrikaChakraOn">
+        <v-layout column justify-space-between fill-height>
+          <v-flex v-for="myType in matrikaCharkraRow.english" :key="myType" class="ma-0 pa-0"  shrink>
+            <v-btn  small class="rowButton ma-1 pa-0 text-none makeLabelSize white"
+            :class="{disabled_nothing: !alphabetSelect['row'][myType]}">
+              {{myType}}
+            </v-btn>
+          </v-flex>
+        </v-layout>
+        </v-card>
 
 
-<v-card class="grid-item2 secondary">
+
+<v-card class="grid-item2 secondary" v-if="!matrikaChakraOn">
 
   <!-- vowel header -->
         <div class="columnHeaderItem1" :style="{width: computeMyWidth*3 + 'px'}">
@@ -210,6 +225,48 @@
         </div>
 </v-card>
 
+<v-card class="grid-item2 secondary" v-if="matrikaChakraOn">
+
+  <!-- vowel header -->
+        <div class="columnHeaderItem1" :style="{width: computeMyWidth*3 + 'px'}">
+          <v-layout column fill-height>
+            <v-flex light class="elevation-10 white black--text makeLabelSize ma-1" grow>
+              Shiva Tattva
+              </v-flex>
+              <v-flex light class="elevation-10 white black--text makeLabelSize ma-1" grow>
+                Power and State
+                </v-flex>
+          </v-layout>
+      </div>
+
+      <!-- consonant header -->
+        <div class="columnHeaderItem2" :style="{width: computeMyWidth*8 + 'px'}">
+          <v-layout column fill-height>
+            <v-flex  class="white black--text makeLabelSize  ma-1" grow>
+              Shakti Tattva
+              </v-flex>
+
+            <!-- row 1   -->
+            <v-layout row>
+                <v-flex grow class="elevation-10 mb-1 mx-1 green darken-1 white--text makeLabelSize"
+                :style="{width: computeMyWidth*0.9*5 + 'px'}">
+                creative freedom
+              </v-flex>
+            <v-flex grow class="elevation-10 mb-1 green darken-4 white--text makeLabelSize"
+            :style="{width: computeMyWidth*0.8 + 'px'}">
+            limit
+          </v-flex>
+          <v-flex grow class="elevation-10 mb-1 mx-1 blue darken-4 white--text makeLabelSize"
+          :style="{width: computeMyWidth*0.9*2 + 'px'}">
+          expansion
+        </v-flex>
+            </v-layout>
+
+
+          </v-layout>
+        </div>
+</v-card>
+
 <!-- <div class="grid-item3 background"> -->
   <v-card :dark="GET_dark" class="grid-item3 background">
     <v-layout column class="ma-0 pa-0" :class="{addBorder: false}">
@@ -234,8 +291,8 @@
         </v-flex>
         </v-layout>
         <!-- <v-layout class="shiftUp grid-item4 background"> -->
-        <v-flex xs6 class="grid-item4 shiftUp text-xs-left body-1 font-weight-regular accentinfo--text">
-          <v-card :dark="GET_dark" class="background accentinfo--text pa-1 subheading" v-html="clickTextShowFormat"></v-card>
+        <v-flex xs6 class="grid-item4 shiftUp text-xs-left accentinfo--text">
+          <v-card :dark="GET_dark" class="background accentinfo--text pa-1" v-html="clickTextShowFormat" :class="myFontSize"></v-card>
       </v-flex>
           <!-- </v-layout> -->
     </v-layout>
@@ -249,7 +306,7 @@
 <br>
 <br>
 
-</fullscreen>
+<!-- </fullscreen> -->
 
 </v-layout>
 </template>
@@ -271,7 +328,13 @@ export default {
     clickLetter: 'a',
     inherentVowel: 'a',
     conjunctConsonant: '',
-    selectConsonantAdd: false
+    selectConsonantAdd: false,
+    matrikaChakraOn: false,
+    playMatrikaChakra: false,
+    matrikaCharkraRow: {
+      english: ['conscious-bliss', 'will', 'holdback', 'holdback', 'knowledge', 'action', 'action', 'involution', 'evolution'],
+      sanskrit: [],
+    }
   }),
   computed: {
     ...mapState('settings', ['options']),
@@ -311,14 +374,14 @@ export default {
     computeMyWidth() {
       let mytemp = 25
       if(this.$vuetify.breakpoint.width > 500) mytemp = 49
-      if(this.$vuetify.breakpoint.width > 850) mytemp = 58
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 62
       return  mytemp
     },
     computeMyHeight() {
       let mytemp = 32
       if(this.oneScript) mytemp = 25
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 32
-      if(this.$vuetify.breakpoint.width > 850) mytemp = 52
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 34
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 55
       return  mytemp
     },
     computeMyLabelSize() {
@@ -357,7 +420,7 @@ export default {
         mytemp = "body-2"
       }
       if(this.$vuetify.breakpoint.width > 850) {
-        mytemp = "title"
+        mytemp = "subheading"
       }
       return mytemp
     },
@@ -421,6 +484,7 @@ export default {
     playSound: function(melody) {
       var snd = new Audio();
       snd.src = '/static/assets/audio/mp3_alphabet/' + melody + '.mp3';
+      snd.volume = 0.7
       snd.play()
     },
     toggle () {
@@ -479,8 +543,12 @@ export default {
   opacity: 0.5;
   text-decoration: line-through;
 }
+.stirkeThrough {
+  text-decoration: line-through;
+}
+
 .shrinkHeight {
-  line-height: 1.1em;
+  line-height: 1.2em;
 }
 div.v-input__control {
   height: 0px;
