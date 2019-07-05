@@ -39,29 +39,40 @@
         <v-icon v-else> &#9775</v-icon>
         </v-btn>
         <v-btn @click="selectConsonantAdd=!selectConsonantAdd" :dark="GET_dark" icon small>
-          <span v-if="oneScript" class="shrinkHeight  caption text-none">ी े<br>ि  ु</span>
-          <v-icon v-else>ā</v-icon>
+          <span  class="shrinkHeight  body-1 text-none">{{convert(inherentVowel)}}</span>
         </v-btn>
     </v-layout>
       </v-layout>
     </v-card>
 
-    <v-bottom-sheet v-model="selectConsonantAdd" inset max-width="400px" >
+    <v-bottom-sheet v-model="selectConsonantAdd" inset max-width="500px" >
       <v-card>
-        <v-subheader class="ml-2 subheading info--text"> Press to </v-subheader>
-        <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('vowel') & item.letter!==' '"
+        <v-subheader class="ml-2 subheading info--text">
+          Compound letter using {{convert(inherentVowel)}} <br> For example, {{convert('k')}} + {{convert(inherentVowel)}} = {{convert('k'+inherentVowel)}}
+        </v-subheader>
+        <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('vowel') & item.letter!==' ' & !item.letter.match(/(ṝ|ḷ|ḹ)/)"
           :class="{activeButton: inherentVowel===item.letter}"
           round fab small class="ma-1 pa-1 title alphaButton1"
-          @click="inherentVowel=item.letter">
+          @click="inherentVowel=item.letter, clickTextShowVowel=item.approximation, conjunctConsonant='' ">
             <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
           </v-btn>
-
-          <!-- <v-btn icon  v-if="tile.icon==='format_size'" color="accentinfo">
-            <v-icon :style="cssProps_medium"> {{tile.icon}}</v-icon>
+          <v-subheader class="ml-2 subheading info--text" v-if="conjunctConsonant!==''">
+            Conjunct consonant {{convert(conjunctConsonant)}} <br> For example, {{convert('k')}} + {{convert(conjunctConsonant)}} + {{convert(inherentVowel)}} = {{convert('k'+conjunctConsonant+inherentVowel)}}
+          </v-subheader>
+          <v-subheader class="ml-2 subheading info--text" v-else>
+            Conjunct consonant none
+          </v-subheader>
+          <v-btn :class="{activeButton: conjunctConsonant===''}"
+            round fab small class="ma-1 pa-1 title alphaButton1"
+            @click="conjunctConsonant='', clickTextShowConjunct='' ">
+            <span :class="myFontSize" class="pa-0 ma-0  text-none "></span>
           </v-btn>
-          <v-btn icon  v-else color="accentmain">
-            <v-icon :style="cssProps_medium"> {{tile.icon}}</v-icon>
-          </v-btn>                       -->
+          <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('consonant') & item.letter!==' '"
+            :class="{activeButton: conjunctConsonant===item.letter}"
+            round fab small class="ma-1 pa-1 title alphaButton1"
+            @click="conjunctConsonant=item.letter, clickTextShowConjunct=item.approximation ">
+              <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
+            </v-btn>
     </v-card>
   </v-bottom-sheet>
 
@@ -207,16 +218,16 @@
           <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 title alphaButton"
           :class="myFontSize" @click="pressLetterAction(item)" v-if="oneScript">
             <span class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">
-              {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+            {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? conjunctConsonant+inherentVowel : ''))}}
             </span>
           </v-btn>
       <v-btn round icon :dark="GET_dark" class="ma-0 pa-0 alphaButton"
       @click="pressLetterAction(item)" :class="myFontSizeFirst" v-else>
-        <span class="pa-0 ma-0 shrinkHeight  ">
-          {{convert_todev(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+        <span class="pa-0 ma-0 shrinkHeight text-none">
+          {{convert_todev(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? conjunctConsonant+inherentVowel : ''))}}
           <br>
-        <span class="pa-0 ma-0 text-none  "  :class="myFontSizeSecond">
-      {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? inherentVowel : ''))}}
+        <span class="pa-0 ma-0 text-none"  :class="myFontSizeSecond">
+      {{convert(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? conjunctConsonant+inherentVowel : ''))}}
         </span>
       </span>
       </v-btn>
@@ -253,9 +264,13 @@ export default {
   data: () => ({
     fullscreen: false,
     oneScript: true,
-    clickTextShow: null,
-    clickLetter: null,
+    clickTextShow: '',
+    clickTextShowConjunct: '',
+    clickTextShowVowel: '',
+    clickTextVowel: true,
+    clickLetter: 'a',
     inherentVowel: 'a',
+    conjunctConsonant: '',
     selectConsonantAdd: false
   }),
   computed: {
@@ -295,8 +310,8 @@ export default {
     },
     computeMyWidth() {
       let mytemp = 25
-      if(this.$vuetify.breakpoint.width > 500) mytemp = 36
-      if(this.$vuetify.breakpoint.width > 850) mytemp = 54
+      if(this.$vuetify.breakpoint.width > 500) mytemp = 49
+      if(this.$vuetify.breakpoint.width > 850) mytemp = 58
       return  mytemp
     },
     computeMyHeight() {
@@ -313,15 +328,15 @@ export default {
       return  mytemp
     },
     myFontSize() {
-      let mytemp = "body-1"
+      let mytemp = "caption"
       if(this.$vuetify.breakpoint.width > 500) {
         if(this.oneScript) {
-          mytemp = "subheading"
-        } else mytemp = "body-1"
+          mytemp = "body-1"
+        } else mytemp = "caption"
       }
       if(this.$vuetify.breakpoint.width > 850) {
         if(this.oneScript) {
-          mytemp = "headline"
+          mytemp = "title"
         } else mytemp = "subheading"
       }
       return mytemp
@@ -350,9 +365,31 @@ export default {
       if(this.clickTextShow==="FALSE" | this.clickTextShow===null) {
       return null
     } else {
-      return this.clickLetter + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>")
+      if(this.clickTextVowel) {
+      return this.convert(this.clickLetter) + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>")
+    } else {
+      if(this.inherentVowel==="a") {
+      if(this.conjunctConsonant===""){
+      return this.convert(this.clickLetter+'a') + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>")
+    } else {
+      return this.convert(this.clickLetter) + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>") + ', ' +
+      this.convert(this.conjunctConsonant+'a') + ' in ' + this.clickTextShowConjunct.replace("*", "<strong><u>").replace("*","</u></strong>")
+    }
+    } else {
+      if(this.conjunctConsonant!==""){
+      return (this.convert(this.clickLetter) + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>") + ', ' +
+              this.convert(this.conjunctConsonant) + ' in ' + this.clickTextShowConjunct.replace("*", "<strong><u>").replace("*","</u></strong>") + ', ' +
+              this.convert(this.inherentVowel) + ' in ' + this.clickTextShowVowel.replace("*", "<strong><u>").replace("*","</u></strong>")
+            )
+          } else {
+            return (this.convert(this.clickLetter) + ' in ' + this.clickTextShow.replace("*", "<strong><u>").replace("*","</u></strong>") + ', ' +
+                    this.convert(this.inherentVowel) + ' in ' + this.clickTextShowVowel.replace("*", "<strong><u>").replace("*","</u></strong>")
+                  )
+          }
     }
     }
+    }
+  }
   },
   methods: {
     ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse',
@@ -362,10 +399,14 @@ export default {
       return Sanscript.t(myinput, 'iast', this.script);
     },
     convert_dev(myinput) {
-      return Sanscript.t(myinput, 'devanagari', this.script);
+      return Sanscript.t(myinput, 'iast', 'devanagari');
     },
     convert_todev(myinput) {
-      return Sanscript.t(myinput, 'iast', 'devanagari');
+      if(this.script==='iast' | this.script==='itrans') {
+      return Sanscript.t(myinput, 'iast', 'devanagari')
+    } else {
+      return myinput
+    }
     },
     addLabels() {
       var db = firebase.firestore();
@@ -398,9 +439,11 @@ export default {
       timelineTranslate([this.$refs["अ"], this.$refs["आ"]]);
     },
     pressLetterAction(item){
-      this.playSound(this.convert_todev(item.letter))
       this.clickTextShow=item.approximation
-      this.clickLetter=this.convert(item.letter)
+      this.clickLetter=item.letter
+      this.clickTextVowel=item.tag.split('_').includes('vowel')
+      this.playSound(this.convert_dev(item.letter + (item.tag.split('_').includes('consonant') & item.letter!==' ' ? this.conjunctConsonant+this.inherentVowel : '')))
+      // this.playSound(this.convert_dev(item.letter+(this.clickTextVowel?'':'a')))
     }
   },
   components: {
