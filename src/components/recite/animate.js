@@ -1,83 +1,66 @@
 import anime from 'animejs';
 
-export function translate(element, howFar) {
-  // anime({
-return  {
-    targets: element,
-    translateX: [0, howFar],
-    loop: true,
-    delay: 500,
-  direction: 'alternate',
-  loop: true
-}
-  // });
-}
+export function timelineTranslate(self) {
 
-export function timelineTranslate(element) {
-// Create a timeline with default parameters
-var tl = anime.timeline({
-  easing: 'easeOutExpo',
-  duration: 750
-});
-
-var step1 = {
-  targets: element[0],
-  translateX: 250,
-}
-var step2 = {
-  targets: element[1],
-  translateX: 250,
-}
-var step3 = {
-  targets: '#alphabet_ई',
-  translateX: 250,
-}
-// Add children
-tl
-.add(step1)
-.add(translate(step3.targets, -50))
-.add(step1);
-
-anime(translate(step3.targets, -50))
-}
-
-
-
-export function rotate(element) {
-  anime({
-    targets: element,
-    translateX: [50, -50],
-direction: 'alternate',
-loop: true,
-delay: function(el, i, l) {
-  return i * 100;
-},
-endDelay: function(el, i, l) {
-  return (l - i) * 100;
-}
-  });
-}
-
-
-export function translate1(element) {
-  var updates = 0;
-  var myAlphabet = ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ॠ", "ऌ", "ॡ", "ए", "ऐ", "ओ", "औ", "अं", "अः",
+var updates = 0;
+var myAlphabet = ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ॠ", "ऌ", "ॡ", "ए", "ऐ", "ओ", "औ", "अं", "अः",
   "क", "ख", "घ", "ङ", "च", "छ", "ज", "झ", "ञ", "ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न", "प",
   "फ", "ब", "भ", "म", "य", "र", "ल", "व", "श", "ष", "स", "ह", "ॐ"];
-  anime({
-    targets: element,
-    value: ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ॠ", "ऌ", "ॡ", "ए", "ऐ", "ओ", "औ", "अं", "अः",
-    "क", "ख", "घ", "ङ", "च", "छ", "ज", "झ", "ञ", "ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न", "प",
-    "फ", "ब", "भ", "म", "य", "र", "ल", "व", "श", "ष", "स", "ह", "ॐ"],
-    // easing: 'easeInOutExpo',
-    easing: 'steps(53)',
-    update: function(anim) {
-    updates++;
-    console.log(anim)
-    console.log(anim.animatables[1].target.innerHTML)
-    if(updates < (myAlphabet.length + 2)) {
-    anim.animatables[1].target.innerHTML = myAlphabet[updates % myAlphabet.length];
+var animationPointer = []
+
+animationPointer[0] = anime({
+  targets: ['#alphabet_a', '#alphabet_ā'],
+  loop: true,
+  direction: 'alternate',
+  duration: 1000,
+  autoplay: false,
+  translateX: function(el, i, l){
+    return i===0 ? self.computeMyWidth : -self.computeMyWidth
   }
+});
+
+animationPointer[1] = anime({
+  targets: ['#alphabet_i', '#alphabet_ī'],
+  loop: true,
+  direction: 'normal',
+  duration: 1000,
+  autoplay: false,
+  easing: 'linear',
+  rotate: function(el, i, l){ return i===0 ? '1turn' : '2turn'},
+  translateX: function(el, i, l){ return i===0 ? 0 : (Math.random()*20 - 2)},
+  translateY: function(el, i, l){ return i===0 ? 0 : (Math.random()*20 - 2)}
+});
+
+var myX = [-self.computeMyWidth/4, self.computeMyWidth/4, self.computeMyWidth/4, -self.computeMyWidth/4]
+var myY = [0, 0, -self.computeMyHeight, -self.computeMyHeight]
+animationPointer[2] = anime({
+  targets: ['#alphabet_ṛ', '#alphabet_ṝ', '#alphabet_ḷ', '#alphabet_ḹ'],
+  loop: true,
+  direction: 'alternate',
+  duration: 1000,
+  autoplay: false,
+  easing: 'spring(1, 80, 10, 0)',
+  translateX: function(el, i, l){
+    return myX[i]
+  },
+  translateY: function(el, i, l){
+    return myY[i]
   }
-  });
+});
+
+animationPointer[3] = anime({
+  targets: ['#alphabet_au', '#alphabet_ai'],
+  value: myAlphabet,
+  loop: true,
+  direction: 'alternate',
+  easing: 'steps(5)',
+  autoplay: false,
+  duration: 50000,
+  update: function(anim) {
+  updates++;
+  anim.animatables[0].target.innerHTML = myAlphabet[updates % myAlphabet.length];
+}
+});
+
+return animationPointer
 }

@@ -25,11 +25,11 @@ const loadText = function ({ commit }) {
   }, (err) => {
     console.log(err)
   });
-  ax.get('assets/text/json/mygitapress_commentary.json', { crossdomain: true}).then((response) => {
-    commit('setText', { list: response.data,  id: "gitapress_commentary"})
-  }, (err) => {
-    console.log(err)
-  });
+  // ax.get('assets/text/json/mygitapress_commentary.json', { crossdomain: true}).then((response) => {
+  //   commit('setText', { list: response.data,  id: "gitapress_commentary"})
+  // }, (err) => {
+  //   console.log(err)
+  // });
   ax.get('assets/text/json/mysivananda_translation.json', { crossdomain: true}).then((response) => {
     commit('setText', { list: response.data,  id: "sivananda"})
   }, (err) => {

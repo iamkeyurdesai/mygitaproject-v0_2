@@ -31,34 +31,34 @@
           </v-btn>
       </v-layout>
       <v-layout row class="ma-0 pa-0">
-        <v-btn @click="toggle" :dark="GET_dark" icon small>
-        <v-icon v-if="fullscreen" class="subheading" dark>
-          settings_backup_restore
+        <v-btn @click="playAllMatrikaChakra=!playAllMatrikaChakra" :dark="GET_dark" icon small>
+        <v-icon v-if="!playAllMatrikaChakra" class="subheading" dark @click="goAllMatrikaChakra()">
+          lock
         </v-icon>
-        <v-icon v-else> help</v-icon>
+        <v-icon v-else @click="pauseAllMatrikaChakra()"> lock_open</v-icon>
         </v-btn>
         <v-btn @click="selectConsonantAdd=!selectConsonantAdd" :dark="GET_dark" icon small v-if="!matrikaChakraOn">
           <span v-if="conjunctConsonant!==''" class="shrinkHeight body-1 text-none">{{convert(conjunctConsonant)}}<br>{{convert(inherentVowel)}}</span>
           <span v-else class="title text-none">{{convert(inherentVowel)}}</span>
         </v-btn>
         <v-btn @click="playMatrikaChakra=!playMatrikaChakra" v-else :dark="GET_dark" icon small>
-          <v-icon v-if="!playMatrikaChakra">play_arrow</v-icon>
-          <v-icon v-if="playMatrikaChakra">pause</v-icon>
+          <v-icon v-if="!playMatrikaChakra" @click="goMatrikaChakra()">play_arrow</v-icon>
+          <v-icon v-if="playMatrikaChakra" @click="pauseMatrikaChakra()">pause</v-icon>
         </v-btn>
     </v-layout>
       </v-layout>
     </v-card>
 
-    <v-bottom-sheet v-model="selectConsonantAdd" inset max-width="500px" >
+    <v-bottom-sheet v-model="selectConsonantAdd" inset>
       <v-card>
         <v-subheader class="ml-2 subheading info--text">
           Form a compound letter using {{convert(inherentVowel)}} <br> &nbsp For example, {{convert('k')}} + {{convert(inherentVowel)}} = {{convert('k'+inherentVowel)}}
         </v-subheader>
         <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('vowel') & item.letter!==' ' & !item.letter.match(/(ṝ|ḷ|ḹ)/)"
           :class="{activeButton: inherentVowel===item.letter}"
-          round fab small class="ma-1 pa-1 title alphaButton1"
+          round fab small class="ma-1 pa-0 alphaButtonDialog"
           @click="inherentVowel=item.letter, clickTextShowVowel=item.approximation, conjunctConsonant='' ">
-            <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
+            <span :class="myFontSize" class="pa-0 ma-0  text-none body-2 "  :id="'alphabet1_'+item.letter">{{convert(item.letter)}}</span>
           </v-btn>
           <v-divider class="my-2"></v-divider>
           <v-subheader class="ml-2 subheading info--text" v-if="conjunctConsonant!==''">
@@ -68,16 +68,18 @@
             Conjunct consonant none
           </v-subheader>
           <v-btn :class="{activeButton: conjunctConsonant===''}"
-            round fab small class="ma-1 pa-1 title alphaButton1"
+            round fab small class="ma-1 pa-0 alphaButtonDialog"
             @click="conjunctConsonant='', clickTextShowConjunct='' ">
-            <span :class="myFontSize" class="pa-0 ma-0  text-none "></span>
+            <span :class="myFontSize" class="pa-0 ma-0  body-2  text-none "></span>
           </v-btn>
           <v-btn v-for="(item, i) in sanskritAlphabet" :key="i" v-if="item.tag.split('_').includes('consonant') & item.letter!==' '"
             :class="{activeButton: conjunctConsonant===item.letter}"
-            round fab small class="ma-1 pa-1 title alphaButton1"
+            round fab small class="ma-1 pa-0 alphaButtonDialog"
             @click="conjunctConsonant=item.letter, clickTextShowConjunct=item.approximation ">
-              <span :class="myFontSize" class="pa-0 ma-0  text-none  " :ref="item.letter" :id="'alphabet_'+item.letter">{{convert(item.letter)}}</span>
+              <span :class="myFontSize" class="pa-0 ma-0  body-2  text-none  "  :id="'alphabet1_'+item.letter">{{convert(item.letter)}}</span>
             </v-btn>
+            <v-divider class="my-2"></v-divider>
+          <br><br>
     </v-card>
   </v-bottom-sheet>
 
@@ -95,7 +97,7 @@
       </v-card>
       <v-card light class="grid-item1 secondary" v-if="matrikaChakraOn">
         <v-layout column justify-space-between fill-height>
-          <v-flex v-for="myType in matrikaCharkraRow.english" :key="myType" class="ma-0 pa-0"  shrink>
+          <v-flex v-for="(myType, i) in matrikaCharkraRow.english" :key="myType+i" class="ma-0 pa-0"  shrink>
             <v-btn  small class="rowButton ma-1 pa-0 text-none makeLabelSize white"
             :class="{disabled_nothing: !alphabetSelect['row'][myType]}">
               {{myType}}
@@ -292,7 +294,7 @@
         </v-layout>
         <!-- <v-layout class="shiftUp grid-item4 background"> -->
         <v-flex xs6 class="grid-item4 shiftUp text-xs-left accentinfo--text">
-          <v-card :dark="GET_dark" class="background accentinfo--text pa-1" v-html="clickTextShowFormat" :class="myFontSize"></v-card>
+          <v-card :dark="GET_dark" class="background accentinfo--text pa-1" v-html="clickTextShowFormat" :class="myFontSize" id="myTextPanel"></v-card>
       </v-flex>
           <!-- </v-layout> -->
     </v-layout>
@@ -331,6 +333,11 @@ export default {
     selectConsonantAdd: false,
     matrikaChakraOn: false,
     playMatrikaChakra: false,
+    playAllMatrikaChakra: false,
+    myAnimationArray: [],
+    myAnimationNumber: 0,
+    myAnimationPointer: null,
+    myAnimationText: ["one", "two", "three", "four"],
     matrikaCharkraRow: {
       english: ['conscious-bliss', 'will', 'holdback', 'holdback', 'knowledge', 'action', 'action', 'involution', 'evolution'],
       sanskrit: [],
@@ -494,13 +501,38 @@ export default {
      fullscreenChange (fullscreen) {
        this.fullscreen = fullscreen
      },
-     go() {
-      //console.log(this.$refs)
-      //translate(this.$refs["अ"], this.computeMyWidth);
-      //translate(this.$refs["आ"], -this.computeMyWidth);
-
-      // rotate([this.$refs["अ"], this.$refs["आ"]]);
-      timelineTranslate([this.$refs["अ"], this.$refs["आ"]]);
+     goMatrikaChakra() {
+      if(this.myAnimationArray.length==0) {
+      this.myAnimationArray = timelineTranslate(this)
+      }
+      this.myAnimationArray[this.myAnimationNumber].play()
+      document.querySelector('#myTextPanel').innerHTML = this.myAnimationText[this.myAnimationNumber]
+      this.myAnimationPointer = setInterval( () => {
+        if(this.myAnimationNumber < (this.myAnimationArray.length - 1)) {
+        this.myAnimationNumber += 1
+        this.myAnimationArray[this.myAnimationNumber-1].pause()
+        this.myAnimationArray[this.myAnimationNumber].play()
+        document.querySelector('#myTextPanel').innerHTML = this.myAnimationText[this.myAnimationNumber]
+      }
+      }, 1000)
+    },
+    pauseMatrikaChakra() {
+      this.myAnimationArray[this.myAnimationNumber].restart()
+      this.myAnimationArray[this.myAnimationNumber].pause()
+      clearInterval(this.myAnimationPointer)
+    },
+    goAllMatrikaChakra() {
+      if(this.myAnimationArray.length==0) {
+      this.myAnimationArray = timelineTranslate(this)
+      }
+      this.myAnimationArray.forEach( (item) => {item.play()})
+    },
+    pauseAllMatrikaChakra() {
+      this.myAnimationArray.forEach( (item) => {
+        item.restart()
+        item.pause()
+      })
+      this.myAnimationNumber = 0
     },
     pressLetterAction(item){
       this.clickTextShow=item.approximation
@@ -654,4 +686,12 @@ div.btn__content {
   color: #FF1744;
   border: 2px solid rgba(256, 10, 10, 0.7);
 }
+.alphaButtonDialog.v-btn {
+  width: 26px;
+  height: 26px;
+  /* width: 40px;
+  height: 32px; */
+  padding: 0;
+}
+
 </style>

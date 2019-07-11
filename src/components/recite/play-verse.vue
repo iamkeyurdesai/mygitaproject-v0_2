@@ -4,7 +4,10 @@
 <v-subheader :dark="GET_dark"> Play audio </v-subheader>
 <div class="center">
   <youtube :video-id="videoId" width="360" height="200" ref="youtube" :player-vars="playerVars"
-  @playing="playing" @ended="verse_local=1" fitParent />
+  @playing="playing" @ended="verse_local=1" fitParent> </youtube>
+<div class="makeBox" v-if="hideYoutubeBar"> </div>
+  <!-- <youtube :video-id="videoId" :player-width="$vuetify.breakpoint.width" :player-height="360"></youtube> -->
+
 </div>
 
 
@@ -86,6 +89,7 @@ export default {
     activeFoot: 0,
     myIndex: 0,
     myYoutubeTracker: null,
+    hideYoutubeBar: false,
     myAnn: {
       time: [0],
       verse: [],
@@ -107,6 +111,20 @@ export default {
       if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"
     }
   },
+  mounted() {
+    //do something after mounting vue instance
+    // Detects if device is on iOS
+const isIos = () => {
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  return /iphone|ipad|ipod/.test( userAgent );
+}
+// Detects if device is in standalone mode
+const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+// Checks if should display install popup notification:
+if (isIos() && isInStandaloneMode()) {
+  this.hideYoutubeBar = true;
+}
+},
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
@@ -264,6 +282,14 @@ export default {
 .active {
   font-size: 1em;
   border-left: 2px solid rgba(256, 10, 10, 0.7);
+}
+.makeBox{
+  position: absolute;
+  background-color: black;
+  width: 100%;
+  height: 50px;
+  top: 75px;
+  left: 0;
 }
 
 div.v-input__control {

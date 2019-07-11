@@ -2,12 +2,12 @@
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <readNavigation> </readNavigation>
-<v-btn @click="createSearch()"> addindex </v-btn>
+<!-- <v-btn @click="createSearch()"> addindex </v-btn>
 <div>
 <input type="text" id="autocomplete">
             <input type="text" id="userinput" placeholder="Search by movie title ...">
           </div>
-          <div id="suggestions"></div>
+          <div id="suggestions"></div> -->
 
 <v-subheader :dark="GET_dark" class="background"> For a quick reading </v-subheader>
       <v-container grid-list-md text-xs-left class="pa-1">
