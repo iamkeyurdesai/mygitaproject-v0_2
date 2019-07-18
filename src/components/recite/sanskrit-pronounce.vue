@@ -514,7 +514,7 @@ export default {
         this.myAnimationArray[this.myAnimationNumber].play()
         document.querySelector('#myTextPanel').innerHTML = this.myAnimationText[this.myAnimationNumber]
       }
-      }, 1000)
+    }, 10000)
     },
     pauseMatrikaChakra() {
       this.myAnimationArray[this.myAnimationNumber].restart()

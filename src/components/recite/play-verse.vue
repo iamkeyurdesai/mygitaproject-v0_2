@@ -95,7 +95,7 @@ export default {
       verse: [],
       label: []
     },
-    videoId: "vBEGfWWWXPQ",
+    videoId: "VrGkaCEJ2qk",
     myTrackerON: 0,
     playerVars: {
         autoplay: 0,
@@ -107,8 +107,7 @@ export default {
   }),
   watch: {
     chapter: function() {
-      if(this.chapter == 2) this.videoId = "vBEGfWWWXPQ"
-      if(this.chapter == 3) this.videoId = "vBEGfWWWXPQ"
+       this.videoId = this.youtubeIDs['c'+this.chapter]
     }
   },
   mounted() {
@@ -128,7 +127,7 @@ if (isIos() && isInStandaloneMode()) {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
-    ...mapState('coretext', ['main', 'preview']),
+    ...mapState('coretext', ['main', 'preview', 'youtubeIDs']),
     ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),

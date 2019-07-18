@@ -12,6 +12,7 @@ animationPointer[0] = anime({
   targets: ['#alphabet_a', '#alphabet_ā'],
   loop: true,
   direction: 'alternate',
+  delay: 500,
   duration: 1000,
   autoplay: false,
   translateX: function(el, i, l){
@@ -31,9 +32,31 @@ animationPointer[1] = anime({
   translateY: function(el, i, l){ return i===0 ? 0 : (Math.random()*20 - 2)}
 });
 
+
+animationPointer[2] = anime({
+  targets: ['#alphabet_u', '#alphabet_ū'],
+  loop: true,
+  direction: 'normal',
+  duration: 5000,
+  autoplay: false,
+  easing: 'spring(1, 80, 10, 0)',
+  translateY: [
+    { value: -self.computeMyHeight/2},
+    { value: 0, delay: 1000 },
+    { value: self.computeMyHeight/2, delay: 1000 },
+    { value: 0, delay: 1000 }
+  ],
+  scale: [
+    { value: 1.5},
+    { value: 1, delay: 1000 },
+    { value: 0.5, delay: 1000 },
+    { value: 1, delay: 1000 }
+  ]
+});
+
 var myX = [-self.computeMyWidth/4, self.computeMyWidth/4, self.computeMyWidth/4, -self.computeMyWidth/4]
 var myY = [0, 0, -self.computeMyHeight, -self.computeMyHeight]
-animationPointer[2] = anime({
+animationPointer[3] = anime({
   targets: ['#alphabet_ṛ', '#alphabet_ṝ', '#alphabet_ḷ', '#alphabet_ḹ'],
   loop: true,
   direction: 'alternate',
@@ -48,7 +71,7 @@ animationPointer[2] = anime({
   }
 });
 
-animationPointer[3] = anime({
+animationPointer[4] = anime({
   targets: ['#alphabet_au', '#alphabet_ai'],
   value: myAlphabet,
   loop: true,
