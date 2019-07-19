@@ -4,9 +4,9 @@
 <v-subheader :dark="GET_dark"> Play audio </v-subheader>
 <div class="center">
   <youtube :video-id="videoId" width="360" height="200" ref="youtube" :player-vars="playerVars"
-  @playing="playing" @ended="verse_local=1" fitParent> </youtube>
+  @playing="playing" @ended="verse_local=1" fitParent @ready="videoId=youtubeIDs['c'+chapter]"> </youtube>
 <div class="makeBox" v-if="hideYoutubeBar"> </div>
-  <!-- <youtube :video-id="videoId" :player-width="$vuetify.breakpoint.width" :player-height="360"></youtube> -->
+
 
 </div>
 
@@ -37,14 +37,6 @@
         <div align="left" class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
 <span class="bigger">{{convert(item.foot)}}</span>
           {{footBreaks[i]}}
-          <!-- <br/> -->
-          <!-- <span v-for="(item1,i1) in GET_main.word_info.filter(a => a.foot == (i + 1))" v-on:click="playSound(item.sanskrit)">
-            {{convert(item1.sanskrit)}}
-            </span>
-        {{footBreaks[i]}}
-        <span v-if="i==6" :style="options[theme].emphasis.medium" class="caption">
-        {{chapter}}|{{verse}}
-        </span> -->
         <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
 </br>
       </div>
@@ -73,10 +65,6 @@ import {
 } from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../settings/settings-popup.vue'
-// import {
-//   Howl,
-//   Howler
-// } from 'howler';
 export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],
@@ -107,7 +95,16 @@ export default {
   }),
   watch: {
     chapter: function() {
+       clearInterval(this.myYoutubeTracker)
+       this.myTrackerON = 0
        this.videoId = this.youtubeIDs['c'+this.chapter]
+    },
+    activeTab: function(){
+      if(!(this.activeTab==='chant' | this.activeTab==="listen")) {
+        console.log(this.activeTab)
+        this.$refs.youtube.player.pauseVideo()
+        this.paused()
+      }
     }
   },
   mounted() {
@@ -123,12 +120,13 @@ const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.n
 if (isIos() && isInStandaloneMode()) {
   this.hideYoutubeBar = true;
 }
+
 },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'youtubeIDs']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'activeTab', 'mainItem']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     verse_local: {
@@ -238,6 +236,7 @@ if (isIos() && isInStandaloneMode()) {
       this.myYoutubeTracker = setInterval(this.myYoutubeTime, 50);
       this.myTrackerON = 1
       this.verse_local = this.verse
+      this.$refs.youtube.player.unMute()
       this.advance()
     }
     },
@@ -251,12 +250,16 @@ if (isIos() && isInStandaloneMode()) {
     },
     myYoutubeTime() {
       self = this
+      if(this.$refs.youtube){
       this.$refs.youtube.player.getCurrentTime().then(
         function(result) {
           self.myTrackerValue = result
         }, function(err) {
         }
       )
+    } else {
+      this.paused()
+    }
     }
   },
   components: {

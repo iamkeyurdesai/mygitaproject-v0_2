@@ -35,7 +35,7 @@
           <v-flex xs12 class="ma-0">
             <readStart> </readStart>
           </v-flex>
-          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`read${i}`" v-observe-visibility="{
+          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 1
             }">
@@ -245,24 +245,24 @@ export default {
     next();
   },
   watch: {
-    verse: function(val) {
-      if (!this.loadTheRestOfVerses) {
-        this.SET_loadTheRestOfVerses(true)
-        setTimeout(() => {
-          this.$vuetify.goTo('#read' + (this.verse - 1), {
-            duration: 300,
-            offset: 0,
-            easing: 'easeInOutCubic'
-          })
-        }, 400)
-      } else {
-        this.$vuetify.goTo('#read' + (this.verse - 1), {
-          duration: 300,
-          offset: 0,
-          easing: 'easeInOutCubic'
-        })
-      }
-    }
+    // verse: function(val) {
+    //   if (!this.loadTheRestOfVerses) {
+    //     this.SET_loadTheRestOfVerses(true)
+    //     setTimeout(() => {
+    //       this.$vuetify.goTo('#read' + (this.verse - 1), {
+    //         duration: 300,
+    //         offset: 0,
+    //         easing: 'easeInOutCubic'
+    //       })
+    //     }, 400)
+    //   } else {
+    //     this.$vuetify.goTo('#read' + (this.verse - 1), {
+    //       duration: 300,
+    //       offset: 0,
+    //       easing: 'easeInOutCubic'
+    //     })
+    //   }
+    // }
     // chapter: function(val){
     //   this.myTrue = Array(this.verseall[this.chapter -1]).fill(0)
     //   this.myFalse = Array(this.verseall[this.chapter -1]).fill(0)

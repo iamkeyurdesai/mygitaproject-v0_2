@@ -116,7 +116,7 @@ export default {
 
     },
     imagePath() {
-      return "/static/img/chapter_preview/previewchapter"+ (this.ixImage + 1) + ".jpeg"
+      return "/static/img/chapter_" + this.chapter + "_500px/"+ (this.ixImage + 1) + ".jpeg"
     }
   },
   methods: {
