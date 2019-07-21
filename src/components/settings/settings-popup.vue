@@ -6,9 +6,9 @@
     scrollable
     transition="dialog-bottom-transition"
     >
-  <span slot="activator">
-    <v-icon @click="sheet=true" class="font-weight-black"> format_size</v-icon>
-    </span>
+<span :style="{width: '28px', height: '28px'}" slot="activator" @click="sheet=true">
+    <v-icon> format_size</v-icon>
+</span>
     <v-card>
       <v-toolbar card dark color="primary">
 <v-layout justify-space-between row align-center>
@@ -41,7 +41,7 @@
         <v-radio v-for="(item, i) in options.script" v-bind:label="item" v-bind:value="item" :key="item + '_key'"></v-radio>
       </v-radio-group>
       </v-card>
-          
+
 <v-card class="px-1" v-if="isFsize">
           <v-radio-group v-model="fsize" row>
           <strong> font size: </strong>

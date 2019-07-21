@@ -1,7 +1,19 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
-  <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
-    <readNavigation> </readNavigation>
+  <div class="mx-0" :class="{'background lighten-1': GET_dark, 'background darken-1': !GET_dark}" max-width="500" :dark="GET_dark">
+    <readNavigation v-if="!playON"> </readNavigation>
+
+<v-fab-transition>
+          <v-btn color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}" v-on:click.stop="readPlay()" small v-if="!playON">
+          <v-icon :style="cssProps_high"> play_arrow</v-icon>
+      </v-btn>
+      <v-btn color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}"
+      v-on:click.stop="readPause()" small v-else>
+      <v-progress-circular indeterminate>
+      <v-icon :style="cssProps_high"> pause</v-icon>
+    </v-progress-circular>
+  </v-btn>
+</v-fab-transition>
 <!-- <v-btn @click="createSearch()"> addindex </v-btn>
 <div>
 <input type="text" id="autocomplete">
@@ -22,15 +34,58 @@
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 300
             }">
-            <v-card class="background ma-2" :dark="GET_dark">
+
+            <v-card class="background mx-2 my-3" :dark="GET_dark" v-if="$vuetify.breakpoint.width < 600">
+              <div class="overflowHidden">
+                <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition >
+                </v-img>
+              </div>
               <div>
-                <v-layout row align-top>
-                  <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                </v-layout>
-                <uvachCard :verse_id="item.verse_id"> </uvachCard>
-                <bhavarthCard :verse_id="item.verse_id" headingHide></bhavarthCard>
+                <uvachCard :verse_id="item.verse_id" class="mt-1"> </uvachCard>
+                <bhavarthCard :verse_id="item.verse_id" headingHide showVerseIndex></bhavarthCard>
               </div>
             </v-card>
+
+            <v-card class="background mx-0 my-3" :dark="GET_dark" v-else-if="$vuetify.breakpoint.height < 500" :min-height="$vuetify.breakpoint.height">
+
+              <v-layout row>
+                <v-flex grow>
+              <div class="overflowHidden">
+                <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition min-width="500" :max-height="$vuetify.breakpoint.height">
+                </v-img>
+              </div>
+            </v-flex>
+              <v-flex shrink>
+              <div>
+                <uvachCard :verse_id="item.verse_id" class="mt-1"> </uvachCard>
+                <bhavarthCard :verse_id="item.verse_id" headingHide showVerseIndex></bhavarthCard>
+              </div>
+              </v-flex>
+            </v-layout>
+
+
+            </v-card>
+
+            <v-card class="background mx-2 my-3" :dark="GET_dark" v-else>
+              <v-layout row>
+                <v-flex grow>
+              <div class="overflowHidden">
+                <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition min-width="500" max-height="500">
+                </v-img>
+              </div>
+            </v-flex>
+              <v-flex shrink>
+              <div>
+                <uvachCard :verse_id="item.verse_id" class="mt-1"> </uvachCard>
+                <bhavarthCard :verse_id="item.verse_id" headingHide showVerseIndex></bhavarthCard>
+              </div>
+              </v-flex>
+            </v-layout>
+            </v-card>
+
           </v-flex>
         </v-layout>
         <v-flex xs12 class="ma-0">
@@ -70,7 +125,11 @@ var FlexSearch = require("flexsearch")
 export default {
   data: function() {
     return {
-       index: null
+       index: null,
+       currentVerse: null,
+       playON: false,
+       playONPointer: null,
+       playVerse: null
     }
   },
   computed: {
@@ -105,6 +164,11 @@ export default {
         '--myfill': "25px",
         'color': this.options[this.theme].emphasis.high
       }
+    },
+    cssImage() {
+      return {
+            animation: 'move 40s ease infinite'
+      }
     }
   },
   methods: {
@@ -113,6 +177,9 @@ export default {
     ]),
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
+    },
+    imagePath(myix) {
+      return "/static/img/chapter_" + this.chapter + "_500px/"+ (myix+1) + ".jpeg"
     },
     onScroll(e) {
       let scrollTemp = window.pageYOffset || document.documentElement.scrollTop
@@ -126,8 +193,36 @@ export default {
         this.SET_loadTheRestOfVerses(true)
       }
     },
+    readPlay() {
+      this.playON = true
+      if(this.playVerse === null) {
+      this.playVerse = this.currentVerse
+    }
+    if(this.playVerse===0) {
+      this.playVerse = 1
+    }
+      this.playONPointer = setInterval(() => {
+        this.$vuetify.goTo('#read' + (this.playVerse - 1), {
+          duration: 300,
+          offset: -60,
+          easing: 'easeInOutCubic'
+        })
+        if(this.playVerse < this.verseall[this.chapter - 1]) {
+        this.playVerse += 1
+      } else {
+        this.playON = false
+        this.playVerse = null
+        clearInterval(this.playONPointer)
+      }
+    }, 5000)
+    },
+    readPause() {
+      this.playON = false
+      clearInterval(this.playONPointer)
+    },
     visibilityChanged(isVisible, entry, i) {
-      console.log(isVisible, i, entry.time)
+      // console.log(isVisible, i, entry.time)
+      this.currentVerse = i
     },
     createSearch(){
       console.log(this.main[0].foot.length)
@@ -224,4 +319,15 @@ console.log(this.gitapress)
 </script>
 
 <style lang="scss">
+@keyframes move {
+  from {
+  	transform: scale(1.0);
+  }
+  to {
+  	transform: scale(1.5);
+  }
+}
+.overflowHidden{
+  overflow: hidden;
+}
 </style>

@@ -2,10 +2,7 @@
 <div :style="cssProps" id="beginReadSlides" v-if="isDeveloper">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
 
-      <div class="font-weight-light pa-1 subheading background"> Run a slide show</div>
-
-
-
+<v-subheader :dark="GET_dark" class="background">  Run a slide show </v-subheader>      
 
 <fullscreen ref="fullscreen" @change="fullscreenChange" class="background">
 <v-layout row justify-content-center v-if="$vuetify.breakpoint.width > $vuetify.breakpoint.height">

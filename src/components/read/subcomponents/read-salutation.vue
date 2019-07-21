@@ -1,7 +1,7 @@
 <template>
-<v-card class="ma-0 pa-0 background" flat>
+<v-card class="ma-1 pa-0 background" flat>
   <v-layout column wrap class="ma-0" justify-center>
-      <v-flex class="ma-0 pa-0 xs12 lg6">
+      <v-flex class="ma-0 pa-0">
         <div align="center" class="pa-2 accentinfo--text" :style="cssProps">
           {{GET_salutation}}
       </div>

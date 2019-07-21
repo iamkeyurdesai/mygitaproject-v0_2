@@ -112,8 +112,7 @@ import settingspopup from '@/components/settings/settings-popup.vue'
 // } from "vue-socialmedia-share";
 
 export default {
-  props: {
-    verse_id: Number,
+  props: {    
     required: true,
     lrArrowShow: Boolean
   },
