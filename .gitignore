@@ -16,3 +16,5 @@ selenium-debug.log
 *.sln
 gita/code/R/tmp.tiff
 gita/images/
+static/img/
+static/music/
