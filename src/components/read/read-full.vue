@@ -1,6 +1,6 @@
 <template>
-  <div v-scroll="onScroll"
-  :style="cssProps">
+  <!-- <div v-scroll="onScroll" -->
+  <div :style="cssProps">
 
 <v-subheader :dark="GET_dark"> For comprehensively study </v-subheader>
 
@@ -45,7 +45,7 @@
       <v-flex xs12 class="ma-0" v-if="chapter < 19">
         <readSummary> </readSummary>
       </v-flex>
-        
+
         <v-subheader :dark="GET_dark" class="background" v-if="chapter < 19"> Click to verse </v-subheader>
 
       <v-flex xs12 lg6 class="ma-0" v-if="chapter < 19" justify-center>

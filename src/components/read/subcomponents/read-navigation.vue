@@ -39,7 +39,7 @@ The language is decided from Vuex parameters-->
 
     <!-- share -->
         <v-fab-transition>
-    <v-btn icon  color="success" v-on:click.stop="readHelp = true" dark fab small bottom right fixed class="shiftUpUp shiftRight">
+    <v-btn icon  color="success" v-on:click.stop="readHelp = true" dark fab small bottom right fixed class="shiftUpUp shiftRight" v-if="share">
       <v-icon :style="cssProps_medium"> share</v-icon>
     </v-btn>
 </v-fab-transition>
@@ -112,9 +112,10 @@ import settingspopup from '@/components/settings/settings-popup.vue'
 // } from "vue-socialmedia-share";
 
 export default {
-  props: {    
+  props: {
     required: true,
-    lrArrowShow: Boolean
+    lrArrowShow: Boolean,
+    share: Boolean
   },
   components: {
     'settings-popup': settingspopup,

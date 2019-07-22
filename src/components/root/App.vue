@@ -85,7 +85,7 @@ export default {
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
-                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper']),
+                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
     compoundWatch() {
@@ -130,9 +130,11 @@ export default {
          let myTempPath = '/' + this.mainItem + '/' + 'api=1' + '&activeTab=' + this.activeTab +
          '&chapter=' + this.chapter + '&verse=' + this.verse + '&theme=' + this.theme + '&language=' + this.language +
          '&script=' + this.script + '&fsize=' + this.fsize
+         if(this.path !== myTempPath) {
          this.$router.push(myTempPath)
          console.log(myTempPath)
          if(myTempPath !== "/") this.SET_path(myTempPath)
+       }
        },
        theme: function(val){
          this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)

@@ -5,7 +5,7 @@ library(tidyverse)
 setwd("C:/Users/desai/myprojects/webdevelopment/gita/mygitaproject-v0_2/gita/images")
 
 #dir_source <- "./chapter_preview/"
-dir_source_tag <- "chapter_4"
+dir_source_tag <- "chapter_13"
 dir_source <- paste0(paste0("./",dir_source_tag),"/")
 mywidth <- "500"
 myquality <- 75
@@ -24,7 +24,7 @@ print(paste("source directory:", dir_source))
 print(paste("result directory:", dir_result))
 
 myimgs <- dir(dir_source, include.dirs = FALSE) 
-myimgs <- myimgs[!str_detect(myimgs, "extras|size_")]  
+myimgs <- myimgs[!str_detect(myimgs, "extras|chapter")]  
 print(paste("number of files", length(myimgs)))
 myimgs_out <- myimgs %>% as_tibble() %>%
   separate(value, into = c("name", "extension"), sep = "_AdobeStock_") %>%

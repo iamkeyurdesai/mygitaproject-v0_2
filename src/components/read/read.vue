@@ -23,13 +23,13 @@
 <v-divider :dark="GET_dark"></v-divider>
 <v-subheader :dark="GET_dark"> Select mode </v-subheader>
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
-    <v-tab href="#full" ripple class="subheading"> FULL </v-tab>
     <v-tab href="#simple" ripple class="subheading"> SIMPLE </v-tab>
-    <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab>
+    <v-tab href="#full" ripple class="subheading"> FULL </v-tab>
+    <!-- <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab> -->
 <v-tabs-items v-model="activeTab" touchless>
+  <v-tab-item  lazy transition :value="'simple'"> <br> <readsimple></readsimple>  </v-tab-item>
 <v-tab-item  lazy transition :value="'full'">  <br> <readfull></readfull>   </v-tab-item>
-        <v-tab-item  lazy transition :value="'simple'"> <br> <readsimple></readsimple>  </v-tab-item>
-        <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item>
+        <!-- <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item> -->
       </v-tabs-items>
         </v-tabs>
 
@@ -45,7 +45,7 @@ import chaptermenu from './../reflect/chapter-menu.vue'
 import versemenu from './../reflect/verse-menu.vue'
 import readfull from './read-full.vue'
 import readsimple from './read-simple.vue'
-import readslides from './read-slides.vue'
+// import readslides from './read-slides.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
@@ -106,7 +106,7 @@ active: null
     'verse-menu': versemenu,
     readfull,
     readsimple,
-    readslides,
+    // readslides,
     chapterCarousel
   }
 }

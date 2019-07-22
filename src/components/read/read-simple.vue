@@ -4,12 +4,12 @@
     <readNavigation v-if="!playON"> </readNavigation>
 
 <v-fab-transition>
-          <v-btn color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}" v-on:click.stop="readPlay()" small v-if="!playON">
+          <v-btn class="shiftRight" color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}" v-on:click.stop="readPlay()" small v-if="!playON">
           <v-icon :style="cssProps_high"> play_arrow</v-icon>
       </v-btn>
-      <v-btn color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}"
+      <v-btn class="shiftRight" color="accentmain" dark fab bottom right fixed :class="{'mb-5':showNav}"
       v-on:click.stop="readPause()" small v-else>
-      <v-progress-circular indeterminate>
+      <v-progress-circular :value="playONLoaderValue">
       <v-icon :style="cssProps_high"> pause</v-icon>
     </v-progress-circular>
   </v-btn>
@@ -35,14 +35,14 @@
             throttle: 300
             }">
 
-            <v-card class="background mx-2 my-3" :dark="GET_dark" v-if="$vuetify.breakpoint.width < 600">
+            <v-card class="background mx-1 my-2" :dark="GET_dark" v-if="$vuetify.breakpoint.width < 600">
               <div class="overflowHidden">
                 <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
                 rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition >
                 </v-img>
               </div>
               <div>
-                <uvachCard :verse_id="item.verse_id" class="mt-1"> </uvachCard>
+                <uvachCard :verse_id="item.verse_id" class="mt-2"> </uvachCard>
                 <bhavarthCard :verse_id="item.verse_id" headingHide showVerseIndex></bhavarthCard>
               </div>
             </v-card>
@@ -129,7 +129,10 @@ export default {
        currentVerse: null,
        playON: false,
        playONPointer: null,
-       playVerse: null
+       playVerse: null,
+       playONLoader: null,
+       playONLoaderValue: 10,
+       playMusic: new Audio()
     }
   },
   computed: {
@@ -165,14 +168,18 @@ export default {
         'color': this.options[this.theme].emphasis.high
       }
     },
+    cssProps_high() { return {
+        'color': '#FFFFFFFF'
+  }
+},
     cssImage() {
       return {
-            animation: 'move 40s ease infinite'
+            animation: 'move 10s ease infinite'
       }
     }
   },
   methods: {
-    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
+    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter', 'SET_showNav',
       'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses', 'SET_verse', 'SET_chapter',
     ]),
     convert(myinput) {
@@ -194,31 +201,47 @@ export default {
       }
     },
     readPlay() {
+
+      this.playMusic.src = '/static/music/bensound-summer.mp3'
+      this.playMusic.play()
       this.playON = true
       if(this.playVerse === null) {
       this.playVerse = this.currentVerse
     }
-    if(this.playVerse===0) {
+    if(!(this.playVerse > 1)) {
       this.playVerse = 1
     }
+      this.playONLoader = setInterval(() => {
+       this.playONLoaderValue += 10
+     }, 20000/10 - 10)
+
+    this.$vuetify.goTo('#read' + (this.playVerse - 1), {
+      duration: 300,
+      offset: this.showNav ? 0 : -60,
+      easing: 'easeInOutCubic'
+    })
       this.playONPointer = setInterval(() => {
         this.$vuetify.goTo('#read' + (this.playVerse - 1), {
           duration: 300,
-          offset: -60,
+          offset: this.showNav ? 0 : -60,
           easing: 'easeInOutCubic'
         })
         if(this.playVerse < this.verseall[this.chapter - 1]) {
         this.playVerse += 1
+        this.playONLoaderValue = 0
       } else {
         this.playON = false
         this.playVerse = null
         clearInterval(this.playONPointer)
+        clearInterval(this.playONLoader)
       }
-    }, 5000)
+    }, 20000)
     },
     readPause() {
       this.playON = false
       clearInterval(this.playONPointer)
+      clearInterval(this.playONLoader)
+      this.playMusic.pause()
     },
     visibilityChanged(isVisible, entry, i) {
       // console.log(isVisible, i, entry.time)
@@ -283,24 +306,24 @@ console.log(this.gitapress)
     next();
   },
   watch: {
-    verse: function(val) {
-      if (!this.loadTheRestOfVerses) {
-        this.SET_loadTheRestOfVerses(true)
-        setTimeout(() => {
-          this.$vuetify.goTo('#read' + (this.verse - 1), {
-            duration: 300,
-            offset: 0,
-            easing: 'easeInOutCubic'
-          })
-        }, 400)
-      } else {
-        this.$vuetify.goTo('#read' + (this.verse - 1), {
-          duration: 300,
-          offset: 0,
-          easing: 'easeInOutCubic'
-        })
-      }
-    }
+    // verse: function(val) {
+    //   if (!this.loadTheRestOfVerses) {
+    //     this.SET_loadTheRestOfVerses(true)
+    //     setTimeout(() => {
+    //       this.$vuetify.goTo('#read' + (this.verse - 1), {
+    //         duration: 300,
+    //         offset: 0,
+    //         easing: 'easeInOutCubic'
+    //       })
+    //     }, 400)
+    //   } else {
+    //     this.$vuetify.goTo('#read' + (this.verse - 1), {
+    //       duration: 300,
+    //       offset: 0,
+    //       easing: 'easeInOutCubic'
+    //     })
+    //   }
+    // }
   },
   updated: function() {
     this.$nextTick(function() {})
@@ -329,5 +352,11 @@ console.log(this.gitapress)
 }
 .overflowHidden{
   overflow: hidden;
+}
+.shiftRight{
+  margin-right: -5px;
+}
+.shiftRight{
+  margin-right: -5px;
 }
 </style>
