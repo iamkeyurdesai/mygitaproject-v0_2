@@ -21,52 +21,32 @@
 
 <v-subheader :dark="GET_dark"> You are listening to </v-subheader>
 
+  <v-layout justify-center column class="mt-4">
+    <v-layout justify-center v-if="verse===1">
+      <span class="px-3 mytext" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </span>
+      <v-btn v-if="isLabeling" v-on:click="saveSoundPos('start')"> Start</v-btn>
+    </v-layout>
+    <v-layout justify-center>
+      <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
+      <v-btn v-if="isLabeling" v-on:click="saveSoundPos('speaker')"> Uvach</v-btn>
+      <span class="px-3 mytext" :class="{active: this.classObject==='speaker'}"> {{convert(GET_main.speaker)}} </span>
 
+    </v-layout>
 
+      <div align="center">
+        <div align="left" class="px-3 py-1 ml-4 mytext" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
+<span class="bigger">{{convert(item.foot)}}</span>
+          {{footBreaks[i]}}
+        <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
+</br>
+      </div>
+    </div>
 
-      <v-card class="background" :dark="GET_dark" :min-height="$vuetify.breakpoint.height < 500 ? $vuetify.breakpoint.height: 350">
-
-
-<v-flex>
-        <div class="overflowHidden">
-          <v-img :src="imagePath(verse-1)" lazy-src="/static/img/chapter_preview/previewchapter6.jpeg" gradient="to top,
-          rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition="scale-transition" :max-height="$vuetify.breakpoint.height">
-          <v-layout justify-center row class="mt-4" :class="myTextSize">
-            <v-flex v-if="classObject!=='end'">
-<div align="center" v-if="verse===1">
-              <div align="center" class="mytext myspan subheading" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </div>
-              <v-btn v-if="isLabeling" v-on:click="saveSoundPos('start')"> Start</v-btn>
-              </div>
-            <div align="center">
-              <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
-              <v-btn v-if="isLabeling" v-on:click="saveSoundPos('speaker')"> Uvach</v-btn>
-              <div align="left" class="px-3 pb-1 mt-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">  {{convert(GET_main.speaker)}} </div>
-
-            </div>
-
-              <div align="center">
-                <div align="left" class="px-3 py-1 ml-2 mytext myspan" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
-        <span class="bigger">{{convert(item.foot)}}</span>
-                  {{footBreaks[i]}}
-                <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
-        </br>
-              </div>
-            </div>
-          </v-flex>
-          <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation">
-            <bhavarthCard :verse_id="verse" headingHide showVerseIndex></bhavarthCard>
-          </v-flex>
-          <!-- <v-layout justify-center class="py-2 mytext ml-1 subheading" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]"> -->
-            <v-layout justify-center class="pa-3 mytext myspan" v-if="classObject==='end'">
-            <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
-            <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
-          </v-layout>
-          </v-layout>
-          </v-img>
-        </div>
-      </v-flex>
-      </v-card>
-      <br><br><br><br><br><br><br><br>
+    <v-layout justify-center class="py-2 mytext ml-1" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]">
+      <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
+      <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
+    </v-layout>
+  </v-layout>
 </v-layout>
 </template>
 
@@ -85,8 +65,6 @@ import {
 } from 'vuex';
 import Sanscript from 'Sanscript';
 import settingspopup from '../settings/settings-popup.vue'
-import bhavarthCard from '../read/subcomponents/bhavarth-card.vue'
-import uvachCard from '../read/subcomponents/uvach-card.vue'
 export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],
@@ -162,31 +140,6 @@ if (isIos() && isInStandaloneMode()) {
         this.advance()
       }
     },
-    cssImage() {
-      return {
-            animation: 'move1 1s ease infinite'
-      }
-    },
-    myTextSize(){
-      let mysize = "body-1"
-      if(this.$vuetify.breakpoint.width > 635) {
-        mysize = "title"
-      }
-      if(this.$vuetify.breakpoint.width > 900) {
-        mysize = "headline"
-      }
-      return mysize
-    },
-    myTextSizeTranslation(){
-      let mysize = "caption"
-      if(this.$vuetify.breakpoint.width > 635) {
-        mysize = "title"
-      }
-      if(this.$vuetify.breakpoint.width > 900) {
-        mysize = "headline"
-      }
-      return mysize
-    },
     classObject: function() {
       if (!this.isLabeling) {
         if (this.myTrackerValue > this.myAnn.time[this.myIndex + 1]) {
@@ -208,9 +161,6 @@ if (isIos() && isInStandaloneMode()) {
   methods: {
     ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse']),
     ...mapMutations('coretext', ['SET_main_foot']),
-    imagePath(myix) {
-      return "/static/img/chapter_" + this.chapter + "_500px/"+ (myix+1) + ".jpeg"
-    },
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
     },
@@ -313,16 +263,14 @@ if (isIos() && isInStandaloneMode()) {
     }
   },
   components: {
-    'settings-popup': settingspopup,
-    bhavarthCard,
-    uvachCard
+    'settings-popup': settingspopup
   }
 }
 </script>
 
 <style scoped>
 .myspan {
-  line-height: 1em;
+  line-height: 1.5em;
 }
 
 .mytext {
@@ -330,8 +278,8 @@ if (isIos() && isInStandaloneMode()) {
 }
 
 .bigger {
-  font-size: 100%;
-  opacity: 1;
+  font-size: 110%;
+  opacity: 0.6;
 }
 .active {
   font-size: 1em;
@@ -345,30 +293,8 @@ if (isIos() && isInStandaloneMode()) {
   top: 75px;
   left: 0;
 }
+
 div.v-input__control {
   height: 0px;
-}
-@keyframes move1 {
-  from {
-    transform: scale(1.0);
-  }
-  to {
-    transform: scale(1.1);
-  }
-}
-.overflowHidden{
-  overflow: hidden;
-}
-.shiftRight{
-  margin-right: -5px;
-}
-.shiftRight{
-  margin-right: -5px;
-}
-.shiftUp{
-  position: absolute;
-  width: 60%;
-  bottom: 0;
-  right: 0;
 }
 </style>

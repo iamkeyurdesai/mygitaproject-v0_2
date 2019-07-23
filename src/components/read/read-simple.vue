@@ -38,7 +38,7 @@
             <v-card class="background mx-1 my-2" :dark="GET_dark" v-if="$vuetify.breakpoint.width < 600">
               <div class="overflowHidden">
                 <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
-                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition >
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition="scale-transition" >
                 </v-img>
               </div>
               <div>
@@ -53,7 +53,7 @@
                 <v-flex grow>
               <div class="overflowHidden">
                 <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
-                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition min-width="500" :max-height="$vuetify.breakpoint.height">
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition="scale-transition" min-width="500" :max-height="$vuetify.breakpoint.height">
                 </v-img>
               </div>
             </v-flex>
@@ -73,7 +73,7 @@
                 <v-flex grow>
               <div class="overflowHidden">
                 <v-img :src="imagePath(i)" :lazy-src="imagePath(i)" gradient="to top,
-                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition min-width="500" max-height="500">
+                rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition="scale-transition" min-width="500" max-height="500">
                 </v-img>
               </div>
             </v-flex>
@@ -216,15 +216,15 @@ export default {
      }, 20000/10 - 10)
 
     this.$vuetify.goTo('#read' + (this.playVerse - 1), {
-      duration: 300,
+      duration: 1000,
       offset: this.showNav ? 0 : -60,
-      easing: 'easeInOutCubic'
+      easing: 'easeInCubic'
     })
       this.playONPointer = setInterval(() => {
         this.$vuetify.goTo('#read' + (this.playVerse - 1), {
-          duration: 300,
+          duration: 1000,
           offset: this.showNav ? 0 : -60,
-          easing: 'easeInOutCubic'
+          easing: 'easeInCubic'
         })
         if(this.playVerse < this.verseall[this.chapter - 1]) {
         this.playVerse += 1
@@ -234,6 +234,7 @@ export default {
         this.playVerse = null
         clearInterval(this.playONPointer)
         clearInterval(this.playONLoader)
+        this.playMusic.pause()
       }
     }, 20000)
     },
