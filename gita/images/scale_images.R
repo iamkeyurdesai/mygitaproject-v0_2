@@ -5,10 +5,10 @@ library(tidyverse)
 setwd("C:/Users/desai/myprojects/webdevelopment/gita/mygitaproject-v0_2/gita/images")
 
 #dir_source <- "./chapter_preview/"
-dir_source_tag <- "chapter_13"
+dir_source_tag <- "chapter_15"
 dir_source <- paste0(paste0("./",dir_source_tag),"/")
-mywidth <- "500"
-myquality <- 75
+mywidth <- "800"
+myquality <- 40
 
 dir_result <- paste0(dir_source, sprintf("%s_%spx/", dir_source_tag, mywidth))
 

@@ -1,5 +1,5 @@
 <template>
-<v-layout justify-center column>
+<v-layout justify-center column :style="cssProps">
 
 <v-subheader :dark="GET_dark"> Play audio </v-subheader>
 <div class="center">
@@ -23,25 +23,28 @@
 
 
 
-
-      <v-card class="background" :dark="GET_dark" :min-height="$vuetify.breakpoint.height < 500 ? $vuetify.breakpoint.height: 350">
+<div class="black pb-5">
+      <v-card class="black" :dark="GET_dark" :min-height="$vuetify.breakpoint.height < 500 ? $vuetify.breakpoint.height: 100" id="listenCard">
 
 
 <v-flex>
         <div class="overflowHidden">
           <v-img :src="imagePath(verse-1)" lazy-src="/static/img/chapter_preview/previewchapter6.jpeg" gradient="to top,
-          rgba(0,0,0,.44), rgba(0,0,0,.44)" :style="cssImage" transition="scale-transition" :max-height="$vuetify.breakpoint.height">
-          <v-layout justify-center row class="mt-4" :class="myTextSize">
-            <v-flex v-if="classObject!=='end'">
+          rgba(0,0,0,.44), rgba(0,0,0,.44)" :max-height="$vuetify.breakpoint.height" id="myImageContainer">
+          </v-img>
+          <!-- :style="cssImage" -->
+          </div>
+          <!-- <v-layout justify-center row class="mt-4" :class="myTextSize"> -->
+            <v-layout justify-center row  :class="myTextSize">
+            <v-flex v-if="classObject!=='end'" id="verseBlock" class="tieWithImage mt-3">
 <div align="center" v-if="verse===1">
-              <div align="center" class="mytext myspan subheading" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </div>
+              <div align="center" class="mytext myspan mb-2" :class="{active: this.classObject==='start'}"> {{convert_dev(preview[parseInt(chapter)-1].start)}} </div>
               <v-btn v-if="isLabeling" v-on:click="saveSoundPos('start')"> Start</v-btn>
               </div>
             <div align="center">
               <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
               <v-btn v-if="isLabeling" v-on:click="saveSoundPos('speaker')"> Uvach</v-btn>
-              <div align="left" class="px-3 pb-1 mt-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">  {{convert(GET_main.speaker)}} </div>
-
+              <div align="left" class="px-3 pb-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">  {{convert(GET_main.speaker)}} </div>
             </div>
 
               <div align="center">
@@ -53,20 +56,20 @@
               </div>
             </div>
           </v-flex>
-          <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation">
-            <bhavarthCard :verse_id="verse" headingHide showVerseIndex></bhavarthCard>
+          <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation" id="translationBlock">
+            <bhavarthCard class="myspanAlways" :verse_id="verse" headingHide showVerseIndex :noLineHeightAdjust="$vuetify.breakpoint.width < 450 ? true : false"></bhavarthCard>
           </v-flex>
           <!-- <v-layout justify-center class="py-2 mytext ml-1 subheading" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]"> -->
-            <v-layout justify-center class="pa-3 mytext myspan" v-if="classObject==='end'">
-            <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
-            <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
+          <v-layout justify-center class="pa-5 mytext myspanAlways tieWithImage" v-if="classObject==='end'">
+          <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
+          <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
+        </v-layout>
           </v-layout>
-          </v-layout>
-          </v-img>
-        </div>
+        <!-- </div> -->
       </v-flex>
       </v-card>
-      <br><br><br><br><br><br><br><br>
+      <!-- <br><br><br><br> -->
+    </div>
 </v-layout>
 </template>
 
@@ -84,6 +87,7 @@ import {
   mapState
 } from 'vuex';
 import Sanscript from 'Sanscript';
+import anime from 'animejs';
 import settingspopup from '../settings/settings-popup.vue'
 import bhavarthCard from '../read/subcomponents/bhavarth-card.vue'
 import uvachCard from '../read/subcomponents/uvach-card.vue'
@@ -127,7 +131,96 @@ export default {
         this.$refs.youtube.player.pauseVideo()
         this.paused()
       }
-    }
+      if(this.activeTab==="listen") {
+        this.SET_theme('dark')
+      }
+    },
+    verse_local: function(){
+  //     anime({
+  //   targets: '#myImageContainer',
+  //   scale: [1, 1.1],
+  //   easing: 'easeInOutSine',
+  //   direction: 'alternative',
+  //   loop: 2,
+  //   delay: 1000,
+  //   duration: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*1000
+  // })
+},
+classObject: function(){
+  if(this.classObject==="foot4") {
+    anime({
+  targets: '#listenCard',
+  // rotateY: [0, 45],
+  direction: 'normal',
+  opacity: [1, 0],
+  scale: [1, 0],
+  easing: 'linear',
+  delay: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*800,
+  duration: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*200
+})
+// anime({
+// targets: '#myImageContainer',
+// scale: [1.2, 1],
+// easing: 'easeInOutSine',
+// direction: 'normal',
+// loop: 1,
+// delay: 0,
+// duration: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*1000
+// })
+  }
+  if(this.classObject==="foot1") {
+    anime({
+  targets: '#listenCard',
+  // rotateY: [0, 45],
+  direction: 'normal',
+  opacity: [0, 1],
+  scale: [0, 1],
+  easing: 'linear',
+  delay: 0,
+  duration: (this.myAnn.time[this.myIndex] - this.myAnn.time[this.myIndex - 1])*200
+})
+// anime({
+// targets: '#myImageContainer',
+// translateX: -30,
+// easing: 'linear',
+// direction: 'alternate',
+// loop: 2,
+// delay: 0,
+// duration: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*500
+// })
+  }
+  if(this.classObject==="foot3") {
+    // anime({
+    // targets: '#myImageContainer',
+    // translateX: 30,
+    // easing: 'easeInOutSine',
+    // direction: 'alternate',
+    // loop: 2,
+    // delay: 0,
+    // duration: (this.myAnn.time[this.myIndex + 1] - this.myAnn.time[this.myIndex])*500
+    // })
+  }
+  if(this.classObject==="end") {
+    anime({
+  targets: '#listenCard',
+  opacity: [0, 1],
+  scale: [0, 1],
+  easing: 'easeInQuart',
+  duration: 1000
+})
+  }
+if(this.classObject==="foot2") {
+  anime({
+targets: '#myImageContainer',
+scale: [1, 1.08],
+easing: 'easeInOutSine',
+direction: 'alternate',
+loop: 2,
+delay: 0,
+duration: (this.myAnn.time[this.myIndex + 2] - this.myAnn.time[this.myIndex])*500
+})
+}
+}
   },
   mounted() {
     //do something after mounting vue instance
@@ -164,7 +257,13 @@ if (isIos() && isInStandaloneMode()) {
     },
     cssImage() {
       return {
-            animation: 'move1 1s ease infinite'
+            animation: 'move 20s ease infinite'
+      }
+    },
+    cssProps() {
+      return {
+        '--mytranslationWidth': this.$vuetify.breakpoint.width < 700 ? '90%' : '60%',
+        '--mylineHeight': this.$vuetify.breakpoint.width < 450 ? '0.8em' : '1.3em',
       }
     },
     myTextSize(){
@@ -178,7 +277,7 @@ if (isIos() && isInStandaloneMode()) {
       return mysize
     },
     myTextSizeTranslation(){
-      let mysize = "caption"
+      let mysize = "body-1"
       if(this.$vuetify.breakpoint.width > 635) {
         mysize = "title"
       }
@@ -206,7 +305,7 @@ if (isIos() && isInStandaloneMode()) {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse']),
+    ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_theme']),
     ...mapMutations('coretext', ['SET_main_foot']),
     imagePath(myix) {
       return "/static/img/chapter_" + this.chapter + "_500px/"+ (myix+1) + ".jpeg"
@@ -322,11 +421,13 @@ if (isIos() && isInStandaloneMode()) {
 
 <style scoped>
 .myspan {
-  line-height: 1em;
+  line-height: var(--mylineHeight);
 }
-
+.myspanAlways {
+  line-height: 1.5em;
+}
 .mytext {
-  transition: font-size 0.3s ease-in-out;
+  /* transition: font-size 0.3s ease-in-out; */
 }
 
 .bigger {
@@ -335,7 +436,8 @@ if (isIos() && isInStandaloneMode()) {
 }
 .active {
   font-size: 1em;
-  border-left: 2px solid rgba(256, 10, 10, 0.7);
+  border-left: 2.5px solid rgba(256, 10, 10, 0.7);
+  transition: border-left 0.5s ease-in-out;
 }
 .makeBox{
   position: absolute;
@@ -348,12 +450,12 @@ if (isIos() && isInStandaloneMode()) {
 div.v-input__control {
   height: 0px;
 }
-@keyframes move1 {
+@keyframes move {
   from {
     transform: scale(1.0);
   }
   to {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 }
 .overflowHidden{
@@ -367,8 +469,13 @@ div.v-input__control {
 }
 .shiftUp{
   position: absolute;
-  width: 60%;
+  max-width: var(--mytranslationWidth);
   bottom: 0;
   right: 0;
+}
+.tieWithImage{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>

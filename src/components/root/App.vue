@@ -89,7 +89,7 @@ export default {
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
     compoundWatch() {
-      if(this.$vuetify.breakpoint.width < 850 &
+      if(this.$vuetify.breakpoint.width < 950 &
         this.$vuetify.breakpoint.width > this.$vuetify.breakpoint.height) {
         this.SET_showNav(false)
       } else {
