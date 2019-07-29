@@ -4,7 +4,7 @@
 <v-subheader :dark="GET_dark"> Play audio </v-subheader>
 <div class="center">
   <youtube :video-id="videoId" width="360" height="200" ref="youtube" :player-vars="playerVars"
-  @playing="playing" @ended="verse_local=1" fitParent @ready="videoId=youtubeIDs['c'+chapter]"> </youtube>
+  @playing="playing" @paused="paused()" @ended="verse_local=1" fitParent @ready="videoId=youtubeIDs['c'+chapter]"> </youtube>
 <div class="makeBox" v-if="hideYoutubeBar"> </div>
 
 
@@ -24,13 +24,13 @@
 
 
 <div class="black pb-5">
-      <v-card class="black" :dark="GET_dark" :min-height="$vuetify.breakpoint.height < 500 ? $vuetify.breakpoint.height: 100" id="listenCard">
+      <v-card class="black" :dark="GET_dark" :min-height="Math.min($vuetify.breakpoint.height, Math.min($vuetify.breakpoint.width, 500))" id="listenCard">
 
 
 <v-flex>
         <div class="overflowHidden">
           <v-img :src="imagePath(verse-1)" lazy-src="/static/img/chapter_preview/previewchapter6.jpeg" gradient="to top,
-          rgba(0,0,0,.44), rgba(0,0,0,.44)" :max-height="$vuetify.breakpoint.height" id="myImageContainer">
+          rgba(0,0,0,.44), rgba(0,0,0,.44)" :max-height="$vuetify.breakpoint.height" id="myImageContainer" v-if="imageON">
           </v-img>
           <!-- :style="cssImage" -->
           </div>
@@ -47,13 +47,13 @@
               <div align="left" class="px-3 pb-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">  {{convert(GET_main.speaker)}} </div>
             </div>
 
-              <div align="center">
-                <div align="left" class="px-3 py-1 ml-2 mytext myspan" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
+              <div align="left">
+                <span align="left" class="px-3 py-1 ml-2 mytext myspan" v-for="(item,i) in GET_main.foot" :class="[{active: classObject===`foot${i+1}`}, `accent${i+1}--text`]">
         <span class="bigger">{{convert(item.foot)}}</span>
                   {{footBreaks[i]}}
                 <v-btn v-if="i===activeFoot & isLabeling" v-on:click="saveSoundPos(`foot${i+1}`)" :class="`accent${i+1}`"> foot{{i+1}}</v-btn>
         </br>
-              </div>
+      </span>
             </div>
           </v-flex>
           <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation" id="translationBlock">
@@ -67,9 +67,33 @@
           </v-layout>
         <!-- </div> -->
       </v-flex>
+
+      <v-layout row justify-space-between class="shiftMiddle" v-if="!playON">
+        <v-btn fab small light  @click="decrement()" class="ma-0 pa-0"> <v-icon  large> keyboard_arrow_left  </v-icon> </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn fab small light @click="increment()" class="ma-0 pa-0"> <v-icon  large> keyboard_arrow_right </v-icon> </v-btn>
+      </v-layout>
+
+      <v-fab-transition>
+        <v-layout shiftTop v-if="!playON">
+          <v-switch v-model="imageON"></v-switch>
+        </v-layout>
+      </v-fab-transition>
       </v-card>
       <!-- <br><br><br><br> -->
     </div>
+    <v-fab-transition>
+              <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
+              v-on:click.stop="$refs.youtube.player.playVideo()" small v-if="!playON">
+              <v-icon > play_arrow</v-icon>
+          </v-btn>
+          <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
+          v-on:click.stop="$refs.youtube.player.pauseVideo()" small v-else>
+          <v-progress-circular :value="playONLoaderValue">
+          <v-icon > pause</v-icon>
+        </v-progress-circular>
+      </v-btn>
+    </v-fab-transition>
 </v-layout>
 </template>
 
@@ -94,6 +118,7 @@ import uvachCard from '../read/subcomponents/uvach-card.vue'
 export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],
+    imageON: true,
     chapterDone: [1, 12],
     isLabeling: false,
     isLabelingFinished: false,
@@ -117,7 +142,9 @@ export default {
         modestbranding: 1,
         rel: 0,
         playsinline: 1
-      }
+      },
+      playONLoaderValue: 0,
+      playON: false
   }),
   watch: {
     chapter: function() {
@@ -148,6 +175,7 @@ export default {
 },
 classObject: function(){
   if(this.classObject==="foot4") {
+    this.playONLoaderValue += 25
     anime({
   targets: '#listenCard',
   // rotateY: [0, 45],
@@ -169,6 +197,7 @@ classObject: function(){
 // })
   }
   if(this.classObject==="foot1") {
+    this.playONLoaderValue = 25
     anime({
   targets: '#listenCard',
   // rotateY: [0, 45],
@@ -190,6 +219,7 @@ classObject: function(){
 // })
   }
   if(this.classObject==="foot3") {
+    this.playONLoaderValue += 25
     // anime({
     // targets: '#myImageContainer',
     // translateX: 30,
@@ -210,6 +240,7 @@ classObject: function(){
 })
   }
 if(this.classObject==="foot2") {
+  this.playONLoaderValue += 25
   anime({
 targets: '#myImageContainer',
 scale: [1, 1.08],
@@ -241,7 +272,7 @@ if (isIos() && isInStandaloneMode()) {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'youtubeIDs']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'activeTab', 'mainItem']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'activeTab', 'mainItem', 'showNav']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     verse_local: {
@@ -264,6 +295,7 @@ if (isIos() && isInStandaloneMode()) {
       return {
         '--mytranslationWidth': this.$vuetify.breakpoint.width < 700 ? '90%' : '60%',
         '--mylineHeight': this.$vuetify.breakpoint.width < 450 ? '0.8em' : '1.3em',
+        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 900) + 'px'
       }
     },
     myTextSize(){
@@ -378,6 +410,8 @@ if (isIos() && isInStandaloneMode()) {
       }
     },
     playing() {
+      console.log("in playing")
+      this.playON = true
       if(this.myTrackerON===0) {
       if (this.sanskritLabels['c' + this.chapter]) {
         this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
@@ -387,15 +421,18 @@ if (isIos() && isInStandaloneMode()) {
       this.verse_local = this.verse
       this.$refs.youtube.player.unMute()
       this.advance()
+    } else {
+      this.myYoutubeTracker = setInterval(this.myYoutubeTime, 50);
     }
     },
     paused() {
+      // this.myTrackerON = 0
       clearInterval(this.myYoutubeTracker)
-      this.myTrackerON = 0
+      this.playON = false
     },
     advance() {
       this.$refs.youtube.player.seekTo(this.myTrackerValue, true);
-      console.log("in advance")
+      // console.log("in advance")
     },
     myYoutubeTime() {
       self = this
@@ -403,6 +440,7 @@ if (isIos() && isInStandaloneMode()) {
       this.$refs.youtube.player.getCurrentTime().then(
         function(result) {
           self.myTrackerValue = result
+          // console.log('inMyYT')
         }, function(err) {
         }
       )
@@ -437,7 +475,7 @@ if (isIos() && isInStandaloneMode()) {
 .active {
   font-size: 1em;
   border-left: 2.5px solid rgba(256, 10, 10, 0.7);
-  transition: border-left 0.5s ease-in-out;
+  transition: border-left .5s ease-in-out;
 }
 .makeBox{
   position: absolute;
@@ -464,13 +502,21 @@ div.v-input__control {
 .shiftRight{
   margin-right: -5px;
 }
-.shiftRight{
-  margin-right: -5px;
-}
 .shiftUp{
   position: absolute;
   max-width: var(--mytranslationWidth);
   bottom: 0;
+  right: 0;
+}
+.shiftMiddle{
+  position: absolute;
+  width: var(--myWidth);
+  top: 50%;
+  left: 0;
+}
+.shiftTop{
+  position: absolute;
+  top: 0;
   right: 0;
 }
 .tieWithImage{
