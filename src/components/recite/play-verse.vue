@@ -24,7 +24,7 @@
 
 
 <div class="black pb-5">
-      <v-card class="black" :dark="GET_dark" :min-height="Math.min($vuetify.breakpoint.height, Math.min($vuetify.breakpoint.width, 500))" id="listenCard">
+      <v-card class="black" :dark="GET_dark" :min-height="Math.min($vuetify.breakpoint.height, Math.min($vuetify.breakpoint.width, 450))" id="listenCard">
 
 
 <v-flex>
@@ -76,24 +76,66 @@
 
       <v-fab-transition>
         <v-layout shiftTop v-if="!playON">
+          <v-btn icon  v-on:click.stop="openShare = true" dark fab class="mx-0 px-0">
+            <v-icon class="mx-0 px-0"> share</v-icon>
+          </v-btn>
           <v-switch v-model="imageON"></v-switch>
         </v-layout>
       </v-fab-transition>
       </v-card>
-      <!-- <br><br><br><br> -->
+      <br><br>
     </div>
     <v-fab-transition>
               <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
-              v-on:click.stop="$refs.youtube.player.playVideo()" small v-if="!playON">
-              <v-icon > play_arrow</v-icon>
+              v-on:click.stop="$refs.youtube.player.playVideo(), playProgress=true, setPlayProgressFalse()" small v-if="!playON" class="shiftLeft">
+              <v-icon v-if="!playProgress"> play_arrow</v-icon>
+              <v-progress-circular indeterminate v-else>
+            </v-progress-circular>
           </v-btn>
           <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
-          v-on:click.stop="$refs.youtube.player.pauseVideo()" small v-else>
+          v-on:click.stop="$refs.youtube.player.pauseVideo()" small v-else class="shiftLeft">
           <v-progress-circular :value="playONLoaderValue">
           <v-icon > pause</v-icon>
         </v-progress-circular>
       </v-btn>
     </v-fab-transition>
+
+    <v-fab-transition>
+      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftRight" :class="{'mb-5':showNav}">
+    <settings-popup isScript isLanguage></settings-popup>
+      </v-btn>
+    </v-fab-transition>
+
+    <!-- share -->
+<v-bottom-sheet v-model="openShare" inset>
+<div class="secondary">
+  <v-subheader class="subheading info--text"> Share using </v-subheader>
+  <!-- <span class="caption"> {{path}} </span>
+  <span class="caption"> <br> {{readHelp}} </span> -->
+<!-- <v-divider> </v-divider> -->
+<!-- <social-sharing :url="'http://localhost:8080'+path" -->
+<social-sharing :url="'https://gitawebapp.firebaseapp.com'+path"
+                      title="Power Gita"
+                      description="Read, Reflect, Meditate, Realize, with Power Gita."
+                      quote="Power Gita is a modern app designed to help you acheive your spiritual goals — so you can realize your true potential."
+                      hashtags="Gita,Meditation,Yoga,Philosophy"
+inline-template>
+<div class="mx-3">
+<network network="facebook">
+<v-btn icon> <v-icon class="mx-3" large color="#4267b2"> fab fa-facebook</v-icon> </v-btn>
+</network>
+<network network="twitter">
+<v-btn icon> <v-icon class="mx-3" large color="#38A1F3"> fab fa-twitter</v-icon> </v-btn>
+</network>
+<!-- <network network="whatsapp">
+<v-icon class="ma-3" large> mdi-whatsapp</v-icon>
+</network> -->
+</div>
+</social-sharing>
+<br>
+</div>
+</v-bottom-sheet>
+
 </v-layout>
 </template>
 
@@ -119,6 +161,8 @@ export default {
   data: () => ({
     footBreaks: ["", "|", "", "||", "", "|"],
     imageON: true,
+    playProgress: false,
+    openShare: false,
     chapterDone: [1, 12],
     isLabeling: false,
     isLabelingFinished: false,
@@ -272,7 +316,8 @@ if (isIos() && isInStandaloneMode()) {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'youtubeIDs']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse', 'activeTab', 'mainItem', 'showNav']),
+    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse',
+    'activeTab', 'mainItem', 'showNav', 'path']),
     ...mapGetters('coretext', ['GET_main']),
     ...mapGetters('settings', ['GET_dark']),
     verse_local: {
@@ -295,7 +340,7 @@ if (isIos() && isInStandaloneMode()) {
       return {
         '--mytranslationWidth': this.$vuetify.breakpoint.width < 700 ? '90%' : '60%',
         '--mylineHeight': this.$vuetify.breakpoint.width < 450 ? '0.8em' : '1.3em',
-        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 900) + 'px'
+        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 1024) + 'px'
       }
     },
     myTextSize(){
@@ -410,7 +455,7 @@ if (isIos() && isInStandaloneMode()) {
       }
     },
     playing() {
-      console.log("in playing")
+      this.playProgress = false
       this.playON = true
       if(this.myTrackerON===0) {
       if (this.sanskritLabels['c' + this.chapter]) {
@@ -447,7 +492,10 @@ if (isIos() && isInStandaloneMode()) {
     } else {
       this.paused()
     }
-    }
+  },
+  setPlayProgressFalse() {
+    setTimeout(() => {this.playProgress=false}, 20000)
+  }
   },
   components: {
     'settings-popup': settingspopup,
@@ -500,7 +548,16 @@ div.v-input__control {
   overflow: hidden;
 }
 .shiftRight{
-  margin-right: -5px;
+  margin-right: 0px;
+}
+.shiftLeft{
+  margin-left: 0px;
+}
+.v-btn--left.shiftLeft {
+    left: 0px;
+}
+.v-btn--right.shiftRight {
+    right: 0px;
 }
 .shiftUp{
   position: absolute;
