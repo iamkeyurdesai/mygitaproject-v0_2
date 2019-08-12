@@ -153,6 +153,6 @@ export default {
 
 <style lang="scss">
 .container{
-  max-width: 1024px;
+  max-width: 900px;
 }
 </style>

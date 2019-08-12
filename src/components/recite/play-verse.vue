@@ -340,7 +340,7 @@ if (isIos() && isInStandaloneMode()) {
       return {
         '--mytranslationWidth': this.$vuetify.breakpoint.width < 700 ? '90%' : '60%',
         '--mylineHeight': this.$vuetify.breakpoint.width < 450 ? '0.8em' : '1.3em',
-        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 1024) + 'px'
+        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 900) + 'px'
       }
     },
     myTextSize(){

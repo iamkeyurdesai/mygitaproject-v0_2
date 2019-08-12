@@ -20,8 +20,9 @@
           color="white"
         ></v-sparkline> -->
         <!-- </v-sheet> -->
-    <!-- <vue-c3 :handler="handler"></vue-c3> -->
-    </v-card>
+    <vue-c3 :handler="handler"></vue-c3>
+        </v-card>
+
 <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <chantNavigation> </chantNavigation>
@@ -39,7 +40,8 @@
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 1
             }">
-            <v-card class="background ma-2" :dark="GET_dark">
+            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(i+1)">
+              <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
               <div>
                 <v-layout row align-top>
                   <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
@@ -47,11 +49,28 @@
                 <uvachCard :verse_id="item.verse_id"> </uvachCard>
                 <shloakCard :verse_id="item.verse_id"></shloakCard>
               </div>
+             <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
+              <v-btn icon large
+              @click="proceedChant(1)">
+                <v-icon large color="activity">whatshot</v-icon>
+              </v-btn>
+                </div>
+            </div>
             </v-card>
           </v-flex>
         </v-layout>
-        <v-flex xs12 class="ma-0">
+        <v-flex class="ma-0 pa-0">
+          <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(verseall[chapter-1] + 1)">
+            <div :class="{'addActiveBorder': currentVerse==(verseall[chapter-1] + 1)}" class="pa-2">
           <readEnd> </readEnd>
+          <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
+           <v-btn icon large
+           @click="proceedChant(-1)">
+             <v-icon large color="activity">whatshot</v-icon>
+           </v-btn>
+             </div>
+             </div>
+             </v-card>
         </v-flex>
         <v-flex v-observe-visibility="{
           callback: (isVisible, entry) => visibilityChangedEnd(isVisible, entry, verseall[chapter-1]),
@@ -121,11 +140,18 @@ export default {
       myTrue: [],
       myFalse:  [],
       myTime: [],
+      myTime1: [],
+      myTime2: [],
       myId: [],
       isChantOn: true,
       handler: new Vue(),
-      myOptions: null
-
+      myOptions: null,
+      currentVerse: 1,
+      myAnn: {
+        time: [0],
+        verse: [],
+        label: []
+      }
     }
   },
     mounted () {
@@ -149,6 +175,7 @@ export default {
     },
   computed: {
     ...mapState('settings', ['options']),
+    ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
@@ -177,7 +204,8 @@ export default {
         '--hover-content': JSON.stringify(this.hoverContent),
         '--mywidth': "75px",
         '--myfill': "25px",
-        'color': this.options[this.theme].emphasis.high
+        'color': this.options[this.theme].emphasis.high,
+        '--chantBorderColor': this.$vuetify.theme.activity
       }
     }
     // c3Options() {
@@ -236,6 +264,46 @@ export default {
 
         // this.handler.$emit('init', this.c3Options)
       }
+  },
+  proceedChant(val){
+    if(val===1) {
+    if(this.currentVerse==1) {
+      this.myTime1 = []
+      this.myTime2 = []
+      this.myTime = []
+      if (this.sanskritLabels['c' + this.chapter]) {
+        this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
+      }
+      console.log(this.myAnn)
+    }
+    let dt = new Date()
+    this.myTime1.push(Math.ceil(dt.getTime()))
+    this.myTime2.push(Math.ceil(dt.getTime()))
+    this.currentVerse += 1
+  } else {
+    for(var i = this.myTime1.length - 1;i>0;i--) {
+    this.myTime1[i] = (Math.ceil(this.myTime1[i] - this.myTime1[i-1]))
+    // this.myTime2[i] = this.myAnn.time[this.myAnn.verse.findIndex(a => a===(i+1))]
+    this.myTime2[i] = this.myAnn.time[this.myAnn.verse.lastIndexOf((i+1))]
+  }
+  this.myTime1[0] = this.myTime1[1]
+  this.myTime2[0] = this.myAnn.time[this.myAnn.verse.lastIndexOf(1)]
+  console.log(this.myTime1)
+    this.currentVerse = 1
+  for(var i = this.myTime2.length - 1;i>0;i--) {
+  this.myTime2[i] = (Math.ceil((this.myTime2[i] - this.myTime2[i-1])*1000))
+}
+this.myTime2[0] = this.myTime2[1]
+this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
+// this.myTime2.unshift("data1")
+console.log(this.myTime2)
+console.log(this.myOptions)
+for(var i = 0;i<=this.myTrue.length-1;i++) {
+this.myTime[i] = this.myTime2[i]
+}
+  this.handler.$emit('init', this.myOptions)
+  }
+
   }
 },
   beforeRouteEnter(to, from, next) {
@@ -245,28 +313,6 @@ export default {
     next();
   },
   watch: {
-    // verse: function(val) {
-    //   if (!this.loadTheRestOfVerses) {
-    //     this.SET_loadTheRestOfVerses(true)
-    //     setTimeout(() => {
-    //       this.$vuetify.goTo('#read' + (this.verse - 1), {
-    //         duration: 300,
-    //         offset: 0,
-    //         easing: 'easeInOutCubic'
-    //       })
-    //     }, 400)
-    //   } else {
-    //     this.$vuetify.goTo('#read' + (this.verse - 1), {
-    //       duration: 300,
-    //       offset: 0,
-    //       easing: 'easeInOutCubic'
-    //     })
-    //   }
-    // }
-    // chapter: function(val){
-    //   this.myTrue = Array(this.verseall[this.chapter -1]).fill(0)
-    //   this.myFalse = Array(this.verseall[this.chapter -1]).fill(0)
-    // }
   },
   updated: function() {
     this.$nextTick(function() {})
@@ -289,4 +335,12 @@ export default {
 path.domain { fill: white; }
 .tick text { fill: yellow; }
 .c3-legend-item text { fill: grey; }
+.fixButtonPosition{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.addActiveBorder{
+  border: 1px solid var(--chantBorderColor);
+}
 </style>
