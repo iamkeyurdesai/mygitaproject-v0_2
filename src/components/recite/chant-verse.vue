@@ -50,10 +50,11 @@
                 <shloakCard :verse_id="item.verse_id"></shloakCard>
               </div>
              <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
-              <v-btn icon large
-              @click="proceedChant(1)">
-                <v-icon large color="activity">whatshot</v-icon>
-              </v-btn>
+
+    <v-btn icon large
+    @click="proceedChant(1)">
+      <v-icon large color="activity">whatshot</v-icon>
+    </v-btn>
                 </div>
             </div>
             </v-card>
@@ -157,8 +158,7 @@ export default {
     mounted () {
       this.myOptions = {
         size: {
-        height: 230,
-        width: 480
+        width: 350
       },
         data: {
           columns: [
@@ -166,8 +166,11 @@ export default {
             this.myTime
             // ['data2', 7, 2, 4, 6, 10, 1, 4, 7, 8, 12, 14, 8, 5, 2, 5, 2, 2, 1]
           ],
-          type: 'bar'
+          types: 'spline'
         },
+        points: {
+          show: false
+        }
       }
       this.myOptions.data.columns[0].unshift('data1')
       // this.handler.$emit('init', this.myOptions)
@@ -260,7 +263,7 @@ export default {
         // this.myOptions.data.columns[0][i] = this.myTime[i]}
         // this.myOptions.data.columns[0].unshift('data1')
         console.log(this.myOptions)
-        this.handler.$emit('init', this.myOptions)
+        // this.handler.$emit('init', this.myOptions)
 
         // this.handler.$emit('init', this.c3Options)
       }
@@ -270,7 +273,6 @@ export default {
     if(this.currentVerse==1) {
       this.myTime1 = []
       this.myTime2 = []
-      this.myTime = []
       if (this.sanskritLabels['c' + this.chapter]) {
         this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
       }
@@ -298,8 +300,8 @@ this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
 // this.myTime2.unshift("data1")
 console.log(this.myTime2)
 console.log(this.myOptions)
-for(var i = 0;i<=this.myTrue.length-1;i++) {
-this.myTime[i] = this.myTime2[i]
+for(var i = 1;i<=this.myTrue.length;i++) {
+this.myTime[i] = this.myTime2[i-1]
 }
   this.handler.$emit('init', this.myOptions)
   }
@@ -332,9 +334,9 @@ this.myTime[i] = this.myTime2[i]
 </script>
 
 <style lang="scss">
-path.domain { fill: white; }
-.tick text { fill: yellow; }
-.c3-legend-item text { fill: grey; }
+// path.domain { fill: white; }
+// .tick text { fill: yellow; }
+// .c3-legend-item text { fill: grey; }
 .fixButtonPosition{
   position: absolute;
   bottom: 0;

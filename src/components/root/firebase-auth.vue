@@ -16,9 +16,23 @@ export default {
   methods: {
     ...mapMutations('parameters', ['SET_path'])
   },
-  mounted() {    
+  mounted() {
     var uiConfig = {
-      signInSuccessUrl: this.path,
+      callbacks: {
+          signInSuccessWithAuthResult: function(authResult) {
+            if(authResult.additionalUserInfo.isNewUser) {
+            var user = authResult.user
+            firebase.firestore().collection('Users').doc(authResult.user.uid).set({
+              name: user.displayName,
+              email: user.email,
+              photoUrl: user.photoURL,
+              emailVerified: user.emailVerified
+            })
+          }
+            return true;
+          }
+        },
+      // signInSuccessUrl: this.path,
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
