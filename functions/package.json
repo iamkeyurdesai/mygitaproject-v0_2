@@ -1,0 +1,16 @@
+{
+  "name": "gitawebapp-functions",
+  "description": "Power Gita Firebase Functions",
+  "dependencies": {
+    "firebase-admin": "~7.1.1",
+    "firebase-functions": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-plugin-promise": "^3.6.0"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "private": true
+}

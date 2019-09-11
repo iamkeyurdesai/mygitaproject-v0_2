@@ -50,10 +50,13 @@ import {
   VCarousel,
   VSparkline,
   VChip,
-  VSubheader
+  VSubheader,
+  VCheckbox,
+  VForm
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
+// import '../node_modules/vuetify/src/styles/main.sass'
 // import * as directives from 'vuetify/es5/directives'
 import Touch from 'vuetify/es5/directives/touch'
 import Scroll from 'vuetify/es5/directives/scroll'
@@ -97,7 +100,9 @@ Vue.use(Vuetify, {
     VCarousel,
     VSparkline,
     VChip,
-    VSubheader
+    VSubheader,
+    VCheckbox,
+    VForm
   },
   theme: {
   primary: "#190933",

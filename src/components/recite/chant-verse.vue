@@ -2,7 +2,6 @@
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <v-card
       class="mt-3 mx-auto background"
-      max-width="400"
       :dark="GET_dark"
     >
     <!-- <v-sheet
@@ -20,8 +19,11 @@
           color="white"
         ></v-sparkline> -->
         <!-- </v-sheet> -->
-    <vue-c3 :handler="handler"></vue-c3>
+    <!-- <vue-c3 :handler="handler"></vue-c3> -->
+<!-- <div id="chart"></div> -->
         </v-card>
+        <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
+        <joinGroup></joinGroup>
 
 <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
@@ -31,11 +33,36 @@
       <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
         <v-layout row wrap>
           <v-flex xs12 class="ma-0">
-            <readSalutation> </readSalutation>
+                    <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1">
+                      <div :class="{'addActiveBorder': currentVerse==-1}" class="pa-2">
+                      <div>
+                                  <readSalutation> </readSalutation>
+                      </div>
+                     <div class="fixButtonPosition" v-if="currentVerse==-1">
+            <v-btn icon large
+            @click="currentVerse+=1">
+              <v-icon large color="activity">&#128293;</v-icon>
+            </v-btn>
+                        </div>
+                    </div>
+                    </v-card>
           </v-flex>
-          <v-flex xs12 class="ma-0">
+
+<v-flex xs12 class="ma-0">
+          <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==0">
+            <div :class="{'addActiveBorder': currentVerse==0}" class="pa-2">
+            <div>
             <readStart> </readStart>
-          </v-flex>
+            </div>
+           <div class="fixButtonPosition" v-if="currentVerse==0">
+  <v-btn icon large
+  @click="currentVerse+=1">
+    <v-icon large color="activity">&#128293;</v-icon>
+  </v-btn>
+              </div>
+          </div>
+          </v-card>
+</v-flex>
           <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 1
@@ -53,7 +80,7 @@
 
     <v-btn icon large
     @click="proceedChant(1)">
-      <v-icon large color="activity">whatshot</v-icon>
+      <v-icon large color="activity">&#128293;</v-icon>
     </v-btn>
                 </div>
             </div>
@@ -67,7 +94,7 @@
           <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
            <v-btn icon large
            @click="proceedChant(-1)">
-             <v-icon large color="activity">whatshot</v-icon>
+             <v-icon large color="activity">&#128293;</v-icon>
            </v-btn>
              </div>
              </div>
@@ -120,6 +147,7 @@ import {
 import {
   mapMutations
 } from 'vuex';
+import joinGroup from './join-group.vue'
 import shloakCard from '../read/subcomponents/shloak-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
 import uvachCard from '../read/subcomponents/uvach-card.vue'
@@ -129,11 +157,13 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript';
-import VueC3 from 'vue-c3'
+// import VueC3 from 'vue-c3'
+import c3 from 'c3'
 import Vue from 'vue'
 export default {
   data: function() {
     return {
+      searchGroup: '',
       snackbarReset: false,
       snackbar1: false,
       snackbar2: false,
@@ -147,7 +177,7 @@ export default {
       isChantOn: true,
       handler: new Vue(),
       myOptions: null,
-      currentVerse: 1,
+      currentVerse: -1,
       myAnn: {
         time: [0],
         verse: [],
@@ -156,6 +186,36 @@ export default {
     }
   },
     mounted () {
+      var chart = c3.generate({
+    bindto: '#chart',
+    data: {
+      columns: [
+        ['data1', 30, 200, 100, 400, 150, 250],
+        ['data2', 50, 20, 10, 40, 15, 25]
+      ],
+      axes: {
+        data2: 'y2'
+      },
+      types: {
+        data2: 'bar' // ADD
+      }
+    },
+    axis: {
+      y: {
+        label: {
+          text: 'Y Label',
+          position: 'outer-middle'
+        }
+      },
+      y2: {
+        show: true,
+        label: {
+          text: 'Y2 Label',
+          position: 'outer-middle'
+        }
+      }
+    }
+});
       this.myOptions = {
         size: {
         width: 350
@@ -208,7 +268,8 @@ export default {
         '--mywidth': "75px",
         '--myfill': "25px",
         'color': this.options[this.theme].emphasis.high,
-        '--chantBorderColor': this.$vuetify.theme.activity
+        '--chantBorderColor': this.$vuetify.theme.activity,
+        '--mainColor': this.options[this.theme].emphasis.high
       }
     }
     // c3Options() {
@@ -291,7 +352,7 @@ export default {
   this.myTime1[0] = this.myTime1[1]
   this.myTime2[0] = this.myAnn.time[this.myAnn.verse.lastIndexOf(1)]
   console.log(this.myTime1)
-    this.currentVerse = 1
+    this.currentVerse = -1
   for(var i = this.myTime2.length - 1;i>0;i--) {
   this.myTime2[i] = (Math.ceil((this.myTime2[i] - this.myTime2[i-1])*1000))
 }
@@ -304,9 +365,22 @@ for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
   this.handler.$emit('init', this.myOptions)
+  let dt = new Date()
+  let dataSend = {
+    chapter_id: this.chapter,
+    group: 'none',
+    start_time: dt.getTime(),
+    score: 100,
+    time: this.myTime
   }
-
+  console.log(dataSend)
+  this.addChantLog(dataSend)
   }
+},
+addChantLog(val) {
+  var db = firebase.firestore();
+  db.collection("logs").doc(firebase.auth().currentUser.uid).collection("chant").doc('t'+val.start_time).set(val)
+}
 },
   beforeRouteEnter(to, from, next) {
     next();
@@ -328,15 +402,15 @@ this.myTime[i] = this.myTime2[i-1]
     readEnd,
     readSalutation,
     chantNavigation,
-    VueC3
+    joinGroup
   }
 }
 </script>
 
 <style lang="scss">
-// path.domain { fill: white; }
-// .tick text { fill: yellow; }
-// .c3-legend-item text { fill: grey; }
+path.domain { fill: var(--mainColor); }
+.tick text { fill: var(--mainColor); }
+.c3-legend-item text { fill: var(--mainColor); }
 .fixButtonPosition{
   position: absolute;
   bottom: 0;
@@ -345,4 +419,12 @@ this.myTime[i] = this.myTime2[i-1]
 .addActiveBorder{
   border: 1px solid var(--chantBorderColor);
 }
+.c3-chart-arcs-background{
+  fill:#e0e0e0;
+  stroke:none
+}
+.c3-shape {
+    fill: none;
+}
+
 </style>
