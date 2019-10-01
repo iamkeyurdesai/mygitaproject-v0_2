@@ -15,7 +15,7 @@
 <v-divider dark></v-divider>
 </div>
 <div class="ma-2 subheading">
-          Your Current Group <v-chip small>None</v-chip>
+          Your Current Group <v-chip small>{{currentChantGroup}}</v-chip>
           </div>
           <!-- <div>
             Recent:
@@ -36,35 +36,34 @@
         @input="show_results"
       ></v-text-field>
       <!-- <v-btn @click="createSearch()"> addindex </v-btn> -->
-                <div v-for="item in results">
-                  {{item}}
-                </div>
+
+      <v-layout row wrap>
+                <v-flex class="pa-1" xm4 v-for="item in results" @click="SET_currentChantGroup(item.name), searchGroup='', show_results()" :key="item.name">
+            <!-- <v-list-tile  avatar v-for="item in results" @click="SET_currentChantGroup(item.name), searchGroup='', show_results()" :key="item.name"> -->
+<v-list three-line>
+<v-list-tile class="grey lighten-5 elevation-5 addBorderRound">
+              <v-list-tile-avatar>
+                <img :src="item.url">
+              </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title>{{item.name}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{item.country}}</v-list-tile-sub-title>
+              </v-list-tile-content>
+
+            </v-list-tile>
+  </v-list>
+      </v-flex>
+      </v-layout>
+
       </div>
-          <v-divider dark></v-divider>
-          <div class="background ma-1" :dark="GET_dark">
-            Read message here
-          </div>
-          <div v-if="false" class="background ma-1" :dark="GET_dark">
-            Post message here
-          </div>
           </div>
         </v-card>
         </v-layout>
 </template>
 
 <script>
-import {
-  mapState
-} from 'vuex';
-import {
-  mapActions
-} from 'vuex';
-import {
-  mapGetters
-} from 'vuex';
-import {
-  mapMutations
-} from 'vuex';
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 import Sanscript from 'Sanscript';
 var FlexSearch = require("flexsearch")
 const countryList = require('country-list');
@@ -108,7 +107,7 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['preview']),
-    ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
+    ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi', 'currentChantGroup',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
@@ -120,7 +119,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
+    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter', 'SET_currentChantGroup',
       'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses', 'SET_verse', 'SET_chapter',
     ]),
     convert(myinput) {
@@ -208,5 +207,8 @@ watch: {
 <style lang="scss">
 .addBorder{
     border: 2px solid var(--formBorderColor);
+}
+.addBorderRound{
+    border-radius: 8px;
 }
 </style>

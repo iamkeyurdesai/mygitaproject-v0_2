@@ -24,6 +24,7 @@
         </v-card>
         <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
         <joinGroup></joinGroup>
+        <chatGroup></chatGroup>
 
 <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
@@ -148,6 +149,7 @@ import {
   mapMutations
 } from 'vuex';
 import joinGroup from './join-group.vue'
+import chatGroup from './chat-group.vue'
 import shloakCard from '../read/subcomponents/shloak-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
 import uvachCard from '../read/subcomponents/uvach-card.vue'
@@ -402,7 +404,8 @@ addChantLog(val) {
     readEnd,
     readSalutation,
     chantNavigation,
-    joinGroup
+    joinGroup,
+    chatGroup
   }
 }
 </script>

@@ -136,6 +136,9 @@ const SET_activeTab = (state, input) => {
 const SET_reciteChantFontSize = (state, input) => {
   state.reciteChantFontSize = input
 };
+const SET_currentChantGroup = (state, input) => {
+  state.currentChantGroup = input
+};
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -185,5 +188,6 @@ export default {
   SET_activeTab,
   SET_reciteChantFontSize,
   SET_isDeveloper,
-  SET_alphabetSelect
+  SET_alphabetSelect,
+  SET_currentChantGroup
 };

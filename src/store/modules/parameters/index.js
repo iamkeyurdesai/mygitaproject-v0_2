@@ -15,6 +15,7 @@ const state = {
   showTranslation: false,
   showVerse: true,
   showAnvaya: false,
+  currentChantGroup: 'none',
   columnCount: 2,
   mainItem: 'recite',
   theme: 'dark',
