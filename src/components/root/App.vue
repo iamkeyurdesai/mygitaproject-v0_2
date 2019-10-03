@@ -104,13 +104,14 @@ export default {
       this.showNav = myval
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper'])
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName'])
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)
         this.SET_photoURL(user.photoURL)
+        this.SET_userName(user.displayName)
         if(user.photoURL ===
         "https://lh3.googleusercontent.com/-MwCzZcUXDmg/AAAAAAAAAAI/AAAAAAAAAGA/aF3pVI8DYsE/photo.jpg") {
           this.SET_isDeveloper(true)

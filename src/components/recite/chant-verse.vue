@@ -1,5 +1,5 @@
 <template>
-<div :style="cssProps" v-scroll="onScroll" id="beginChanting">
+<div :style="cssProps" v-scroll="onScroll" id="beginChanting" >
   <v-card
       class="mt-3 mx-auto background"
       :dark="GET_dark"

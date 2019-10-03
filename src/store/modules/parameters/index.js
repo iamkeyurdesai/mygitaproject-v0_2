@@ -8,6 +8,7 @@ const state = {
   verseall:  [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78, 23, 1, 2, 1, 9] ,
   authenticated: false,
   photoURL: 'not singed in',
+  userName: '',
   path: '/recite/api=1&chapter=1&verse=1',
   showNav: true,
   breakSandhi: false,

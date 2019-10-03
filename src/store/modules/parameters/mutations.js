@@ -62,6 +62,9 @@ const SET_authenticated = (state, input) => {
 const SET_photoURL = (state, input) => {
   state.photoURL = input
 };
+const SET_userName = (state, input) => {
+  state.userName = input
+};
 const SET_path = (state, input) => {
   state.path = input
 };
@@ -163,6 +166,7 @@ export default {
   SET_verse,
   SET_authenticated,
   SET_photoURL,
+  SET_userName,
   SET_path,
   SET_breakSandhi,
   SET_columnCount,
