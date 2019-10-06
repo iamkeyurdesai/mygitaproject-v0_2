@@ -1,9 +1,9 @@
 <template>
         <v-layout column class="background lighten-1" :style="cssProps">
 
-<v-card class="ma-2">
+<v-card class="ma-2" v-if="userClaims.createGroupPrivilege">
 <div class="addBorder">
-<div v-if="authenticated">
+<div>
 <v-btn @click="showForm=true" color="info" v-if="!showForm">create new group</v-btn>
 <div class="ma-2" v-if="showForm">
   <v-form ref="form" v-model="valid" lazy-validation >
@@ -12,21 +12,25 @@
     <v-btn :disabled="!valid || name==='' || select===null" @click="create(), showForm=false" color="success" small>create</v-btn>
   </v-form>
 </div>
-<v-divider dark></v-divider>
 </div>
+<div>
+<v-text-field v-model="emailToAdd"  label="Email" ></v-text-field>
+<v-btn @click="update('add', emailToAdd)">add a leader </v-btn>
+<v-btn @click="update('remove', emailToAdd)">remove a leader </v-btn>
+</div>
+</div>
+</v-card>
+<v-card class="ma-2">
+<div class="addBorder">
+
 <div class="ma-2 subheading">
-          Your Current Group <v-chip small>{{currentChantGroup}}</v-chip>
+          Current Group <v-chip small :close="currentChantGroup!=='Myself'" @input="SET_currentChantGroup('Myself'), SET_currentChantGroupURL(photoURL)">
+            <v-avatar>
+                        <img :src="currentChantGroupURL" alt="">
+                      </v-avatar>
+            {{currentChantGroup}}
+          </v-chip>
           </div>
-          <!-- <div>
-            Recent:
-            <v-chip small>None</v-chip>
-
-    <v-chip small>Secondary</v-chip>
-
-    <v-chip small>Colored Chip</v-chip>
-
-    <v-chip small>Colored Chip</v-chip>
-</div> -->
 <div class="ma-2">
             <v-text-field
         v-model="searchGroup"
@@ -38,7 +42,8 @@
       <!-- <v-btn @click="createSearch()"> addindex </v-btn> -->
 
       <v-layout row wrap>
-                <v-flex class="pa-1" xm4 v-for="item in results" @click="SET_currentChantGroup(item.name), searchGroup='', show_results()" :key="item.name">
+                <v-flex class="pa-1" xm4 v-for="item in results"
+                @click="SET_currentChantGroup(item.name), SET_currentChantGroupURL(item.url), searchGroup='', show_results()" :key="item.name">
             <!-- <v-list-tile  avatar v-for="item in results" @click="SET_currentChantGroup(item.name), searchGroup='', show_results()" :key="item.name"> -->
 <v-list three-line>
 <v-list-tile class="grey lighten-5 elevation-5 addBorderRound">
@@ -74,6 +79,7 @@ export default {
       index: null,
       results: null,
       valid: true,
+      emailToAdd: '',
       name: '',
       myGroups: '',
       myGroupsData: '',
@@ -102,12 +108,23 @@ export default {
         console.log(this.nameRules)
         this.createSearch()
     });
+
+  firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase.auth().currentUser.getIdTokenResult()
+      .then((idTokenResult) => {
+         this.SET_userClaims(idTokenResult.claims)
+      })
+     }
+   });
+console.log(this.userClaims)
   },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['preview']),
-    ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi', 'currentChantGroup',
+    ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
+    'currentChantGroup', 'currentChantGroupURL', 'userClaims',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
@@ -119,7 +136,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter', 'SET_currentChantGroup',
+    ...mapMutations('parameters', ['incrementChapter', 'decrementChapter', 'SET_currentChantGroup', 'SET_currentChantGroupURL', 'SET_userClaims',
       'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses', 'SET_verse', 'SET_chapter',
     ]),
     convert(myinput) {
@@ -145,9 +162,24 @@ firebase.firestore().collection("groups").doc(this.name).collection('leaders').d
   {
   name: this.name,
   country: this.select,
-  url: this.photoURL
+  url: this.photoURL,
+  leaders: []
   }
 )
+},
+update(mode, email) {
+console.log(mode)
+console.log(email)
+console.log(this.currentChantGroup)
+if(mode==="add"){
+firebase.firestore().collection("groups").doc(this.currentChantGroup).collection('leaders').doc(firebase.auth().currentUser.uid).update(
+  {leaders: firebase.firestore.FieldValue.arrayUnion(email)}
+)
+} else {
+  firebase.firestore().collection("groups").doc(this.currentChantGroup).collection('leaders').doc(firebase.auth().currentUser.uid).update(
+    {leaders: firebase.firestore.FieldValue.arrayRemove(email)}
+  )
+}
 },
 createSearch(){
 

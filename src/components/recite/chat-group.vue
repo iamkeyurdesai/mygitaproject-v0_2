@@ -164,6 +164,7 @@ let height = ['height', 'padding-top', 'padding-bottom', 'margin-top']
 <style lang="scss">
 .addBorderRound{
     border-radius: 8px;
+    max-width: 400px;
 }
 .tinyFont{
   font-size: x-small;

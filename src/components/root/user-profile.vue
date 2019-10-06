@@ -37,11 +37,12 @@ computed: {
   ...mapState('parameters', ['authenticated', 'photoURL']),
 },
 methods: {
-  ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL']),
+  ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_userClaims']),
   logOut() {
     firebase.auth().signOut();
     this.SET_authenticated(false);
     this.SET_photoURL('not signed in');
+    this.SET_userClaims({})
   }
 },
   mounted() {

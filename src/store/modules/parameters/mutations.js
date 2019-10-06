@@ -142,6 +142,13 @@ const SET_reciteChantFontSize = (state, input) => {
 const SET_currentChantGroup = (state, input) => {
   state.currentChantGroup = input
 };
+const SET_currentChantGroupURL = (state, input) => {
+  state.currentChantGroupURL = input
+};
+const SET_userClaims = (state, input) => {
+  state.userClaims = input
+};
+
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -193,5 +200,7 @@ export default {
   SET_reciteChantFontSize,
   SET_isDeveloper,
   SET_alphabetSelect,
-  SET_currentChantGroup
+  SET_currentChantGroup,
+  SET_currentChantGroupURL,
+  SET_userClaims
 };
