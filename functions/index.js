@@ -97,6 +97,7 @@ if(userToRemove.length>0) {
 exports.addGroupCreatePrivilege = functions.firestore
   .document('admin/groups')
   .onWrite((change, context) => {
+    let successStatus = false
     const document = change.after.exists ? change.after.data() : null;
     if(document){
     document.owners.forEach(addCreateGroupWrites)
@@ -108,9 +109,28 @@ exports.addGroupCreatePrivilege = functions.firestore
           currentCustomClaims = user.customClaims
           currentCustomClaims.createGroupPrivilege=true
       }
-       return admin.auth().setCustomUserClaims(context.params.leader, currentCustomClaims)
+       admin.auth().setCustomUserClaims(user.uid, currentCustomClaims).then(()=>{successStatus=true})
      }
     })
   }
   }
+  const oldDocument = change.before.data();
+  let userToRemove = oldDocument.owners.filter(x => !document.owners.includes(x));
+  if(userToRemove.length>0){
+  userToRemove.forEach(removeCreateGroupWrites)
+  function removeCreateGroupWrites(email){
+    admin.auth().getUserByEmail(email).then((user) => {
+      if (user.emailVerified) {
+      if (typeof user.customClaims !== 'undefined') {
+        let currentCustomClaims = user.customClaims
+        if(typeof user.customClaims.createGroupPrivilege !== 'undefined') {
+        delete currentCustomClaims.createGroupPrivilege
+      }
+      admin.auth().setCustomUserClaims(user.uid, currentCustomClaims).then(()=>{successStatus=true})
+    }
+   }
   })
+}
+}
+return successStatus
+})
