@@ -27,7 +27,7 @@
     <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
     <v-tab href="#sanskrit" ripple class="subheading">SANSKRIT </v-tab>
 <v-tabs-items v-model="activeTab" touchless>
-<v-tab-item  lazy transition :value="'chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
+<v-tab-item  lazy transition :value="'chant'" v-if="activeTab==='chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
         <v-tab-item  lazy transition :value="'listen'"> <br> <play-verse></play-verse>  </v-tab-item>
         <v-tab-item  lazy transition :value="'sanskrit'"> <br> <sanskrit-pronounce></sanskrit-pronounce>  </v-tab-item>
       </v-tabs-items>

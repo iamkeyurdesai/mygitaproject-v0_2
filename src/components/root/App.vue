@@ -168,7 +168,7 @@ export default {
             // [END rtdb_presence]
         }
 
-        rtdb_presence()
+        //rtdb_presence()
       } else {
         this.SET_authenticated(false)
         this.SET_photoURL('not signed in')

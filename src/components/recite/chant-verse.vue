@@ -22,6 +22,8 @@
     <!-- <vue-c3 :handler="handler"></vue-c3> -->
 <!-- <div id="chart"></div> -->
         </v-card>
+        <v-subheader :dark="GET_dark"> You have been granted the group leader privilege </v-subheader>        
+        <manageGroup></manageGroup>
         <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
         <joinGroup></joinGroup>
         <chatGroup></chatGroup>
@@ -149,6 +151,7 @@ import {
   mapMutations
 } from 'vuex';
 import joinGroup from './join-group.vue'
+import manageGroup from './manage-group.vue'
 import chatGroup from './chat-group.vue'
 import shloakCard from '../read/subcomponents/shloak-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
@@ -405,6 +408,7 @@ addChantLog(val) {
     readSalutation,
     chantNavigation,
     joinGroup,
+    manageGroup,
     chatGroup
   }
 }

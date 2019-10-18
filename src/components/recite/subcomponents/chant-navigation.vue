@@ -7,14 +7,14 @@ The language is decided from Vuex parameters-->
 
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUpDouble shiftLeft"
+    <v-btn v-show="offsetTop > 1350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUpDouble shiftLeft"
       v-on:click.stop="zoomChantFont('plus')" small>
         <v-icon :style="cssProps_high" large> zoom_in</v-icon>
     </v-btn>
   </v-fab-transition>
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUp shiftLeft"
+    <v-btn v-show="offsetTop > 1350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUp shiftLeft"
       v-on:click.stop="zoomChantFont('minus')" small>
         <v-icon :style="cssProps_high" large> zoom_out</v-icon>
     </v-btn>
@@ -23,7 +23,7 @@ The language is decided from Vuex parameters-->
 
 
     <v-fab-transition>
-      <v-btn v-show="true" color="accentinfo" dark fab bottom left small fixed class="mb-5 shiftLeft">
+      <v-btn v-show="offsetTop > 1350" color="accentinfo" dark fab bottom left small fixed class="mb-5 shiftLeft">
     <settings-popup isScript isTheme></settings-popup>
       </v-btn>
     </v-fab-transition>

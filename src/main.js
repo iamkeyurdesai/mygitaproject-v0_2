@@ -4,14 +4,15 @@
 import Vue from 'vue'
 import App from './components/root/App'
 import router from './router'
-import {store} from './store/index.js'
-// import Vuetify from 'vuetify'
-// import VueTippy from 'vue-tippy'
+import {
+  store
+} from './store/index.js'
 import VueYoutube from 'vue-youtube'
 Vue.use(VueYoutube)
-// import VueYouTubeEmbed from 'vue-youtube-embed'
-// Vue.use(VueYouTubeEmbed)
 
+
+
+// import Vuetify components
 import {
   Vuetify,
   VApp,
@@ -61,7 +62,6 @@ import '../node_modules/vuetify/src/stylus/app.styl'
 import Touch from 'vuetify/es5/directives/touch'
 import Scroll from 'vuetify/es5/directives/scroll'
 import Ripple from 'vuetify/es5/directives/ripple'
-
 Vue.use(Vuetify, {
   components: {
     VApp,
@@ -105,22 +105,22 @@ Vue.use(Vuetify, {
     VForm
   },
   theme: {
-  primary: "#190933",
-  secondary: "#D0E2F7",
-  activity: "#FBAA06",
-  error: '#FF5252',
-  info: '#2196F3',
-  success: '#4CAF50',
-  warning: '#FFC107',
-  background: "#010429",
-  button: "#D81B60",
-  accentmain: "#EA80FC",
-  accentinfo: '#82B1FF',
-  accent1: "#00E5FF",
-  accent2: "#FFC400",
-  accent3: "#76FF03",
-  accent4: "#F48FB1"
-},
+    primary: "#190933",
+    secondary: "#D0E2F7",
+    activity: "#FBAA06",
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107',
+    background: "#010429",
+    button: "#D81B60",
+    accentmain: "#EA80FC",
+    accentinfo: '#82B1FF',
+    accent1: "#00E5FF",
+    accent2: "#FFC400",
+    accent3: "#76FF03",
+    accent4: "#F48FB1"
+  },
   directives: {
     Touch,
     Scroll,
@@ -131,47 +131,55 @@ Vue.use(Vuetify, {
   }
 })
 
-
 Vue.config.productionTip = false
 
+// set up global routing
 router.beforeEach((to, from, next) => {
-  if(to.path !=="/") {
-  let mypath = to.path.split("/");
-  if (mypath[1] != null) store.state.parameters.mainItem = mypath[1];
-  if (to.params.data != null) {
-      if(to.params.data.includes("api=1")) {
+  if (to.path !== "/") {
+    let mypath = to.path.split("/");
+    if (mypath[1] != null) store.state.parameters.mainItem = mypath[1];
+    if (to.params.data != null) {
+      if (to.params.data.includes("api=1")) {
         let myquery = to.params.data.split("&");
         let i;
         for (i = 1; i < myquery.length; i++) {
-        let temp = myquery[i].split("=")
-        store.commit('parameters/SET_value', {list: temp[1], id: temp[0]})
+          let temp = myquery[i].split("=")
+          store.commit('parameters/SET_value', {
+            list: temp[1],
+            id: temp[0]
+          })
         }
       } else {
         console.log("api=1 not found")
       }
     }
   }
-    next()
+  next()
 })
 
+// import additional library
 import firebase from 'firebase'
-import {config} from './helpers/firebaseConfig'
+import {
+  config
+} from './helpers/firebaseConfig'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueAnalytics from 'vue-analytics'
 import fullscreen from 'vue-fullscreen'
+import SocialSharing from 'vue-social-sharing'
+import { firestorePlugin } from 'vuefire'
+Vue.use(firestorePlugin)
 
-
-var SocialSharing = require('vue-social-sharing');
 Vue.use(SocialSharing);
-
 Vue.use(fullscreen)
-
 Vue.use(VueAnalytics, {
   id: 'UA-141658397-1',
   router
 })
 Vue.use(VueObserveVisibility)
 
+const myApp = firebase.initializeApp(config)
+export const db = myApp.firestore()
+export const rtdb = myApp.database()
 
 /* eslint-disable no-new */
 var vm = new Vue({
@@ -179,21 +187,41 @@ var vm = new Vue({
   router,
   store,
   created() {
-     firebase.initializeApp(config)
-     // this.$store.dispatch('settings/loadText')
-     this.$store.dispatch('coretext/loadText');
-     this.$store.dispatch('audiolabels/loadText');
+    db.enablePersistence({synchronizeTabs:true}).then(()=>{console.log("offline persistence enabled!")})
+    // var realtimeDB = myApp.database();
+    if (location.hostname === "localhost" & false) {
+
+      // Note that the Firebase Web SDK must connect to the WebChannel port
+      db.settings({
+        host: "localhost:5002",
+        ssl: false
+      });
+      db.doc('aggregates/available_groups').set({
+        groups: []
+      })
+      var firebaseConfig = {
+        // Point to the RTDB emulator running on localhost.
+        // In almost all cases the ns (namespace) is your project ID.
+        databaseURL: "http://localhost:9000?ns=gitawebapp"
+      }
+      myApp.options.databaseURL =  firebaseConfig.databaseURL
+    }
+    // this.$store.dispatch('settings/loadText')
+    this.$store.dispatch('coretext/loadText');
+    this.$store.dispatch('audiolabels/loadText');
   },
   mounted() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          // This fires when the service worker controlling this page
-          // changes, eg a new worker has skipped waiting and become
-          // the new active worker.
-          window.location.reload();
-        });
-      }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        // This fires when the service worker controlling this page
+        // changes, eg a new worker has skipped waiting and become
+        // the new active worker.
+        window.location.reload();
+      });
+    }
   },
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

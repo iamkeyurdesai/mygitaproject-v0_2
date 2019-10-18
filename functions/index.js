@@ -5,132 +5,144 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-// // Adds a message that welcomes new users into the chat.
-// exports.addWelcomeMessages = functions.auth.user().onCreate(async (user) => {
-//   console.log('A new user signed in for the first time.');
-//   const fullName = user.displayName || 'Anonymous';
-//
-//   // Saves the new welcome message into the database
-//   // which then displays it in the FriendlyChat clients.
-//   await admin.firestore().collection('messages').add({
-//     name: 'Firebase Bot',
-//     profilePicUrl: '/images/firebase-logo.png', // Firebase logo
-//     text: `${fullName} signed in for the first time! Welcome!`,
-//     timestamp: admin.firestore.FieldValue.serverTimestamp(),
-//   });
-//   console.log('Welcome message written to database.');
-// });
-
 const db = admin.firestore();
-// Adds new group to the available groups
+
+// Add new group to the available groups
 exports.addGroup = functions.firestore
-  .document('groups/{group}/leaders/{leader}')
+  .document('groups/{group}/admin/{owner}')
   .onCreate((snap, context) => {
-   const document = snap.data()
-   db.doc('aggregates/available_groups').update({groups: admin.firestore.FieldValue.arrayUnion(document)})
-   admin.auth().getUser(context.params.leader).then((user) => {
-     if (user.emailVerified) {
-     let currentCustomClaims = {owner: context.params.group  }
-     if (typeof user.customClaims !== 'undefined') {
-       currentCustomClaims = user.customClaims
-       currentCustomClaims.owner = context.params.group
-   }
-    return admin.auth().setCustomUserClaims(context.params.leader, currentCustomClaims)
-  }
- })
- })
- // delete an existing group
- exports.deleteGroup = functions.firestore
-   .document('groups/{group}/leaders/{leader}')
-   .onDelete((snap, context) => {
     const document = snap.data()
-    db.doc('aggregates/available_groups').update({groups: admin.firestore.FieldValue.arrayRemove(document)})
-    admin.auth().getUser(context.params.leader).then((user) => {
-      if (user.emailVerified) {
-      if (typeof user.customClaims !== 'undefined') {
-        let currentCustomClaims = user.customClaims
-        delete currentCustomClaims.owner
-      return  admin.auth().setCustomUserClaims(context.params.leader, currentCustomClaims)
-    }
-  }
+    //add to the master list
+    return db.doc('aggregates/available_groups').update({
+      groups: admin.firestore.FieldValue.arrayUnion(document)
+    }).then(
+      //add custom claim owner:group for the uid who created the group
+      admin.auth().getUser(context.params.owner).then((user) => {
+        if (user.emailVerified) {
+          let currentCustomClaims = {
+            owner: context.params.group
+          }
+          if (typeof user.customClaims !== 'undefined') {
+            currentCustomClaims = user.customClaims
+            currentCustomClaims.owner = context.params.group
+          }
+          return admin.auth().setCustomUserClaims(context.params.owner, currentCustomClaims)
+        }
+      })
+    )
   })
-})
-  // update an existing group
-  exports.updateGroup = functions.firestore
-    .document('groups/{group}/leaders/{leader}')
-    .onUpdate((change, context) => {
+// Delete an existing group
+exports.deleteGroup = functions.firestore
+  .document('groups/{group}/admin/{owner}')
+  .onDelete((snap, context) => {
+    const document = snap.data()
+    //remove the group from the master list
+    return db.doc('aggregates/available_groups').update({
+      groups: admin.firestore.FieldValue.arrayRemove(document)
+    }).then(
+    //remove the leader custom claim
+    //cycle through the leaders array and remove one by one
+    document.leaders.forEach((email) => {
+    return  admin.auth().getUserByEmail(email).then((user) => {
+        // Confirm user is verified.
+        if (user.emailVerified) {
+          let currentCustomClaims = user.customClaims;
+          if (typeof user.customClaims.leader !== 'undefined') {
+            currentCustomClaims.leader = user.customClaims.leader.filter(a => a !== context.params.group)
+          }
+          return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims)
+        }
+      })
+    })
+  ).then(
+    //remove the owner custom claim
+     admin.auth().getUser(context.params.owner).then((user) => {
+      if (user.emailVerified) {
+        if (typeof user.customClaims !== 'undefined') {
+          let currentCustomClaims = user.customClaims
+          delete currentCustomClaims.owner
+          return admin.auth().setCustomUserClaims(context.params.leader, currentCustomClaims)
+        }
+      }
+    })
+  )
+  })
+// Update an existing group
+exports.updateGroup = functions.firestore
+  .document('groups/{group}/admin/{owner}')
+  .onUpdate((change, context) => {
     const document = change.after.data()
-    const oldDocument = change.before.data();
+    const oldDocument = change.before.data()
     let userToAdd = document.leaders.filter(x => !oldDocument.leaders.includes(x));
     let userToRemove = oldDocument.leaders.filter(x => !document.leaders.includes(x));
-    console.log(userToAdd)
-    console.log(userToRemove)
-    if(userToAdd.length>0) {
-  admin.auth().getUserByEmail(userToAdd[0]).then((user) => {
-  // Confirm user is verified.
-  if (user.emailVerified) {
-    let currentCustomClaims = {leader : [context.params.group]};
-    if(typeof user.customClaims !== 'undefined') {
-    if(typeof user.customClaims.leader !== 'undefined') {
-      currentCustomClaims = user.customClaims;
-      currentCustomClaims.leader.push(context.params.group)
-    }
-  }
-    return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims);
-  }
-})
-}
-if(userToRemove.length>0) {
-  admin.auth().getUserByEmail(userToRemove[0]).then((user) => {
-  // Confirm user is verified.
-  if (user.emailVerified) {
-    let currentCustomClaims = user.customClaims;
-    if(typeof user.customClaims.leader !== 'undefined') {
-    currentCustomClaims.leader = user.customClaims.leader.filter(a => a!==context.params.group)
-    }
-    return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims);
-  }
-})
-}
-})
-
-exports.addGroupCreatePrivilege = functions.firestore
-  .document('admin/groups')
-  .onWrite((change, context) => {
-    let successStatus = false
-    const document = change.after.exists ? change.after.data() : null;
-    if(document){
-    document.owners.forEach(addCreateGroupWrites)
-    function addCreateGroupWrites(email){
-      admin.auth().getUserByEmail(email).then((user) => {
+    console.info('leader to add:' + userToAdd)
+    console.info('leader to remove:' + userToRemove)
+    if (userToAdd.length > 0) {
+      return admin.auth().getUserByEmail(userToAdd[0]).then((user) => {
+        // Confirm user is verified.
         if (user.emailVerified) {
-        let currentCustomClaims = {createGroupPrivilege : true}
-        if (typeof user.customClaims !== 'undefined') {
-          currentCustomClaims = user.customClaims
-          currentCustomClaims.createGroupPrivilege=true
-      }
-       admin.auth().setCustomUserClaims(user.uid, currentCustomClaims).then(()=>{successStatus=true})
-     }
-    })
-  }
-  }
-  const oldDocument = change.before.data();
-  let userToRemove = oldDocument.owners.filter(x => !document.owners.includes(x));
-  if(userToRemove.length>0){
-  userToRemove.forEach(removeCreateGroupWrites)
-  function removeCreateGroupWrites(email){
-    admin.auth().getUserByEmail(email).then((user) => {
-      if (user.emailVerified) {
-      if (typeof user.customClaims !== 'undefined') {
-        let currentCustomClaims = user.customClaims
-        if(typeof user.customClaims.createGroupPrivilege !== 'undefined') {
-        delete currentCustomClaims.createGroupPrivilege
-      }
-      admin.auth().setCustomUserClaims(user.uid, currentCustomClaims).then(()=>{successStatus=true})
+          let currentCustomClaims = {
+            leader: [context.params.group]
+          };
+          if (typeof user.customClaims !== 'undefined') {
+            if (typeof user.customClaims.leader !== 'undefined') {
+              currentCustomClaims = user.customClaims;
+              currentCustomClaims.leader.push(context.params.group)
+            }
+          }
+          return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims);
+        }
+      })
+    } else if (userToRemove.length > 0) {
+      return admin.auth().getUserByEmail(userToRemove[0]).then((user) => {
+        // Confirm user is verified.
+        if (user.emailVerified) {
+          let currentCustomClaims = user.customClaims;
+          if (typeof user.customClaims.leader !== 'undefined') {
+            currentCustomClaims.leader = user.customClaims.leader.filter(a => a !== context.params.group)
+          }
+          return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims)
+        }
+      })
+    } else {
+      return 'updateGroup: nothing to do'
     }
-   }
   })
-}
-}
-return successStatus
-})
+//add or remove groupCreatePrivilege
+exports.manageGroupCreatePrivilege = functions.firestore
+  .document('admin/groups')
+  .onUpdate((change, context) => {
+    const document = change.after.data()
+    const oldDocument = change.before.data()
+
+    if (document.owners.length > oldDocument.owners.length) {
+      let userToAdd = document.owners[document.owners.length-1]
+      return admin.auth().getUserByEmail(userToAdd).then((user) => {
+        if (user.emailVerified) {
+          let currentCustomClaims = {
+            createGroupPrivilege: true
+          }
+          if (typeof user.customClaims !== 'undefined') {
+            currentCustomClaims = user.customClaims
+            currentCustomClaims.createGroupPrivilege = true
+          }
+          return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims)
+        }
+      }).then(console.info('owner to add:' + userToAdd))
+    } else if (document.owners.length < oldDocument.owners.length) {
+      let userToRemove = oldDocument.owners[oldDocument.owners.length-1]
+      return admin.auth().getUserByEmail(userToRemove).then((user) => {
+        if (user.emailVerified) {
+          if (typeof user.customClaims !== 'undefined') {
+            let currentCustomClaims = user.customClaims
+            if (typeof user.customClaims.createGroupPrivilege !== 'undefined') {
+              delete currentCustomClaims.createGroupPrivilege
+            }
+            return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims)
+          }
+        }
+      }).then(console.info('owner to remove:' + userToRemove))
+    } else {
+      return 'manageGroupCreatePrivilege: nothing to do'
+    }
+  })
