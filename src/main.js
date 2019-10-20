@@ -180,6 +180,7 @@ Vue.use(VueObserveVisibility)
 const myApp = firebase.initializeApp(config)
 export const db = myApp.firestore()
 export const rtdb = myApp.database()
+export const auth = myApp.auth()
 
 /* eslint-disable no-new */
 var vm = new Vue({
@@ -187,8 +188,7 @@ var vm = new Vue({
   router,
   store,
   created() {
-    db.enablePersistence({synchronizeTabs:true}).then(()=>{console.log("offline persistence enabled!")})
-    // var realtimeDB = myApp.database();
+    // var realtimeDB = myApp.database()
     if (location.hostname === "localhost" & false) {
 
       // Note that the Firebase Web SDK must connect to the WebChannel port
@@ -196,6 +196,7 @@ var vm = new Vue({
         host: "localhost:5002",
         ssl: false
       });
+      db.enablePersistence({synchronizeTabs:true}).then(()=>{console.log("offline persistence enabled!")})
       db.doc('aggregates/available_groups').set({
         groups: []
       })
@@ -205,6 +206,8 @@ var vm = new Vue({
         databaseURL: "http://localhost:9000?ns=gitawebapp"
       }
       myApp.options.databaseURL =  firebaseConfig.databaseURL
+    } else {
+      db.enablePersistence({synchronizeTabs:true}).then(()=>{console.log("offline persistence enabled!")})
     }
     // this.$store.dispatch('settings/loadText')
     this.$store.dispatch('coretext/loadText');

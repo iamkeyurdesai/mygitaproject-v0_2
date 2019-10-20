@@ -11,22 +11,21 @@
           </v-avatar>
           {{currentChantGroup}}
         </v-chip>
-      </div>
-      {{myGroupsData}}
+      </div>      
       <!-- search functionality to select group -->
       <!-- <div class="ma-2" @click="addGroupListner='true'"> -->
               <div class="ma-2" @click="addGroupListner=true">
         <v-text-field v-model="searchGroup" append-icon="mdi-magnify" label="Search Groups" single-line @input="show_results"></v-text-field>
         <v-layout row wrap>
           <v-flex class="pa-1" xm4 v-for="item in results" @click="SET_currentChantGroup(item.name), SET_currentChantGroupURL(item.url), searchGroup='', show_results()" :key="item.name">
-            <v-list three-line>
+            <v-list two-line>
               <v-list-tile class="grey lighten-5 elevation-5 addBorderRound">
                 <v-list-tile-avatar>
                   <img :src="item.url">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title>{{item.name}}</v-list-tile-title>
-                  <v-list-tile-sub-title>{{item.country}}</v-list-tile-sub-title>
+                  <v-list-tile-title>{{item.name}}<span class="ml-4 body-1 grey--text">{{item.country}}</span>  </v-list-tile-title>
+                  <v-list-tile-sub-title>{{item.mission}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>

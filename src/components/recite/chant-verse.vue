@@ -1,34 +1,31 @@
 <template>
-<div :style="cssProps" v-scroll="onScroll" id="beginChanting" >
-  <v-card
-      class="mt-3 mx-auto background"
-      :dark="GET_dark"
-    >
+<div :style="cssProps" v-scroll="onScroll" id="beginChanting">
+  <v-card class="mt-3 mx-auto background" :dark="GET_dark">
     <!-- <v-sheet
           class="v-sheet--offset mx-auto"
           color="cyan"
           elevation="12"
           max-width="calc(100% - 32px)"
         > -->
-      <!-- :labels="[...Array(verseall[chapter-1]).keys()]" -->
-        <!-- <v-sparkline
+    <!-- :labels="[...Array(verseall[chapter-1]).keys()]" -->
+    <!-- <v-sparkline
           :labels="myId"
           :value="myTime"
           line-width="2"
           padding="16"
           color="white"
         ></v-sparkline> -->
-        <!-- </v-sheet> -->
+    <!-- </v-sheet> -->
     <!-- <vue-c3 :handler="handler"></vue-c3> -->
-<!-- <div id="chart"></div> -->
-        </v-card>
-        <v-subheader :dark="GET_dark"> You have been granted the group leader privilege </v-subheader>        
-        <manageGroup></manageGroup>
-        <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
-        <joinGroup></joinGroup>
-        <chatGroup></chatGroup>
+    <!-- <div id="chart"></div> -->
+  </v-card>
+  <manageGroup></manageGroup>
+  <manageSession></manageSession>
+  <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
+  <joinGroup></joinGroup>
+  <chatGroup></chatGroup>
 
-<v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
+  <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <chantNavigation> </chantNavigation>
     <v-card-text class="pa-0">
@@ -36,72 +33,68 @@
       <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
         <v-layout row wrap>
           <v-flex xs12 class="ma-0">
-                    <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1">
-                      <div :class="{'addActiveBorder': currentVerse==-1}" class="pa-2">
-                      <div>
-                                  <readSalutation> </readSalutation>
-                      </div>
-                     <div class="fixButtonPosition" v-if="currentVerse==-1">
-            <v-btn icon large
-            @click="currentVerse+=1">
-              <v-icon large color="activity">&#128293;</v-icon>
-            </v-btn>
-                        </div>
-                    </div>
-                    </v-card>
+            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1">
+              <div :class="{'addActiveBorder': currentVerse==-1}" class="pa-2">
+                <div>
+                  <readSalutation> </readSalutation>
+                </div>
+                <div class="fixButtonPosition" v-if="currentVerse==-1">
+                  <v-btn icon large @click="currentVerse+=1">
+                    <v-icon large color="activity">&#128293;</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+            </v-card>
           </v-flex>
 
-<v-flex xs12 class="ma-0">
-          <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==0">
-            <div :class="{'addActiveBorder': currentVerse==0}" class="pa-2">
-            <div>
-            <readStart> </readStart>
-            </div>
-           <div class="fixButtonPosition" v-if="currentVerse==0">
-  <v-btn icon large
-  @click="currentVerse+=1">
-    <v-icon large color="activity">&#128293;</v-icon>
-  </v-btn>
+          <v-flex xs12 class="ma-0">
+            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==0">
+              <div :class="{'addActiveBorder': currentVerse==0}" class="pa-2">
+                <div>
+                  <readStart> </readStart>
+                </div>
+                <div class="fixButtonPosition" v-if="currentVerse==0">
+                  <v-btn icon large @click="currentVerse+=1">
+                    <v-icon large color="activity">&#128293;</v-icon>
+                  </v-btn>
+                </div>
               </div>
-          </div>
-          </v-card>
-</v-flex>
-          <v-flex xs12  v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`" v-observe-visibility="{
+            </v-card>
+          </v-flex>
+          <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`" v-observe-visibility="{
             callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
             throttle: 1
             }">
             <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(i+1)">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
-              <div>
-                <v-layout row align-top>
-                  <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                </v-layout>
-                <uvachCard :verse_id="item.verse_id"> </uvachCard>
-                <shloakCard :verse_id="item.verse_id"></shloakCard>
-              </div>
-             <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
-
-    <v-btn icon large
-    @click="proceedChant(1)">
-      <v-icon large color="activity">&#128293;</v-icon>
-    </v-btn>
+                <div>
+                  <v-layout row align-top>
+                    <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+                  </v-layout>
+                  <uvachCard :verse_id="item.verse_id"> </uvachCard>
+                  <shloakCard :verse_id="item.verse_id"></shloakCard>
                 </div>
-            </div>
+                <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
+
+                  <v-btn icon large @click="proceedChant(1)">
+                    <v-icon large color="activity">&#128293;</v-icon>
+                  </v-btn>
+                </div>
+              </div>
             </v-card>
           </v-flex>
         </v-layout>
         <v-flex class="ma-0 pa-0">
           <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(verseall[chapter-1] + 1)">
             <div :class="{'addActiveBorder': currentVerse==(verseall[chapter-1] + 1)}" class="pa-2">
-          <readEnd> </readEnd>
-          <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
-           <v-btn icon large
-           @click="proceedChant(-1)">
-             <v-icon large color="activity">&#128293;</v-icon>
-           </v-btn>
-             </div>
-             </div>
-             </v-card>
+              <readEnd> </readEnd>
+              <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
+                <v-btn icon large @click="proceedChant(-1)">
+                  <v-icon large color="activity">&#128293;</v-icon>
+                </v-btn>
+              </div>
+            </div>
+          </v-card>
         </v-flex>
         <v-flex v-observe-visibility="{
           callback: (isVisible, entry) => visibilityChangedEnd(isVisible, entry, verseall[chapter-1]),
@@ -138,20 +131,10 @@
 </template>
 
 <script>
-import {
-  mapState
-} from 'vuex';
-import {
-  mapActions
-} from 'vuex';
-import {
-  mapGetters
-} from 'vuex';
-import {
-  mapMutations
-} from 'vuex';
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 import joinGroup from './join-group.vue'
 import manageGroup from './manage-group.vue'
+import manageSession from './manage-session.vue'
 import chatGroup from './chat-group.vue'
 import shloakCard from '../read/subcomponents/shloak-card.vue'
 import readheaderCard from '../read/subcomponents/readheader-card.vue'
@@ -161,7 +144,7 @@ import readStart from '../read/subcomponents/read-start.vue'
 import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
-import Sanscript from 'Sanscript';
+import Sanscript from 'Sanscript'
 // import VueC3 from 'vue-c3'
 import c3 from 'c3'
 import Vue from 'vue'
@@ -409,7 +392,8 @@ addChantLog(val) {
     chantNavigation,
     joinGroup,
     manageGroup,
-    chatGroup
+    chatGroup,
+    manageSession
   }
 }
 </script>

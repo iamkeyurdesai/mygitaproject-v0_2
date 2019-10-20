@@ -9,9 +9,10 @@ const db = admin.firestore();
 
 // Add new group to the available groups
 exports.addGroup = functions.firestore
-  .document('groups/{group}/admin/{owner}')
+  .document('recite/chant/groups/\{group\}/admin/\{owner\}')
   .onCreate((snap, context) => {
     const document = snap.data()
+    console.info(document)
     //add to the master list
     return db.doc('aggregates/available_groups').update({
       groups: admin.firestore.FieldValue.arrayUnion(document)
@@ -24,7 +25,12 @@ exports.addGroup = functions.firestore
           }
           if (typeof user.customClaims !== 'undefined') {
             currentCustomClaims = user.customClaims
+            if(currentCustomClaims.owner !== 'undefined') {
+              delete currentCustomClaims.owner
+            }
             currentCustomClaims.owner = context.params.group
+            console.info(currentCustomClaims)
+            console.info(context.params.group)
           }
           return admin.auth().setCustomUserClaims(context.params.owner, currentCustomClaims)
         }
@@ -33,17 +39,29 @@ exports.addGroup = functions.firestore
   })
 // Delete an existing group
 exports.deleteGroup = functions.firestore
-  .document('groups/{group}/admin/{owner}')
+  .document('recite/chant/groups/\{group\}/admin/\{owner\}')
   .onDelete((snap, context) => {
     const document = snap.data()
     //remove the group from the master list
     return db.doc('aggregates/available_groups').update({
       groups: admin.firestore.FieldValue.arrayRemove(document)
     }).then(
-    //remove the leader custom claim
-    //cycle through the leaders array and remove one by one
-    document.leaders.forEach((email) => {
-    return  admin.auth().getUserByEmail(email).then((user) => {
+        //remove the owner custom claim
+      admin.auth().getUser(context.params.owner).then((user) => {
+          if (user.emailVerified) {
+            if (typeof user.customClaims !== 'undefined') {
+              let currentCustomClaims = user.customClaims
+              delete currentCustomClaims.owner
+              console.info("deleteGroup: I am here C")
+              return admin.auth().setCustomUserClaims(context.params.owner, currentCustomClaims)
+            }
+          }
+        })
+      ).then(
+      //remove the leader custom claim
+      //cycle through the leaders array and remove one by one
+        document.leaders.forEach((email) => {
+          return  admin.auth().getUserByEmail(email).then((user) => {
         // Confirm user is verified.
         if (user.emailVerified) {
           let currentCustomClaims = user.customClaims;
@@ -53,23 +71,13 @@ exports.deleteGroup = functions.firestore
           return admin.auth().setCustomUserClaims(user.uid, currentCustomClaims)
         }
       })
-    })
-  ).then(
-    //remove the owner custom claim
-     admin.auth().getUser(context.params.owner).then((user) => {
-      if (user.emailVerified) {
-        if (typeof user.customClaims !== 'undefined') {
-          let currentCustomClaims = user.customClaims
-          delete currentCustomClaims.owner
-          return admin.auth().setCustomUserClaims(context.params.leader, currentCustomClaims)
-        }
-      }
-    })
-  )
   })
+)
+  })
+
 // Update an existing group
 exports.updateGroup = functions.firestore
-  .document('groups/{group}/admin/{owner}')
+  .document('recite/chant/groups/\{group\}/admin/\{owner\}')
   .onUpdate((change, context) => {
     const document = change.after.data()
     const oldDocument = change.before.data()

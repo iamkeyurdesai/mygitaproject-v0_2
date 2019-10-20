@@ -22,7 +22,7 @@ export default {
           signInSuccessWithAuthResult: function(authResult) {
             if(authResult.additionalUserInfo.isNewUser) {
             var user = authResult.user
-            firebase.firestore().collection('Users').doc(authResult.user.uid).set({
+            firebase.firestore().collection('users').doc('profiles').collection('signin').doc(authResult.user.uid).set({
               name: user.displayName,
               email: user.email,
               photoUrl: user.photoURL,
