@@ -6,26 +6,32 @@
 
       <!-- new group form -->
       <div v-if="!userClaims.owner">
-        <!-- <div v-if="true"> -->
+        <div v-if="!groupAdded">
         <v-btn @click="showForm=true" color="info" v-if="!showForm">create new group</v-btn>
         <div class="ma-2" v-if="showForm">
+          <v-progress-linear :indeterminate="true" color="success" v-if="processForm"></v-progress-linear>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="name" :counter="15" :rules="nameRules" label="Group Name" required></v-text-field>
             <v-text-field v-model="missionStatement" :counter="60" :rules="missionStatementRules" label="Group/Org Purpose" required></v-text-field>
             <v-select v-model="select" :items="items" :rules="[v => !!v || 'Location is required']"
               label="Country of Origin" hint="Country of Origin" persistent-hint append-outer-icon="map" required single-line></v-select>
-            <v-btn :disabled="!valid || name==='' || select===null" @click="createGroup(), showForm=false" color="success" small>create</v-btn>
+            <!-- <v-btn :disabled="!valid || name==='' || select===null" @click="createGroup(), showForm=false" color="success" small>create</v-btn> -->
+            <v-btn :disabled="!valid" @click="createGroup()" color="success" small>create</v-btn>
             <v-btn @click="showForm=false" color="error" small>later</v-btn>
           </v-form>
         </div>
+        </div>
+        <div v-else align="center">
+          <div> ADDED!</div>
+          <v-btn @click="loadManageAccess()" color="info" v-if="!showEditPortal">manage group access</v-btn>
+          </div>
       </div>
-      <!-- add or remove leaders -->
 
+      <!-- add or remove leaders -->
       <div v-else>
         <v-btn @click="showEditPortal=true" color="info" v-if="!showEditPortal">manage group access</v-btn>
         <v-layout column class="ma-2 grey lighten-5 elevation-5 addBorderRound1" v-if="showEditPortal">
           <v-btn @click="deleteGroup()" color="info" v-if="showEditPortal">delete group </v-btn>
-            <!-- <v-flex class="pa-1" xm4 v-for="item in results" @click="SET_currentChantGroup(item.name), SET_currentChantGroupURL(item.url), searchGroup='', show_results()" :key="item.name"> -->
             <v-flex grow>
               <v-list two-line>
                 <v-list-tile>
@@ -84,13 +90,13 @@ var country_list = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguil
   ,"Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia"
   ,"Turkey","Turkmenistan","Turks & Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)"
   ,"Yemen","Zambia","Zimbabwe"]
-  import {db} from '@/main.js'
+  import {db, auth} from '@/main.js'
 export default {
   data: function() {
     return {
       index: null,
       results: null,
-      valid: true,
+      valid: false,
       emailToAdd: '',
       name: '',
       myGroupsData: '',
@@ -100,7 +106,7 @@ export default {
         v => (v && v.length > 8) || 'Group Name must be greater than 8 characters',
         v => (v && v.length <= 15) || 'Group Name must be less than 15 characters',
         v => (v || '').indexOf(' ') < 0 || 'No spaces are allowed',
-        v => this.myGroups.indexOf(v) < 0 || 'Group Name already taken'
+        v => this.myGroupsTakenName.indexOf(v) < 0 || 'Group Name already taken'
       ],
       missionStatement: '',
       missionStatementRules: [
@@ -117,6 +123,10 @@ export default {
       addGroupListner: false,
       showEditPortal: false,
       myLeadersKeep: [],
+      myGroupsTakenData: [],
+      myGroupsTakenName: [],
+      processForm: false,
+      groupAdded: false
     }
   },
   mounted() {
@@ -129,18 +139,10 @@ export default {
           })
       }
     })
-    if(this.userClaims.owner){
-      this.unsubscribe = firebase.firestore().collection("groups").doc(this.userClaims.owner).collection('admin').doc(firebase.auth().currentUser.uid)
-        .onSnapshot((doc) => {
-          console.log(doc.data())
-          this.myLeaders = doc.data().leaders
-          this.consoleInfo("current leaders: "+this.myLeaders)
-        })
-      }
   },
   computed: {
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-      'currentChantGroup', 'currentChantGroupURL', 'userClaims']),
+      'currentChantGroup', 'currentChantGroupURL', 'userClaims', 'userName']),
     ...mapGetters('settings', ['GET_dark']),
     cssProps() {
       return {
@@ -155,27 +157,43 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true
       }
-    },
-    reset() {
-      this.$refs.form.reset()
-    },
-    clear() {
-      console.log(countryList.getNames())
     },
     resetValidation() {
       this.$refs.form.resetValidation()
     },
     createGroup() {
-      db.collection("recite").doc("chant").collection("groups").doc(this.name).collection('admin').doc(firebase.auth().currentUser.uid).set({
-        name: this.name,
-        mission: this.missionStatement,
-        country: this.select,
-        url: this.photoURL,
-        time: firebase.firestore.FieldValue.serverTimestamp(),
-        leaders: []
-      })
+      if (this.$refs.form.validate()) {
+        this.processForm = true
+        this.valid = true
+        db.collection("recite").doc("chant").collection("groups").doc(this.name).collection('admin').doc(firebase.auth().currentUser.uid).set({
+          name: this.name,
+          owner: this.userName,
+          mission: this.missionStatement,
+          country: this.select,
+          url: this.photoURL,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+          leaders: []
+        })
+        .then(()=>{
+              this.processForm=false
+              this.showForm = false
+              this.groupAdded = true
+            })
+      } else {
+        console.log("not validated")
+      }
+    },
+    loadManageAccess() {
+        auth.currentUser.getIdToken(true)
+        .then(auth.currentUser.getIdTokenResult().then(
+            (idTokenResult) => {
+            console.log((idTokenResult.claims))
+            this.SET_userClaims(idTokenResult.claims)
+            if(this.userClaims.owner) {
+              this.showEditPortal = true
+            }
+          }))
     },
     deleteGroup() {
       db.collection("recite").doc("chant").collection("groups").doc(this.myGroupsData.name).collection('admin').doc(firebase.auth().currentUser.uid).delete().then(
@@ -201,9 +219,15 @@ export default {
       db.collection("logs").doc(firebase.auth().currentUser.uid).collection("chant").doc('t' + val.start_time).set(val)
     }
   },
+  // firestore: {
+  //   myGroupsTakenData: db.collection("aggregates").doc("available_groups")
+  // },
   watch: {
     unsubscribe: function() {
       this.createSearch()
+    },
+    myGroupsTakenData: function(){
+      this.myGroupsTakenData.groups.forEach((a) => {this.myGroupsTakenName.push(a.name)})
     },
     myGroupsData: function() {
       this.myLeadersKeep = Array(this.myGroupsData.leaders).fill(true)
@@ -221,7 +245,18 @@ export default {
        this.$unbind('myGroupsData', false)
      }
      },
-   }
+   },
+   showForm: {
+    // don't call it upon creation
+    immediate: false,
+    handler(showForm) {
+      if(showForm) {
+      this.$bind('myGroupsTakenData', db.collection("aggregates").doc("available_groups"))
+    } else {
+      this.$unbind('myGroupsTakenData', false)
+    }
+    },
+  }
   },
   components: {}
 }

@@ -57,12 +57,12 @@ export default {
     }
   },
   mounted() {
-    this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
-    this.groupMessagesRef.on('value',
-    (snapshot) => {
-     this.groupMessages = snapshot.val()
-     console.log(this.groupMessages1)
-    });
+    // this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
+    // this.groupMessagesRef.on('value',
+    // (snapshot) => {
+    //  this.groupMessages = snapshot.val()
+    //  console.log(this.groupMessages1)
+    // });
   },
   computed: {
     ...mapState('settings', ['options']),
@@ -118,14 +118,14 @@ decideBubble(name,i){
 },
 watch: {
   currentChantGroup: function(){
-    this.groupMessagesRef.off('value')
-     this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
-     this.groupMessagesRef.on('value',
-    (snapshot) => {
-      this.groupMessages = snapshot.val()
-    });
+    // this.groupMessagesRef.off('value')
+    //  this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
+    //  this.groupMessagesRef.on('value',
+    // (snapshot) => {
+    //   this.groupMessages = snapshot.val()
+    // });
 
-    this.groupMessagesRef1 = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(5)
+    this.groupMessagesRef1 = firebase.database().ref('chats/chant/' + this.currentChantGroup).orderByChild('time').limitToLast(2)
 this.groupMessagesRef1.on('child_added', (data) => {
   // console.log(data.val())
   this.myTop = window.pageYOffset

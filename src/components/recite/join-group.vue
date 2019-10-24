@@ -11,13 +11,14 @@
           </v-avatar>
           {{currentChantGroup}}
         </v-chip>
-      </div>      
+        <div>{{myGroupSelectData}}</div>
+      </div>
       <!-- search functionality to select group -->
       <!-- <div class="ma-2" @click="addGroupListner='true'"> -->
               <div class="ma-2" @click="addGroupListner=true">
         <v-text-field v-model="searchGroup" append-icon="mdi-magnify" label="Search Groups" single-line @input="show_results"></v-text-field>
         <v-layout row wrap>
-          <v-flex class="pa-1" xm4 v-for="item in results" @click="SET_currentChantGroup(item.name), SET_currentChantGroupURL(item.url), searchGroup='', show_results()" :key="item.name">
+          <v-flex class="pa-1" xm4 v-for="item in results" @click="selectGroup(item)" :key="item.name">
             <v-list two-line>
               <v-list-tile class="grey lighten-5 elevation-5 addBorderRound">
                 <v-list-tile-avatar>
@@ -47,12 +48,15 @@ export default {
       index: null,
       results: null,
       myGroupsData: null,
+      myGroupSelectData: null,
       searchGroup: '',
-      addGroupListner: false
+      addGroupListner: false,
+      addGroupSelectListner: false
     }
   },
   mounted() {
     console.log(firebase.firestore())
+    this.SET_currentChantGroup('Myself')
   },
   computed: {
     ...mapState('parameters', ['script', 'authenticated', 'photoURL', 'currentChantGroup', 'currentChantGroupURL']),
@@ -69,6 +73,13 @@ export default {
       //@click wouldn't directly accept console.log
       if (location.hostname === "localhost") { console.log(val)
       }
+    },
+    selectGroup(item){
+      this.SET_currentChantGroup(item.name)
+      this.SET_currentChantGroupURL(item.url)
+      this.searchGroup=''
+      this.show_results()
+      this.addGroupSelectListner = true
     },
     createSearch() {
       // add id to every entry of myGroupData
@@ -102,7 +113,18 @@ export default {
          this.createSearch()
        })
      },
-   }
+   },
+   addGroupSelectListner: {
+    // don't call it upon creation
+    immediate: false,
+    handler(addGroupSelectListner) {
+      this.$bind('myGroupSelectData',
+      db.collection("recite").doc("chant").collection("groups").doc(this.currentChantGroup).collection('admin').doc('status'))
+      .then(myGroupSelectData => {
+        console.log(myGroupSelectData)
+      })
+    },
+  }
   },
   beforeDestroy () {
     console.log('I am join-group and just got destroyed!')

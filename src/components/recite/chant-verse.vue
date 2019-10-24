@@ -145,6 +145,9 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript'
+import FastIntegerCompression from 'fastintcompression'
+var sizeof = require('object-sizeof')
+
 // import VueC3 from 'vue-c3'
 import c3 from 'c3'
 import Vue from 'vue'
@@ -174,7 +177,48 @@ export default {
     }
   },
     mounted () {
-      var chart = c3.generate({
+
+      function roughSizeOfObject( object ) {
+
+          var objectList = [];
+          var stack = [ object ];
+          var bytes = 0;
+
+          while ( stack.length ) {
+              var value = stack.pop();
+
+              if ( typeof value === 'boolean' ) {
+                  bytes += 4;
+              }
+              else if ( typeof value === 'string' ) {
+                  bytes += value.length * 2;
+              }
+              else if ( typeof value === 'number' ) {
+                  bytes += 8;
+              }
+              else if
+              (
+                  typeof value === 'object'
+                  && objectList.indexOf( value ) === -1
+              )
+              {
+                  objectList.push( value );
+
+                  for( var i in value ) {
+                      stack.push( value[ i ] );
+                  }
+              }
+          }
+          return bytes;
+      }
+
+    var array = [10,100000,65999,10,10,0,1,1,2000]
+    var buf = FastIntegerCompression.compress(array)
+    var back = FastIntegerCompression.uncompress(buf)
+    console.log(buf)
+    console.log(back)
+
+    var chart = c3.generate({
     bindto: '#chart',
     data: {
       columns: [
@@ -347,8 +391,15 @@ export default {
 this.myTime2[0] = this.myTime2[1]
 this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
 // this.myTime2.unshift("data1")
-console.log(this.myTime2)
-console.log(this.myOptions)
+//console.log(this.myTime2)
+//console.log(this.myOptions)
+console.log(FastIntegerCompression.compress(this.myTime1))
+//console.log(sizeof(FastIntegerCompression.compress(this.myTime2)))
+console.log(this.myTime1.map(a => a.toString(36)))
+console.log(sizeof(this.myTime1.map(a => a.toString(36))))
+console.log(sizeof(this.myTime1))
+//console.log(this.myTime2.map(a => a.toString(36)))
+this.myTime2.map(a => {console.log(a)})
 for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
