@@ -1,22 +1,12 @@
 <template>
-<v-layout column class="background lighten-1" :style="cssProps"  v-if="authenticated & isSessionLeader">
+<v-layout column class="background lighten-1" :style="cssProps"  v-if="authenticated && isSessionLeader">
     <v-subheader :dark="GET_dark"> Lead a session</v-subheader>
   <v-card class="ma-2">
     <div class="addBorder">
         <v-layout row wrap class="mx-2">
           <v-btn class="mt-2 text-none" v-for="(elem,i) in sessionsCanLead" :key="elem"
           @click="setSession(elem, 'open')" :color="sessionsCanLeadColors[i]" round dark>  {{elem}} </v-btn>
-
-        <!-- <v-chip class="mt-2" v-for="(elem,i) in sessionsCanLead" :key="elem"
-        close v-model="myLeadersKeep[i]" @input="update('remove', elem)" small>  {{elem}} </v-chip>
-
-        <v-chip class="mt-2" outline>
-        <v-text-field v-model="emailToAdd" label="Email" class="body-1"></v-text-field>
-        <v-icon @click="update('add', emailToAdd)" color="green">add</v-icon>
-        </v-chip> -->
-
         </v-layout>
-        <!-- <v-btn @click="setSession('open')" color="info">Open</v-btn> -->
     </div>
   </v-card>
 </v-layout>
@@ -54,13 +44,12 @@ export default {
     isSessionLeader() {
       let myDecision = false
       myDecision = (typeof this.userClaims.owner !== 'undefined') ||
-                   (this.userClaims.leader[0].length > 0)
-       console.log(this.userClaims)
+                   (this.userClaims.leader.length > 0)
       return myDecision
     },
     sessionsCanLead() {
       let whichOnes = []
-      if(this.userClaims.leader[0].length > 0) {
+      if(this.userClaims.leader.length > 0) {
         whichOnes = this.userClaims.leader
         this.sessionsCanLeadColors = Array(whichOnes.length).fill("pink darken-4")
       }

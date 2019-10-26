@@ -11,7 +11,7 @@
             </v-avatar>
           </v-btn>
           <v-list>
-            <v-list-tile v-for="(myitem, i) in myLoginMenu" :key="i" @click="logOut">
+            <v-list-tile v-for="(myitem, i) in myLoginMenu" :key="i" @click="logOut()">
               <v-list-tile-title>{{ myitem.title }}</v-list-tile-title>
             </v-list-tile>
           </v-list>

@@ -1,11 +1,17 @@
 <template>
         <v-layout column class="background lighten-1" :style="cssProps">
 
-<v-card class="indigo lighten-5 makeRelative1">
+<v-card class="indigo lighten-5 makeRelative1" @click="setAlertSingIn()">
 <!-- <v-flex > -->
   <!-- <v-layout column justify-end fill-height class="makeOverflow"> -->
-  <!-- <div class="makeOverflow1"> -->
-
+  <!-- <div class="makeOverflow1"> -->  
+    <v-alert
+    v-model="alertSingIn"
+    dismissible
+    type="warning"
+  >
+    Chat will be enabled after your group leader joins.
+  </v-alert>
             <v-layout v-bind="{'justify-end':item.name===userName}" :dark="GET_dark" v-for="(item,i) in this.groupMessages1" :key="i">
 <v-flex :class="decideBubble(item.name,i)!=='speech-bubble-simple'?'mx-3 mt-3 mb-1':'mx-3 mt-1 mb-1'" shrink>
              <span class="grey lighten-5 elevation-5 addBorderRound pa-1 d-inline-block"
@@ -21,8 +27,8 @@
         <!-- </v-layout> -->
         <!-- </v-flex> -->
           <v-layout row v-if="true" class="ma-3 makeRelative" :dark="GET_dark">
-            <v-textarea outline v-model="inputMessage" :rules="inputRules" label="Type a message" box auto-grow rows="1"></v-textarea>
-            <v-btn fab color="green" small dark @click="addChantMessage()"> <v-icon>send</v-icon> </v-btn>
+            <v-textarea outline v-model="inputMessage" :rules="inputRules" label="Type a message" box auto-grow rows="1" :disabled="!authenticated"></v-textarea>
+            <v-btn fab color="green" small dark @click="addChantMessage()" :disabled="!authenticated"> <v-icon>send</v-icon> </v-btn>
           </v-layout>
         </v-card>
         </v-layout>
@@ -32,6 +38,7 @@
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 import Sanscript from 'Sanscript';
 import anime from 'animejs'
+import {db, rtdb, auth} from '@/main.js'
 export default {
   data: function() {
     return {
@@ -40,6 +47,7 @@ export default {
       myTop: 0,
       groupMessages: null,
       groupMessages1: [],
+      groupMessages1tmp: [],
       groupMessagesRef: null,
       groupMessagesRef1: null,
       valid: true,
@@ -53,16 +61,12 @@ export default {
       items: [],
       checkbox: false,
       searchGroup: '',
-      showForm: false
+      showForm: false,
+      msgPosted: false,
+      alertSingIn: false
     }
   },
   mounted() {
-    // this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
-    // this.groupMessagesRef.on('value',
-    // (snapshot) => {
-    //  this.groupMessages = snapshot.val()
-    //  console.log(this.groupMessages1)
-    // });
   },
   computed: {
     ...mapState('settings', ['options']),
@@ -88,6 +92,7 @@ export default {
       return Sanscript.t(myinput, 'iast', this.script);
     },
 addChantMessage(val) {
+  this.msgPosted = true
   var database = firebase.database();
   firebase.database().ref('chats/chant/' + this.currentChantGroup + '/').push().set({
     name: firebase.auth().currentUser.displayName,
@@ -114,47 +119,60 @@ decideBubble(name,i){
     return name===this.userName?'speech-bubble-right':'speech-bubble-left'
   }
 }
+},
+setAlertSingIn() {
+  if(!this.authenticated) {
+    this.alertSingIn=true
+  } else {
+    this.alertSingIn=false
+  }
 }
 },
 watch: {
-  currentChantGroup: function(){
-    // this.groupMessagesRef.off('value')
-    //  this.groupMessagesRef = firebase.database().ref('chats/chant/' + this.currentChantGroup).limitToLast(10)
-    //  this.groupMessagesRef.on('value',
-    // (snapshot) => {
-    //   this.groupMessages = snapshot.val()
-    // });
+    currentChantGroup: {
+     // don't call it upon creation
+     immediate: false,
+     handler(currentChantGroup) {
+       this.$rtdbBind('groupMessages1tmp',
+       rtdb.ref('chats/chant/').child(this.currentChantGroup).orderByChild('time').limitToLast(2)).then((data) => {
+         this.groupMessages1 = this.groupMessages1tmp.map(a => a)
+       })
+     }
+   },
+   groupMessages1tmp: function() {
+         console.log(this.groupMessages1tmp)
+         console.log(this.groupMessages1)
+         console.log(this.groupMessages1tmp[this.groupMessages1tmp.length - 1]['time'])
+         console.log(this.groupMessages1[this.groupMessages1.length - 1]['time'])
 
-    this.groupMessagesRef1 = firebase.database().ref('chats/chant/' + this.currentChantGroup).orderByChild('time').limitToLast(2)
-this.groupMessagesRef1.on('child_added', (data) => {
-  // console.log(data.val())
-  this.myTop = window.pageYOffset
-  this.groupMessages1.push(data.val())
-  // console.log(this.groupMessages1)
-  setTimeout(() => {
-    anime({
-  targets: '#chantChat'+this.groupMessages1.length,
-  direction: 'normal',
-  opacity: [0, 1],
-  scale: [0, 1],
-  easing: 'linear',
-  duration: 500
-  })
-    let el = document.getElementById('chantChat'+this.groupMessages1.length);
-let style = window.getComputedStyle(el);
-let height = ['height', 'padding-top', 'padding-bottom', 'margin-top']
-        .map((key) => parseInt(style.getPropertyValue(key), 10))
-        .reduce((prev, cur) => prev + cur);
-      console.log(height)
-      console.log(this.myTop+height)
-    this.$vuetify.goTo(this.myTop+(height+56), {
-    duration: 400,
-    offset: 0,
-    easing: 'linear'
-  })}, 10)
-});
-
-  }
+         if(!this.msgPosted){
+          this.groupMessages1.push(this.groupMessages1tmp[this.groupMessages1tmp.length - 1])
+          this.myTop = window.pageYOffset
+         setTimeout(() => {
+           anime({
+         targets: '#chantChat'+this.groupMessages1.length,
+         direction: 'normal',
+         opacity: [0, 1],
+         scale: [0, 1],
+         easing: 'linear',
+         duration: 500
+         })
+           let el = document.getElementById('chantChat'+this.groupMessages1.length);
+       let style = window.getComputedStyle(el);
+       let height = ['height', 'padding-top', 'padding-bottom', 'margin-top']
+               .map((key) => parseInt(style.getPropertyValue(key), 10))
+               .reduce((prev, cur) => prev + cur);
+             console.log(height)
+             console.log(this.myTop+height)
+           this.$vuetify.goTo(this.myTop+(height+56), {
+           duration: 400,
+           offset: 0,
+           easing: 'linear'
+         })}, 10)
+       } else {
+         this.msgPosted = false
+       }
+       }
 },
   components: {
   }

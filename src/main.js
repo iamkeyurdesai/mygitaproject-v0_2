@@ -53,7 +53,8 @@ import {
   VChip,
   VSubheader,
   VCheckbox,
-  VForm
+  VForm,
+  VAlert
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -102,7 +103,8 @@ Vue.use(Vuetify, {
     VChip,
     VSubheader,
     VCheckbox,
-    VForm
+    VForm,
+    VAlert
   },
   theme: {
     primary: "#190933",
@@ -166,9 +168,9 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import VueAnalytics from 'vue-analytics'
 import fullscreen from 'vue-fullscreen'
 import SocialSharing from 'vue-social-sharing'
-import { firestorePlugin } from 'vuefire'
+import { firestorePlugin, rtdbPlugin } from 'vuefire'
 Vue.use(firestorePlugin)
-
+Vue.use(rtdbPlugin)
 Vue.use(SocialSharing);
 Vue.use(fullscreen)
 Vue.use(VueAnalytics, {

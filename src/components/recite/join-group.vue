@@ -1,6 +1,17 @@
 <template>
-<v-layout column class="background lighten-1" :style="cssProps" v-if="authenticated">
-  <v-card class="ma-2">
+<v-layout column class="background lighten-1" :style="cssProps">
+  <v-card class="ma-2" @click="setAlertSingIn()">
+    <v-alert
+    v-model="alertSingIn"
+    dismissible
+    type="info" v-if="!authenticated">
+    <v-btn small flat class="activity white--text ma-0 pa-0" @click.native.stop="dialog = true">Sing In</v-btn> to enable this functionality.
+    <div v-if="alertSingIn">
+    <v-dialog v-model="dialog" lazy v-if="alertSingIn">
+      <firebase-auth1  v-if="alertSingIn"></firebase-auth1>
+    </v-dialog>
+  </div>
+  </v-alert>
     <div class="addBorder">
       <!-- display the selected group -->
       <div class="ma-2 subheading">
@@ -16,7 +27,7 @@
       <!-- search functionality to select group -->
       <!-- <div class="ma-2" @click="addGroupListner='true'"> -->
               <div class="ma-2" @click="addGroupListner=true">
-        <v-text-field v-model="searchGroup" append-icon="mdi-magnify" label="Search Groups" single-line @input="show_results"></v-text-field>
+        <v-text-field v-model="searchGroup" append-icon="mdi-magnify" label="Search Groups" single-line @input="show_results" :disabled="!authenticated"></v-text-field>
         <v-layout row wrap>
           <v-flex class="pa-1" xm4 v-for="item in results" @click="selectGroup(item)" :key="item.name">
             <v-list two-line>
@@ -40,6 +51,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
+import firebaseAuth from '@/components/root/firebase-auth.vue'
 import {db} from '@/main.js'
 var FlexSearch = require("flexsearch")
 export default {
@@ -51,7 +63,9 @@ export default {
       myGroupSelectData: null,
       searchGroup: '',
       addGroupListner: false,
-      addGroupSelectListner: false
+      addGroupSelectListner: false,
+      alertSingIn: false,
+      dialog: false
     }
   },
   mounted() {
@@ -95,6 +109,13 @@ export default {
     },
     show_results() {
       this.results = this.index.search(this.searchGroup);
+    },
+    setAlertSingIn() {
+      if(!this.authenticated) {
+        this.alertSingIn=true
+      } else {
+        this.alertSingIn=false
+      }
     }
   },
   watch: {
@@ -129,7 +150,9 @@ export default {
   beforeDestroy () {
     console.log('I am join-group and just got destroyed!')
   },
-  components: {}
+  components: {
+    'firebase-auth1': firebaseAuth
+  }
 }
 </script>
 
