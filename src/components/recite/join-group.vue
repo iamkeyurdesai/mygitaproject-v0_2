@@ -22,7 +22,19 @@
           </v-avatar>
           {{currentChantGroup}}
         </v-chip>
-        <div>{{myGroupSelectData}}</div>
+        <v-layout row v-if="myGroupSelectDataAdded">
+            one
+            <v-flex xs4 grow>
+          </v-flex>
+          <v-flex xs8 shrink>
+            Last chanted: <br>
+            Chapter {{myGroupSelectData.previous.chapter}} in {{myGroupSelectData.previous.duration/1000}} minutes <br>
+            Led by {{myGroupSelectData.previous.leader}} <br>
+            On {{getDayDate(myGroupSelectData.previous.time.seconds)}} at
+            {{getAMPM(myGroupSelectData.previous.time.seconds)}} <br>
+            Total {{myGroupSelectData.previous.total}} participants
+          </v-flex>
+        </v-layout>
       </div>
       <!-- search functionality to select group -->
       <!-- <div class="ma-2" @click="addGroupListner='true'"> -->
@@ -55,6 +67,10 @@ import firebaseAuth from '@/components/root/firebase-auth.vue'
 import {db} from '@/main.js'
 var FlexSearch = require("flexsearch")
 export default {
+  props: {
+    myGroupSelectData: Object,    
+    myGroupSelectDataAdded: Boolean
+  },
   data: function() {
     return {
       index: null,
@@ -87,6 +103,14 @@ export default {
       //@click wouldn't directly accept console.log
       if (location.hostname === "localhost") { console.log(val)
       }
+    },
+    getAMPM(val) {
+      var time = new Date(val)
+      return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    },
+    getDayDate(val) {
+      var time = new Date(val)
+      return time.toDateString()
     },
     selectGroup(item){
       this.SET_currentChantGroup(item.name)
@@ -132,20 +156,12 @@ export default {
        this.$bind('myGroupsData', db.collection("aggregates").doc("available_groups"))
        .then(myGroupsData => {
          this.createSearch()
+         console.log(myGroupsData)
+         console.log(JSON.parse(JSON.stringify(myGroupsData)))
+         console.log(Object.assign({},myGroupsData))
        })
      },
-   },
-   addGroupSelectListner: {
-    // don't call it upon creation
-    immediate: false,
-    handler(addGroupSelectListner) {
-      this.$bind('myGroupSelectData',
-      db.collection("recite").doc("chant").collection("groups").doc(this.currentChantGroup).collection('admin').doc('status'))
-      .then(myGroupSelectData => {
-        console.log(myGroupSelectData)
-      })
-    },
-  }
+   }
   },
   beforeDestroy () {
     console.log('I am join-group and just got destroyed!')

@@ -1,6 +1,23 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <v-card class="mt-3 mx-auto background" :dark="GET_dark">
+    <!-- <v-sheet
+          class="v-sheet--offset mx-auto"
+          color="cyan"
+          elevation="12"
+          max-width="calc(100% - 32px)"
+        > -->
+    <!-- :labels="[...Array(verseall[chapter-1]).keys()]" -->
+    <!-- <v-sparkline
+          :labels="myId"
+          :value="myTime"
+          line-width="2"
+          padding="16"
+          color="white"
+        ></v-sparkline> -->
+    <!-- </v-sheet> -->
+    <!-- <vue-c3 :handler="handler"></vue-c3> -->
+    <!-- <div id="chart"></div> -->
   </v-card>
   <manageGroup></manageGroup>
   <manageSession></manageSession>
@@ -44,7 +61,10 @@
               </div>
             </v-card>
           </v-flex>
-          <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`">
+          <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`" v-observe-visibility="{
+            callback: (isVisible, entry) => visibilityChanged(isVisible, entry, i),
+            throttle: 1
+            }">
             <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(i+1)">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
                 <div>
@@ -76,7 +96,10 @@
             </div>
           </v-card>
         </v-flex>
-        <v-flex>
+        <v-flex v-observe-visibility="{
+          callback: (isVisible, entry) => visibilityChangedEnd(isVisible, entry, verseall[chapter-1]),
+          throttle: 10
+          }">
           <v-card class="background ma-0 pa-0" flat :dark="GET_dark"> <br> </v-card>
         </v-flex>
       </v-container>
@@ -122,7 +145,7 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript'
-import {db, rtdb} from '@/main.js'
+import {db} from '@/main.js'
 // import VueC3 from 'vue-c3'
 import c3 from 'c3'
 import Vue from 'vue'
@@ -154,13 +177,62 @@ export default {
     }
   },
     mounted () {
+    var chart = c3.generate({
+    bindto: '#chart',
+    data: {
+      columns: [
+        ['data1', 30, 200, 100, 400, 150, 250],
+        ['data2', 50, 20, 10, 40, 15, 25]
+      ],
+      axes: {
+        data2: 'y2'
+      },
+      types: {
+        data2: 'bar' // ADD
+      }
+    },
+    axis: {
+      y: {
+        label: {
+          text: 'Y Label',
+          position: 'outer-middle'
+        }
+      },
+      y2: {
+        show: true,
+        label: {
+          text: 'Y2 Label',
+          position: 'outer-middle'
+        }
+      }
+    }
+});
+      this.myOptions = {
+        size: {
+        width: 350
+      },
+        data: {
+          columns: [
+            // ['data1', 2, 4, 1, 5, 2, 1, 3, 1, 3, 5, 3, 2, 7, 8, 9, 7, 3, 1],
+            this.myTime
+            // ['data2', 7, 2, 4, 6, 10, 1, 4, 7, 8, 12, 14, 8, 5, 2, 5, 2, 2, 1]
+          ],
+          types: 'spline'
+        },
+        points: {
+          show: false
+        }
+      }
+      this.myOptions.data.columns[0].unshift('data1')
+      // this.handler.$emit('init', this.myOptions)
+      console.log(this.myOptions)
     },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'reciteChantFontSize', 'verseall',
+      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall',
       'currentChantGroup'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
@@ -192,10 +264,17 @@ export default {
         '--mainColor': this.options[this.theme].emphasis.high
       }
     }
+    // c3Options() {
+    //     data: {
+    //       columns: [
+    //         ['data1', 2, 4, 1, 5, 2, 1]
+    //       ]
+    //     }
+    //   }
   },
   methods: {
     ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
-      'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_verse', 'SET_chapter',
+      'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_loadTheRestOfVerses', 'SET_verse', 'SET_chapter',
     ]),
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
@@ -207,7 +286,41 @@ export default {
       } else {
         this.fabShow = false
       }
+      this.offsetTop = scrollTemp
+      if (scrollTemp > 300) {
+        this.SET_loadTheRestOfVerses(true)
+      }
     },
+    visibilityChanged(isVisible, entry, i) {
+      if(this.isChantOn) {
+      if(isVisible) this.myTrue[i] = entry.time
+      if(!isVisible) this.myFalse[i] = entry.time
+    }
+        if(isVisible & i==0){
+        this.snackbarReset = true
+        this.snackbar1 = false
+        this.snackbar2 = false
+      }
+    },
+    visibilityChangedEnd(isVisible, entry, i) {
+      if (isVisible & this.snackbarReset & i > 3) {
+        this.snackbarReset = false
+        this.isChantOn = false
+        this.snackbar1 = true
+        for(var i = 0;i<=this.myTrue.length-1;i++) {
+        this.myTime.push(Math.ceil(this.myFalse[i] - this.myTrue[i]))
+        this.myId.push(i+1)
+      }
+        console.log(this.myTrue, this.myFalse, this.myTime)
+        // for(var i = 0;i<=this.myOptions.data.columns[0].length-1;i++) {
+        // this.myOptions.data.columns[0][i] = this.myTime[i]}
+        // this.myOptions.data.columns[0].unshift('data1')
+        console.log(this.myOptions)
+        // this.handler.$emit('init', this.myOptions)
+
+        // this.handler.$emit('init', this.c3Options)
+      }
+  },
   proceedChant(val){
     if(val===1) {
     if(this.currentVerse==1) {
@@ -216,6 +329,7 @@ export default {
       if (this.sanskritLabels['c' + this.chapter]) {
         this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
       }
+      console.log(this.myAnn)
     }
     let dt = new Date()
     this.myTime1.push(Math.ceil(dt.getTime()))
@@ -229,34 +343,42 @@ export default {
   }
   this.myTime1[0] = this.myTime1[1]
   this.myTime2[0] = this.myAnn.time[this.myAnn.verse.lastIndexOf(1)]
+  console.log(this.myTime1)
     this.currentVerse = -1
   for(var i = this.myTime2.length - 1;i>0;i--) {
   this.myTime2[i] = (Math.ceil((this.myTime2[i] - this.myTime2[i-1])*1000))
 }
 this.myTime2[0] = this.myTime2[1]
 this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
-//console.log(this.myTime1.map(a => a.toString(36)))
-//console.log(sizeof(this.myTime1.map(a => a.toString(36))))
+// this.myTime2.unshift("data1")
+//console.log(this.myTime2)
+//console.log(this.myOptions)
+console.log(FastIntegerCompression.compress(this.myTime1))
+//console.log(sizeof(FastIntegerCompression.compress(this.myTime2)))
+console.log(this.myTime1.map(a => a.toString(36)))
+console.log(sizeof(this.myTime1.map(a => a.toString(36))))
+console.log(sizeof(this.myTime1))
 //console.log(this.myTime2.map(a => a.toString(36)))
-//this.myTime2.map(a => {console.log(a)})
+this.myTime2.map(a => {console.log(a)})
 for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
+  this.handler.$emit('init', this.myOptions)
   let dt = new Date()
   let dataSend = {
     chapter_id: this.chapter,
-    group: this.currentChantGroup,
+    group: 'none',
     start_time: dt.getTime(),
     score: 100,
-    time: this.myTime1
+    time: this.myTime
   }
   console.log(dataSend)
   this.addChantLog(dataSend)
   }
 },
 addChantLog(val) {
-  rtdb.ref('recite/chant/groups/' + this.currentChantGroup + '/results/').push().set(val)
-  //db.collection("logs").doc(firebase.auth().currentUser.uid).collection("chant").doc('t'+val.start_time).push().set(val)
+  var db = firebase.firestore();
+  db.collection("logs").doc(firebase.auth().currentUser.uid).collection("chant").doc('t'+val.start_time).set(val)
 }
 },
   beforeRouteEnter(to, from, next) {

@@ -18,7 +18,8 @@ import {db, rtdb, auth} from '@/main.js'
 export default {
   data: function() {
     return {
-      sessionsCanLeadColors: []
+      sessionsCanLeadColors: [],
+      myGroupSelectData: null
     };
   },
   mounted() {
@@ -62,20 +63,38 @@ export default {
   },
   methods: {
     ...mapMutations("parameters", ["SET_userClaims", "SET_currentChantGroup"]),
-    setSession(group, val) {
+    async setSession(group, val) {
+      try {
       this.SET_currentChantGroup(group)
-      db.collection("recite").doc("chant").collection("groups").doc(this.currentChantGroup).collection('admin').doc('status').set({
-        ledBy: this.userName,
-        time: firebase.firestore.FieldValue.serverTimestamp()
-      })
-      rtdb.ref('recite/chant/admin/' + this.currentChantGroup + '/status').set({
-        name: auth.currentUser.displayName,
-        time: firebase.database.ServerValue.TIMESTAMP,
-        session: val
-      })
-}
+      const docRef = db.collection("recite/chant/groups").doc(this.currentChantGroup).collection('admin').doc('status')
+      const document = await docRef.get()
+      this.myGroupSelectData = document.data()
+      await  docRef.set({
+            current: {
+              leader: this.userName,
+              total: 0,
+              time: firebase.firestore.FieldValue.serverTimestamp(),
+              duration: 0,
+              chapter: this.chapter,
+              mahatmya: false,
+              score:   0,
+              online: true
+            },
+            previous: Object.assign({},this.myGroupSelectData.current)
+          })
+      await rtdb.ref('recite/chant/groups/' + this.currentChantGroup + '/admin/status').set({
+            name: auth.currentUser.displayName,
+            time: firebase.database.ServerValue.TIMESTAMP,
+            session: val
+          })
+        }
+        catch (err) {
+        }
+      }
   },
-  components: {}
+  components: {},
+  watch: {
+  }
 };
 </script>
 
