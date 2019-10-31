@@ -14,6 +14,9 @@
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
 export default {
+  props: {
+    whatScript: String
+  },
   data: () => ({
   }),
   computed: {
@@ -34,11 +37,19 @@ export default {
 },
 methods: {
   convert_flexible(myinput) {
+if(this.whatScript!==undefined) {
     if(this.chapter < 19) {
-    return Sanscript.t(myinput, 'devanagari', this.script);
+    return Sanscript.t(myinput, 'devanagari', this.whatScript);
   } else {
-    return Sanscript.t(myinput, 'iast', this.script);
+    return Sanscript.t(myinput, 'iast', this.whatScript);
   }
+} else {
+  if(this.chapter < 19) {
+  return Sanscript.t(myinput, 'devanagari', this.script);
+} else {
+  return Sanscript.t(myinput, 'iast', this.script);
+}
+}
   }
 }
 }

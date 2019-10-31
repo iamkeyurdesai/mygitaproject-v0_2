@@ -17,6 +17,8 @@ const state = {
   showVerse: true,
   showAnvaya: false,
   currentChantGroup: 'Myself',
+  chantAddColumn: false,
+  chantSecondScript: undefined,
   userClaims: {},
   currentChantGroupURL: '',
   columnCount: 2,

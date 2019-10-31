@@ -145,6 +145,12 @@ const SET_currentChantGroup = (state, input) => {
 const SET_currentChantGroupURL = (state, input) => {
   state.currentChantGroupURL = input
 };
+const SET_chantAddColumn = (state, input) => {
+  state.chantAddColumn = input
+};
+const SET_chantSecondScript = (state, input) => {
+  state.chantSecondScript = input
+};
 const SET_userClaims = (state, input) => {
   state.userClaims = input
 };
@@ -202,5 +208,7 @@ export default {
   SET_alphabetSelect,
   SET_currentChantGroup,
   SET_currentChantGroupURL,
-  SET_userClaims
+  SET_userClaims,
+  SET_chantAddColumn,
+  SET_chantSecondScript
 };

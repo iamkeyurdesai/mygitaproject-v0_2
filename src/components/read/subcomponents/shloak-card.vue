@@ -6,7 +6,7 @@ Local func convert() used lib Sanscript -->
 
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
-  <v-layout row align-center justify-center class="adjustLineHeight pa-2">
+  <v-layout row align-center justify-center class="adjustLineHeight pa-1">
     <!-- breakSandhi is false -->
     <div v-if="!breakSandhi | !wordByWord"  key="breakSandhiFalse" align="left">
       <!-- render four foots -->
@@ -95,7 +95,8 @@ export default {
     verse_id: Number,
     required: true,
     verseNumber: Boolean,
-    wordByWord: Boolean
+    wordByWord: Boolean,
+    whatScript: String
   },
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"],  // goes to six due to 6 foot verses in chapter 1
@@ -123,11 +124,19 @@ export default {
   },
   methods: {
     convert(myinput) {
-      if(this.script === "iast") {
-        return myinput
-      } else {
-      return Sanscript.t(myinput, 'iast', this.script);
-    }
+if(this.whatScript!==undefined) {
+  if(this.whatScript === "iast") {
+    return myinput
+  } else {
+  return Sanscript.t(myinput, 'iast', this.whatScript);
+}
+} else {
+  if(this.script === "iast") {
+    return myinput
+  } else {
+  return Sanscript.t(myinput, 'iast', this.script);
+}
+}
     },
     checkBreak(i, j) {
       let myflag = false

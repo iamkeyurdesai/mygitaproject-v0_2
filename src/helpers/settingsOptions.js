@@ -104,5 +104,5 @@ export const options = {
   // fweight: ['100', '300', '400', '500', '700', '900'],
   fsize: ['small', 'medium', 'big'],
   fsizeInternal: {small: 'body-1', medium: 'subheading', big: 'title'},
-  fsizeAvailable: ['body-1', 'subheading', 'title', 'headline', 'display-1', 'display-2', 'display-3', 'display-4']
+  fsizeAvailable: ['caption', 'body-1', 'subheading', 'title', 'headline', 'display-1', 'display-2', 'display-3', 'display-4']
 }

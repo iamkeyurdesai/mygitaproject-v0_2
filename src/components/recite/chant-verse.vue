@@ -8,7 +8,37 @@
   <joinGroup :myGroupSelectData="myGroupSelectData" :myGroupSelectDataAdded="myGroupSelectDataAdded"></joinGroup>
   <chatGroup></chatGroup>
 
-  <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
+  <v-subheader :dark="GET_dark"> Begin chanting
+    <v-spacer> </v-spacer>
+    <v-expand-transition>
+    <div v-if="!chantAddColumn">
+    <v-btn @click="addPressed()" fab color="accentmain" small>
+      <v-icon dark large>add</v-icon>
+    </v-btn>
+  </div>
+
+  <div v-else>
+    <!-- breakSandhi -->
+    <v-btn icon  color="accentmain" v-if="!breakSandhi1" v-on:click.stop="breakSandhi1=true">
+      <v-icon> gavel</v-icon>
+    </v-btn>
+    <v-btn icon  color="activity" v-else v-on:click.stop="breakSandhi1=false">
+      <v-icon small> gavel</v-icon>
+    </v-btn>
+    <v-btn icon  color="accentmain" v-if="!breakSandhi2" v-on:click.stop="breakSandhi2=true">
+      <v-icon> gavel</v-icon>
+    </v-btn>
+    <v-btn icon  color="activity" v-else v-on:click.stop="breakSandhi2=false">
+      <v-icon small> gavel</v-icon>
+    </v-btn>
+    <v-btn @click="removePressed()" fab color="accentinfo" small>
+      <v-icon dark large>clear</v-icon>
+    </v-btn>
+    </div>
+    </v-expand-transition>
+  </v-subheader>
+
+
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <chantNavigation> </chantNavigation>
     <v-card-text class="pa-0">
@@ -18,13 +48,23 @@
           <v-flex xs12 class="ma-0">
             <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1">
               <div :class="{'addActiveBorder': currentVerse==-1}" class="pa-2">
-                <div>
+                <div v-if="chantAddColumn">
+                  <v-layout row align-start>
+                    <v-flex xs5>
+                  <readSalutation> </readSalutation>
+                  </v-flex>
+                  <v-flex xs5>
+                  <readSalutation whatScript="iast"> </readSalutation>
+                  </v-flex>
+                  </v-layout>
+                </div>
+                <div v-else>
                   <readSalutation> </readSalutation>
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==-1">
                   <v-btn icon large @click="currentVerse+=1">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
+                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -34,38 +74,72 @@
           <v-flex xs12 class="ma-0">
             <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==0">
               <div :class="{'addActiveBorder': currentVerse==0}" class="pa-2">
-                <div>
+                <div v-if="chantAddColumn">
+                  <v-layout row align-start>
+                    <v-flex xs5>
                   <readStart> </readStart>
+                  </v-flex>
+                  <v-flex xs5>
+                  <readStart whatScript="iast"> </readStart>
+                  </v-flex>
+                  </v-layout>
                 </div>
+                <div v-else>
+                  <readStart> </readStart>
+                  </div>
                 <div class="fixButtonPosition" v-if="currentVerse==0">
                   <v-btn icon large @click="currentVerse+=1">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
+                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
             </v-card>
           </v-flex>
+
           <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`">
+            <div>
             <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
-                <div>
+                <div v-if="chantAddColumn">
                   <v-layout row align-top>
                     <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
                   </v-layout>
+                  <v-layout row align-start>
+                    <v-flex xs5>
+                    <v-layout column>
                   <uvachCard :verse_id="item.verse_id"> </uvachCard>
                   <shloakCard :verse_id="item.verse_id"></shloakCard>
+                  </v-layout>
+                </v-flex>
+                <v-flex xs5>
+                  <v-layout column>
+                <uvachCard :verse_id="item.verse_id" whatScript="iast"> </uvachCard>
+                <shloakCard :verse_id="item.verse_id" whatScript="iast"></shloakCard>
+                </v-layout>
+                </v-flex>
+                  </v-layout>
+                </div>
+                <div v-else>
+                  <v-layout row align-top>
+                    <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
+                  </v-layout>
+                  <v-layout column>
+                <uvachCard :verse_id="item.verse_id"> </uvachCard>
+                <shloakCard :verse_id="item.verse_id"></shloakCard>
+                </v-layout>
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
-
                   <v-btn icon large @click="proceedChant(1)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
+                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
             </v-card>
+            </div>
           </v-flex>
+
         </v-layout>
         <v-flex class="ma-0 pa-0">
           <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(verseall[chapter-1] + 1)}">
@@ -74,7 +148,7 @@
               <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
                 <v-btn icon large @click="proceedChant(-1)">
                   <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                  <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
+                  <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                 </v-btn>
               </div>
             </div>
@@ -136,6 +210,8 @@ export default {
       searchGroup: '',
       myGroupSelectData: {},
       myGroupSelectDataAdded: false,
+      breakSandhi1: false,
+      breakSandhi2: false,
       snackbarReset: false,
       snackbar1: false,
       snackbar2: false,
@@ -158,7 +234,6 @@ export default {
     }
   },
     mounted () {
-
     },
   computed: {
     ...mapState('settings', ['options']),
@@ -166,7 +241,7 @@ export default {
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'reciteChantFontSize', 'verseall',
-      'currentChantGroup'
+      'currentChantGroup', 'chantAddColumn', 'chantSecondScript', 'loadTheRestOfVerses'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
     ...mapGetters('settings', ['GET_dark']),
@@ -200,8 +275,19 @@ export default {
   },
   methods: {
     ...mapMutations('parameters', ['incrementChapter', 'decrementChapter',
-      'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_verse', 'SET_chapter',
+      'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_verse', 'SET_chapter', 'SET_chantAddColumn', 'SET_chantSecondScript',
+      'SET_loadTheRestOfVerses'
     ]),
+    addPressed() {
+    this.SET_loadTheRestOfVerses(false)
+    this.SET_chantAddColumn(true)
+  },
+  removePressed() {
+  this.SET_loadTheRestOfVerses(false)
+  this.SET_chantAddColumn(false)
+  this.breakSandhi1=false
+  this.breakSandhi2=false
+},
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
     },
@@ -213,6 +299,9 @@ export default {
         this.fabShow = false
       }
       this.offsetTop = scrollTemp
+      if(scrollTemp > 800) {
+        this.SET_loadTheRestOfVerses(true)
+      }
     },
   proceedChant(val){
     if(val===1) {
@@ -366,10 +455,10 @@ path.domain { fill: var(--mainColor); }
 .c3-legend-item text { fill: var(--mainColor); }
 .fixButtonPosition{
   position: absolute;
-  bottom: 12px;
-  right: 6px;
+  bottom: 0px;
+  right: 0px;
   .v-btn{
-    width: 60px;
+    width: 54px;
   }
 }
 .addActiveBorder{

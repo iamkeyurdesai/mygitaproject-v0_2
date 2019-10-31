@@ -17,7 +17,8 @@ import Sanscript from 'Sanscript';
 export default {
   props: {
     verse_id: Number,
-    required: true
+    required: true,
+    whatScript: String
   },
   data: () => ({
   }),
@@ -47,7 +48,11 @@ export default {
   },
   methods: {
     convert(myinput) {
-      return Sanscript.t(myinput, 'iast', this.script);
+      if(this.whatScript!==undefined) {
+      return Sanscript.t(myinput, 'iast', this.whatScript)
+    } else {
+      return Sanscript.t(myinput, 'iast', this.script)
+    }
     }
   }
 }

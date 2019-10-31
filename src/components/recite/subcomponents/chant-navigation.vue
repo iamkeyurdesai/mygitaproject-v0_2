@@ -75,9 +75,9 @@ reciteChantFontSize: {
     'SET_showVerse', 'SET_reciteChantFontSize']),
     zoomChantFont (mode) {
       if(mode=="plus") {
-        if(this.reciteChantFontSize < 6) this.reciteChantFontSize = this.reciteChantFontSize + 1
+        if(this.reciteChantFontSize < 7) this.reciteChantFontSize = this.reciteChantFontSize + 1
       } else {
-        if(this.reciteChantFontSize > 1) this.reciteChantFontSize = this.reciteChantFontSize - 1
+        if(this.reciteChantFontSize > 0) this.reciteChantFontSize = this.reciteChantFontSize - 1
       }
     }
   }
