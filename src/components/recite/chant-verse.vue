@@ -23,7 +23,8 @@
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==-1">
                   <v-btn icon large @click="currentVerse+=1">
-                    <v-icon large color="activity">&#128293;</v-icon>
+                    <!-- <v-icon large color="activity">&#128293;</v-icon> -->
+                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -38,14 +39,15 @@
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==0">
                   <v-btn icon large @click="currentVerse+=1">
-                    <v-icon large color="activity">&#128293;</v-icon>
+                    <!-- <v-icon large color="activity">&#128293;</v-icon> -->
+                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
             </v-card>
           </v-flex>
           <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`">
-            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(i+1)">
+            <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
                 <div>
                   <v-layout row align-top>
@@ -57,7 +59,8 @@
                 <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
 
                   <v-btn icon large @click="proceedChant(1)">
-                    <v-icon large color="activity">&#128293;</v-icon>
+                    <!-- <v-icon large color="activity">&#128293;</v-icon> -->
+                    <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -65,12 +68,13 @@
           </v-flex>
         </v-layout>
         <v-flex class="ma-0 pa-0">
-          <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==(verseall[chapter-1] + 1)">
+          <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(verseall[chapter-1] + 1)}">
             <div :class="{'addActiveBorder': currentVerse==(verseall[chapter-1] + 1)}" class="pa-2">
               <readEnd> </readEnd>
               <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
                 <v-btn icon large @click="proceedChant(-1)">
-                  <v-icon large color="activity">&#128293;</v-icon>
+                  <!-- <v-icon large color="activity">&#128293;</v-icon> -->
+                  <v-img src="/static/img/gif/hawan2_1024x1024.gif"></v-img>
                 </v-btn>
               </div>
             </div>
@@ -362,8 +366,11 @@ path.domain { fill: var(--mainColor); }
 .c3-legend-item text { fill: var(--mainColor); }
 .fixButtonPosition{
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 12px;
+  right: 6px;
+  .v-btn{
+    width: 60px;
+  }
 }
 .addActiveBorder{
   border: 1px solid var(--chantBorderColor);
