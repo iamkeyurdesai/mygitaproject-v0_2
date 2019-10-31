@@ -154,6 +154,7 @@ export default {
     }
   },
     mounted () {
+
     },
   computed: {
     ...mapState('settings', ['options']),
@@ -207,6 +208,7 @@ export default {
       } else {
         this.fabShow = false
       }
+      this.offsetTop = scrollTemp
     },
   proceedChant(val){
     if(val===1) {
@@ -242,21 +244,77 @@ this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
 for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
+  let myScore = this.computeScore(this.myTime1)
+  console.log(myScore)
   let dt = new Date()
   let dataSend = {
     chapter_id: this.chapter,
     group: this.currentChantGroup,
     start_time: dt.getTime(),
-    score: 100,
-    time: this.myTime1
+    speed: myScore[0],
+    rythem: myScore[1],
+    time: this.compressTimes(this.myTime1)
   }
   console.log(dataSend)
   this.addChantLog(dataSend)
   }
 },
+computeScore(tUser){
+  // derive tExpert
+  const slb = this.sanskritLabels['c' + this.chapter]
+  const ix = slb['label'].lastIndexOf('end')
+  const a = slb['time'].map(el=>el).slice(1,ix)
+  const b = slb['verse'].map(el=>el).slice(1,ix)
+  let i
+  const t=[]
+  for(i=1;i<=this.verseall[this.chapter-1];i++) {
+    t.push(a[b.lastIndexOf(i)])
+  }
+  const tExpert1 = []
+  for(i=1;i<=this.verseall[this.chapter-1];i++) {
+    if(i==1) {
+      tExpert1.push(t[i-1])
+    } else {
+      tExpert1.push(t[i-1] - t[i-2])
+    }
+  }
+  tExpert1[0] = tExpert1[0] - slb['time'][1] + 3
+  const tExpert = tExpert1.map(a => a*1000)
+  console.log(tExpert)
+  console.log(tUser)
+  const scoreVerse = function(x,y,baseN) {
+    console.log(Math.log(x/y)/Math.log(baseN))
+   let ydiff = Math.abs(Math.log(x/y)/Math.log(baseN))
+   return (1 - (ydiff>1? 1: ydiff) )*100
+  }
+  const rythemScore = []
+  for(i=1;i<this.verseall[this.chapter-1];i++) {
+    rythemScore.push(scoreVerse(tUser[i-1]/tUser[i], tExpert[i-1]/tExpert[i], 1.5))
+  }
+  console.log(tUser)
+  console.log(tExpert)
+  console.log(rythemScore)
+  const ans = []
+  ans[0] = tExpert.reduce((a, b) => a + b, 0)/tUser.reduce((a, b) => a + b, 0)
+  rythemScore.shift()
+  rythemScore.pop()
+  ans[1] = rythemScore.reduce((a, b) => a + b, 0)/rythemScore.length
+  return ans
+},
 addChantLog(val) {
   rtdb.ref('recite/chant/groups/' + this.currentChantGroup + '/results/').push().set(val)
   //db.collection("logs").doc(firebase.auth().currentUser.uid).collection("chant").doc('t'+val.start_time).push().set(val)
+},
+compressTimes(val) {
+  let mymin = Math.min(...val)
+  val.map(a=>(a-mymin)).push(mymin)
+  return val.map(a => a.toString(36)).join()
+},
+deCompressTimes(val) {
+  let myval = val.split(",").map(a => parseInt(a, 36))
+  let mymin = myval[myval.lengh-1]
+  myval.map(a=>(a+mymin)).pop()
+  return myval
 }
 },
   beforeRouteEnter(to, from, next) {
