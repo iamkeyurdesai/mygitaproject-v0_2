@@ -7,10 +7,7 @@
     transition="dialog-bottom-transition"
     >
 <template v-slot:activator="{ on }">
-<!-- <span :style="{width: '28px', height: '28px'}" slot="activator" @click="sheet=true"> -->
-  <span :style="{width: '28px', height: '28px'}" @click="sheet=true">
-    <v-icon> format_size</v-icon>
-</span>
+    <v-icon @click="sheet=true" class="adjustTtWidth"> format_size</v-icon>
 </template>
     <v-card>
       <v-toolbar card dark color="primary">
@@ -107,5 +104,9 @@ export default {
 </script>
 
 <style scoped>
-
+.adjustTtWidth {
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+}
 </style>

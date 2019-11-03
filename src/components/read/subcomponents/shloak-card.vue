@@ -1,8 +1,5 @@
 <!-- This componet will render a shloaka
-The verse_id is provided as a prop, and the trasliterated verses are fetched and converted to the selected script
-Type of rendering is decided by breakSandhi which is read from Vuex
-Type of theming is decided by options and theme is read from Vuex
-Local func convert() used lib Sanscript -->
+multiple props provide the necessary info-->
 
 <template>
   <!-- foots are rendered row-wise with spacing defined by myspan -->
@@ -40,40 +37,25 @@ import Sanscript from 'Sanscript';
 export default {
   props: {
     verse_id: Number,
+    chapter: Number,
     required: true,
     verseNumber: Boolean,
     wordByWord: Boolean,
     whatScript: String,
-    GET_main_local: Object
+    GET_main_local: Object,
+    options: Object,
+    theme: String,
+    breakSandhi: Boolean
   },
   data: () => ({
     footbreaks: ["", "|", "", "||", "", "|"]  // goes to six due to 6 foot verses in chapter 1
   }),
   computed: {
-    ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script']),
-    ...mapGetters('coretext', ['GET_main_chapter']),
-    // use verse_id to get specific verse of the main text
-    // GET_main_local() {
-    //   return this.GET_main_chapter[this.verse_id - 1]
-    // }
   },
   methods: {
     convert(myinput) {
-if(this.whatScript!==undefined) {
-  if(this.whatScript === "iast") {
-    return myinput
-  } else {
-  return Sanscript.t(myinput, 'iast', this.whatScript);
-}
-} else {
-  if(this.script === "iast") {
-    return myinput
-  } else {
-  return Sanscript.t(myinput, 'iast', this.script);
-}
-}
-    },
+  return Sanscript.t(myinput, 'iast', this.whatScript)
+},
     checkBreak(i, j) {
       let myflag = false
       let mytemp = this.GET_main_local.word_info[i + 1]

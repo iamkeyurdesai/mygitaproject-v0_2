@@ -1,27 +1,6 @@
 <template>
-<!-- <div v-touch="{
-      left: () => increment(),
-      right: () => decrement()
-    }" :style="cssProps"> -->
     <div :style="cssProps">
-  <!-- header containing chapter, verse and salutation -->
-
-
-    <v-layout justify-space-between row wrap>
-      <v-flex>
-      <chapter-menu></chapter-menu>
-      </v-flex>
-      <v-flex class="pa-2 text-xs-center body-2">
-      <button>{{GET_salutation}}</button>
-      </v-flex>
-      <v-flex>
-      <verse-menu></verse-menu>
-    </v-flex>
-    </v-layout>
-    <v-divider :dark="GET_dark"></v-divider>
-<chapterCarousel></chapterCarousel>
-<v-divider :dark="GET_dark"></v-divider>
-<div class="font-weight-light mt-2 pa-1 subheading"> Select action</div>
+      <v-subheader :dark="GET_dark"> Select action </v-subheader>
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <!-- <v-tab href="#full" ripple class="subheading"> FULL </v-tab> -->
     <v-tab href="#questions" ripple class="subheading"> QUESTIONS </v-tab>

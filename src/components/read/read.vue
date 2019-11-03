@@ -1,74 +1,42 @@
 <template>
-<!-- <div v-touch="{
-      left: () => increment(),
-      right: () => decrement()
-    }" :style="cssProps"> -->
-    <div :style="cssProps">
-  <!-- header containing chapter, verse and salutation -->
-
-
-    <v-layout justify-space-between row wrap>
-      <v-flex>
-      <chapter-menu></chapter-menu>
-      </v-flex>
-      <v-flex class="pa-2 text-xs-center body-2">
-      <button>{{GET_salutation}}</button>
-      </v-flex>
-      <v-flex>
-      <verse-menu></verse-menu>
-    </v-flex>
-    </v-layout>
-    <v-divider :dark="GET_dark"></v-divider>
-<chapterCarousel></chapterCarousel>
-<v-divider :dark="GET_dark"></v-divider>
-<v-subheader :dark="GET_dark"> Select mode </v-subheader>
-<v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
-    <v-tab href="#simple" ripple class="subheading"> SIMPLE </v-tab>
-    <v-tab href="#full" ripple class="subheading"> FULL </v-tab>
-    <!-- <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab> -->
-<v-tabs-items v-model="activeTab" touchless>
-  <v-tab-item  lazy transition :value="'simple'"> <br> <readsimple></readsimple>  </v-tab-item>
-<v-tab-item  lazy transition :value="'full'">  <br> <readfull></readfull>   </v-tab-item>
-        <!-- <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item> -->
-      </v-tabs-items>
-        </v-tabs>
-
-<v-divider :dark="GET_dark"></v-divider>
-
-<!-- <firebase-messaging></firebase-messaging>   -->
-
+<div :style="cssProps">
+  <v-divider :dark="GET_dark"></v-divider>
+  <v-subheader :dark="GET_dark"> Reading mode </v-subheader>
+  <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
+    <v-tab href="#simple" ripple class="subheading"> LITE </v-tab>
+    <v-tab href="#full" ripple class="subheading"> TURBO </v-tab>
+    <v-tabs-items v-model="activeTab" touchless>
+      <v-tab-item lazy transition :value="'simple'"> <br>
+        <readsimple></readsimple>
+      </v-tab-item>
+      <v-tab-item lazy transition :value="'full'"> <br>
+        <readfull></readfull>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-tabs>
 </div>
 </template>
 
 <script>
-import chaptermenu from './../reflect/chapter-menu.vue'
-import versemenu from './../reflect/verse-menu.vue'
 import readfull from './read-full.vue'
 import readsimple from './read-simple.vue'
-// import readslides from './read-slides.vue'
-import chapterCarousel from './../reflect/chapter-carousel.vue'
-import { mapState } from 'vuex';
-import { mapActions } from 'vuex';
-import { mapGetters } from 'vuex';
-import { mapMutations } from 'vuex';
-
+import {
+  mapState,
+  mapMutations,
+  mapGetters
+} from 'vuex'
 export default {
+  components: {
+    readfull,
+    readsimple,
+  },
   data: function() {
-    return {
-active: null
-    }
+    return {}
   },
   computed: {
-    ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'authenticated', 'photoURL', 'theme', 'language']),
-    ...mapGetters('coretext', ['GET_salutation']),
     ...mapGetters('settings', ['GET_dark']),
-    cssProps() { return {
-        '--bg-hover-color': this.$vuetify.theme.accent1,
-			  '--hover-content': JSON.stringify(this.hoverContent),
-        '--mywidth': "75px",
-        '--myfill': "25px"
-      }
+    cssProps() {
+      return {}
     },
     activeTab: {
       get() {
@@ -77,43 +45,13 @@ active: null
       set(value) {
         this.SET_activeTab(value)
       }
-  }
-},
-  methods: {
-    ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeTab']),
-    decreaseColumn: function() {
-      if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
-    },
-    increaseColumn: function() {
-      if(this.styleAnvaya.columnCount <4 ) this.styleAnvaya.columnCount += 1
-    },
-    changeTheme(val){
-      console.log(this.$vuetify)
-      this.$vuetify.theme = Object.assign({}, this.options["lakshmi"].theme)
-      console.log(this.$vuetify)
     }
   },
-  beforeRouteEnter(to, from, next) {
-    // Pass a callback to next (optional)
-    // next(vm => {})
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    next();
-  },
-  components: {
-    'chapter-menu': chaptermenu,
-    'verse-menu': versemenu,
-    readfull,
-    readsimple,
-    // readslides,
-    chapterCarousel
+  methods: {
+    ...mapMutations('parameters', ['SET_activeTab']),
   }
 }
 </script>
 
 <style lang="scss">
-.trantext {
-    column-width: auto;
-}
 </style>

@@ -1,19 +1,5 @@
 <template>
-    <div :style="cssProps">
-    <v-layout justify-space-between row wrap>
-      <v-flex>
-      <chapter-menu></chapter-menu>
-      </v-flex>
-      <v-flex class="pa-2 text-xs-center body-2">
-      <button>{{GET_salutation}}</button>
-      </v-flex>
-      <v-flex>
-      <verse-menu></verse-menu>
-    </v-flex>
-    </v-layout>
-    <v-divider :dark="GET_dark"></v-divider>
-<chapterCarousel></chapterCarousel>
-<v-divider :dark="GET_dark"></v-divider>
+    <div :style="cssProps">    
 <v-subheader :dark="GET_dark"> Select mode </v-subheader>
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <v-tab href="#chant" ripple class="subheading"> CHANT </v-tab>

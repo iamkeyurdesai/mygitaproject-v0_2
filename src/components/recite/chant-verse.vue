@@ -101,19 +101,25 @@
             <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
                     <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                    <!-- <v-layout row>
-                      <v-flex :xs5="chantAddColumn"> -->
-                    <!-- <uvachCard :verse_id="item.verse_id" :GET_main_local="GET_main_chapter[item.verse_id-1]"> </uvachCard> -->
+                    <v-layout row>
+                      <v-flex :xs5="chantAddColumn">
                     <uvachCard :verse_id="item.verse_id" :whatScript="script"
                     :speakerCurrent="GET_main_chapter[item.verse_id-1].speaker"
                     :speakerPrevious="item.verse_id-1 > 1? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
-                    <shloakCard :verse_id="item.verse_id" :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
-                  <!-- </v-flex>
-                  <v-flex xs5 v-show="chantAddColumn">
-                  <uvachCard :verse_id="item.verse_id" whatScript="iast"> </uvachCard>
-                  <shloakCard :verse_id="item.verse_id" whatScript="iast"></shloakCard>
+                    <shloakCard :verse_id="item.verse_id" :chapter="chapter" :whatScript="script"
+                    :options="options" :theme="theme"
+                    :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
                   </v-flex>
-                    </v-layout> -->
+                  <v-flex xs5 v-if="chantAddColumn">
+                    <uvachCard :verse_id="item.verse_id" :whatScript="script"
+                    :speakerCurrent="GET_main_chapter[item.verse_id-1].speaker"
+                    :speakerPrevious="item.verse_id-1 > 1? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
+                    <shloakCard :verse_id="item.verse_id" :chapter="chapter" :whatScript="script"
+                    :options="options" :theme="theme"
+                    :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
+                  </v-flex>
+                    </v-layout>
+
                     <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
                       <v-btn icon large @click="proceedChant(1)">
                         <v-img src="/static/img/gif/hawan2_small.gif"></v-img>

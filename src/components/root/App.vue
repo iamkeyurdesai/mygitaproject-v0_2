@@ -45,11 +45,20 @@
       v-touch="{
             up: () => setNav(true),
             down: () => setNav(true)
-          }">
+          }" v-scroll="onScroll">
           <v-container class="pa-0">
-
+            <!-- header containing chapter, verse and salutation -->
+              <v-layout justify-space-between row wrap>
+                <v-flex> <chapterMenu></chapterMenu> </v-flex>
+                <v-flex class="pa-2 text-xs-center body-2"><button>{{GET_salutation}}</button></v-flex>
+                <v-flex><verseMenu></verseMenu></v-flex>
+              </v-layout>
+              <v-divider :dark="GET_dark"></v-divider>
+            <chapterCarousel></chapterCarousel>
+            <v-divider :dark="GET_dark"></v-divider>
+            <v-fade-transition>
       <router-view></router-view>
-    
+    </v-fade-transition>
     </v-container>
   </v-content>
 
@@ -67,10 +76,11 @@
 <script>
 import firebaseAuth from './firebase-auth.vue'
 import userProfile from './user-profile.vue'
-import { mapState } from 'vuex'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import settingspopup from '@/components/settings/settings-popup.vue'
-
+import chapterMenu from '@/components/reflect/chapter-menu.vue'
+import verseMenu from '@/components/reflect/verse-menu.vue'
+import chapterCarousel from '@/components/reflect/chapter-carousel.vue'
 
 export default {
   data() {
@@ -82,12 +92,16 @@ export default {
   components: {
     'firebase-auth': firebaseAuth,
     'user-profile': userProfile,
-    'settings-popup': settingspopup
+    'settings-popup': settingspopup,
+    chapterMenu,
+    verseMenu,
+    chapterCarousel
   },
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path']),
+    ...mapGetters('coretext', ['GET_salutation']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
     compoundWatch() {
@@ -105,8 +119,12 @@ export default {
     setNav(myval){
       this.showNav = myval
     },
+    onScroll (e) {
+      this.SET_offsetTop(window.pageYOffset || document.documentElement.scrollTop)
+    },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName'])
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName', 'SET_offsetTop']),
+    ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {

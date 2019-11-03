@@ -32,7 +32,7 @@ The language is decided from Vuex parameters-->
 
 
     <v-fab-transition>
-      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftUp shiftRight">
+      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftUp shiftRight pa-0">
     <settings-popup isScript isTheme isFsize isLanguage></settings-popup>
       </v-btn>
     </v-fab-transition>
