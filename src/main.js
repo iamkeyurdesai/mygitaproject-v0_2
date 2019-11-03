@@ -9,7 +9,8 @@ import {
 } from './store/index.js'
 import VueYoutube from 'vue-youtube'
 Vue.use(VueYoutube)
-
+import VueVirtualScroller from 'vue-virtual-scroller'
+Vue.use(VueVirtualScroller)
 
 
 // import Vuetify components
@@ -134,7 +135,7 @@ Vue.use(Vuetify, {
 })
 
 Vue.config.productionTip = false
-
+Vue.config.performance = true
 // set up global routing
 router.beforeEach((to, from, next) => {
   if (to.path !== "/") {

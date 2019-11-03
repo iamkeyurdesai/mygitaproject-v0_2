@@ -9,7 +9,7 @@ const GET_main = (state, getters, rootState) => {
 const GET_main_chapter = (state, getters, rootState) => {
   let mytemp =  state.main.filter(function(item) {
     return (item.chapter_id == rootState.parameters.chapter);
-  });
+  }).sort((a, b) => a.verse_id - b.verse_id)  
   return mytemp;
 };
 

@@ -98,46 +98,29 @@
           </v-flex>
 
           <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`">
-            <div>
             <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
-                <div v-if="chantAddColumn">
-                  <v-layout row align-top>
                     <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                  </v-layout>
-                  <v-layout row align-start>
-                    <v-flex xs5>
-                    <v-layout column>
-                  <uvachCard :verse_id="item.verse_id"> </uvachCard>
-                  <shloakCard :verse_id="item.verse_id"></shloakCard>
-                  </v-layout>
-                </v-flex>
-                <v-flex xs5>
-                  <v-layout column>
-                <uvachCard :verse_id="item.verse_id" whatScript="iast"> </uvachCard>
-                <shloakCard :verse_id="item.verse_id" whatScript="iast"></shloakCard>
-                </v-layout>
-                </v-flex>
-                  </v-layout>
-                </div>
-                <div v-else>
-                  <v-layout row align-top>
-                    <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
-                  </v-layout>
-                  <v-layout column>
-                <uvachCard :verse_id="item.verse_id"> </uvachCard>
-                <shloakCard :verse_id="item.verse_id"></shloakCard>
-                </v-layout>
-                </div>
-                <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
-                  <v-btn icon large @click="proceedChant(1)">
-                    <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
-                  </v-btn>
-                </div>
+                    <!-- <v-layout row>
+                      <v-flex :xs5="chantAddColumn"> -->
+                    <!-- <uvachCard :verse_id="item.verse_id" :GET_main_local="GET_main_chapter[item.verse_id-1]"> </uvachCard> -->
+                    <uvachCard :verse_id="item.verse_id" :whatScript="script"
+                    :speakerCurrent="GET_main_chapter[item.verse_id-1].speaker"
+                    :speakerPrevious="item.verse_id-1 > 1? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
+                    <shloakCard :verse_id="item.verse_id" :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
+                  <!-- </v-flex>
+                  <v-flex xs5 v-show="chantAddColumn">
+                  <uvachCard :verse_id="item.verse_id" whatScript="iast"> </uvachCard>
+                  <shloakCard :verse_id="item.verse_id" whatScript="iast"></shloakCard>
+                  </v-flex>
+                    </v-layout> -->
+                    <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
+                      <v-btn icon large @click="proceedChant(1)">
+                        <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                      </v-btn>
+                    </div>
               </div>
             </v-card>
-            </div>
           </v-flex>
 
         </v-layout>
@@ -243,7 +226,7 @@ export default {
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'reciteChantFontSize', 'verseall',
       'currentChantGroup', 'chantAddColumn', 'chantSecondScript', 'loadTheRestOfVerses'
     ]),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {
       get() {

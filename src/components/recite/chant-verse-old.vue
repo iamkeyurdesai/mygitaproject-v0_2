@@ -19,11 +19,11 @@
     <!-- <vue-c3 :handler="handler"></vue-c3> -->
     <!-- <div id="chart"></div> -->
   </v-card>
-  <manageGroup></manageGroup>
-  <manageSession></manageSession>
+  <!-- <manageGroup></manageGroup>
+  <manageSession></manageSession> -->
   <v-subheader :dark="GET_dark"> Chant in a group </v-subheader>
-  <joinGroup :myGroupSelectData="myGroupSelectData" :myGroupSelectDataAdded="myGroupSelectDataAdded"></joinGroup>
-  <chatGroup></chatGroup>
+  <!-- <joinGroup :myGroupSelectData="myGroupSelectData" :myGroupSelectDataAdded="myGroupSelectDataAdded"></joinGroup>
+  <chatGroup></chatGroup> -->
 
   <v-subheader :dark="GET_dark"> Begin chanting </v-subheader>
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">

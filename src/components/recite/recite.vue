@@ -1,12 +1,5 @@
 <template>
-<!-- <div v-touch="{
-      left: () => increment(),
-      right: () => decrement()
-    }" :style="cssProps"> -->
     <div :style="cssProps">
-  <!-- header containing chapter, verse and salutation -->
-
-
     <v-layout justify-space-between row wrap>
       <v-flex>
       <chapter-menu></chapter-menu>
@@ -27,16 +20,12 @@
     <v-tab href="#listen" ripple class="subheading"> LISTEN </v-tab>
     <v-tab href="#sanskrit" ripple class="subheading">SANSKRIT </v-tab>
 <v-tabs-items v-model="activeTab" touchless>
-<v-tab-item  lazy transition :value="'chant'" v-if="activeTab==='chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
-        <v-tab-item  lazy transition :value="'listen'"> <br> <play-verse></play-verse>  </v-tab-item>
+  <!-- v-if="activeTab==='chant'" -->
+<v-tab-item  lazy transition :value="'chant'">  <br> <chant-verse></chant-verse>   </v-tab-item>
+        <v-tab-item  lazy transition :value="'listen'" > <br> <play-verse></play-verse>  </v-tab-item>
         <v-tab-item  lazy transition :value="'sanskrit'"> <br> <sanskrit-pronounce></sanskrit-pronounce>  </v-tab-item>
       </v-tabs-items>
         </v-tabs>
-
-<!-- <v-divider :dark="GET_dark"></v-divider> -->
-
-<!-- <firebase-messaging></firebase-messaging>   -->
-
 </div>
 </template>
 
@@ -46,7 +35,6 @@ import versemenu from '../reflect/verse-menu.vue'
 import playverse from './play-verse.vue'
 import sanskritpronounce from './sanskrit-pronounce.vue'
 import chantverse from './chant-verse.vue'
-import firebasemessaging from './firebase-messaging.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
@@ -65,10 +53,6 @@ active: null
     ...mapGetters('coretext', ['GET_salutation']),
     ...mapGetters('settings', ['GET_dark']),
     cssProps() { return {
-        '--bg-hover-color': this.$vuetify.theme.accent1,
-			  '--hover-content': JSON.stringify(this.hoverContent),
-        '--mywidth': "75px",
-        '--myfill': "25px"
       }
     },
     activeTab: {
@@ -82,41 +66,19 @@ active: null
 },
   methods: {
     ...mapMutations('parameters', ['increment', 'decrement', 'SET_value', 'SET_activeTab']),
-    decreaseColumn: function() {
-      if(this.styleAnvaya.columnCount > 1) this.styleAnvaya.columnCount -= 1
-    },
-    increaseColumn: function() {
-      if(this.styleAnvaya.columnCount <4 ) this.styleAnvaya.columnCount += 1
-    },
-    changeTheme(val){
-      console.log(this.$vuetify)
-      this.$vuetify.theme = Object.assign({}, this.options["lakshmi"].theme)
-      console.log(this.$vuetify)
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    // Pass a callback to next (optional)
-    // next(vm => {})
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    next();
   },
   components: {
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     'play-verse': playverse,
     'chant-verse': chantverse,
-    'firebase-messaging': firebasemessaging,
     'sanskrit-pronounce': sanskritpronounce,
     chapterCarousel
-  }
+  },
+  beforeDestroy: function () {
+}
 }
 </script>
 
 <style lang="scss">
-.trantext {
-    column-width: auto;
-}
-
 </style>

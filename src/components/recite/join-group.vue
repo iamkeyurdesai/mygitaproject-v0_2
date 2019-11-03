@@ -68,7 +68,7 @@ import {db} from '@/main.js'
 var FlexSearch = require("flexsearch")
 export default {
   props: {
-    myGroupSelectData: Object,    
+    myGroupSelectData: Object,
     myGroupSelectDataAdded: Boolean
   },
   data: function() {
@@ -85,7 +85,6 @@ export default {
     }
   },
   mounted() {
-    console.log(firebase.firestore())
     this.SET_currentChantGroup('Myself')
   },
   computed: {
@@ -156,9 +155,6 @@ export default {
        this.$bind('myGroupsData', db.collection("aggregates").doc("available_groups"))
        .then(myGroupsData => {
          this.createSearch()
-         console.log(myGroupsData)
-         console.log(JSON.parse(JSON.stringify(myGroupsData)))
-         console.log(Object.assign({},myGroupsData))
        })
      },
    }

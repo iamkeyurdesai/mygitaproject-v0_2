@@ -6,9 +6,12 @@
     scrollable
     transition="dialog-bottom-transition"
     >
-<span :style="{width: '28px', height: '28px'}" slot="activator" @click="sheet=true">
+<template v-slot:activator="{ on }">
+<!-- <span :style="{width: '28px', height: '28px'}" slot="activator" @click="sheet=true"> -->
+  <span :style="{width: '28px', height: '28px'}" @click="sheet=true">
     <v-icon> format_size</v-icon>
 </span>
+</template>
     <v-card>
       <v-toolbar card dark color="primary">
 <v-layout justify-space-between row align-center>
