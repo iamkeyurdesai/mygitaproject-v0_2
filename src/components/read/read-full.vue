@@ -77,13 +77,13 @@
 
             <uvachCard :verse_id="verse" :whatScript="script"
             :speakerCurrent="GET_main_chapter[verse-1].speaker"
-            :speakerPrevious="verse-1 > 1? GET_main_chapter[verse-2].speaker : ''"> </uvachCard>
+            :speakerPrevious="verse-1 > 0? GET_main_chapter[verse-2].speaker : ''"> </uvachCard>
             <shloakCard :verse_id="verse" :chapter="chapter" :whatScript="script"
             :options="options" :theme="theme" :breakSandhi="breakSandhi"
-            :GET_main_local="GET_main_chapter[verse-1]" wordByWord v-if="chapter < 19"></shloakCard>
+            :GET_main_local="GET_main_chapter[verse-1]" wordByWord verseNumber v-if="chapter < 19"></shloakCard>
             <shloakCard :verse_id="verse" :chapter="chapter" :whatScript="script"
             :options="options" :theme="theme" :breakSandhi="breakSandhi"
-            :GET_main_local="GET_main_chapter[verse-1]" v-else></shloakCard>
+            :GET_main_local="GET_main_chapter[verse-1]" verseNumber v-else></shloakCard>
 
             <v-divider :dark="GET_dark"></v-divider>
 

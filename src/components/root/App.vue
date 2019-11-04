@@ -102,6 +102,7 @@ export default {
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path']),
     ...mapGetters('coretext', ['GET_salutation']),
+    ...mapGetters('settings', ['GET_dark']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
     showNav: {get(){return this.$store.state.parameters.showNav}, set(value){this.SET_showNav(value)}},
     compoundWatch() {
@@ -229,6 +230,6 @@ export default {
 
 <style lang="scss">
 .container{
-  max-width: 900px;
+  max-width: 960px;
 }
 </style>

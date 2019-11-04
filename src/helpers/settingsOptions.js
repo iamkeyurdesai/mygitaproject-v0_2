@@ -90,12 +90,29 @@ export const options = {
     'bengali',
     'gurmukhi',
     'oriya',
-    'itrans'
+    // 'itrans'
   ],
+  script1: {
+    iast: "English",
+    devanagari: "devanaagaree",
+    gujarati: "gujarAtI",
+    tamil: 'taamil',
+    telugu: 'telugoo',
+    malayalam: 'malayaalam',
+    kannada: 'kannad',
+    bengali: 'bengaalee',
+    gurmukhi: 'gurmukhI',
+    oriya: "OrIyA" ,
+    // itrans: "English 2"
+  },
   language: [
     'hindi',
     'english'
   ],
+  language1: {
+    hindi: 'हिन्दी',
+    english: 'English'
+  },
   slines: [
     '2x',
     '4x',

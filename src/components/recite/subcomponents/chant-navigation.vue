@@ -7,27 +7,31 @@ The language is decided from Vuex parameters-->
 
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 1350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUpDouble shiftLeft"
+    <v-btn v-show="showZoom & !scrollLock & !showLock" color="accentmain" dark fab bottom right fixed class="shiftUpDouble shiftRight"
       v-on:click.stop="zoomChantFont('plus')" small>
         <v-icon :style="cssProps_high" large> zoom_in</v-icon>
     </v-btn>
   </v-fab-transition>
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 1350 || chapter > 18" color="accentmain" dark fab bottom left fixed class="shiftUp shiftLeft"
+    <v-btn v-show="showZoom & !scrollLock & !showLock" color="accentmain" dark fab bottom right fixed class="shiftUp shiftRight"
       v-on:click.stop="zoomChantFont('minus')" small>
         <v-icon :style="cssProps_high" large> zoom_out</v-icon>
     </v-btn>
   </v-fab-transition>
 
+  <v-fab-transition>
+    <v-btn v-show="scrollLock" color="activity" dark fab bottom right fixed class="shiftUp shiftRight"
+      v-on:click="$emit('unLock')" small>
+        <v-icon :style="cssProps_high" large> lock</v-icon>
+    </v-btn>
+  </v-fab-transition>
 
-
-    <v-fab-transition>
-      <v-btn v-show="offsetTop > 1350" color="accentinfo" dark fab bottom left small fixed class="mb-5 shiftLeft">
-    <settings-popup isScript isTheme></settings-popup>
-      </v-btn>
-    </v-fab-transition>
-
+  <v-fab-transition>
+    <v-btn v-show="showLock & !scrollLock" color="success" dark fab bottom right fixed class="shiftUp shiftRight" small>
+        <v-icon :style="cssProps_high" large> lock_open </v-icon>
+    </v-btn>
+  </v-fab-transition>
 
 
 </div>
@@ -38,14 +42,13 @@ The language is decided from Vuex parameters-->
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
-import settingspopup from '@/components/settings/settings-popup.vue'
 export default {
   props: {
-    verse_id: Number,
-    required: true
+    showZoom: Boolean,
+    scrollLock: Boolean,
+    showLock: Boolean
   },
   components: {
-    'settings-popup': settingspopup
   },
   data: () => ({
     fab: false
@@ -92,10 +95,10 @@ reciteChantFontSize: {
   line-height: 1.1em;
 }
 .shiftUp{
-  margin-bottom: 100px;
+  margin-bottom: 48px;
 }
 .shiftUpDouble{
-  margin-bottom: 150px;
+  margin-bottom: 96px;
 }
 .shiftLeft{
   margin-left: -5px;

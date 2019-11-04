@@ -9,7 +9,7 @@
   <chatGroup></chatGroup>
 
   <v-subheader :dark="GET_dark"> Begin chanting
-    <v-spacer> </v-spacer>
+    <!-- <v-spacer> </v-spacer>
     <v-expand-transition>
     <div v-if="!chantAddColumn">
     <v-btn @click="addPressed()" fab color="accentmain" small>
@@ -18,7 +18,6 @@
   </div>
 
   <div v-else>
-    <!-- breakSandhi -->
     <v-btn icon  color="accentmain" v-if="!breakSandhi1" v-on:click.stop="breakSandhi1=true">
       <v-icon> gavel</v-icon>
     </v-btn>
@@ -36,18 +35,20 @@
     </v-btn>
     </div>
     </v-expand-transition>
+     -->
   </v-subheader>
 
 
-  <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
-    <chantNavigation> </chantNavigation>
+    <div class="mx-0 background lighten-1" :dark="GET_dark">
+    <chantNavigation :showZoom="currentI > 0" :scrollLock="scrollLock"
+      v-on:unLock="scrollLock=false, showLock=true" :showLock="showLock"> </chantNavigation>
     <v-card-text class="pa-0">
 
       <v-container grid-list-md text-xs-left class="pa-1" :class="options.fsizeAvailable[reciteChantFontSize]">
         <v-layout row wrap>
           <v-flex xs12 class="ma-0">
-            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1">
-              <div :class="{'addActiveBorder': currentVerse==-1}" class="pa-2">
+            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==-1" :min-height="minHeight">
+              <div :class="{'addActiveBorder1': currentVerse==-1}" class="pa-2">
                 <div v-if="chantAddColumn">
                   <v-layout row align-start>
                     <v-flex xs5>
@@ -72,8 +73,12 @@
           </v-flex>
 
           <v-flex xs12 class="ma-0">
-            <v-card class="background ma-2" :dark="GET_dark" :ripple="currentVerse==0">
-              <div :class="{'addActiveBorder': currentVerse==0}" class="pa-2">
+            <v-card class="background ma-2" :dark="GET_dark" id="chant0" :min-height="minHeight"
+            v-observe-visibility="{
+              callback: (isVisible, entry) => visibilityChanged(isVisible, entry),
+              throttle: 300
+              }">
+              <div :class="{'addActiveBorder1': currentVerse==0}" class="pa-2">
                 <div v-if="chantAddColumn">
                   <v-layout row align-start>
                     <v-flex xs5>
@@ -87,7 +92,7 @@
                 <div v-else>
                   <readStart> </readStart>
                   </div>
-                <div class="fixButtonPosition" v-if="currentVerse==0">
+                <div class="fixButtonPosition makeBigger" v-if="currentVerse==0">
                   <v-btn icon large @click="currentVerse+=1">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
                     <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
@@ -97,15 +102,16 @@
             </v-card>
           </v-flex>
 
-          <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i}`">
-            <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}">
+          <v-flex xs12 v-for="(item, i) in GET_gitapress_chapter" :key="i" class="ma-0 pa-0" :id="`chant${i+1}`">
+            <!-- <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(i+1)}"> -->
+              <v-card class="background ma-2" :dark="GET_dark" :min-height="minHeight">
               <div :class="{'addActiveBorder': currentVerse==(i+1)}" class="pa-2">
                     <span class="mx-2 font-weight-light" :style="'color:' + options[theme].emphasis.medium">{{chapter}}|{{item.verse_id}}</span>
                     <v-layout row>
                       <v-flex :xs5="chantAddColumn">
                     <uvachCard :verse_id="item.verse_id" :whatScript="script"
                     :speakerCurrent="GET_main_chapter[item.verse_id-1].speaker"
-                    :speakerPrevious="item.verse_id-1 > 1? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
+                    :speakerPrevious="item.verse_id-1 > 0? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
                     <shloakCard :verse_id="item.verse_id" :chapter="chapter" :whatScript="script"
                     :options="options" :theme="theme"
                     :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
@@ -113,25 +119,26 @@
                   <v-flex xs5 v-if="chantAddColumn">
                     <uvachCard :verse_id="item.verse_id" :whatScript="script"
                     :speakerCurrent="GET_main_chapter[item.verse_id-1].speaker"
-                    :speakerPrevious="item.verse_id-1 > 1? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
+                    :speakerPrevious="item.verse_id-1 > 0? GET_main_chapter[item.verse_id-2].speaker : ''"> </uvachCard>
                     <shloakCard :verse_id="item.verse_id" :chapter="chapter" :whatScript="script"
                     :options="options" :theme="theme"
                     :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
                   </v-flex>
+                  <div class="fixButtonPosition" v-if="currentVerse==(i+1)" transition="scale-transition">
+                    <v-btn icon large @click="proceedChant(1)">
+                      <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                    </v-btn>
+                  </div>
                     </v-layout>
 
-                    <div class="fixButtonPosition" v-if="currentVerse==(i+1)">
-                      <v-btn icon large @click="proceedChant(1)">
-                        <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
-                      </v-btn>
-                    </div>
               </div>
             </v-card>
           </v-flex>
 
         </v-layout>
         <v-flex class="ma-0 pa-0">
-          <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(verseall[chapter-1] + 1)}">
+          <v-card class="background ma-2" :dark="GET_dark" :ripple="{value:currentVerse==(verseall[chapter-1] + 1)}"
+          :id="`chant${verseall[chapter-1] + 1}`" :min-height="minHeight">
             <div :class="{'addActiveBorder': currentVerse==(verseall[chapter-1] + 1)}" class="pa-2">
               <readEnd> </readEnd>
               <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
@@ -144,16 +151,23 @@
           </v-card>
         </v-flex>
         <v-flex>
-          <v-card class="background ma-0 pa-0" flat :dark="GET_dark"> <br> </v-card>
+          <v-card class="background ma-0 pa-0" flat :dark="GET_dark" min-height="300px" id="chantEnd"> <br> </v-card>
         </v-flex>
       </v-container>
 
       <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
+        <span class="subheading"> {{this.myScore[1] > 80 ? 'Excellent! ' : 'Done.'}} You scored {{this.myScore[1]}}! </span>
+        <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
+          Close
+        </v-btn>
+      </v-snackbar>
+
+      <!-- <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
         <span class="subheading"> Good job! You finished chanting this chapter. </span>
         <v-btn dark large @click="snackbar1 = false, snackbar2 = true, isChantOn = true" color="error">
           Close
         </v-btn>
-      </v-snackbar>
+      </v-snackbar> -->
       <v-snackbar v-model="snackbar2" color="info" multi-line :timeout="0" v-if="chapter<19">
         <span class="subheading"> Do you want to chant Gita Mahatmya next? </span>
         <v-btn large dark color="success" @click="SET_chapter(19), snackbar2 = false, SET_verse(1),
@@ -168,6 +182,18 @@
           NO
         </v-btn>
       </v-snackbar>
+
+
+<v-fab-transition>
+          <v-btn v-if="offsetTop >  2000 & !snackbar1 & !snackbar2 & (currentVerse < 1)" @click="$vuetify.goTo(0, { duration: 100, offset: 0, easing: 'easeInOutCubic'})"
+            :dark="GET_dark" fab flat bottom small left fixed icon class="shiftMiddle mb-5">
+          <v-icon>fa-angle-double-up</v-icon>
+        </v-btn>
+</v-fab-transition>
+
+  <v-fab-transition>
+  </v-fab-transition>
+        <settingsPopup isScript isTheme></settingsPopup>
 
     </v-card-text>
   </div>
@@ -189,6 +215,7 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
 import Sanscript from 'Sanscript'
+import settingsPopup from '@/components/settings/settings-popup.vue'
 import {db, rtdb} from '@/main.js'
 // import VueC3 from 'vue-c3'
 import c3 from 'c3'
@@ -211,10 +238,14 @@ export default {
       myTime1: [],
       myTime2: [],
       myId: [],
+      myScore: [],
       isChantOn: true,
       handler: new Vue(),
       myOptions: null,
       currentVerse: -1,
+      scrollLock: false,
+      showLock: false,
+      currentI: -1,
       myAnn: {
         time: [0],
         verse: [],
@@ -258,8 +289,14 @@ export default {
         '--myfill': "25px",
         'color': this.options[this.theme].emphasis.high,
         '--chantBorderColor': this.$vuetify.theme.activity,
-        '--mainColor': this.options[this.theme].emphasis.high
+        '--mainColor': this.options[this.theme].emphasis.high,
+        '--screenWidth': (this.$vuetify.breakpoint.width/2 - 40)+'px',
+        '--buttonWidth': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 85))+'px',
+        '--bottomOffset': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 85))*0.25+'px'
       }
+    },
+    minHeight() {
+      return (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 80))+'px'
     }
   },
   methods: {
@@ -290,6 +327,13 @@ export default {
       this.offsetTop = scrollTemp
       if(scrollTemp > 800) {
         this.SET_loadTheRestOfVerses(true)
+      }
+    },
+    visibilityChanged(isVisible, entry) {
+      if(entry.boundingClientRect.top<(500 + Math.max(0, this.$vuetify.breakpoint.height - 600))) {
+        this.currentI = 1
+      } else {
+        this.currentI = 0
       }
     },
   proceedChant(val){
@@ -326,15 +370,16 @@ this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
 for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
-  let myScore = this.computeScore(this.myTime1)
-  console.log(myScore)
+  this.myScore = this.computeScore(this.myTime1)
+  this.snackbar1 = true
+  console.log(this.myScore)
   let dt = new Date()
   let dataSend = {
     chapter_id: this.chapter,
     group: this.currentChantGroup,
     start_time: dt.getTime(),
-    speed: myScore[0],
-    rythem: myScore[1],
+    speed: this.myScore[0],
+    rythem: this.myScore[1],
     time: this.compressTimes(this.myTime1)
   }
   console.log(dataSend)
@@ -380,7 +425,7 @@ computeScore(tUser){
   ans[0] = tExpert.reduce((a, b) => a + b, 0)/tUser.reduce((a, b) => a + b, 0)
   rythemScore.shift()
   rythemScore.pop()
-  ans[1] = rythemScore.reduce((a, b) => a + b, 0)/rythemScore.length
+  ans[1] = (rythemScore.reduce((a, b) => a + b, 0)/rythemScore.length).toFixed(2)
   return ans
 },
 addChantLog(val) {
@@ -416,7 +461,35 @@ deCompressTimes(val) {
          this.myGroupSelectDataAdded = true
        })
      }
-   }
+   },
+   currentVerse: function() {
+
+        if((this.currentVerse >= 1)){
+        this.scrollLock = true  
+        let addOffset = this.$vuetify.breakpoint.width > 900 ? 8 : 0
+        this.myTop = window.pageYOffset
+        let el = document.getElementById('chant'+this.currentVerse);
+        let style = window.getComputedStyle(el);
+        let height = ['height', 'padding-top', 'padding-bottom', 'margin-top']
+               .map((key) => parseInt(style.getPropertyValue(key), 10))
+               .reduce((prev, cur) => prev + cur);
+             console.log(height)
+             console.log(this.myTop+height)
+           this.$vuetify.goTo(this.myTop+(height+56+addOffset), {
+           duration: 10,
+           offset: 0,
+           easing: 'easeOutQuint'
+         })} else {
+       }
+     },
+     scrollLock: function() {
+      if(this.scrollLock){
+        document.documentElement.style.overflow = 'hidden'
+        return
+      }
+
+      document.documentElement.style.overflow = 'auto'
+    }
   },
   updated: function() {
     this.$nextTick(function() {})
@@ -433,7 +506,8 @@ deCompressTimes(val) {
     joinGroup,
     manageGroup,
     chatGroup,
-    manageSession
+    manageSession,
+    settingsPopup
   }
 }
 </script>
@@ -444,14 +518,14 @@ path.domain { fill: var(--mainColor); }
 .c3-legend-item text { fill: var(--mainColor); }
 .fixButtonPosition{
   position: absolute;
-  bottom: 0px;
+  bottom: var(--bottomOffset);
   right: 0px;
   .v-btn{
-    width: 54px;
+    width: var(--buttonWidth);
   }
 }
 .addActiveBorder{
-  border: 1px solid var(--chantBorderColor);
+  border: 0.5px solid var(--chantBorderColor);
 }
 .c3-chart-arcs-background{
   fill:#e0e0e0;
@@ -460,5 +534,12 @@ path.domain { fill: var(--mainColor); }
 .c3-shape {
     fill: none;
 }
-
+.shiftMiddle{
+  margin-left: var(--screenWidth);
+  opacity: 0.67;
+  }
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
 </style>

@@ -2,9 +2,9 @@
 <v-card flat class="ma-1 background">
   <v-layout column wrap class="ma-0" justify-center>
       <v-flex class="ma-1 pa-0 xs12 lg6">
-        <div align="center" class="pa-2 info--text adjustLineHeight" :style="cssProps">
-          ॥ {{convert_flexible(preview[chapter-1].end)}} ॥
-          <br> <br>
+        <div align="center" class="pa-2 info--text adjustLineHeight" :style="cssProps" v-html="convert_flexible(preview[chapter-1].end) + '॥'">
+          <!-- ॥ {{convert_flexible(preview[chapter-1].end)}} ॥ -->
+<br> <br>
       </div>
       </v-flex>
       </v-layout>

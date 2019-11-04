@@ -28,7 +28,7 @@ myText() {
   if(this.speakerCurrent!==this.speakerPrevious) {
     return this.convert(this.speakerCurrent)
   } else {
-    return  ""
+    return  "\u00A0"
   }
 } else {
     return this.convert(this.speakerCurrent)

@@ -31,12 +31,6 @@ The language is decided from Vuex parameters-->
     </v-fab-transition>
 
 
-    <v-fab-transition>
-      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftUp shiftRight pa-0">
-    <settings-popup isScript isTheme isFsize isLanguage></settings-popup>
-      </v-btn>
-    </v-fab-transition>
-
     <!-- share -->
         <v-fab-transition>
     <v-btn icon  color="success" v-on:click.stop="readHelp = true" dark fab small bottom right fixed class="shiftUpUp shiftRight" v-if="share">
@@ -101,7 +95,7 @@ inline-template>
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
-import settingspopup from '@/components/settings/settings-popup.vue'
+
 // import VueGoodshareFacebook from "vue-goodshare/src/providers/Facebook.vue"
 // import VueGoodshareWhatsapp from "vue-goodshare/src/providers/WhatsApp.vue"
 // import VueGoodshareTwitter from "vue-goodshare/src/providers/Twitter.vue"
@@ -118,7 +112,6 @@ export default {
     share: Boolean
   },
   components: {
-    'settings-popup': settingspopup,
     // Facebook,
     // Twitter,
     // WhatsApp
