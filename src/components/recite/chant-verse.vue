@@ -1,6 +1,7 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <v-card class="mt-3 mx-auto background" :dark="GET_dark">
+    <mediaRecorder></mediaRecorder>
   </v-card>
   <manageGroup></manageGroup>
   <manageSession></manageSession>
@@ -214,8 +215,10 @@ import readStart from '../read/subcomponents/read-start.vue'
 import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import chantNavigation from '../recite/subcomponents/chant-navigation.vue'
+import mediaRecorder from '../recite/subcomponents/media-recorder.vue'
 import Sanscript from 'Sanscript'
 import settingsPopup from '@/components/settings/settings-popup.vue'
+
 import {db, rtdb} from '@/main.js'
 // import VueC3 from 'vue-c3'
 import c3 from 'c3'
@@ -465,7 +468,7 @@ deCompressTimes(val) {
    currentVerse: function() {
 
         if((this.currentVerse >= 1)){
-        this.scrollLock = true  
+        this.scrollLock = true
         let addOffset = this.$vuetify.breakpoint.width > 900 ? 8 : 0
         this.myTop = window.pageYOffset
         let el = document.getElementById('chant'+this.currentVerse);
@@ -507,7 +510,8 @@ deCompressTimes(val) {
     manageGroup,
     chatGroup,
     manageSession,
-    settingsPopup
+    settingsPopup,
+    mediaRecorder
   }
 }
 </script>
