@@ -3,7 +3,9 @@
 import EncoderWav from './encoder-wav-worker.js'
 import EncoderMp3 from './encoder-mp3-worker.js'
 import EncoderOgg from './encoder-ogg-worker.js'
-const Pitchfinder = require("pitchfinder");
+// const FFT = require('@/components/recite/subcomponents/audiorecorder/shared/fft.js')
+const fft = require('jsfft')
+const FFT = require('fft.js');
 
 export default class RecorderService {
   constructor (baseUrl) {
@@ -25,11 +27,12 @@ export default class RecorderService {
       createAnalyserNode: false,
       createDynamicsCompressorNode: false,
       forceScriptProcessor: false,
-      manualEncoderId: 'mp3',
+      manualEncoderId: 'wav',
       micGain: 1.0,
       processorBufferSize: 2048,
       stopTracksAndCloseCtxWhenFinished: true,
-      usingMediaRecorder: typeof window.MediaRecorder !== 'undefined',      
+      // usingMediaRecorder: typeof window.MediaRecorder !== 'undefined',
+      usingMediaRecorder: false,
       enableEchoCancellation: true
     }
   }
@@ -101,7 +104,74 @@ export default class RecorderService {
         this.encoderMimeType = 'audio/wav'
       }
       this.encoderWorker.addEventListener('message', (e) => {
-      let event = new Event('dataavailable')
+        console.log(e.data[0])
+        let int32View = new Int32Array(e.data[0], 0, e.data[0].byteLength/4)
+        let float32View = new Float32Array(e.data[0], 0, e.data[0].byteLength/4)
+        console.log(float32View)
+        console.time('my2')
+        //let int32View = new Int32Array(e.data[0], 0, 4096)
+        let normalArray = Array.prototype.slice.call(int32View);
+        normalArray.length === 4;
+        normalArray.constructor === Array
+        console.timeEnd('my2')
+        console.log(normalArray)
+        console.time('fft.js');
+         let fft = new FFT(4096)
+         let ff = fft.createComplexArray()
+         fft.realTransform(ff, normalArray)
+         fft.completeSpectrum(ff)
+         let multiplyComplex = function(a,b){
+           let c = fft.createComplexArray()
+           for(let i=0;i<a.length;i=i+2){
+             c[i] = a[i]*b[i]-a[i+1]*b[i+1]
+             c[i+1] = a[i]*b[i+1]+a[i+1]*b[i]
+           }
+           return c
+         }
+         let fftmp = ff.map(a=>a)
+         fftmp.reverse()
+         let ff2 = multiplyComplex(ff, fftmp)
+         let ffi = fft.createComplexArray()
+         let xcorr = fft.createComplexArray()
+         fft.inverseTransform(ffi, ff2)
+         fft.fromComplexArray(ffi, xcorr)
+         console.log(normalArray)
+         console.log(ff)
+         console.log(fftmp)
+         console.log(ff2)
+         console.log(ffi)
+         xcorr = xcorr.map(a=>a/xcorr[0])
+         console.log(xcorr)
+         // let output1 = fft.createComplexArray();
+         // let output1Real = []
+         //
+         // console.log(output)
+         //
+         // console.log(output)
+         // fft.inverseTransform(output1, output)
+         // fft.fromComplexArray(output1, output1Real)
+         console.timeEnd('fft.js');
+         // console.log(output)
+         // console.log(output1)
+         // console.log(output1Real)
+
+         const Pitchfinder = require("pitchfinder");
+         const detectPitch = Pitchfinder.YIN();
+         console.time('my1')
+         Float32Array.from(normalArray, x => x)
+         console.timeEnd('my1')
+         const frequencies = Pitchfinder.frequencies(detectPitch, Float32Array.from(normalArray, x => x), {
+           tempo: 130, // in BPM, defaults to 120
+           quantization: 4, // samples per beat, defaults to 4 (i.e. 16th notes)
+         });
+         const frequencies1 = Pitchfinder.frequencies(detectPitch, normalArray, {
+           tempo: 130, // in BPM, defaults to 120
+           quantization: 4, // samples per beat, defaults to 4 (i.e. 16th notes)
+         });
+         console.log(frequencies)
+         console.log(frequencies1)
+
+        let event = new Event('dataavailable')
         if (this.config.manualEncoderId === 'ogg') {
           event.data = e.data
         }
@@ -209,6 +279,7 @@ export default class RecorderService {
   }
 
   _onAudioProcess (e) {
+
     // console.log('onaudioprocess', e)
     // let inputBuffer = e.inputBuffer
     // let outputBuffer = e.outputBuffer
