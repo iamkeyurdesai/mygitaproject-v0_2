@@ -179,6 +179,8 @@ Vue.use(VueAnalytics, {
   router
 })
 Vue.use(VueObserveVisibility)
+// import VueWorker from 'vue-worker'
+// Vue.use(VueWorker)
 
 const myApp = firebase.initializeApp(config)
 export const db = myApp.firestore()

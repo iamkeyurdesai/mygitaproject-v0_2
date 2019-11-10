@@ -23,10 +23,10 @@
       </div>
     </v-layout>
 
-    <v-layout row wrap class="ml-1 mt-1">
+    <!-- <v-layout row wrap class="ml-1 mt-1">
       <v-checkbox v-model="addNoise"
                   label="Add noise (dynamic)"></v-checkbox>
-    </v-layout>
+    </v-layout> -->
 
     <v-layout column wrap v-if="recordings.length > 0">
       <h4 class="mt-3">Recordings</h4>
@@ -42,6 +42,9 @@
                   <audio :src="recording.blobUrl" controls="true"/>
                 </div>
                 <div>
+                  <a :href="recording.blobUrl" download><v-icon>get_app</v-icon></a>
+                </div>
+                <div>
                   size: {{recording.size | fileSizeToHumanSize}}, type: {{recording.mimeType}}
                 </div>
               </div>
@@ -52,7 +55,7 @@
       </div>
     </v-layout>
 
-    <v-layout column wrap>
+    <!-- <v-layout column wrap>
       <h4 class="mt-3">Source</h4>
       <v-divider></v-divider>
       <div class="ml-4">
@@ -108,7 +111,7 @@
           </ul>
         </ul>
       </div>
-    </v-layout>
+    </v-layout> -->
 
   </v-container>
 </template>
@@ -116,7 +119,9 @@
 <script>
 import RecorderService from '@/components/recite/subcomponents/audiorecorder/shared/RecorderService'
 import utils from '@/components/recite/subcomponents/audiorecorder/shared/Utils'
-const Pitchfinder = require("pitchfinder");
+// const Pitchfinder = require("pitchfinder");
+import Worker from "worker-loader!./myWorker.js"
+
 
 export default {
   name: 'Test1',
@@ -124,6 +129,10 @@ export default {
     fileSizeToHumanSize (val) {
       return utils.humanFileSize(val, true)
     }
+  },
+  props: {
+    currentVerse: Number,
+    doRecord: Boolean
   },
   data () {
     return {
@@ -145,7 +154,7 @@ export default {
     this.recorderSrvc.config.broadcastAudioProcessEvents = true
   },
   mounted () {
-
+console.log(worker)
   },
   methods: {
     start() {
@@ -163,7 +172,7 @@ end() {
   console.log(timeDiff + " seconds");
 },
     startRecording () {
-      this.start()
+      //this.start()
       this.numAudioSamples = 0
       this.recorderSrvc.startRecording()
         .then(() => {
@@ -175,21 +184,9 @@ end() {
         })
     },
     stopRecording () {
-      this.end()
+      //this.end()
       this.recorderSrvc.stopRecording()
       this.recordingInProgress = false
-      console.time('freqPeak')
-      const myDataFinal = this.myData.slice(0,this.numAudioSamples*2048)
-      const detectPitch = Pitchfinder.YIN();
-      const frequencies = Pitchfinder.frequencies(detectPitch, myDataFinal, {
-          tempo: 120, // in BPM, defaults to 120
-          quantization: 4, // samples per beat, defaults to 4 (i.e. 16th notes)
-          //sampleRate: 48000
-        })
-     //console.log(detectPitch(this.dataArray))
-     console.log(frequencies.map(a=>a>1000?null:a))
-     console.timeEnd('freqPeak')
-     console.log(myDataFinal)
     },
     onAudioProcess (e) {
       this.numAudioSamples++
@@ -216,8 +213,42 @@ end() {
     },
     onNewRecording (evt) {
       this.recordings.push(evt.detail.recording)
+    },
+    processSegment() {
+      console.log("I just sent my signal to the pitch worker")
+      const myDataFinal = this.myData.slice(0,this.numAudioSamples*2048)
+      const worker = new Worker();
+      this.numAudioSamples=0
+      const config = {
+          tempo: 60, // in BPM, defaults to 120
+          quantization: 4, // samples per beat, defaults to 4 (i.e. 16th notes)
+          sampleRate: 48000
+        }
+      worker.postMessage({myDataFinal: myDataFinal, config: config})
+      worker.addEventListener("message", (event) => {
+      //console.log(event.data.pitch.map(a => a>1000?null:a))})
+      console.log(event.data.pitch)})
     }
-
+  },
+  watch: {
+    doRecord: function() {
+      if(this.doRecord) {
+      this.startRecording()
+    } else {
+      this.stopRecording()
+    }
+  },
+  currentVerse: function() {
+    if(this.doRecord) {
+      this.processSegment()
+    }
+    if(this.currentVerse==0){
+      this.start()
+    } else {
+      this.end()
+      this.start()
+    }
+  }
   }
 }
 </script>

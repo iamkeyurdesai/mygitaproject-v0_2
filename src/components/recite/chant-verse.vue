@@ -1,7 +1,7 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <v-card class="mt-3 mx-auto background" :dark="GET_dark">
-    <mediaRecorder></mediaRecorder>
+    <mediaRecorder :currentVerse="currentVerse" :doRecord="doRecord"></mediaRecorder>
   </v-card>
   <manageGroup></manageGroup>
   <manageSession></manageSession>
@@ -64,7 +64,7 @@
                   <readSalutation> </readSalutation>
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==-1">
-                  <v-btn icon large @click="currentVerse+=1">
+                  <v-btn icon large @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
                     <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                   </v-btn>
@@ -94,7 +94,7 @@
                   <readStart> </readStart>
                   </div>
                 <div class="fixButtonPosition makeBigger" v-if="currentVerse==0">
-                  <v-btn icon large @click="currentVerse+=1">
+                  <v-btn icon large @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
                     <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
                   </v-btn>
@@ -246,6 +246,7 @@ export default {
       handler: new Vue(),
       myOptions: null,
       currentVerse: -1,
+      doRecord: false,
       scrollLock: false,
       showLock: false,
       currentI: -1,
@@ -340,6 +341,7 @@ export default {
       }
     },
   proceedChant(val){
+
     if(val===1) {
     if(this.currentVerse==1) {
       this.myTime1 = []
@@ -352,7 +354,7 @@ export default {
     this.myTime1.push(Math.ceil(dt.getTime()))
     this.myTime2.push(Math.ceil(dt.getTime()))
     this.currentVerse += 1
-  } else {
+  } else if(val===-1){
     for(var i = this.myTime1.length - 1;i>0;i--) {
     this.myTime1[i] = (Math.ceil(this.myTime1[i] - this.myTime1[i-1]))
     // this.myTime2[i] = this.myAnn.time[this.myAnn.verse.findIndex(a => a===(i+1))]
@@ -387,7 +389,14 @@ this.myTime[i] = this.myTime2[i-1]
   }
   console.log(dataSend)
   this.addChantLog(dataSend)
+  this.doRecord=false
+} else {
+  this.currentVerse+=1
+  if(this.currentVerse===0) {
+    this.doRecord=true
   }
+}
+
 },
 computeScore(tUser){
   // derive tExpert
