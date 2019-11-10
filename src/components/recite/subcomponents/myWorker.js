@@ -23,7 +23,8 @@ self.onmessage = ({ data: { myDataFinal, config} }) => {
   let pitch = Pitchfinder.frequencies(detectPitch, myDataFinal, config)
   let mt = new MusicTempo(myDataFinal)
   //pitch = mt.tempo
-  pitch = mt.beats
+  pitch = mt.beatInterval
+  //pitch = mt.beats
   // bd_low.process(0, myDataFinal)
   // pitch = bd_low.win_bpm_int/10.0
   self.postMessage({pitch: pitch})
