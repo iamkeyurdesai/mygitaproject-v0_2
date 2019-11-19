@@ -156,7 +156,7 @@ router.beforeEach((to, from, next) => {
         console.log("api=1 not found")
       }
     }
-  }
+  } 
   next()
 })
 

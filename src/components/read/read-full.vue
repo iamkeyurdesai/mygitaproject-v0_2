@@ -1,6 +1,6 @@
 <template>
 <div :style="cssProps">
-  <v-subheader :dark="GET_dark"> For advanced study </v-subheader>
+  <v-subheader :dark="GET_dark"> For an in-depth study </v-subheader>
   <v-flex xs12 class="ma-3">
     <readStart> </readStart>
   </v-flex>
@@ -23,13 +23,16 @@
     </v-card>
 
     <readNavigation lrArrowShow> </readNavigation>
+    <v-fab-transition>
+      <settingsPopup isScript isTheme isFsize isLanguage></settingsPopup>
+    </v-fab-transition>
 
     <v-card-text class="pa-0">
       <v-container grid-list-md text-xs-left class="pa-0" v-touch="{
         left: () => increment(),
         right: () => decrement()}">
         <v-layout column wrap class="ma-0" justify-center>
-          <v-flex xs12 class="ma-0" v-if="chapter < 19">
+          <v-flex xs12 class="ma-0" v-if="chapter < 19 & false">
             <readSummary> </readSummary>
           </v-flex>
 
@@ -54,8 +57,8 @@
             </v-layout>
             <v-divider :dark="GET_dark"></v-divider>
 
-            <sambandhCard :verse_id="verse" v-if="chapter < 19"> </sambandhCard>
-            <v-divider :dark="GET_dark"></v-divider>
+            <sambandhCard :verse_id="verse" v-if="chapter < 19 & false"> </sambandhCard>
+            <v-divider :dark="GET_dark" v-if="false"></v-divider>
 
             <span align="left" class="info--text subheading ma-2" v-if="!(chapter < 19)">Original verse</span>
             <v-layout row wrap v-else>
@@ -94,11 +97,13 @@
             <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
           </v-card>
         </v-layout>
+<div v-if="verse===verseall[chapter-1]">
         <v-divider :dark="GET_dark"></v-divider>
         <v-layout class="font-weight-light pa-1 body-2" justify-left> Colophon</v-layout>
         <v-flex xs12 class="ma-0 mb-5">
           <readEnd> </readEnd>
         </v-flex>
+      </div>
       </v-container>
 
     </v-card-text>
@@ -135,6 +140,7 @@ import readSalutation from './subcomponents/read-salutation.vue'
 import chaptermenu from '../reflect/chapter-menu.vue'
 import versemenu from '../reflect/verse-menu.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
+import settingsPopup from '@/components/settings/settings-popup.vue'
 
 import Sanscript from 'Sanscript';
 export default {
@@ -148,7 +154,7 @@ export default {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
-      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses'
+      'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'verseall'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main', 'GET_main_chapter']),
     ...mapGetters('settings', ['GET_dark']),
@@ -241,7 +247,8 @@ export default {
     readSalutation,
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
-    chapterCarousel
+    chapterCarousel,
+    settingsPopup
   }
 }
 </script>

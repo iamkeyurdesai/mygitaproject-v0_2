@@ -63,7 +63,7 @@ so you can realize your true potential. -->
           <div>{{item.question}}</div>
         </template>
         <v-card class="background body-2" flat>
-          <v-card-text class="body-2" v-html="item.answer"></v-card-text>
+          <v-card-text class="body-2">{{item.answer}}</v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -99,14 +99,17 @@ import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
-      myOpeningText: [
+      myOpeningText: ["Gita is my heart Arjuna <br> Gita is my ultimate essence <br> Gita is my fierce knowledge <br> Gita is my unending knowledge. <br> <strong class='error--text mb-3'>Krishna</strong>",
+                      "Just as the water stains not the lotus leaf, <br> even so sins do not taint him who is regular in the recitation of the Gita.<br> <strong class='error--text mb-3'>Vishnu</strong>",
                       "From a clear knowledge of the Bhagavad-Gita <br> all the goals of human existence become fulfilled. <br> Bhagavad-Gita is the manifest quintessence of <br> all the teachings of the Vedic scriptures.<br> <strong class='error--text mb-3'>Adi Shankara</strong>",
-                  "The marvel of the Bhagavad-Gita is <br> its truly beautiful revelation of life's wisdom <br> which enables philosophy to blossom into religion.<br> <strong class='error--text mb-3'>Herman Hesse</strong>",
-                "Therefore without attachment, <br> do thou always perform action which should be done; <br> for by performing action without attachment <br> man reaches the Supreme.<br> <strong class='error--text mb-3'>Bhagavad-Gita 3.19</strong>"],
-      myHelpText: [{question: "What is the Bhagavad-Gita?", answer: "The Song of God. A sacred scripture. The longest philosophical peom. The manual of Yoga. The foundational text of Vedanta. Timeless inspiration. Freedom and the path. The reference on Karma Yoga. The secret deep. Love unconditional."},
-                   {question: "Why make one more Bhagavad-Gita app?", answer: "Although there are several wonderful apps out there, we couldn't find that perfect app with all the cool features we wanted to enjoy ourselves in our study so we decide to build one from scratch. We feel that--the app content itself, the interactivity and accessibility features, the group functionality we have created--all are quite unique and worth sharing with everyone."},
-                   {question: "What are the special features of Power Gita?", answer: "-Multiple scripts and languages. <br>-Beautifully crafted day/night themes and typography.<br>-An advance recitation mode, where you can learn the sanskrit alphabet, listen to curated audio, chant in a group, track your progress and even share your chant with your friends.<br>-Cultivate deep insights by asking the right questions based on authentic commentaries."},
-                 {question: "How can I get help or provide feedback?", answer: "Contact us at info@powergita.com."}]
+                    "When I read the Bhagavad-Gita and reflect about <br> how God created this universe everything else seems so superfluous.<br> <strong class='error--text mb-3'>Albert Einstein</strong>",
+                  "The marvel of the Bhagavad-Gita is <br> its truly beautiful revelation of life's wisdom <br> which enables philosophy to blossom into religion.<br> <strong class='error--text mb-3'>Herman Hesse</strong>"],
+      myHelpText: [{question: "What is Power Gita?", answer: "here"},
+                   {question: "How is it related to Bhagavada-Gita?", answer: "here"},
+                   {question: "What is unique about Power Gita?", answer: "here"},
+                   {question: "What can I do on Power Gita?", answer: "here"},
+                   {question: "How much does Power Gita cost?", answer: "here"},
+                 {question: "How can I contribute to Power Gita?", answer: "here"}]
     }
   },
   mounted() {
@@ -115,7 +118,7 @@ export default {
     duration: 100,
     offset: 0,
     easing: 'easeOutQuint'
-  })}, 500)
+  })}, 1000)
   },
   computed: {
     ...mapState('settings', ['options']),

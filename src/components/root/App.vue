@@ -50,12 +50,12 @@
             <!-- header containing chapter, verse and salutation -->
               <v-layout justify-space-between row wrap>
                 <v-flex> <chapterMenu></chapterMenu> </v-flex>
-                <v-flex class="pa-2 text-xs-center body-2"><button>{{GET_salutation}}</button></v-flex>
+                <v-flex class="pa-2 text-xs-center body-2 my-3" ><button>{{GET_salutation}}</button></v-flex>
                 <v-flex><verseMenu></verseMenu></v-flex>
               </v-layout>
               <v-divider :dark="GET_dark"></v-divider>
             <chapterCarousel></chapterCarousel>
-            <v-divider :dark="GET_dark"></v-divider>
+            <v-divider :dark="GET_dark" id="carouselDivider"></v-divider>
             <v-fade-transition>
       <router-view></router-view>
     </v-fade-transition>

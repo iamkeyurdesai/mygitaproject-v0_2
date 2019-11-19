@@ -44,7 +44,9 @@
             <div align="center">
               <!-- <span class="px-3" :class="{active: ${this.classObject==-1}}"> {{convert(GET_main.speaker)}} </span> -->
               <v-btn v-if="isLabeling" v-on:click="saveSoundPos('speaker')"> Uvach</v-btn>
-              <div align="left" class="px-3 pb-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">  {{convert(GET_main.speaker)}} </div>
+              <div align="left" class="px-3 pb-1 ml-3 mytext myspan" :class="{active: this.classObject==='speaker'}">
+              <span :style="'color:' + this.options['dark'].emphasis.high">  {{convert(GET_main.speaker)}} </span>
+              </div>
             </div>
 
               <div align="left">
@@ -57,11 +59,14 @@
             </div>
           </v-flex>
           <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation" id="translationBlock">
-            <bhavarthCard class="myspanAlways" :verse_id="verse" headingHide showVerseIndex :noLineHeightAdjust="$vuetify.breakpoint.width < 450 ? true : false"></bhavarthCard>
+            <bhavarthCard class="myspanAlways" :verse_id="verse" headingHide showVerseIndex
+            :noLineHeightAdjust="$vuetify.breakpoint.width < 450 ? true : false"
+            setWhite></bhavarthCard>
           </v-flex>
           <!-- <v-layout justify-center class="py-2 mytext ml-1 subheading" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]"> -->
           <v-layout justify-center class="pa-5 mytext myspanAlways tieWithImage" v-if="classObject==='end'">
-          <span class="px-3 mytext" :class="{active: this.classObject==='end'}"> {{convert_dev(preview[chapter-1].end)}} </span>
+          <span class="px-3 mytext" :style="'color:' + this.options['dark'].emphasis.high"
+          :class="{active: this.classObject==='end'}" v-html="convert_dev(preview[chapter-1].end)">  </span>
           <v-btn v-if="isLabeling & !isLabelingFinished" v-on:click="saveSoundPos('end')"> End</v-btn>
         </v-layout>
           </v-layout>
@@ -86,24 +91,26 @@
       <br><br>
     </div>
     <v-fab-transition>
-              <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
-              v-on:click.stop="$refs.youtube.player.playVideo(), playProgress=true, setPlayProgressFalse()" small v-if="!playON" class="shiftLeft">
+              <v-btn color="rgba(192,192,192, 0.7)" dark fab right bottom fixed :class="{'mb-5':showNav}"
+              v-on:click.stop="$refs.youtube.player.playVideo(), playProgress=true, setPlayProgressFalse()" small v-if="!playON" class="shiftRight">
               <v-icon v-if="!playProgress"> play_arrow</v-icon>
               <v-progress-circular indeterminate v-else>
             </v-progress-circular>
           </v-btn>
-          <v-btn color="rgba(192,192,192, 0.7)" dark fab left bottom fixed :class="{'mb-5':showNav}"
-          v-on:click.stop="$refs.youtube.player.pauseVideo()" small v-else class="shiftLeft">
-          <v-progress-circular :value="playONLoaderValue">
-          <v-icon > pause</v-icon>
-        </v-progress-circular>
+          <v-btn color="rgba(192,192,192, 0.7)" dark fab right bottom fixed :class="{'mb-5':showNav}"
+          v-on:click.stop="$refs.youtube.player.pauseVideo()" small v-else class="shiftRight">
+          <v-icon> pause</v-icon>
+          <v-progress-circular :value="this.playONLoaderValue">
+          </v-progress-circular>
+
       </v-btn>
+
     </v-fab-transition>
 
     <v-fab-transition>
-      <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftRight" :class="{'mb-5':showNav}">
-    <settings-popup isScript isLanguage></settings-popup>
-      </v-btn>
+      <!-- <v-btn v-show="true" color="accentinfo" dark fab bottom right small fixed class="shiftRight" :class="{'mb-5':showNav}"> -->
+    <settings-popup isScript isLanguage isTheme v-if="!playON"></settings-popup>
+      <!-- </v-btn> -->
     </v-fab-transition>
 
     <!-- share -->
@@ -338,9 +345,10 @@ if (isIos() && isInStandaloneMode()) {
     },
     cssProps() {
       return {
+        'color': this.options[this.theme].emphasis.high,
         '--mytranslationWidth': this.$vuetify.breakpoint.width < 700 ? '90%' : '60%',
         '--mylineHeight': this.$vuetify.breakpoint.width < 450 ? '0.8em' : '1.3em',
-        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 900) + 'px'
+        '--myWidth': Math.min(this.$vuetify.breakpoint.width, 960) + 'px'
       }
     },
     myTextSize(){

@@ -6,7 +6,8 @@ The language is decided from Vuex parameters-->
   <div class="my-1 my-2 px-2 py-1" :style="cssProps" :class="{adjustLineHeight: !noLineHeightAdjust}">
     <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     <span> {{myTranslation}} </span>
-    <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
+    <span v-if="showVerseIndex" :style="'color: ' +
+    this.setWhite?this.options['dark'].emphasis.medium:this.options[this.theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
   </div>
 </template>
 
@@ -21,7 +22,8 @@ export default {
     required: true,
     headingHide: Boolean,
     showVerseIndex: Boolean,
-    noLineHeightAdjust: Boolean
+    noLineHeightAdjust: Boolean,
+    setWhite: Boolean
   },
   data: () => ({
   }),
@@ -32,7 +34,7 @@ export default {
     ...mapGetters('coretext', ['GET_gitapress_chapter', 'GET_sivananda_chapter']),
     cssProps() { return {
       // borderLeft: 'solid ' + this.$vuetify.theme.success + ' 3px',
-      color: this.options[this.theme].emphasis.high
+      color: this.setWhite?this.options['dark'].emphasis.high:this.options[this.theme].emphasis.high
       }
     },
     myTranslation() {

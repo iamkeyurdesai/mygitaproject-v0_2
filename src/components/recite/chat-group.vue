@@ -4,7 +4,7 @@
 <v-card class="indigo lighten-5 makeRelative1" @click="setAlertSingIn()">
 <!-- <v-flex > -->
   <!-- <v-layout column justify-end fill-height class="makeOverflow"> -->
-  <!-- <div class="makeOverflow1"> -->  
+  <!-- <div class="makeOverflow1"> -->
     <v-alert
     v-model="alertSingIn"
     dismissible

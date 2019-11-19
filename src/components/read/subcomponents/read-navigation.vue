@@ -7,13 +7,14 @@ The language is decided from Vuex parameters-->
 
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom right fixed class="mb-5 shiftRight" v-on:click.stop="increment()" small v-if="lrArrowShow">
+    <v-btn v-show="offsetTop > 800 || chapter > 18" color="accentmain" dark fab bottom right fixed class="mb-5 shiftRight"
+      v-on:click.stop="increment()" small v-if="lrArrowShow">
         <v-icon :style="cssProps_high"> keyboard_arrow_right</v-icon>
     </v-btn>
   </v-fab-transition>
 
   <v-fab-transition>
-    <v-btn v-show="offsetTop > 700 || chapter > 18" color="accentmain" dark fab bottom left fixed class="mb-5 shiftLeft" v-on:click.stop="decrement()" small v-if="lrArrowShow">
+    <v-btn v-show="offsetTop > 800 || chapter > 18" color="accentmain" dark fab bottom right fixed class="shiftRight shiftUp" v-on:click.stop="decrement()" small v-if="lrArrowShow">
         <v-icon :style="cssProps_high"> keyboard_arrow_left</v-icon>
     </v-btn>
   </v-fab-transition>

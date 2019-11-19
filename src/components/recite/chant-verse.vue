@@ -1,7 +1,7 @@
 <template>
 <div :style="cssProps" v-scroll="onScroll" id="beginChanting">
   <v-card class="mt-3 mx-auto background" :dark="GET_dark">
-    <mediaRecorder :currentVerse="currentVerse" :doRecord="doRecord"></mediaRecorder>
+    <mediaRecorder :currentVerse="currentVerse" :doRecord="doRecord" v-if="false"></mediaRecorder>
   </v-card>
   <manageGroup></manageGroup>
   <manageSession></manageSession>
@@ -41,7 +41,8 @@
 
 
     <div class="mx-0 background lighten-1" :dark="GET_dark">
-    <chantNavigation :showZoom="currentI > 0" :scrollLock="scrollLock"
+      <!-- :scrollLock="scrollLock" -->
+    <chantNavigation :showZoom="currentI > 0"
       v-on:unLock="scrollLock=false, showLock=true" :showLock="showLock"> </chantNavigation>
     <v-card-text class="pa-0">
 
@@ -64,9 +65,9 @@
                   <readSalutation> </readSalutation>
                 </div>
                 <div class="fixButtonPosition" v-if="currentVerse==-1">
-                  <v-btn icon large @click="proceedChant(0)">
+                  <v-btn icon @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                    <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -94,9 +95,9 @@
                   <readStart> </readStart>
                   </div>
                 <div class="fixButtonPosition makeBigger" v-if="currentVerse==0">
-                  <v-btn icon large @click="proceedChant(0)">
+                  <v-btn icon  @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                    <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -126,8 +127,8 @@
                     :GET_main_local="GET_main_chapter[item.verse_id-1]"></shloakCard>
                   </v-flex>
                   <div class="fixButtonPosition" v-if="currentVerse==(i+1)" transition="scale-transition">
-                    <v-btn icon large @click="proceedChant(1)">
-                      <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                    <v-btn icon  @click="proceedChant(1)">
+                      <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
                     </v-btn>
                   </div>
                     </v-layout>
@@ -145,7 +146,7 @@
               <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
                 <v-btn icon large @click="proceedChant(-1)">
                   <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                  <v-img src="/static/img/gif/hawan2_small.gif"></v-img>
+                  <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
                 </v-btn>
               </div>
             </div>
@@ -157,7 +158,9 @@
       </v-container>
 
       <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
-        <span class="subheading"> {{this.myScore[1] > 80 ? 'Excellent! ' : 'Done.'}} You scored {{this.myScore[1]}}! </span>
+        <span class="subheading">
+          {{this.myScore[1] > 70 ? 'Great job! ' : 'Good job!'}} Your rythem was {{Math.round(this.myScore[1]/10)}} out of 10. Your speed was {{Math.round(this.myScore[0]*10)/10}}x of an experienced chanter. You took {{this.millisToMinutesAndSeconds(this.totalTime)}}.
+        </span>
         <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
           Close
         </v-btn>
@@ -193,8 +196,9 @@
 </v-fab-transition>
 
   <v-fab-transition>
+    <settingsPopup isScript isTheme></settingsPopup>
   </v-fab-transition>
-        <settingsPopup isScript isTheme></settingsPopup>
+
 
     </v-card-text>
   </div>
@@ -246,6 +250,7 @@ export default {
       handler: new Vue(),
       myOptions: null,
       currentVerse: -1,
+      totalTime: 0,
       doRecord: false,
       scrollLock: false,
       showLock: false,
@@ -295,12 +300,12 @@ export default {
         '--chantBorderColor': this.$vuetify.theme.activity,
         '--mainColor': this.options[this.theme].emphasis.high,
         '--screenWidth': (this.$vuetify.breakpoint.width/2 - 40)+'px',
-        '--buttonWidth': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 85))+'px',
-        '--bottomOffset': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 85))*0.25+'px'
+        '--buttonWidth': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 96))+'px',
+        '--bottomOffset': (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 96))*0.4+'px'
       }
     },
     minHeight() {
-      return (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 80))+'px'
+      return (Math.min((Math.min(this.$vuetify.breakpoint.width,960)*0.13-40) + 50, 96))+'px'
     }
   },
   methods: {
@@ -340,6 +345,11 @@ export default {
         this.currentI = 0
       }
     },
+    millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + " minutes and " + (seconds < 10 ? '0' : '') + seconds + " seconds";
+},
   proceedChant(val){
 
     if(val===1) {
@@ -350,11 +360,15 @@ export default {
         this.myAnn = Object.assign({}, this.sanskritLabels['c' + this.chapter])
       }
     }
+
     let dt = new Date()
     this.myTime1.push(Math.ceil(dt.getTime()))
     this.myTime2.push(Math.ceil(dt.getTime()))
     this.currentVerse += 1
   } else if(val===-1){
+    let dtEnd = new Date()
+    this.totalTime = dtEnd.getTime() - this.myTime1[0]
+
     for(var i = this.myTime1.length - 1;i>0;i--) {
     this.myTime1[i] = (Math.ceil(this.myTime1[i] - this.myTime1[i-1]))
     // this.myTime2[i] = this.myAnn.time[this.myAnn.verse.findIndex(a => a===(i+1))]
@@ -375,7 +389,12 @@ this.myTime2[this.myTime2.length-1] = this.myTime2[this.myTime2.length-2]
 for(var i = 1;i<=this.myTrue.length;i++) {
 this.myTime[i] = this.myTime2[i-1]
 }
+  if(this.chapter<19) {
   this.myScore = this.computeScore(this.myTime1)
+} else {
+  this.myScore[0] = 0.9
+  this.myScore[1] = 90
+}
   this.snackbar1 = true
   console.log(this.myScore)
   let dt = new Date()
@@ -495,7 +514,7 @@ deCompressTimes(val) {
        }
      },
      scrollLock: function() {
-      if(this.scrollLock){
+      if(this.scrollLock & false){
         document.documentElement.style.overflow = 'hidden'
         return
       }

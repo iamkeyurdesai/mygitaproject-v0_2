@@ -121,6 +121,9 @@ import RecorderService from '@/components/recite/subcomponents/audiorecorder/sha
 import utils from '@/components/recite/subcomponents/audiorecorder/shared/Utils'
 // const Pitchfinder = require("pitchfinder");
 import Worker from "worker-loader!./myWorker.js"
+import Meyda from 'meyda'
+
+// import * as tf from '@tensorflow/tfjs'
 
 
 export default {
@@ -142,6 +145,7 @@ export default {
       cleanupWhenFinished: true,
       addNoise: false,
       numAudioSamples: 0,
+      meydaAnalyzer: null,
       myData: new Float32Array(2048*1000),
       startTime: null,
       endTime: null
@@ -154,7 +158,7 @@ export default {
     this.recorderSrvc.config.broadcastAudioProcessEvents = true
   },
   mounted () {
-console.log(worker)
+
   },
   methods: {
     start() {
@@ -188,35 +192,42 @@ end() {
       this.recorderSrvc.stopRecording()
       this.recordingInProgress = false
     },
+    meydaProcess(signal) {
+      //console.log(Meyda.extract('mfcc',signal))
+      console.log(Meyda.extract)
+    },
     onAudioProcess (e) {
       this.numAudioSamples++
 
       let inputBuffer = e.detail.inputBuffer
       let outputBuffer = e.detail.outputBuffer
-
+      // let inputData = null
+      // let outputData = null
       for (let channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
         let inputData = inputBuffer.getChannelData(channel)
-        let outputData = outputBuffer.getChannelData(channel)
+        // let outputData = outputBuffer.getChannelData(channel)
         for(let i=0;i<2048;i=i+1){
           this.myData[(this.numAudioSamples-1)*2048+i] = inputData[i]
         }
         // Each sample
-        for (let sample = 0; sample < inputBuffer.length; sample++) {
-          if (this.addNoise) {
-            outputData[sample] = (inputData[sample] + (Math.random() * 0.02))
-          }
-          else {
-            outputData[sample] = inputData[sample]
-          }
-        }
+        // for (let sample = 0; sample < inputBuffer.length; sample++) {
+        //   if (this.addNoise) {
+        //     outputData[sample] = (inputData[sample] + (Math.random() * 0.02))
+        //   }
+        //   else {
+        //     outputData[sample] = inputData[sample]
+        //   }
+        // }
       }
+      this.meydaProcess(inputBuffer.getChannelData(0))
     },
     onNewRecording (evt) {
       this.recordings.push(evt.detail.recording)
     },
     processSegment() {
       console.log("I just sent my signal to the pitch worker")
-      const myDataFinal = this.myData.slice(0,this.numAudioSamples*2048)
+      //const myDataFinal = this.myData.slice(0,this.numAudioSamples*2048)
+      const myDataFinal = this.myData.slice(0,43*232)
       const worker = new Worker();
       this.numAudioSamples=0
       const config = {
@@ -226,8 +237,7 @@ end() {
         }
       worker.postMessage({myDataFinal: myDataFinal, config: config})
       worker.addEventListener("message", (event) => {
-      //console.log(event.data.pitch.map(a => a>1000?null:a))})
-      console.log(event.data.pitch)})
+      console.log(event.data.summary)})
     }
   },
   watch: {
