@@ -25,13 +25,15 @@ Local func convert() uses lib Sanscript -->
 
       <!-- for dark theme -->
       <div align="left" class="trantext pb-3 adjustLineHeight" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #FFFFFF5F'} ]" v-if="this.GET_dark" key="darkAnvaya">
-          <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`">
+          <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`"
+          @click="searchWord(GET_main_local.word_info[i-1].sanskrit)">
             {{convert(GET_main_local.word_info[i-1].sanskrit)}} <span class="body-1">=</span>  <span class="myspan2">{{GET_main_local.word_info[i-1][language]}}</span><br></span>
           </span>
         </div>
       <!-- for light theme -->
       <div align="left" class="trantext pb-3 adjustLineHeight" v-bind:style="[{columnCount: this.columnCount}, {columnRule: '1px solid #0000005F'}]" v-else key="lightAnvaya">
-          <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`">
+          <span v-for="i in myindex_extract()" :class="`accent${GET_main_local.word_info[i-1].foot}--text`"
+          @click="searchWord(GET_main_local.word_info[i-1].sanskrit)">
             {{convert(GET_main_local.word_info[i-1].sanskrit)}}
             <span class="body-1">=</span>
             <span class="myspan2">{{GET_main_local.word_info[i-1][language]}}</span><br></span>
@@ -47,6 +49,7 @@ Local func convert() uses lib Sanscript -->
 <script>
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
+var FlexSearch = require("flexsearch")
 export default {
   props: {
     verse_id: Number,
@@ -56,6 +59,7 @@ export default {
   }),
   computed: {
     ...mapState('settings', ['options']),
+    ...mapState('coretext', ['indexWord']),
     ...mapState('parameters', ['theme', 'language', 'script', 'chapter']),
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_main_chapter']),
@@ -86,6 +90,9 @@ export default {
     },
     increaseColumn: function() {
       if(this.columnCount <4 ) this.columnCount += 1
+    },
+    searchWord(word) {
+      console.log(this.indexWord.search(word))
     }
   }
 }

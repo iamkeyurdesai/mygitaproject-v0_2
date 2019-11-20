@@ -81,11 +81,12 @@ import settingspopup from '@/components/settings/settings-popup.vue'
 import chapterMenu from '@/components/reflect/chapter-menu.vue'
 import verseMenu from '@/components/reflect/verse-menu.vue'
 import chapterCarousel from '@/components/reflect/chapter-carousel.vue'
+const FlexSearch = require("flexsearch")
 
 export default {
   data() {
     return {
-      dialog: false // open authentication dialog
+      dialog: false, // open authentication dialog
     }
   },
   name: 'App',
@@ -99,6 +100,7 @@ export default {
   },
   computed: {
     ...mapState('settings', ['options', 'menu']),
+    ...mapState('coretext', ['main', 'indexWord']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path']),
     ...mapGetters('coretext', ['GET_salutation']),
@@ -117,6 +119,34 @@ export default {
     }
   },
   methods: {
+    createSearch() {
+      let temp = []
+      // add id to every entry
+      let ix = 0
+      for (var j = 0; j < this.main.length; j++) {
+        for (var k = 0; k < this.main[j].word_info.length; k++) {
+        temp.push({
+          id: ix,
+          word: this.main[j].word_info[k].sanskrit,
+          index_main: j,
+          chapter_id: this.main[j].chapter_id,
+          verse_id: this.main[j].verse_id,
+          word_index: k,
+          english: this.main[j].word_info[k].english,
+          hindi: this.main[j].word_info[k].hindi,
+        })
+        ix = ix + 1
+      }
+    }
+      // setup the index
+      let temp1 = new FlexSearch({
+      doc: {id: "id", field: ["word"]}
+    })
+      //create the actual index
+      temp1.add(temp)
+    this.SET_indexWord(temp1)
+
+    },
     setNav(myval){
       this.showNav = myval
     },
@@ -125,6 +155,7 @@ export default {
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
     'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName', 'SET_offsetTop']),
+    ...mapMutations('coretext', ['SET_indexWord']),
     ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
@@ -217,8 +248,8 @@ export default {
          this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
        },
        mainItem: function(val) {
-         if(this.mainItem!=='read') {
-           this.SET_loadTheRestOfVerses(false)
+         if(this.mainItem==='read' & this.indexWord===null) {
+           this.createSearch()
          }
          //fetch the latest version of the service worker
          //if not change on the server then nothing happens

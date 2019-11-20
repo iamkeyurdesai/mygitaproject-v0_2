@@ -9,7 +9,8 @@ const state = {
   gitapress: [ ],
   sivananda: [ ],
   sanskritLabels: { },
-  salutation: 'oṃ śrī paramātmane namaḥ'
+  salutation: 'oṃ śrī paramātmane namaḥ',
+  indexWord: null
 };
 
 export default {
