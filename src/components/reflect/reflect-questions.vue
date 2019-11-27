@@ -1,5 +1,5 @@
 <template>
-<div :style="cssProps" v-scroll="onScroll" id="beginChanting" v-if="isDeveloper">
+<div :style="cssProps" v-scroll="onScroll" id="beginChanting" v-if="true">
   <div class="mx-0 background lighten-1" max-width="500" :dark="GET_dark">
     <!-- <readNavigation> </readNavigation> -->
 
@@ -24,7 +24,11 @@
                 </v-layout>
                 <uvachCard :verse_id="item.verse_id"> </uvachCard>
                 <shloakCard :verse_id="item.verse_id"> </shloakCard>
-                <questionCard :verse_id="item.verse_id" headingHide></questionCard>
+                <questionCard :verse_id="item.verse_id" headingHide
+                :myQuestions="chapterQuestions['v'+item.verse_id]!==undefined?chapterQuestions['v'+item.verse_id]:[]"
+                :myWords="GET_main_chapter[item.verse_id-1].word_info"
+                :myQuestion="' '">
+                </questionCard>
               </div>
             </v-card>
           </v-flex>
@@ -65,10 +69,11 @@ import readEnd from '../read/subcomponents/read-end.vue'
 import readSalutation from '../read/subcomponents/read-salutation.vue'
 import readNavigation from './subcomponents/read-navigation.vue'
 import Sanscript from 'Sanscript';
+import {db} from '@/main.js'
 export default {
   data: function() {
     return {
-
+      chapterQuestions: null
     }
   },
   computed: {
@@ -77,7 +82,7 @@ export default {
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'reciteChantFontSize', 'verseall', 'isDeveloper'
     ]),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {
       get() {
@@ -135,25 +140,18 @@ export default {
     next();
   },
   watch: {
-    verse: function(val) {
-      if (!this.loadTheRestOfVerses) {
-        this.SET_loadTheRestOfVerses(true)
-        setTimeout(() => {
-          this.$vuetify.goTo('#read' + (this.verse - 1), {
-            duration: 300,
-            offset: 0,
-            easing: 'easeInOutCubic'
-          })
-        }, 400)
-      } else {
-        this.$vuetify.goTo('#read' + (this.verse - 1), {
-          duration: 300,
-          offset: 0,
-          easing: 'easeInOutCubic'
-        })
-      }
-    }
-  },
+    chapter: {
+     // don't call it upon creation
+     immediate: true,
+     handler(chapter) {
+       this.$bind('chapterQuestions',
+       db.collection("reflect").doc("questions").collection("chapter").doc("chapter"+this.chapter))
+       .then(data => {
+         console.log(data)
+       })
+     }
+  }
+},
   updated: function() {
     this.$nextTick(function() {})
   },

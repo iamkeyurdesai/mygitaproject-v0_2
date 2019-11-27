@@ -82,6 +82,8 @@ import chapterMenu from '@/components/reflect/chapter-menu.vue'
 import verseMenu from '@/components/reflect/verse-menu.vue'
 import chapterCarousel from '@/components/reflect/chapter-carousel.vue'
 const FlexSearch = require("flexsearch")
+import Sanscript from 'Sanscript'
+import {db, rtdb, auth} from '@/main.js'
 
 export default {
   data() {
@@ -119,6 +121,10 @@ export default {
     }
   },
   methods: {
+    convertItrans(myinput) {
+      //console.log(Sanscript.t(myinput, 'iast', 'itrans'))
+      return Sanscript.t(myinput, 'iast', 'itrans');
+    },
     createSearch() {
       let temp = []
       // add id to every entry
@@ -127,20 +133,29 @@ export default {
         for (var k = 0; k < this.main[j].word_info.length; k++) {
         temp.push({
           id: ix,
-          word: this.main[j].word_info[k].sanskrit,
+          word: this.convertItrans(this.main[j].word_info[k].sanskrit),
           index_main: j,
-          chapter_id: this.main[j].chapter_id,
-          verse_id: this.main[j].verse_id,
+          // chapter_id: this.main[j].chapter_id,
+          // verse_id: this.main[j].verse_id,
           word_index: k,
-          english: this.main[j].word_info[k].english,
-          hindi: this.main[j].word_info[k].hindi,
+          // english: this.main[j].word_info[k].english,
+          // hindi: this.main[j].word_info[k].hindi,
         })
         ix = ix + 1
       }
     }
       // setup the index
       let temp1 = new FlexSearch({
-      doc: {id: "id", field: ["word"]}
+      doc: {id: "id", field: ["word"]},
+    //   encode: "advanced",
+    // tokenize: "forward",
+    // threshold: 5,
+    // resolution: 9,
+    // depth: 5
+    // tokenize: "strict",
+    // encode: "false",
+    // limit: 5
+    // resolution: 15
     })
       //create the actual index
       temp1.add(temp)
@@ -159,68 +174,18 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
-    firebase.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)
         this.SET_photoURL(user.photoURL)
         this.SET_userName(user.displayName)
         if(user.photoURL ===
-        "https://lh3.googleusercontent.com/-MwCzZcUXDmg/AAAAAAAAAAI/AAAAAAAAAGA/aF3pVI8DYsE/photo.jpg") {
+        "https://lh3.googleusercontent.com/a-/AAuE7mCMrcKk7upCKhXmYp5Sfu2wQ9-d9aAlquVlinjY") {
           this.SET_isDeveloper(true)
         }
         console.log(this.isDeveloper)
-        // console.log(user)
-
-        function rtdb_presence() {
-            // [START rtdb_presence]
-            // Fetch the current user's ID from Firebase Authentication.
-            var uid = firebase.auth().currentUser.uid;
-
-            // Create a reference to this user's specific status node.
-            // This is where we will store data about being online/offline.
-            var userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
-
-            // We'll create two constants which we will write to
-            // the Realtime database when this device is offline
-            // or online.
-            var isOfflineForDatabase = {
-                state: 'offline',
-                last_changed: firebase.database.ServerValue.TIMESTAMP,
-            };
-
-            var isOnlineForDatabase = {
-                state: 'online',
-                last_changed: firebase.database.ServerValue.TIMESTAMP,
-            };
-
-            // Create a reference to the special '.info/connected' path in
-            // Realtime Database. This path returns `true` when connected
-            // and `false` when disconnected.
-            firebase.database().ref('.info/connected').on('value', function(snapshot) {
-                // If we're not currently connected, don't do anything.
-                if (snapshot.val() == false) {
-                    return;
-                };
-
-                // If we are currently connected, then use the 'onDisconnect()'
-                // method to add a set which will only trigger once this
-                // client has disconnected by closing the app,
-                // losing internet, or any other means.
-                userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-                    // The promise returned from .onDisconnect().set() will
-                    // resolve as soon as the server acknowledges the onDisconnect()
-                    // request, NOT once we've actually disconnected:
-                    // https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect
-
-                    // We can now safely set ourselves as 'online' knowing that the
-                    // server will mark us as offline once we lose connection.
-                    userStatusDatabaseRef.set(isOnlineForDatabase);
-                });
-            });
-            // [END rtdb_presence]
-        }
-
-        //rtdb_presence()
+        console.log(user)
+        console.log(user.photoURL)
       } else {
         this.SET_authenticated(false)
         this.SET_photoURL('not signed in')

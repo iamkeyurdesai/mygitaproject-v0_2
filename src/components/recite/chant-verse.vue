@@ -225,8 +225,8 @@ import settingsPopup from '@/components/settings/settings-popup.vue'
 
 import {db, rtdb} from '@/main.js'
 // import VueC3 from 'vue-c3'
-import c3 from 'c3'
-import Vue from 'vue'
+//import c3 from 'c3'
+// import Vue from 'vue'
 export default {
   data: function() {
     return {
@@ -247,7 +247,7 @@ export default {
       myId: [],
       myScore: [],
       isChantOn: true,
-      handler: new Vue(),
+      // handler: new Vue(),
       myOptions: null,
       currentVerse: -1,
       totalTime: 0,

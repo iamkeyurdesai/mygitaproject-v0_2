@@ -9,8 +9,8 @@ import {
 } from './store/index.js'
 import VueYoutube from 'vue-youtube'
 Vue.use(VueYoutube)
-import VueVirtualScroller from 'vue-virtual-scroller'
-Vue.use(VueVirtualScroller)
+//import VueVirtualScroller from 'vue-virtual-scroller'
+//Vue.use(VueVirtualScroller)
 
 
 // import Vuetify components
@@ -55,7 +55,8 @@ import {
   VSubheader,
   VCheckbox,
   VForm,
-  VAlert
+  VAlert,
+  VTooltip
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -105,7 +106,8 @@ Vue.use(Vuetify, {
     VSubheader,
     VCheckbox,
     VForm,
-    VAlert
+    VAlert,
+    VTooltip
   },
   theme: {
     primary: "#190933",
@@ -156,7 +158,7 @@ router.beforeEach((to, from, next) => {
         console.log("api=1 not found")
       }
     }
-  } 
+  }
   next()
 })
 
@@ -167,13 +169,13 @@ import {
 } from './helpers/firebaseConfig'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueAnalytics from 'vue-analytics'
-import fullscreen from 'vue-fullscreen'
+//import fullscreen from 'vue-fullscreen'
 import SocialSharing from 'vue-social-sharing'
 import { firestorePlugin, rtdbPlugin } from 'vuefire'
 Vue.use(firestorePlugin)
 Vue.use(rtdbPlugin)
 Vue.use(SocialSharing);
-Vue.use(fullscreen)
+//Vue.use(fullscreen)
 Vue.use(VueAnalytics, {
   id: 'UA-141658397-1',
   router
