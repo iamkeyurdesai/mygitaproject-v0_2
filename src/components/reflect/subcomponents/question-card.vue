@@ -5,14 +5,14 @@ The language is decided from Vuex parameters-->
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
 <v-layout row>
-<v-flex xs5 class="mr-2">
+<v-flex class="mr-2">
     <v-layout column>
 <span v-for="(item, i) in myQuestions" :key="i">
   {{i+1}}.&nbsp;{{myConverter(item)}}</span>
       </v-layout>
 </v-flex>
-<v-flex xs7 class="ml-2">
-<v-layout column v-if="isDeveloper">
+<v-flex class="ml-2" v-if="isDeveloper">
+<v-layout column >
     <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
     {{myTranslation}}
     <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
@@ -93,7 +93,7 @@ export default {
     },
     myConverter(val) {
       return val.split("+-+").map(a=>{
-        if(a.slice(0,4)==="$$^^") {          
+        if(a.slice(0,4)==="$$^^") {
           return this.convert(a.slice(4))
         } else {
           return a
