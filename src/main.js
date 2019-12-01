@@ -56,7 +56,8 @@ import {
   VCheckbox,
   VForm,
   VAlert,
-  VTooltip
+  VTooltip,
+  VPagination
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -107,7 +108,8 @@ Vue.use(Vuetify, {
     VCheckbox,
     VForm,
     VAlert,
-    VTooltip
+    VTooltip,
+    VPagination
   },
   theme: {
     primary: "#190933",

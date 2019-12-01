@@ -1,6 +1,6 @@
 <template>
 <div :style="cssProps">
-  <v-subheader :dark="GET_dark"> For an in-depth study </v-subheader>
+  <!-- <v-subheader :dark="GET_dark"> For an in-depth study </v-subheader> -->
   <v-flex xs12 class="ma-3">
     <readStart> </readStart>
   </v-flex>
@@ -44,7 +44,7 @@
         </v-layout>
       </v-container>
 
-      <v-subheader :dark="GET_dark" class="background"> Read chapter {{chapter}} verse {{verse}} </v-subheader>
+      <v-subheader :dark="GET_dark" class="background"> Study chapter {{chapter}} verse {{verse}} </v-subheader>
 
       <v-container grid-list-md text-xs-left class="pa-1">
         <v-layout row wrap justify-center>
@@ -94,7 +94,12 @@
             <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
             <v-divider :dark="GET_dark"></v-divider>
             <!-- <uvachCard :verse_id="verse" v-if="showTranslation & !showVerse"> </uvachCard> -->
-            <bhavarthCard :verse_id="verse"> </bhavarthCard>
+            <bhavarthCard :verse_id="verse" :chapter="chapter"
+            :options="options" :theme="theme" :language="language"
+            :GET_gitapress_chapter_local="GET_gitapress_chapter[verse-1]"
+            :GET_sivananda_chapter_local="GET_sivananda_chapter[verse-1]"
+            showVerseIndex
+            ></bhavarthCard>
             <v-divider :dark="GET_dark"></v-divider>
             <v-layout row>
 
@@ -140,21 +145,21 @@ import {
 import {
   mapMutations
 } from 'vuex';
-import shloakCard from './subcomponents/shloak-card.vue'
-import anvayaCard from './subcomponents/anvaya-card.vue'
-import sambandhCard from './subcomponents/sambandh-card.vue'
-import bhavarthCard from './subcomponents/bhavarth-card.vue'
-import readheaderCard from './subcomponents/readheader-card.vue'
-import uvachCard from './subcomponents/uvach-card.vue'
-import readNavigation from './subcomponents/read-navigation.vue'
-import readOutline from './subcomponents/read-outline.vue'
-import readSummary from './subcomponents/read-summary.vue'
-import readStart from './subcomponents/read-start.vue'
-import readEnd from './subcomponents/read-end.vue'
-import readSalutation from './subcomponents/read-salutation.vue'
-import chaptermenu from '../reflect/chapter-menu.vue'
-import versemenu from '../reflect/verse-menu.vue'
-import chapterCarousel from './../reflect/chapter-carousel.vue'
+import shloakCard from '@/components/read/subcomponents/shloak-card.vue'
+import anvayaCard from '@/components/read/subcomponents/anvaya-card.vue'
+import sambandhCard from '@/components/read/subcomponents/sambandh-card.vue'
+import bhavarthCard from '@/components/read/subcomponents/bhavarth-card.vue'
+import readheaderCard from '@/components/read/subcomponents/readheader-card.vue'
+import uvachCard from '@/components/read/subcomponents/uvach-card.vue'
+import readNavigation from '@/components/read/subcomponents/read-navigation.vue'
+import readOutline from '@/components/read/subcomponents/read-outline.vue'
+import readSummary from '@/components/read/subcomponents/read-summary.vue'
+import readStart from '@/components/read/subcomponents/read-start.vue'
+import readEnd from '@/components/read/subcomponents/read-end.vue'
+import readSalutation from '@/components/read/subcomponents/read-salutation.vue'
+import chaptermenu from '@/components/reflect/chapter-menu.vue'
+import versemenu from '@/components/reflect/verse-menu.vue'
+import chapterCarousel from '@/components/reflect/chapter-carousel.vue'
 import settingsPopup from '@/components/settings/settings-popup.vue'
 import {db} from '@/main.js'
 import questionCard from '@/components/reflect/subcomponents/question-card.vue'
@@ -175,7 +180,8 @@ export default {
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'loadTheRestOfVerses', 'verseall'
     ]),
-    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main', 'GET_main_chapter']),
+    ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_sivananda_chapter',
+    'GET_preview_chapter', 'GET_main', 'GET_main_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     offsetTop: {
       get() {

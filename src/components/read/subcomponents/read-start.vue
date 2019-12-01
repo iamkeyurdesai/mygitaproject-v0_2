@@ -3,7 +3,7 @@
   <v-layout column wrap class="ma-0" justify-center>
       <v-flex class="ma-1 pa-0 xs12 lg6">
         <div align="center" class="pa-2 info--text" :style="cssProps">
-          ॥ {{convert_flexible(preview[chapter-1].start)}} ॥
+          ॥ {{GET_start_local()}} ॥
       </div>
       </v-flex>
       </v-layout>
@@ -15,27 +15,33 @@ import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Sanscript from 'Sanscript';
 export default {
   props: {
-    whatScript: String
+    whatScript: String,
+    whatLanguage: String
   },
   data: () => ({
   }),
   computed: {
     ...mapState('settings', ['options']),
-    ...mapState('parameters', ['chapter', 'verse', 'theme', 'subItem', 'language', 'script']),
-    ...mapState('coretext', ['preview']),
-    ...mapGetters('settings', ['GET_dark']),
+    ...mapState('parameters', ['chapter', 'theme', 'script']),    
     ...mapGetters('coretext', ['GET_preview_chapter']),
     cssProps() { return {
       color: this.options[this.theme].emphasis.high
     }
-  },
-  truncateWithEllipses() {
-    let text = this.GET_preview_chapter[this.language]
-    let max = 200
-    return text.substr(0,max-1)+(text.length>max ? '' : '');
   }
 },
 methods: {
+  GET_start_local() {
+    if(this.whatLanguage===undefined) {
+      return this.convert_flexible(this.GET_preview_chapter.start)
+    } else {
+      if(this.whatLanguage==='hindi') {
+        return 'अब अध्याय ' + this.chapter
+      }
+      if(this.whatLanguage==='english') {
+        return 'Now Chapter ' + this.chapter
+      }
+    }
+  },
   convert_flexible(myinput) {
 if(this.whatScript!==undefined) {
     if(this.chapter < 19) {
@@ -56,13 +62,4 @@ if(this.whatScript!==undefined) {
 </script>
 
 <style scoped>
-.mybutton{
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 3px;
-  width: 1.6rem;
-  height: auto;
-}
-.adjustLineHeight {
-  line-height: 1.6em;
-}
 </style>

@@ -104,7 +104,7 @@ export default {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('coretext', ['main', 'indexWord']),
     ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
-                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path']),
+                'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path', 'showImages']),
     ...mapGetters('coretext', ['GET_salutation']),
     ...mapGetters('settings', ['GET_dark']),
     mainItem: {get(){return this.$store.state.parameters.mainItem}, set(value){this.SET_mainItem(value)}},
@@ -169,11 +169,18 @@ export default {
       this.SET_offsetTop(window.pageYOffset || document.documentElement.scrollTop)
     },
     ...mapMutations('parameters', ['SET_authenticated', 'SET_photoURL', 'SET_mainItem',
-    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName', 'SET_offsetTop']),
+    'SET_subItem', 'SET_navItem', 'SET_showNav', 'SET_loadTheRestOfVerses', 'SET_path', 'SET_isDeveloper', 'SET_userName', 'SET_offsetTop', 'SET_showImages']),
     ...mapMutations('coretext', ['SET_indexWord']),
     ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
+    if(!this.showImages[0][0]){
+        this.$store.state.parameters.showImages = new Array(23)
+        for (let i = 0; i < 23; i++) {
+          this.$store.state.parameters.showImages[i] = Array(this.verseall[i]).fill(false)
+          this.SET_showImages([i, 0])
+        }
+      }
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)

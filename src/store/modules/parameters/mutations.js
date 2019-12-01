@@ -155,6 +155,10 @@ const SET_userClaims = (state, input) => {
   state.userClaims = input
 };
 
+const SET_showImages = (state, input) => {
+  state.showImages[input[0]][input[1]] = true
+};
+
 const SET_value = (state, { list, id }) => {
 if(id=='chapter' || id=='verse') {
   state[id] = parseInt(list);
@@ -210,5 +214,6 @@ export default {
   SET_currentChantGroupURL,
   SET_userClaims,
   SET_chantAddColumn,
-  SET_chantSecondScript
+  SET_chantSecondScript,
+  SET_showImages
 };

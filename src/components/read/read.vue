@@ -1,17 +1,17 @@
 <template>
 <div :style="cssProps">
   <v-divider :dark="GET_dark"></v-divider>
-  <v-subheader :dark="GET_dark"> Reading mode </v-subheader>
+  <!-- <v-subheader :dark="GET_dark"> Reading mode </v-subheader> -->
   <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
-    <!-- <v-tab href="#simple" ripple class="subheading"> LITE </v-tab> -->
-    <v-tab href="#full" ripple class="subheading"> TURBO </v-tab>
+    <v-tab href="#simple" ripple class="subheading  text-none"> Original </v-tab>
+    <!-- <v-tab href="#full" ripple class="subheading"> TURBO </v-tab> -->
     <v-tabs-items v-model="activeTab" touchless>
-      <!-- <v-tab-item lazy transition :value="'simple'"> <br>
+      <v-tab-item lazy transition :value="'simple'"> <br>
         <readsimple></readsimple>
-      </v-tab-item> -->
-      <v-tab-item lazy transition :value="'full'"> <br>
-        <readfull></readfull>
       </v-tab-item>
+      <!-- <v-tab-item lazy transition :value="'full'"> <br>
+        <readfull></readfull>
+      </v-tab-item> -->
     </v-tabs-items>
   </v-tabs>
 </div>

@@ -1,13 +1,15 @@
 <template>
     <div :style="cssProps">
-      <v-subheader :dark="GET_dark"> Select action </v-subheader>
+      <!-- <v-subheader :dark="GET_dark"> Select action </v-subheader> -->
 <v-tabs v-model="activeTab" color="background lighten-1" slider-color="activity" :dark="GET_dark">
     <!-- <v-tab href="#full" ripple class="subheading"> FULL </v-tab> -->
-    <v-tab href="#questions" ripple class="subheading"> QUESTIONS </v-tab>
+    <!-- <v-tab href="#questions" ripple class="subheading"> QUESTIONS </v-tab> -->
+    <v-tab href="#questions" ripple class="subheading text-none"> Verse by verse </v-tab>
     <!-- <v-tab href="#slides" ripple class="subheading"> SLIDES </v-tab> -->
 <v-tabs-items v-model="activeTab" touchless>
 <!-- <v-tab-item  lazy transition :value="'full'">  <br> <readfull></readfull>   </v-tab-item> -->
-        <v-tab-item  lazy transition :value="'questions'"> <br> <reflectquestions></reflectquestions>  </v-tab-item>
+        <!-- <v-tab-item  lazy transition :value="'questions'"> <br> <reflectquestions></reflectquestions>  </v-tab-item> -->
+        <v-tab-item  lazy transition :value="'questions'"> <br> <reflectfull></reflectfull>  </v-tab-item>
         <!-- <v-tab-item  lazy transition :value="'slides'">  <br> <readslides></readslides>  </v-tab-item> -->
       </v-tabs-items>
         </v-tabs>
@@ -23,6 +25,7 @@
 import chaptermenu from './../reflect/chapter-menu.vue'
 import versemenu from './../reflect/verse-menu.vue'
 import reflectquestions from './reflect-questions.vue'
+import reflectfull from './reflect-full.vue'
 import chapterCarousel from './../reflect/chapter-carousel.vue'
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
@@ -82,7 +85,8 @@ active: null
     'chapter-menu': chaptermenu,
     'verse-menu': versemenu,
     chapterCarousel,
-    reflectquestions
+    reflectquestions,
+    reflectfull
   }
 }
 </script>

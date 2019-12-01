@@ -4,20 +4,36 @@ The language is decided from Vuex parameters-->
 
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
-<v-layout row>
-<v-flex class="mr-2">
-    <v-layout column>
+<v-layout column>
+<v-card :dark="GET_dark" color="background" min-height="70px" class="ma-2 pa-1" flat>
+  <v-layout align-center justify-center class="background" :dark="GET_dark" v-if="!allQ">
+      <div class="questionSymbol1" :dark="GET_dark">
+        <v-carousel class="text-xs-center elevation-0"
+        :height="$vuetify.breakpoint.width>600?150:200"        
+        delimiter-icon="stop"
+        :cycle="false"
+        v-model="currentQ">
+      <v-carousel-item
+        v-for="(item, i) in myQuestions"
+        :key="i"
+        light
+        class="my-2"
+      >
+      <span :id="`myTextToAnimate${i}`">
+        {{myConverter(item)}}
+      </span>
+    </v-carousel-item>
+    </v-carousel>
+  </div>
+  </v-layout>
+    <v-layout column v-else>
 <span v-for="(item, i) in myQuestions" :key="i">
   {{i+1}}.&nbsp;{{myConverter(item)}}</span>
       </v-layout>
-</v-flex>
-<v-flex class="ml-2" v-if="isDeveloper">
-<v-layout column >
-    <div align="left" class="info--text subheading" v-if="!headingHide">Translation</div>
-    {{myTranslation}}
-    <span v-if="showVerseIndex" :style="'color: ' + options[theme].emphasis.medium" class="small"> ({{chapter}}|{{verse_id}}) </span>
+    </v-card>
+<v-layout v-if="isDeveloper" column>
 <v-layout row wrap>
-    <v-btn  v-for="(item, i) in myWords" class="ma-2 text-none info" dark small @click="appendWord(item.sanskrit)" :key="i">{{item.sanskrit}} </v-btn>
+    <v-btn  v-for="(item, i) in myWords" class="ma-1 text-none info pa-0" dark small @click="appendWord(item.sanskrit)" :key="i">{{item.sanskrit}} </v-btn>
     </v-layout>
       <v-textarea class="ma-3"
           v-model="myQuestion"
@@ -25,10 +41,8 @@ The language is decided from Vuex parameters-->
           :label="'Add Question'"
           outline
         ></v-textarea>
-<!-- <v-btn small @click="myix += 1, showSave=true"> + </v-btn> -->
     <v-btn small @click="saveQuestion('add')" v-if="showSave">save</v-btn>
   </v-layout>
-  </v-flex>
         </v-layout>
   </v-card-text>
 </template>
@@ -39,6 +53,7 @@ The language is decided from Vuex parameters-->
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import {db} from '@/main.js'
 import Sanscript from 'Sanscript';
+import anime from 'animejs';
 export default {
   props: {
     verse_id: Number,
@@ -47,13 +62,45 @@ export default {
     showVerseIndex: Boolean,
     myQuestions: Array,
     myWords: Array,
-    myQuestion: String
+    allQ: Boolean
   },
   data: () => ({
     showSave: true,
+    ixQ: 1,
+    currentQ: 0,
+    myQuestion: ' ',
+    // allQ: false
     // myix: 1,
     // myQuestions: ["What"]
   }),
+  watch: {
+    verse_id: function(){
+      this.myQuestion=' '
+    },
+    currentQ: function(){
+      console.log(this.currentQ)
+      let myS = '#'+'myTextToAnimate'+this.currentQ
+      console.log(myS)
+      let textWrapper = document.querySelector(myS);
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: false})
+  .add({
+    targets: myS + ' .letter',
+    opacity: [0,1],
+    easing: "easeInOutQuad",
+    duration: 500,
+    delay: (el, i) => 15 * (i+1)
+  }).add({
+    targets: myS,
+    opacity: 1,
+    duration: 500,
+    easing: "easeOutExpo",
+    delay: 100
+  });
+
+    }
+  },
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('parameters', ['theme', 'language', 'script', 'chapter', 'verse', 'isDeveloper']),
@@ -134,5 +181,18 @@ export default {
 <style scoped>
 .adjustLineHeight {
   line-height: 1.6em;
+}
+.questionSymbol::before {
+    font-family: "Times New Roman", Times, serif;
+    content: "?";
+    display: inline;
+    height: 0;
+    line-height: 0;
+    left: 50%;
+    position: absolute;
+    top: 100px;
+    color: #7e7a7a;
+    font-size: 3em;
+    opacity: 0.2
 }
 </style>
