@@ -5,11 +5,12 @@ The language is decided from Vuex parameters-->
 <template>
   <v-card-text class="font-weight-light adjustLineHeight my-1 my-2 px-2 py-1" :style="cssProps">
 <v-layout column>
-<v-card :dark="GET_dark" color="background" min-height="70px" class="ma-2 pa-1" flat>
+<v-card :dark="GET_dark" color="background" min-height="70px" class="ma-1 pa-1" flat>
   <v-layout align-center justify-center class="background" :dark="GET_dark" v-if="!allQ">
       <div class="questionSymbol1" :dark="GET_dark">
         <v-carousel class="text-xs-center elevation-0"
-        :height="$vuetify.breakpoint.width>600?150:200"        
+        :height="$vuetify.breakpoint.width>600?150:200"
+        hide-controls
         delimiter-icon="stop"
         :cycle="false"
         v-model="currentQ">
@@ -19,16 +20,19 @@ The language is decided from Vuex parameters-->
         light
         class="my-2"
       >
-      <span :id="`myTextToAnimate${i}`">
-        {{myConverter(item)}}
+        <span class="myTextToAnimate">
+        <span class="activity--text">Q{{i+1}}:</span>
+        &nbsp;{{myConverter(item)}}
       </span>
     </v-carousel-item>
     </v-carousel>
   </div>
   </v-layout>
-    <v-layout column v-else>
-<span v-for="(item, i) in myQuestions" :key="i">
-  {{i+1}}.&nbsp;{{myConverter(item)}}</span>
+    <v-layout column v-if="allQ">
+<v-card color="background" :dark="GET_dark" class="ma-1 pa-1" :style="'border-radius: 10px !important;'"
+v-for="(item, i) in myQuestions" :key="i">
+  <span> <span class="activity--text">Q{{i+1}}.</span>&nbsp;{{myConverter(item)}}</span>
+</v-card>
       </v-layout>
     </v-card>
 <v-layout v-if="isDeveloper" column>
@@ -78,27 +82,6 @@ export default {
       this.myQuestion=' '
     },
     currentQ: function(){
-      console.log(this.currentQ)
-      let myS = '#'+'myTextToAnimate'+this.currentQ
-      console.log(myS)
-      let textWrapper = document.querySelector(myS);
-textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-
-anime.timeline({loop: false})
-  .add({
-    targets: myS + ' .letter',
-    opacity: [0,1],
-    easing: "easeInOutQuad",
-    duration: 500,
-    delay: (el, i) => 15 * (i+1)
-  }).add({
-    targets: myS,
-    opacity: 1,
-    duration: 500,
-    easing: "easeOutExpo",
-    delay: 100
-  });
-
     }
   },
   computed: {

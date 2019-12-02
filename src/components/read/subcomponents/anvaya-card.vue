@@ -57,6 +57,7 @@ Local func convert() uses lib Sanscript -->
             <v-btn outline icon small color="accentmain" @click="showTooltipVerse=false"><v-icon small>close</v-icon></v-btn>
           </div>
           <bhavarthCard :verse_id="item.verse" :chapter_id="item.chapter" headingHide
+          :options="options" :theme="theme" :language="language"
           v-if="i===showTooltipVerseNumber" :class="$vuetify.breakpoint.width<600?'body-2':'subheading'" showVerseIndex> </bhavarthCard>
           </v-flex>
         </v-tooltip>
@@ -114,7 +115,7 @@ export default {
   computed: {
     ...mapState('settings', ['options']),
     ...mapState('coretext', ['indexWord', 'main']),
-    ...mapState('parameters', ['theme', 'language', 'script', 'chapter']),
+    ...mapState('parameters', ['theme', 'language', 'script', 'chapter', 'verse']),
     ...mapGetters('settings', ['GET_dark']),
     ...mapGetters('coretext', ['GET_main_chapter']),
     columnCount: {get(){return this.$store.state.parameters.columnCount}, set(value){this.SET_columnCount(value)}},

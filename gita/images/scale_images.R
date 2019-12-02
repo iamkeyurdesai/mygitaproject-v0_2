@@ -3,15 +3,20 @@ library(fs)
 library(tidyverse)
 
 setwd("C:/Users/desai/myprojects/webdevelopment/gita/mygitaproject-v0_2/gita/images")
+dir_asset_path <- "C:/Users/desai/myprojects/webdevelopment/gita/mygitaproject-v0_2/static/img/"
+myffall <- c("03", "04", "05", "07", "08", "12", 
+             "13", "15", "17")
+mywidth <- "500"
+myquality <- 50
 
+for(myff in myffall) {
 #dir_source <- "./chapter_preview/"
-dir_source_tag <- "chapter_15"
+dir_source_tag <- paste0("chapter_",myff)
 dir_source <- paste0(paste0("./",dir_source_tag),"/")
-mywidth <- "800"
-myquality <- 40
 
-dir_result <- paste0(dir_source, sprintf("%s_%spx/", dir_source_tag, mywidth))
-
+#dir_result <- paste0(dir_source, sprintf("%s_%spx/", dir_source_tag, mywidth))
+dir_asset <- paste0(dir_asset_path, sprintf("%s_%spx/", dir_source_tag, mywidth))
+dir_result <- dir_asset
 if( dir_exists(dir_result) ) {
   dir_delete(dir_result) 
   dir_create(dir_result)  
@@ -48,3 +53,4 @@ for(i in 1:length(myimgs)) {
 
 print(paste("original_size in MB:", original_size/10^6))
 print(paste(paste0(mywidth, "px_size in MB:"), scaled_size/10^6))
+}

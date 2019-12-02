@@ -14,7 +14,7 @@
               <span v-if="chapter < 19" class="display-2 font-weight-light mr-1 mt-0">{{chapter}}</span>
               <span class="title font-weight-light">
                 {{ convert(this.GET_preview_chapter.title1) }} </br>
-                <span class="caption font-weight-light">  {{this.GET_preview_chapter.titleEnglish}} </span>
+                <span class="caption font-weight-light">  {{this.GET_preview_chapter.title_english}} </span>
               </span>
             </v-layout>
           </v-layout>
@@ -103,9 +103,9 @@
             <v-divider :dark="GET_dark"></v-divider>
             <v-layout row>
 
-            <div align="left" class="info--text subheading ma-2 pt-2">Ask reflective questions</div>
+            <div align="left" class="info--text subheading ma-2 pt-2">Ask Reflective Questions</div>
             <v-spacer></v-spacer>
-            <v-switch v-model="allQ" hide-details></v-switch>
+            <v-switch v-model="allQ" hide-details color="activity"></v-switch>
           </v-layout>
             <questionCard :verse_id="verse" headingHide
             :myQuestions="chapterQuestions['v'+verse]!==undefined?chapterQuestions['v'+verse]:[]"

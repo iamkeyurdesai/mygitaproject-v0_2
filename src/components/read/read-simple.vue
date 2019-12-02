@@ -72,7 +72,7 @@
         </v-flex>
       </v-layout>
       <v-flex xs12 class="ma-0">
-        <readEnd> </readEnd>
+        <readEnd :language="language"> </readEnd>
       </v-flex>
     </v-container>
 
@@ -165,7 +165,7 @@ export default {
       this.SET_chapter(temp)
     },
     imagePath(myix) {
-      return "/static/img/chapter_" + this.chapter + "_500px/"+ (myix+1) + ".jpeg"
+      return "/static/img/chapter_" + ('0' + this.chapter).slice(-2) + "_500px/"+ (myix+1) + ".jpeg"
     },
     onScroll(e) {
       let scrollTemp = window.pageYOffset || document.documentElement.scrollTop

@@ -157,9 +157,9 @@
         </v-flex>
       </v-container>
 
-      <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0">
-        <span class="subheading">
-          {{this.myScore[1] > 70 ? 'Great job! ' : 'Good job!'}} Your rythem was {{Math.round(this.myScore[1]/10)}} out of 10. Your speed was {{Math.round(this.myScore[0]*10)/10}}x of an experienced chanter. You took {{this.millisToMinutesAndSeconds(this.totalTime)}}.
+      <v-snackbar v-model="snackbar1" color="success" multi-line :timeout="0" auto-height>
+        <span class="title">
+          {{this.myScore[1] > 70 ? 'Great job! ' : 'Good job!'}} Your rhythm was {{Math.round(this.myScore[1]/10)}} out of 10. Your speed was {{Math.round(this.myScore[0]*10)/10}}x of an experienced chanter. You took {{this.millisToMinutesAndSeconds(this.totalTime)}}.
         </span>
         <v-btn dark large @click="snackbar1 = false, snackbar2 = true" color="error">
           Close

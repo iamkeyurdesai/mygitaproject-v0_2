@@ -59,8 +59,12 @@
             </div>
           </v-flex>
           <v-flex class="shiftUp" v-if="classObject!=='end'" :class="myTextSizeTranslation" id="translationBlock">
-            <bhavarthCard class="myspanAlways" :verse_id="verse" headingHide showVerseIndex
+            <bhavarthCard class="myspanAlways" :verse_id="verse" :chapter="chapter" headingHide showVerseIndex
+            :options="options" :theme="theme" :language="language"
             :noLineHeightAdjust="$vuetify.breakpoint.width < 450 ? true : false"
+            :GET_gitapress_chapter_local="GET_gitapress_chapter[verse-1]"
+            :GET_sivananda_chapter_local="GET_sivananda_chapter[verse-1]"
+            showVerseIndex
             setWhite></bhavarthCard>
           </v-flex>
           <!-- <v-layout justify-center class="py-2 mytext ml-1 subheading" v-if="parseInt(verse)===verseall[parseInt(chapter)-1]"> -->
@@ -324,8 +328,8 @@ if (isIos() && isInStandaloneMode()) {
     ...mapState('audiolabels', ['sanskritLabels']),
     ...mapState('coretext', ['main', 'preview', 'youtubeIDs']),
     ...mapState('parameters', ['chapter', 'breakSandhi', 'theme', 'script', 'slines', 'fsize', 'verseall', 'verse',
-    'activeTab', 'mainItem', 'showNav', 'path']),
-    ...mapGetters('coretext', ['GET_main']),
+    'activeTab', 'mainItem', 'showNav', 'path', 'language']),
+    ...mapGetters('coretext', ['GET_main', 'GET_gitapress_chapter', 'GET_sivananda_chapter']),
     ...mapGetters('settings', ['GET_dark']),
     verse_local: {
       get() {
@@ -393,7 +397,7 @@ if (isIos() && isInStandaloneMode()) {
     ...mapMutations('parameters', ['SET_breakSandhi', 'increment', 'decrement', 'SET_chapter', 'SET_verse', 'SET_theme']),
     ...mapMutations('coretext', ['SET_main_foot']),
     imagePath(myix) {
-      return "/static/img/chapter_" + this.chapter + "_500px/"+ (myix+1) + ".jpeg"
+      return "/static/img/chapter_" + ('0' + this.chapter).slice(-2)  + "_500px/"+ (myix+1) + ".jpeg"
     },
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);

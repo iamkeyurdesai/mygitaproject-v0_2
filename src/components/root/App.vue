@@ -220,7 +220,7 @@ export default {
          this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
        },
        mainItem: function(val) {
-         if(this.mainItem==='read' & this.indexWord===null) {
+         if(this.indexWord===null) {
            this.createSearch()
          }
          //fetch the latest version of the service worker
