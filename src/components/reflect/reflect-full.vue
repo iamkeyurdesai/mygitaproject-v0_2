@@ -93,7 +93,10 @@
             <div align="left" class="info--text subheading ma-2" v-if="chapter < 19">Original verse rearranged</div>
             <anvayaCard :verse_id="verse" v-if="chapter < 19"></anvayaCard>
             <v-divider :dark="GET_dark"></v-divider>
-            <!-- <uvachCard :verse_id="verse" v-if="showTranslation & !showVerse"> </uvachCard> -->
+            <uvachCard :verse_id="verse" :whatScript="script" class="mt-2"
+            :whatLanguage="language"
+            :speakerCurrent="GET_main_chapter[verse-1].speaker"
+            :speakerPrevious="verse-1 > 0? GET_main_chapter[verse-2].speaker : ''"> </uvachCard>
             <bhavarthCard :verse_id="verse" :chapter="chapter"
             :options="options" :theme="theme" :language="language"
             :GET_gitapress_chapter_local="GET_gitapress_chapter[verse-1]"

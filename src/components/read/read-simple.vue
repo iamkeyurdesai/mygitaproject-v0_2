@@ -4,7 +4,7 @@
     <readNavigation> </readNavigation>
 
     <v-fab-transition>
-      <settingsPopup isScript isTheme isFsize isLanguage v-show="showNav"></settingsPopup>
+      <settingsPopup isTheme isFsize isLanguage v-show="showNav"></settingsPopup>
     </v-fab-transition>
 
     <v-container grid-list-md text-xs-left class="pa-1">
@@ -161,7 +161,7 @@ export default {
     setShowImage(ix,iy){
       this.SET_showImages([ix, iy])
       let temp = this.chapter
-      this.SET_chapter(15)
+      temp!==15?this.SET_chapter(15):this.SET_chapter(12)
       this.SET_chapter(temp)
     },
     imagePath(myix) {

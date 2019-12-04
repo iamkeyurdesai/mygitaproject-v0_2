@@ -32,12 +32,15 @@ The language is decided from Vuex parameters-->
 <v-card color="background" :dark="GET_dark" class="ma-1 pa-1" :style="'border-radius: 10px !important;'"
 v-for="(item, i) in myQuestions" :key="i">
   <span> <span class="activity--text">Q{{i+1}}.</span>&nbsp;{{myConverter(item)}}</span>
+  <v-btn small dark  class="info text-none" @click="myQuestion=item" v-if="isDeveloper">edit</v-btn>
+  <v-btn small dark  class="error text-none" @click="saveQuestion('delete', item)" v-if="isDeveloper">delete</v-btn>
 </v-card>
       </v-layout>
     </v-card>
 <v-layout v-if="isDeveloper" column>
 <v-layout row wrap>
-    <v-btn  v-for="(item, i) in myWords" class="ma-1 text-none info pa-0" dark small @click="appendWord(item.sanskrit)" :key="i">{{item.sanskrit}} </v-btn>
+    <v-btn  v-for="(item, i) in myWords" class="ma-1 text-none info pa-0" dark small
+    @click="appendWord(convertToEasy(item.sanskrit))" :key="i">{{convert(item.sanskrit)}} </v-btn>
     </v-layout>
       <v-textarea class="ma-3"
           v-model="myQuestion"
@@ -45,7 +48,9 @@ v-for="(item, i) in myQuestions" :key="i">
           :label="'Add Question'"
           outline
         ></v-textarea>
-    <v-btn small @click="saveQuestion('add')" v-if="showSave">save</v-btn>
+        <span> {{myConverter(myQuestion)}}
+      </span>
+    <v-btn small @click="saveQuestion('add')" v-if="showSave">add</v-btn>
   </v-layout>
         </v-layout>
   </v-card-text>
@@ -121,10 +126,16 @@ export default {
     convert(myinput) {
       return Sanscript.t(myinput, 'iast', this.script);
     },
+    convertToEasy(myinput) {
+      return Sanscript.t(myinput, 'iast', 'itrans');
+    },
+    convertFromEasy(myinput) {
+      return Sanscript.t(myinput, 'itrans', this.script);
+    },
     myConverter(val) {
       return val.split("+-+").map(a=>{
         if(a.slice(0,4)==="$$^^") {
-          return this.convert(a.slice(4))
+          return this.convertFromEasy(a.slice(4))
         } else {
           return a
         }}).join(' ')
@@ -132,15 +143,7 @@ export default {
     appendWord(word){
       this.myQuestion = this.myQuestion + '+-+$$^^' + word + '+-+ '
     },
-    saveQuestions() {
-      var db = firebase.firestore();
-      db.collection("myquestions").doc(
-        "c" + this.chapter.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) +
-        "v" + this.verse_id.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})).set({
-        chapter_id: this.chapter, verse_id: this.verse_id, questions: this.myQuestions})
-      this.showSave = false
-    },
-    saveQuestion(mode) {
+    saveQuestion(mode, val) {
       if (mode === "add") {
         if(this.myQuestions.length===0) {
           db.collection("reflect").doc("questions").collection("chapter").doc("chapter"+this.chapter).update({
@@ -151,10 +154,14 @@ export default {
           ['v'+this.verse_id]: firebase.firestore.FieldValue.arrayUnion(this.myQuestion)
         })
       }
-      } else {
-        db.collection("recite").doc("chant").collection("groups").doc(this.userClaims.owner).collection('admin').doc(firebase.auth().currentUser.uid).update({
-          leaders: firebase.firestore.FieldValue.arrayRemove(email)
+      }
+
+      if (mode === "delete") {
+        if(confirm("Confirm delete?")) {
+        db.collection("reflect").doc("questions").collection("chapter").doc("chapter"+this.chapter).update({
+          ['v'+this.verse_id]: firebase.firestore.FieldValue.arrayRemove(val)
         })
+      }
       }
     },
   }

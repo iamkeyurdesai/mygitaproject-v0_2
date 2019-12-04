@@ -43,10 +43,11 @@ get_end() {
   if(this.language===undefined) {
   return this.convert_flexible(this.preview[this.chapter-1].end) + '॥'
 } else {
-  return (this.preview[this.chapter>19?this.chapter-1:0]['end_'+this.language]+
-  'referred to as <br>' +
-  this.preview[this.chapter-1]['title_'+this.language] +
-  '<br>thus ends Chapter ' + this.chapter+'.')
+  return (this.preview[this.chapter>18?this.chapter-1:0]['end_'+this.language]+
+  (this.chapter>18?'':(this.preview[0]['endChap_'+this.language]+ this.chapter)) +
+  (this.chapter>18?'':'<br>॥ ') +
+  (this.chapter>18?'': this.preview[this.chapter-1]['title'+(this.language==='english'?'_english':'')]) +
+  (this.chapter>18?'':' ॥ '))
 }
 }
 }
@@ -54,12 +55,6 @@ get_end() {
 </script>
 
 <style scoped>
-.mybutton{
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 3px;
-  width: 1.6rem;
-  height: auto;
-}
 .adjustLineHeight {
   line-height: 1.6em;
 }

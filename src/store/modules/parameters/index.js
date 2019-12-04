@@ -35,10 +35,9 @@ const state = {
   activeTab: "chant",
   reciteChantFontSize: 3,
   activeTabTrack: {
-    read: "full",
+    read: "simple",
     recite: "chant",
-    reflect: "word",
-    meditate: "unique"
+    reflect: "questions"
   },
   isDeveloper: false,
   alphabetSelect: {

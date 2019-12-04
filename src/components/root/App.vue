@@ -48,6 +48,7 @@
           }" v-scroll="onScroll">
           <v-container class="pa-0">
             <!-- header containing chapter, verse and salutation -->
+            <div v-if="$router.currentRoute.name!=='welcome'">
               <v-layout justify-space-between row wrap>
                 <v-flex> <chapterMenu></chapterMenu> </v-flex>
                 <v-flex class="pa-2 text-xs-center body-2 my-3" ><button>{{GET_salutation}}</button></v-flex>
@@ -56,6 +57,7 @@
               <v-divider :dark="GET_dark"></v-divider>
             <chapterCarousel></chapterCarousel>
             <v-divider :dark="GET_dark" id="carouselDivider"></v-divider>
+          </div>
             <v-fade-transition>
       <router-view></router-view>
     </v-fade-transition>
@@ -103,7 +105,7 @@ export default {
   computed: {
     ...mapState('settings', ['options', 'menu']),
     ...mapState('coretext', ['main', 'indexWord']),
-    ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse',
+    ...mapState('parameters', ['authenticated', 'photoURL',  'chapter', 'verse', 'verseall',
                 'theme', 'language', 'script', 'breakSandhi', 'fsize', 'fweight', 'activeTab', 'isDeveloper', 'path', 'showImages']),
     ...mapGetters('coretext', ['GET_salutation']),
     ...mapGetters('settings', ['GET_dark']),
@@ -174,13 +176,6 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
-    if(!this.showImages[0][0]){
-        this.$store.state.parameters.showImages = new Array(23)
-        for (let i = 0; i < 23; i++) {
-          this.$store.state.parameters.showImages[i] = Array(this.verseall[i]).fill(false)
-          this.SET_showImages([i, 0])
-        }
-      }
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)
@@ -203,7 +198,13 @@ export default {
 
     });
     this.$vuetify.theme = Object.assign({}, this.options[this.theme].theme)
-
+    if(this.showImages.length===0 | this.showImages[0]===null){
+        this.$store.state.parameters.showImages = new Array(23)
+        for (let i = 0; i < 23; i++) {
+          this.$store.state.parameters.showImages[i] = Array(this.verseall[i]).fill(false)
+          this.SET_showImages([i, 0])
+        }
+      }
   },
   watch: {
        compoundWatch: function(val) {

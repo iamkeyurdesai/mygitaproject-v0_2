@@ -19,7 +19,7 @@ export default new Router({
     { path: '/reflect/:data?', name: 'reflect', component: reflect },
     { path: '/recite/:data?', name: 'recite', component: recite },
     { path: '/read/:data?', name: 'read', component: read },
-    { path: '/meditate/:data?', name: 'meditate', component: meditate },
-    { path: '/more/:data?', name: 'more', component: more }
+    // { path: '/meditate/:data?', name: 'meditate', component: meditate },
+    // { path: '/more/:data?', name: 'more', component: more }
   ]
 })
