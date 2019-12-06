@@ -1,11 +1,11 @@
 <template>
-<v-card class="ma-1 mt-2 background" raised>
+<v-card class="ma-1 mt-2 background" raised :style="'border-radius: 10px !important;'">
   <v-container grid-list-xs class="text-xs-left ma-0 pa-1">
     <v-layout column wrap class="ma-0">
       <div align="left" class="subheading font-weight-regular" :style="cssProps">
         Chapter {{chapter}} Outline
       </div>
-      <v-card class="my-1" v-for="(item, i) in mysummary" :key="i" flat>
+      <v-card v-for="(item, i) in mysummary" :key="i" flat class="my-1 background lighten-2" :dark="GET_dark">
         <v-layout justify-center column>
           <!--  :class="['pa-3 mygroup', {active: this.isActiveGroup}]" -->
           <v-flex class="mt-0">
@@ -17,7 +17,7 @@
             <v-card-text class="pa-1" >
               <span v-for="(vid, j) in range(item.begin, item.end)" :key="j">
                       <button  class="activity title mybutton ma-1 elevation-5" @click="SET_verse(vid > 1? vid - 1 : vid + 1)" v-if="vid==verse"> {{vid}} </button>
-                      <button  class="body-2 mybutton ma-1 elevation-5" @click="SET_verse(vid)" v-else> {{vid}} </button>
+                      <button  class="body-2 mybutton ma-1 elevation-5 background" @click="SET_verse(vid)" v-else> {{vid}} </button>
                     </span>
             </v-card-text>
           </v-flex>

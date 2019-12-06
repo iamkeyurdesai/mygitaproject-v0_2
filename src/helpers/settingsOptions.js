@@ -2,8 +2,34 @@ export const options = {
   theme: [
     'plain',
     'light',
-    'dark'
+    'dark',
+    'solar'
   ],
+  solar: {
+    theme: {
+    primary: "#190933",
+    secondary: "#E0E2F7",
+    activity: "#ff7733",
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107',
+    background: "#fdf6e3",
+    button: "#D81B60",
+    accentmain: "#ff002b",
+    accentinfo: '#0096ff',
+    accent1: "#2aa198",
+    accent2: "#859900",    
+    accent3: "#6c71c4",
+    accent4: "#268bd2"
+  },
+  emphasis: {
+    high: '#000000BF',
+    medium: '#0000009F',
+    disabled: '#0000005F'
+  },
+  dark: false
+},
   dark: {
     theme: {
     primary: "#190933",

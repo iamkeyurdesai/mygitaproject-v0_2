@@ -35,16 +35,16 @@ const loadText = function ({ commit }) {
   }, (err) => {
     console.log(err)
   });
-  ax.get('assets/text/json/mysivananda_commentary.json', { crossdomain: true}).then((response) => {
-    commit('setText', { list: response.data,  id: "sivananda_commentary"})
-  }, (err) => {
-    console.log(err)
-  });
-  ax.get('assets/text/json/myLabels.json', { crossdomain: true}).then((response) => {
-    commit('setText', { list: response.data,  id: "sanskritLabels"})
-  }, (err) => {
-    console.log(err)
-  });
+  // ax.get('assets/text/json/mysivananda_commentary.json', { crossdomain: true}).then((response) => {
+  //   commit('setText', { list: response.data,  id: "sivananda_commentary"})
+  // }, (err) => {
+  //   console.log(err)
+  // });
+  // ax.get('assets/text/json/myLabels.json', { crossdomain: true}).then((response) => {
+  //   commit('setText', { list: response.data,  id: "sanskritLabels"})
+  // }, (err) => {
+  //   console.log(err)
+  // });
   ax.get('assets/text/json/sanskrit_alphabet.json', { crossdomain: true}).then((response) => {
     commit('setText', { list: response.data,  id: "sanskritAlphabet"})
   }, (err) => {

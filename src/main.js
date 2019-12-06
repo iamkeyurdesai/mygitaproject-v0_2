@@ -219,8 +219,8 @@ var vm = new Vue({
       db.enablePersistence({synchronizeTabs:true}).then(()=>{console.log("offline persistence enabled!")})
     }
     // this.$store.dispatch('settings/loadText')
-    this.$store.dispatch('coretext/loadText');
-    this.$store.dispatch('audiolabels/loadText');
+    // this.$store.dispatch('coretext/loadText');
+    // this.$store.dispatch('audiolabels/loadText');
   },
   mounted() {
     if ('serviceWorker' in navigator) {

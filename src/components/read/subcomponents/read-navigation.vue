@@ -26,8 +26,8 @@ The language is decided from Vuex parameters-->
       <!-- <v-btn v-show="!fabShow & offsetTop > 1200" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
         color="rgba(255, 0, 43, 0.6)" dark fab small bottom left fixed class="mb-5 shiftLeft"> -->
         <v-btn v-show="offsetTop >  1000" @click="$vuetify.goTo(0, { duration: 300, offset: 0, easing: 'easeInOutCubic'})"
-          :dark="GET_dark" fab flat bottom small left fixed icon class="shiftMiddle mb-5">
-        <v-icon>fa-angle-double-up</v-icon>
+          :dark="GET_dark" fab flat bottom small left fixed icon class="shiftMiddle rotateUpward mb-5">
+        <v-icon>double_arrow</v-icon>
       </v-btn>
     </v-fab-transition>
 
@@ -178,5 +178,8 @@ export default {
 .shiftMiddle{
   margin-left: var(--screenWidth);
   opacity: 0.67;
+  }
+  .rotateUpward{
+    transform: rotate(-90deg);
   }
 </style>

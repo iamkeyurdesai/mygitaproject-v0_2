@@ -67,7 +67,7 @@
                 <div class="fixButtonPosition" v-if="currentVerse==-1">
                   <v-btn icon @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
+                    <v-img :src="myProceedImage()"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -97,7 +97,7 @@
                 <div class="fixButtonPosition makeBigger" v-if="currentVerse==0">
                   <v-btn icon  @click="proceedChant(0)">
                     <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                    <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
+                    <v-img :src="myProceedImage()"></v-img>
                   </v-btn>
                 </div>
               </div>
@@ -128,7 +128,7 @@
                   </v-flex>
                   <div class="fixButtonPosition" v-if="currentVerse==(i+1)" transition="scale-transition">
                     <v-btn icon  @click="proceedChant(1)">
-                      <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
+                      <v-img :src="myProceedImage()"></v-img>
                     </v-btn>
                   </div>
                     </v-layout>
@@ -146,7 +146,7 @@
               <div class="fixButtonPosition" v-if="currentVerse==(verseall[chapter-1] + 1)">
                 <v-btn icon large @click="proceedChant(-1)">
                   <!-- <v-icon large color="activity">&#128293;</v-icon> -->
-                  <v-img src="/static/img/gif/hawan2_small1.gif"></v-img>
+                  <v-img :src="myProceedImage()"></v-img>
                 </v-btn>
               </div>
             </div>
@@ -270,7 +270,7 @@ export default {
     ...mapState('coretext', ['preview']),
     ...mapState('parameters', ['chapter', 'verse', 'script', 'authenticated', 'photoURL', 'theme', 'language', 'breakSandhi',
       'showLink', 'showTranslation', 'showAnvaya', 'showVerse', 'showNav', 'reciteChantFontSize', 'verseall',
-      'currentChantGroup', 'chantAddColumn', 'chantSecondScript', 'loadTheRestOfVerses'
+      'currentChantGroup', 'chantAddColumn', 'chantSecondScript', 'loadTheRestOfVerses', 'mainItem'
     ]),
     ...mapGetters('coretext', ['GET_salutation', 'GET_gitapress_chapter', 'GET_preview_chapter', 'GET_main_chapter']),
     ...mapGetters('settings', ['GET_dark']),
@@ -313,6 +313,13 @@ export default {
       'SET_value', 'SET_breakSandhi', 'SET_offsetTop', 'SET_fabShow', 'SET_showVerse', 'SET_verse', 'SET_chapter', 'SET_chantAddColumn', 'SET_chantSecondScript',
       'SET_loadTheRestOfVerses'
     ]),
+    myProceedImage() {
+      if(this.mainItem==="recite"){
+        return "/static/img/gif/hawan2_small1.gif"
+      } else {
+        return "/static/img/icons/icon-72x72.png"
+      }
+    },
     addPressed() {
     this.SET_loadTheRestOfVerses(false)
     this.SET_chantAddColumn(true)

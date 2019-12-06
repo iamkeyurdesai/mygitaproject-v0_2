@@ -116,7 +116,8 @@
             :myQuestion="' '"
             :allQ="allQ">
             </questionCard>
-          <v-card min-height="100px" color="background">
+          <v-divider :dark="GET_dark"></v-divider>
+          <v-card min-height="100px" color="background" class="my-2" flat>
           </v-card>
           </v-card>
         </v-layout>

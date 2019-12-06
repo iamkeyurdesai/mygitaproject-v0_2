@@ -110,7 +110,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       clientsClaim: true,
       skipWaiting: true,
       // Exclude images from the precache
-      exclude: [/\.(?:mp3)$/],
+      exclude: [/\.(?:mp3|png|jpg|jpeg|svg|gif)$/],
       // Define runtime caching rules.
       runtimeCaching: [
         {
@@ -122,7 +122,21 @@ const webpackConfig = merge(baseWebpackConfig, {
             cacheName: 'my-mp3-cache',
             // Only cache 10 images.
             expiration: {
-              maxEntries: 5,
+              maxEntries: 100,
+              maxAgeSeconds: 5*365*24*60*60
+            },
+          },
+        },
+        {
+          // Match any request ends with .png, .jpg, .jpeg or .svg.
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+          // Apply a cache-first strategy.
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'my-image-cache',
+            // Only cache 10 images.
+            expiration: {
+              maxEntries: 200,
               maxAgeSeconds: 5*365*24*60*60
             },
           },

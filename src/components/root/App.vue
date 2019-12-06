@@ -176,6 +176,8 @@ export default {
     ...mapGetters('settings', ['GET_dark']),
   },
   mounted() {
+    this.$store.dispatch('coretext/loadText');
+    this.$store.dispatch('audiolabels/loadText');
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.SET_authenticated(true)

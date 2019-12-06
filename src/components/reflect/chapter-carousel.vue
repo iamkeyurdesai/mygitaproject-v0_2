@@ -49,8 +49,13 @@
         this.SET_chapter(i);
       },
       chapterCarouselImage(i) {
-        let mylink = '/static/img/chapter_preview/previewchapter' + i + '.jpeg'
-        return mylink
+          if(this.$router.currentRoute.name!=='welcome'){
+            return '/static/img/chapter_preview/previewchapter' + i + '.jpeg'
+          } else {
+            return "/static/img/icons/icon-72x72.png"
+          }        
+        // let mylink = '/static/img/chapter_preview/previewchapter' + i + '.jpeg'
+        // return mylink
       },
       title_local(i){
         let temp = []
